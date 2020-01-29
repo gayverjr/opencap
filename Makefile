@@ -1,7 +1,7 @@
 CXX=g++
 CXXFLAGS= -Wall -g -std=c++11
-DEPS = BasisFunction.h overlap.h
-OBJ = overlap.o BasisFunction.o libCAP.o 
+DEPS = BasisFunction.h overlap.h Atom.h BasisSet.h
+OBJ = BasisSet.o Atom.o overlap.o BasisFunction.o libCAP.o 
 LIBS=-lm
 
 

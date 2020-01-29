@@ -14,8 +14,8 @@ public:
   public:
 	BasisFunction(std::vector<double> coords, std::vector<int> shell_vec,
 		std::vector<double> basis_exps, std::vector<double> basis_coeffs);
-  	int fact2(unsigned int n);
   private:
   	void normalize();
+  	int fact2(unsigned int n);
 
 };
