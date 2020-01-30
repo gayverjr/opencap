@@ -4,7 +4,7 @@ using namespace std;
 
 class Atom {
 public:
-	string symbol;
+	string element;
 	std::vector<double> coords;
 
 public:
