@@ -91,6 +91,7 @@ map<string,std::vector<Shell>> BasisSet::readBasis(string basis_name)
           nextelement = false;
           std::istringstream iss(line);
           iss >> cur_element >> rest;
+          transform(cur_element.begin(),cur_element.end(),cur_element.begin(),::toupper);
           nextshell = true;
           continue;
         }
