@@ -1,40 +1,37 @@
 #include <iostream>
-#include "BasisFunction.h"
 #include <vector>
 #include "overlap.h"
 #include "BasisSet.h"
+#include <armadillo>
+#include "utils.h"
+#include "transforms.h"
 using namespace std;
 
-int main(int argc, char **argv) {
-
-	//cout << "Hello world" << std::endl;
+int main(int argc, char **argv)
+{
 	BasisSet bs("N2.xyz","bas.bas");
-	//cout << bs.Nbasis << std::endl;
-	std::vector<double> exps1 = {69.12110,15.83500,4.673260};
-	std::vector<double> coeffs1 = {0.0356574,0.2394770,0.8184610};
-	std::vector<double> exps2={2.304};
-	std::vector<double> coeffs2 = {1.0};
-	std::vector<int> shell1 = {0,0,0};
-	std::vector<int> shell2 = {0,0,2};
-	std::vector<double> coords = {0.0,0.0,0.0};
-	std::vector<double> coords2 = {1.0,1.0,1.0};
-	BasisFunction bf1 = BasisFunction(coords,shell1,exps1,coeffs1);
-	BasisFunction bf2 = BasisFunction(coords2,shell2,exps2,coeffs2);
-	//cout << overlap_integral(bf1,bf2);
-
-	cout << bs.Nbasis << std::endl;
-	cout << "5xx and 5z^2" << std::endl << overlap_integral(bf1,bf2) << std::endl;
-	for(int i=0;i<bs.Nbasis;i++)
+	//code block for generating overlap matrix, re-use general principles elsewhere
+	arma::mat Smat(bs.num_carts(),bs.num_carts());
+	Smat.zeros();
+	unsigned int row_idx = 0;
+	for(auto&shell1:bs.basis)
 	{
-		for(int j=0;j<bs.Nbasis;j++)
+		unsigned int col_idx = 0;
+		for(auto&shell2: bs.basis)
 		{
-			double res = overlap_integral(bs.basis[i],bs.basis[j]);
-			cout << i+1 << " " << j+1 << std::endl;
-			cout << res << std::endl;
+			auto sub_mat = Smat.submat(row_idx,col_idx,
+					row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
+            shell_overlap(shell1,shell2,sub_mat);
+            col_idx += shell2.num_carts();
 		}
+		row_idx += shell1.num_carts();
 	}
-
+	std::cout << "COEFF:" << get_coeff(4,0,2,0,2) << std::endl;
+	//Smat.print();
+	uniform_cart_norm(Smat,bs);
+	//Smat.print();
+	//cart2spherical(Smat,bs);
+	//Smat.print();
 	return 0;
 }
-
 

@@ -3,12 +3,64 @@
 #include <math.h>
 #include "Atom.h"
 #include "Shell.h"
+#include "utils.h"
+# define M_PIl          3.141592653589793238462643383279502884
 using namespace std;
 
-Shell::Shell(string shell_label,std::vector<double> exponents, std::vector<double> coefficients)
+Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
+		std::vector<double> coefficients)
 {
-	shell=shell_label;
+	l = angmom;
+	pure = cart_flag;
 	exps=exponents;
 	coeffs=coefficients;
-	num_prims = coeffs.size();
+	assert(exps.size() == coeffs.size());
+	num_prims = exps.size();
+	num_bf = get_size();
+	origin = {{0.0,0.0,0.0}};
+	normalize();
 }
+
+void Shell::update_coords(std::array<double,3> center)
+{
+	origin = center;
+}
+
+size_t Shell::num_carts()
+{
+  return (l + 1) * (l + 2) / 2;
+}
+
+size_t Shell::get_size()
+{
+	return pure ? (2 * l + 1) : num_carts();
+}
+
+void Shell::normalize()
+{
+	//normalize primitives first
+	for(size_t i =0;i<num_prims;i++)
+	{
+		double res = sqrt(pow(4*exps[i],l)*pow(2*exps[i]/M_PIl,1.5)
+				/fact2(2*l-1));
+		coeffs[i]*=res;
+	}
+	//pi^(3/2)*(2l-1)!!
+	double prefactor = pow(M_PIl,1.5)*fact2(2*l-1)/pow(2,l);
+	double N = 0;
+	for(size_t i=0;i<num_prims;i++)
+	{
+		for(size_t j=0;j<num_prims;j++)
+		{
+			N+=coeffs[i]*coeffs[j]/pow(exps[i]+exps[j],l+1.5);
+		}
+	}
+	N*=prefactor;
+	N=pow(N,-0.5);
+	for(size_t i=0; i<num_prims;i++)
+	{
+		coeffs[i]*=N;
+	}
+
+}
+

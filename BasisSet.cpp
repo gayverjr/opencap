@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "BasisFunction.h"
 #include "BasisSet.h"
-#include <math.h>
 #include "Atom.h"
+#include <math.h>
 #include <sstream>
 #include <algorithm>
 #include <string>
@@ -17,50 +16,59 @@
 # define M_PIl          3.141592653589793238462643383279502884
 using namespace std;
 
-
 BasisSet::BasisSet(std::string xyz_name,std::string basis_name)
 {
 	//carts = purecart;
 	name = "user-specified";
-	Nbasis = generateBasisFunctions(xyz_name,basis_name);
+	Nshells = generateBasisFunctions(xyz_name,basis_name);
+	Nbasis = calc_basis_size();
+	std::cout << "Shells:" << Nshells << std::endl;
+	std::cout << "Basis functions:" << Nbasis << std::endl;
+	std::cout << "Number of cartesians:" << num_carts() << std::endl;
+
 }
 
-int BasisSet::generateBasisFunctions(std::string xyz_name,std::string basis_name)
+size_t BasisSet::calc_basis_size()
 {
-	map<string, int> angmoms = {{"S", 0}, {"P", 1}, {"D", 2}};
+	size_t num_functions = 0;
+	for(size_t i=0;i<Nshells;i++)
+	{
+		num_functions+=basis[i].num_bf;
+	}
+	return num_functions;
+}
+
+size_t BasisSet::num_carts()
+{
+	size_t num_carts = 0;
+	for(auto&shell:basis)
+	{
+		num_carts += shell.num_carts();
+	}
+	return num_carts;
+}
+
+size_t BasisSet::generateBasisFunctions(std::string xyz_name,std::string basis_name)
+{
 	std::vector<Atom> geometry = read_xyz(xyz_name);
 	map<string,std::vector<Shell>> basis_set=readBasis(basis_name);
 	for (Atom atm: geometry)
 	{
 		std::vector<Shell> shells = basis_set[atm.element];
-		for(Shell shell: shells)
+		for(const auto&shell:shells)
 		{
-			int L=angmoms[shell.shell];
-			//loop which determines order of cartesian functions :0
-			int a=L; int b=0; int c=0;
-			while (a>=0)
-			{
-				vector<int> shell_vec = {a,b,c};
-				basis.push_back(BasisFunction(atm.coords,shell_vec,shell.exps,shell.coeffs));
-				if (c<L-a)
-				{
-					b=b-1;
-					c=c+1;
-				}
-				else
-				{
-					a=a-1;
-					c=0;
-					b=L-a;
-				}
-			}
+			auto new_shell = shell;
+			new_shell.update_coords(atm.coords);
+			basis.push_back(new_shell);
 		}
+		//basis.insert(basis.end(),shells.begin(),shells.end());
 	}
 	return basis.size();
 }
 
 map<string,std::vector<Shell>> BasisSet::readBasis(string basis_name)
 {
+	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2}};
     map<string,std::vector<Shell>> basis_set;
     std::ifstream is(basis_name);
     if (is.good())
@@ -111,7 +119,8 @@ map<string,std::vector<Shell>> BasisSet::readBasis(string basis_name)
               exps.push_back(exponent);
               coeffs.push_back(coefficient);
             }
-            shells.push_back(Shell(shell_label,exps,coeffs));
+            size_t angmom = shell2angmom[shell_label];
+            shells.push_back(Shell(angmom,true,exps,coeffs));
         }
       }
 }
