@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <armadillo>
 #include "utils.h"
+#include "BasisSet.h"
 # define M_PIl          3.141592653589793238462643383279502884
 
 //overlap between pair of gaussians
@@ -86,6 +87,11 @@ void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
 			sub_mat(i,j) = overlap_integral(shell_a,a_cart, shell_b, b_cart);
 		}
 	}
+}
+
+void numerical_integrate(BasisSet bs)
+{
+
 }
 
 

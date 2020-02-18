@@ -68,7 +68,7 @@ size_t BasisSet::generateBasisFunctions(std::string xyz_name,std::string basis_n
 
 map<string,std::vector<Shell>> BasisSet::readBasis(string basis_name)
 {
-	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2}};
+	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3}};
     map<string,std::vector<Shell>> basis_set;
     std::ifstream is(basis_name);
     if (is.good())

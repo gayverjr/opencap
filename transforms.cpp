@@ -12,7 +12,6 @@
 #include <vector>
 #include <algorithm>
 #include <math.h>
-#include <cmath>
 
 
 void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
@@ -33,34 +32,30 @@ void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
 	}
 }
 
-//for m<0, we want imaginary coefficients
-//expression is 1j^(n)
-//so if m <0 , we return zero if n%2=0, negative if n+1%4=0, positive if n+1%4!=0,
-//if m>=0, we return zero if n%2!=0, positive if n%4=0, negative otherwise
-double real_imag_coeff_parity(int m, int n)
+//DOI: 10.1002/qua.560540202
+//Last part of eqn 15, for M<0 we want imaginary part, for M>0 we want real part
+double term4(int M, int exp_num)
 {
-	if(n==0)
-		return 1;
-	if(m<0)
+	if(M<0)
 	{
-		if(n%2==0)
+		//integer powers will be real
+		if(exp_num%2==0)
 			return 0;
-		else if((n+1)%4==0)
-			return -1;
 		else
-			return 1;
+			return (exp_num-1)%4==0 ? 1:-1;
 	}
 	else
 	{
-		if(n%2!=0)
+		//half-integer powers will be imaginary
+		if(exp_num%2!=0)
 			return 0;
-		else if(n%4==0)
-			return 1;
 		else
-			return -1;
+			return exp_num%4==0 ? 1:-1;
 	}
 }
 
+//DOI: 10.1002/qua.560540202
+//Equation 15, currently assumes fully normalized cartesians. Will add non-fully normalized carts soon enough...
 double get_coeff(int L, int m, int lx, int ly, int lz)
 {
       auto abs_m = std::abs(m);
@@ -80,43 +75,70 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
     			  *parity(i) * fact(2*(L-i))
 				  /fact(L-abs_m-2*i);
       }
-      auto term3=0;
+      double term3=0;
       for (int k=0;k<=j;k++)
-      {
-    	  term3+=binom(j,k)*binom(abs_m,lx-2*k)
-    			  *real_imag_coeff_parity(m,(abs_m - lx +2*k)/2);
-      }
-      return term1*term2*term3;
+    	  term3+=binom(j,k)*binom(abs_m,lx-2*k)*term4(m,abs_m - lx +2*k);
+      // for m!=0, real solid harmonics are linear combinations of complex ones
+      // R+(l,m) = ( Y(l,m) + Y(l,-m) )/ sqrt(2) ;  R-(l,m) = ( Y(l,m) - Y(l,-m) )/ sqrt(-2)
+      double result = (m == 0) ? term1*term2*term3 : M_SQRT2*term1*term2*term3;
+      return result;
 }
 
-void transform_block(arma::subview<double>&row,unsigned int L,
-		unsigned int m, std::vector<std::array<size_t,3>> cart_order)
+arma::mat get_trans_mat(Shell shell)
 {
-	for(unsigned int i=0;i<cart_order.size();i++)
+	std::vector<std::array<size_t,3>> cart_order = get_carts_ordering(shell);
+	std::vector<int> sph_order = get_harmonic_ordering(shell);
+	arma::mat trans_mat(shell.num_bf,shell.num_carts());
+	for(size_t i=0;i<shell.num_bf;i++)
 	{
-		auto cart_angmom = cart_order[i];
-		row(0,i) = get_coeff(L,m,cart_angmom[0],cart_angmom[1],cart_angmom[2]);
+		int M = sph_order[i];
+		for(size_t j=0;j<shell.num_carts();j++)
+		{
+			std::array<size_t,3> cart = cart_order[j];
+			trans_mat(i,j) = get_coeff(shell.l,M,cart[0],cart[1],cart[2]);
+		}
 	}
+	return trans_mat;
+}
+
+void transform_block(Shell shell1, Shell shell2, arma::subview<double>&cart_sub_mat,arma::subview<double>&sph_sub_mat)
+{
+	if(!shell1.pure && !shell2.pure)
+		return;
+	else if(shell1.pure && !shell2.pure)
+		sph_sub_mat = get_trans_mat(shell1)*cart_sub_mat;
+	else if(shell1.pure && shell2.pure)
+		sph_sub_mat = get_trans_mat(shell1)*cart_sub_mat*get_trans_mat(shell2).t();
+	else
+		sph_sub_mat = cart_sub_mat*get_trans_mat(shell2).t();
 }
 
 void cart2spherical(arma::mat &cart_ints, BasisSet bs)
 {
-	arma::mat trans_mat(bs.Nbasis,bs.num_carts());
-	trans_mat.zeros();
-	unsigned int bf_idx = 0;
-	for(auto shell:bs.basis)
+	arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
+	spherical_ints.zeros();
+	//indices for first basis function for cart and spherical matrices
+	unsigned int cart_row_idx = 0;
+	unsigned int sph_row_idx = 0;
+	for(auto shell1:bs.basis)
 	{
-		std::vector<std::array<size_t,3>> cart_order = get_carts_ordering(shell);
-		std::vector<int> harmonic_order = get_harmonic_ordering(shell);
-		for(size_t i=0;i<shell.num_bf;i++)
+		//indices for 2nd basis function for cart and spherical matrices
+		unsigned int cart_col_idx = 0;
+		unsigned int sph_col_idx = 0;
+		for(auto shell2:bs.basis)
 		{
-			auto row = trans_mat.submat(bf_idx+i,0,bf_idx+i,shell.num_carts()-1);
-			transform_block(row,shell.l,harmonic_order[i],cart_order);
+			auto cart_sub_mat = cart_ints.submat(cart_row_idx,cart_col_idx,
+								cart_row_idx+shell1.num_carts()-1,cart_col_idx+shell2.num_carts()-1);
+			auto sph_sub_mat = spherical_ints.submat(sph_row_idx,sph_col_idx,
+					sph_row_idx+shell1.num_bf-1,sph_col_idx+shell2.num_bf-1);
+			transform_block(shell1,shell2,cart_sub_mat,sph_sub_mat);
+			cart_col_idx+=shell2.num_carts();
+			sph_col_idx+=shell2.num_bf;
 		}
+		cart_row_idx+=shell1.num_carts();
+		sph_row_idx+=shell1.num_bf;
 	}
-	arma::mat new_mat = trans_mat * cart_ints;
-	new_mat.print();
-	std::cout << std::endl;
+	spherical_ints.print();
 
 }
 

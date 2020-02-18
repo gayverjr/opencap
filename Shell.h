@@ -17,6 +17,7 @@ public:
 			std::vector<double> coefficients);
 	Shell(Shell s, std::array<double,3>center);
 	void update_coords(std::array<double,3> center);
+	double evaluate(double x, double y, double z,int lx,int ly, int lz);
 
 private:
 	void normalize();

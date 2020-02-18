@@ -1,5 +1,5 @@
-CXX=g++
-CXXFLAGS= -Wall -g -std=c++17
+CXX=g++-9
+CXXFLAGS= -Wall -g -std=gnu++17
 LIBS=-larmadillo -lm 
 DEPS = Shell.h overlap.h Atom.h BasisSet.h utils.h transforms.h
 OBJ = Shell.o BasisSet.o Atom.o overlap.o libCAP.o utils.o transforms.o

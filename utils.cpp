@@ -61,7 +61,7 @@ std::vector<int> get_harmonic_ordering(Shell shell)
 	std::vector<int> order;
 	if (shell.l ==0)
 		return {0};
-	for(int i=-1*shell.l;i<shell.l;i++)
+	for(int i=-1*shell.l;i<=shell.l;i++)
 	{
 		order.push_back(i);
 	}

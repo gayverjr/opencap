@@ -5,6 +5,7 @@
 #include "Shell.h"
 #include "utils.h"
 # define M_PIl          3.141592653589793238462643383279502884
+# define euler 			2.718281828459045235360287471352662497
 using namespace std;
 
 Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
@@ -14,7 +15,6 @@ Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
 	pure = cart_flag;
 	exps=exponents;
 	coeffs=coefficients;
-	assert(exps.size() == coeffs.size());
 	num_prims = exps.size();
 	num_bf = get_size();
 	origin = {{0.0,0.0,0.0}};
@@ -61,6 +61,18 @@ void Shell::normalize()
 	{
 		coeffs[i]*=N;
 	}
+
+}
+
+double Shell::evaluate(double x, double y, double z,int lx,int ly, int lz)
+{
+	double result = 0;
+	for(size_t i=0;i<num_prims;i++)
+	{
+		double r_squared = pow(x,2) + pow(y,2) + pow(z,2);
+		result+=coeffs[i]*pow(x,lx)*pow(y,ly)*pow(z,lz)*pow(euler,-1.0*r_squared*exps[i]);
+	}
+	return result;
 
 }
 

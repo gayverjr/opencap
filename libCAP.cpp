@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 		unsigned int col_idx = 0;
 		for(auto&shell2: bs.basis)
 		{
+			//view to block of the matrix corresponding to these two pairs of basis functions
 			auto sub_mat = Smat.submat(row_idx,col_idx,
 					row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
             shell_overlap(shell1,shell2,sub_mat);
@@ -26,12 +27,10 @@ int main(int argc, char **argv)
 		}
 		row_idx += shell1.num_carts();
 	}
-	std::cout << "COEFF:" << get_coeff(4,0,2,0,2) << std::endl;
-	//Smat.print();
 	uniform_cart_norm(Smat,bs);
-	//Smat.print();
-	//cart2spherical(Smat,bs);
-	//Smat.print();
+	Smat.print();
+	std::cout << std::endl;
+	cart2spherical(Smat,bs);
 	return 0;
 }
 
