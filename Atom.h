@@ -6,6 +6,7 @@ using namespace std;
 class Atom {
 public:
 	std::string element;
+	int Z;
 	std::array<double,3> coords;
 	const double ANG_TO_BOHR = 1.88973;
 

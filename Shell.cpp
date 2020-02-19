@@ -61,10 +61,9 @@ void Shell::normalize()
 	{
 		coeffs[i]*=N;
 	}
-
 }
 
-double Shell::evaluate(double x, double y, double z,int lx,int ly, int lz)
+double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_t lz)
 {
 	double result = 0;
 	for(size_t i=0;i<num_prims;i++)
@@ -75,4 +74,8 @@ double Shell::evaluate(double x, double y, double z,int lx,int ly, int lz)
 	return result;
 
 }
+
+
+
+
 

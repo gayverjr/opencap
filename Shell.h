@@ -17,7 +17,9 @@ public:
 			std::vector<double> coefficients);
 	Shell(Shell s, std::array<double,3>center);
 	void update_coords(std::array<double,3> center);
-	double evaluate(double x, double y, double z,int lx,int ly, int lz);
+	double evaluate(double x, double y, double z,size_t lx,size_t ly, size_t lz);
+	std::vector<double> alpha_min();
+	double alpha_max();
 
 private:
 	void normalize();

@@ -89,9 +89,23 @@ void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
 	}
 }
 
-void numerical_integrate(BasisSet bs)
+void compute_analytical_overlap(BasisSet bs, arma::mat &Smat)
 {
-
+	unsigned int row_idx = 0;
+	for(auto&shell1:bs.basis)
+	{
+		unsigned int col_idx = 0;
+		for(auto&shell2: bs.basis)
+		{
+			//view to block of the matrix corresponding to these two pairs of basis functions
+			auto sub_mat = Smat.submat(row_idx,col_idx,
+					row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
+            shell_overlap(shell1,shell2,sub_mat);
+            col_idx += shell2.num_carts();
+		}
+		row_idx += shell1.num_carts();
+	}
 }
+
 
 

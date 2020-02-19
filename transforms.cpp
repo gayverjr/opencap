@@ -113,10 +113,8 @@ void transform_block(Shell shell1, Shell shell2, arma::subview<double>&cart_sub_
 		sph_sub_mat = cart_sub_mat*get_trans_mat(shell2).t();
 }
 
-void cart2spherical(arma::mat &cart_ints, BasisSet bs)
+void cart2spherical(arma::mat &cart_ints, arma::mat &spherical_ints, BasisSet bs)
 {
-	arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
-	spherical_ints.zeros();
 	//indices for first basis function for cart and spherical matrices
 	unsigned int cart_row_idx = 0;
 	unsigned int sph_row_idx = 0;
@@ -138,8 +136,6 @@ void cart2spherical(arma::mat &cart_ints, BasisSet bs)
 		cart_row_idx+=shell1.num_carts();
 		sph_row_idx+=shell1.num_bf;
 	}
-	spherical_ints.print();
-
 }
 
 

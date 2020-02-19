@@ -13,12 +13,15 @@ public:
 	size_t Nbasis;
 
 public:
-	BasisSet(std::string xyz_name, std::string basis_name);
+	BasisSet();
+	BasisSet(std::vector<Atom> geometry,map<string,std::vector<Shell>> all_shells);
 	size_t num_carts();
+	size_t max_L();
+	std::vector<double> alpha_min(Atom atm);
+	double alpha_max(Atom atm);
 private:
-	size_t generateBasisFunctions(std::string xyz_name,std::string basis_name);
+	size_t generateBasisFunctions(std::vector<Atom> geometry,map<string,std::vector<Shell>> all_shells);
 	size_t calc_basis_size();
-	std::vector<Atom> read_xyz(std::string xyz_name);
-	std::map<string,std::vector<Shell>> readBasis(std::string basis_name);
+	std::vector<Shell> shells_on_center(Atom atm);
 
 };
