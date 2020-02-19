@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	cart2spherical(Smat,spherical_ints,my_system.bs);
 	spherical_ints.print();
 	arma::mat Smat2(my_system.bs.num_carts(),my_system.bs.num_carts());
+	Smat2.zeros();
 	compute_numerical_overlap_mat(Smat2, my_system.bs, my_system.atoms);
 	std::cout << std::endl;
 	Smat2.print();
