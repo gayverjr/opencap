@@ -1,6 +1,7 @@
 #include <vector>
 #include <array>
 #pragma once
+#include "Atom.h"
 using namespace std;
 
 class Shell {

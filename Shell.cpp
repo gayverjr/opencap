@@ -68,8 +68,8 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 	double result = 0;
 	for(size_t i=0;i<num_prims;i++)
 	{
-		double r_squared = pow(x,2) + pow(y,2) + pow(z,2);
-		result+=coeffs[i]*pow(x,lx)*pow(y,ly)*pow(z,lz)*pow(euler,-1.0*r_squared*exps[i]);
+		double r_squared = pow(x-origin[0],2) + pow(y-origin[1],2) + pow(z-origin[2],2);
+		result+=coeffs[i]*pow(x-origin[0],lx)*pow(y-origin[1],ly)*pow(z-origin[2],lz)*pow(euler,-1.0*r_squared*exps[i]);
 	}
 	return result;
 

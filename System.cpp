@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include "CAP.h"
 #include <string>
 #include <map>
 #include <list>
