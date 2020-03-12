@@ -19,7 +19,7 @@ void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
 	unsigned int bf_idx = 0;
 	for(auto&shell:bs.basis)
 	{
-		std::vector<std::array<size_t,3>> order = get_carts_ordering(shell);
+		std::vector<std::array<size_t,3>> order = libcap_carts_ordering(shell);
 		for(unsigned int i=0;i<shell.num_carts();i++)
 		{
 			std::array<size_t,3> cart = order[i];
@@ -86,8 +86,8 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
 
 arma::mat get_trans_mat(Shell shell)
 {
-	std::vector<std::array<size_t,3>> cart_order = get_carts_ordering(shell);
-	std::vector<int> sph_order = get_harmonic_ordering(shell);
+	std::vector<std::array<size_t,3>> cart_order = libcap_carts_ordering(shell);
+	std::vector<int> sph_order = libcap_harmonic_ordering(shell);
 	arma::mat trans_mat(shell.num_bf,shell.num_carts());
 	for(size_t i=0;i<shell.num_bf;i++)
 	{
@@ -104,7 +104,7 @@ arma::mat get_trans_mat(Shell shell)
 void transform_block(Shell shell1, Shell shell2, arma::subview<double>&cart_sub_mat,arma::subview<double>&sph_sub_mat)
 {
 	if(!shell1.pure && !shell2.pure)
-		return;
+		sph_sub_mat = cart_sub_mat;
 	else if(shell1.pure && !shell2.pure)
 		sph_sub_mat = get_trans_mat(shell1)*cart_sub_mat;
 	else if(shell1.pure && shell2.pure)
@@ -137,5 +137,4 @@ void cart2spherical(arma::mat &cart_ints, arma::mat &spherical_ints, BasisSet bs
 		sph_row_idx+=shell1.num_bf;
 	}
 }
-
 

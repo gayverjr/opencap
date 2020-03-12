@@ -34,38 +34,46 @@ double binom(int p, int q)
 	return fact(p)/fact(q)/fact(p-q);
 }
 
-std::vector<std::array<size_t,3>> get_carts_ordering(Shell shell)
+std::vector<std::array<size_t,3>> libcap_carts_ordering(Shell shell)
 {
-	std::vector<std::array<size_t,3>> ordering;
-	size_t a=shell.l; size_t b=0; size_t c=0;
-	while (ordering.size()<shell.num_carts())
-	{
-		ordering.push_back({{a,b,c}});
-		if (c<shell.l-a)
-		{
-			b=b-1;
-			c=c+1;
-		}
-		else
-		{
-			a=a-1;
-			c=0;
-			b=shell.l-a;
-		}
-	}
-	return ordering;
+	//s
+	if(shell.l == 0)
+		return {{0,0,0}};
+	//p
+	if(shell.l==1)
+		return {{1,0,0},{0,1,0},{0,0,1}};
+	//d
+	else if (shell.l==2)
+		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
+	//f
+	else if (shell.l==3)
+		return {{3,0,0},{2,1,0},{2,0,1},{1,0,2},{1,1,1},{1,0,2},{0,3,0},
+				{2,1,0},{1,0,2},{0,0,3}};
+	else
+		return {{0,0,0}};
 }
 
-std::vector<int> get_harmonic_ordering(Shell shell)
+std::vector<int> libcap_harmonic_ordering(Shell shell)
 {
-	std::vector<int> order;
-	if (shell.l ==0)
+	//s
+	if(shell.l == 0)
 		return {0};
-	for(int i=-1*shell.l;i<=shell.l;i++)
-	{
-		order.push_back(i);
-	}
-	return order;
+	//p
+	if(shell.l==1)
+		return {-1,0,1};
+	//d
+	else if (shell.l==2)
+		return {-2,-1,0,1,2};
+	//f
+	else if (shell.l==3)
+		return {-3,-2,-1,0,1,2,3};
+	//g
+	else if (shell.l==4)
+		return {-4,-3,-2,-1,0,1,2,3,4};
+	else
+		return {0,0,0};
 }
+
+
 
 

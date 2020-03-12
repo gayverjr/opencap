@@ -76,8 +76,8 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b,
 
 void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
 {
-	std::vector<std::array<size_t,3>> order_a = get_carts_ordering(shell_a);
-	std::vector<std::array<size_t,3>> order_b = get_carts_ordering(shell_b);
+	std::vector<std::array<size_t,3>> order_a = libcap_carts_ordering(shell_a);
+	std::vector<std::array<size_t,3>> order_b = libcap_carts_ordering(shell_b);
 	for(size_t i=0;i<shell_a.num_carts();i++)
 	{
 		std::array<size_t,3> a_cart = order_a[i];
