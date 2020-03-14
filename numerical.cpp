@@ -21,7 +21,6 @@ double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell sh
 						shell_a.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],a_cart[0],a_cart[1],a_cart[2]) *
 				        shell_b.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],b_cart[0],b_cart[1],b_cart[2]);
 		total_integral+=value;
-
 	}
 	return total_integral;
 }
@@ -74,6 +73,7 @@ void compute_numerical_overlap_mat(arma::mat &Smat, BasisSet bs,std::vector<Atom
         double *grid_y_bohr = new double[num_points];
         double *grid_z_bohr = new double[num_points];
         double *grid_w = new double[num_points];
+        std::cout << "Getting the grid for atom:" << i+1 << std::endl;
         numgrid_get_grid(  context,
                            atoms.size(),
                            i,
@@ -86,6 +86,8 @@ void compute_numerical_overlap_mat(arma::mat &Smat, BasisSet bs,std::vector<Atom
                            grid_z_bohr,
                            grid_w);
 		unsigned int row_idx = 0;
+		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
+		std::cout << "Grid has " << num_points << " points." << std::endl;
 		for(auto&shell1:bs.basis)
 		{
 			unsigned int col_idx = 0;

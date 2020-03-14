@@ -16,9 +16,10 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	size_t nstates = 3;
-	System my_system("N2.xyz","bas.bas");
+	System my_system("N2.xyz","bas2.bas");
+	std::cout << "Number of basis functions:" << my_system.bs.Nbasis << std::endl;
 	//overlap matrix, for testing purposes
-	/*
+	std::cout << "Overlap matrix" << std::endl;
 	arma::mat Smat(my_system.bs.num_carts(),my_system.bs.num_carts());
 	std::cout << my_system.bs.Nbasis << std::endl;
 	compute_analytical_overlap(my_system.bs,Smat);
@@ -27,20 +28,26 @@ int main(int argc, char **argv)
 	cart2spherical(Smat,spherical_ints,my_system.bs);
 	to_molden_ordering(spherical_ints, my_system.bs);
 	spherical_ints.print();
-	*/
+	std::cout << std::endl;
 
 	//build cap matrix
+	std::cout << "Starting cap matrix evaluation in AO basis." << std::endl;
 	arma::mat cap_mat(my_system.bs.num_carts(),my_system.bs.num_carts());
 	cap_mat.zeros();
 	compute_numerical_overlap_mat(cap_mat, my_system.bs, my_system.atoms);
+	std::cout << "Finished calculating, now transforming..." << std::endl;
 	uniform_cart_norm(cap_mat,my_system.bs);
 	arma::mat cap_spherical(my_system.bs.Nbasis,my_system.bs.Nbasis);
 	cart2spherical(cap_mat,cap_spherical,my_system.bs);
 	to_molden_ordering(cap_spherical, my_system.bs);
-	//cap_spherical.print();
+	std::cout << "Finished the cap matrix." << std::endl;
+	cap_spherical.print();
+	std::cout << std::endl;
 
 	//read in DMs
+	std::cout << "Reading in the density matrices..." << std::endl;
 	auto dms = qchem_read_in_dms("cc_test.fchk",nstates,my_system.bs.Nbasis);
+	std::cout << "Finished reading in the density matrices..." << std::endl;
 
 	arma::mat EOMCAP(nstates,nstates);
 	for (size_t row_idx=0;row_idx<EOMCAP.n_rows;row_idx++)
@@ -51,7 +58,6 @@ int main(int argc, char **argv)
 									  arma::trace(dms[1][row_idx][col_idx]*cap_spherical);
 		}
 	}
-	std::cout << "printing eom cap" << std::endl;
 	EOMCAP.print();
 	/*
 	arma::mat Smat2(my_system.bs.num_carts(),my_system.bs.num_carts());

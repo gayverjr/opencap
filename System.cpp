@@ -78,7 +78,7 @@ map<string,std::vector<Shell>> System::readBasis(string basis_name)
               coeffs.push_back(coefficient);
             }
             size_t angmom = shell2angmom[shell_label];
-            shells.push_back(Shell(angmom,false,exps,coeffs));
+            shells.push_back(Shell(angmom,true,exps,coeffs));
         }
       }
 }

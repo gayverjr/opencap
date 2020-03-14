@@ -25,7 +25,7 @@ std::vector<std::string> split(const std::string& s, char delimiter)
    return tokens;
 }
 
-void fill_mat(std::vector<double> matrix_elements, arma::mat &opdm)
+void fill_mat(std::vector<double> &matrix_elements, arma::mat &opdm)
 {
 	size_t vec_idx = 0;
 	for (size_t row_idx=0;row_idx<opdm.n_rows;row_idx++)
@@ -77,6 +77,7 @@ size_t get_TDM_start(size_t nstates, size_t state_idx)
 	return tdm_idx;
 }
 
+//currently this is written for open shell systems which have alpha and beta densities
 std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf)
 {
 	std::vector<arma::mat> opdms;
@@ -86,49 +87,60 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
     {
     	std::string line, rest;
     	std::getline(is, line);
-    	for (size_t i=0;i<nstates*2;i++)
+    	while (opdms.size() < nstates*2)
     	{
-				if (line.find("N=")!= std::string::npos)
+				if (line.find("State Density")!= std::string::npos)
 				{
+					//last part of line should be number of elements to read
+					size_t num_elements = stoi(split(line,' ').back());
+					std::cout << "num elements:" << num_elements << std::endl;
+					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+					std::cout << "lines to read:" << lines_to_read << std::endl;
 					std::vector<double> matrix_elements;
-					std::getline(is,line);
-					while(!(line.find("N=")!= std::string::npos)&&!line.empty())
+					for (size_t k=1;k<=lines_to_read;k++)
 					{
+						std::getline(is,line);
 						std::vector<std::string> tokens = split(line,' ');
 						for (auto token:tokens)
 						{
 							matrix_elements.push_back(std::stod(token));
 						}
-						std::getline(is,line);
 					}
 					arma::mat st_opdm(num_bf,num_bf);
 					st_opdm.zeros();
 					fill_LT(matrix_elements,st_opdm);
 					opdms.push_back(st_opdm);
 				}
-
+				else
+					std::getline(is,line);
     	}
     	//now tdms for alpha and beta densities
-    	for (size_t i=0;i<total_TDMs_to_read(nstates)*2;i++)
+    	while (opdms.size() < nstates*2 +total_TDMs_to_read(nstates)*2)
     	{
-			if (line.find("N=")!= std::string::npos)
+			if (line.find("Transition DM")!= std::string::npos)
 			{
+				//last part of line should be number of elements to read
+				size_t num_elements = stoi(split(line,' ').back());
+				std::cout << "num elements:" << num_elements << std::endl;
+				size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+				std::cout << "lines to read:" << lines_to_read << std::endl;
 				std::vector<double> matrix_elements;
-				std::getline(is,line);
-				while(!(line.find("N=")!= std::string::npos)&&!line.empty())
+				for (size_t k=1;k<=lines_to_read;k++)
 				{
+					std::getline(is,line);
 					std::vector<std::string> tokens = split(line,' ');
 					for (auto token:tokens)
 					{
 						matrix_elements.push_back(std::stod(token));
 					}
-					std::getline(is,line);
 				}
 				arma::mat st_opdm(num_bf,num_bf);
 				st_opdm.zeros();
 				fill_mat(matrix_elements,st_opdm);
 				opdms.push_back(st_opdm);
 			}
+			else
+				std::getline(is,line);
     	}
     }
     //now that we have our density matrices, lets organize them into a
