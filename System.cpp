@@ -26,7 +26,7 @@ System::System(std::string xyz_name,std::string basis_name)
 
 map<string,std::vector<Shell>> System::readBasis(string basis_name)
 {
-	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3}};
+	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
     map<string,std::vector<Shell>> basis_set;
     std::ifstream is(basis_name);
     if (is.good())
@@ -63,22 +63,42 @@ map<string,std::vector<Shell>> System::readBasis(string basis_name)
         }
         if (nextshell)
         {
+
           std::istringstream iss(line);
           std::string shell_label;
           std::size_t n_prims;
           iss >> shell_label >> n_prims >> rest;
-            vector<double> exps; vector<double> coeffs;
-            for (size_t i=0; i<n_prims; i++)
-            {
-              while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
-              std::istringstream iss(line);
-              double exponent, coefficient;
-              iss >> exponent >> coefficient;
-              exps.push_back(exponent);
-              coeffs.push_back(coefficient);
-            }
-            size_t angmom = shell2angmom[shell_label];
-            shells.push_back(Shell(angmom,true,exps,coeffs));
+          if (shell_label!="SP")
+          {
+				vector<double> exps,coeffs;
+				for (size_t i=0; i<n_prims; i++)
+				{
+				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
+				  std::istringstream iss(line);
+				  double exponent, coefficient;
+				  iss >> exponent >> coefficient;
+				  exps.push_back(exponent);
+				  coeffs.push_back(coefficient);
+				}
+				size_t angmom = shell2angmom[shell_label];
+				shells.push_back(Shell(angmom,true,exps,coeffs));
+          }
+          if (shell_label=="SP")
+          {
+				vector<double> exps, s_coeffs, p_coeffs;
+				for (size_t i=0; i<n_prims; i++)
+				{
+				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
+				  std::istringstream iss(line);
+				  double exponent, s_coeff, p_coeff;
+				  iss >> exponent >> s_coeff >> p_coeff;
+				  exps.push_back(exponent);
+				  s_coeffs.push_back(s_coeff);
+				  p_coeffs.push_back(p_coeff);
+				}
+				shells.push_back(Shell(0,true,exps,s_coeffs));
+				shells.push_back(Shell(1,true,exps,p_coeffs));
+          }
         }
       }
 }
