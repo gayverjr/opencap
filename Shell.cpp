@@ -21,6 +21,15 @@ Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
 	normalize();
 }
 
+Shell::Shell()
+{
+	l = 0;
+	num_prims = 0;
+	num_bf = 0;
+	pure = false;
+	origin = {{0.0,0.0,0.0}};
+}
+
 void Shell::update_coords(std::array<double,3> center)
 {
 	origin = center;
@@ -73,6 +82,11 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 	}
 	return result;
 
+}
+
+bool Shell::operator==(const Shell& other)
+{
+	return l == other.l && exps == other.exps && coeffs==other.coeffs && origin==other.origin;
 }
 
 

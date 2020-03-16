@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <math.h>
 #include <tuple>
+#include "molden_transform.h"
 
 
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell)

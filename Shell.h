@@ -17,10 +17,12 @@ public:
 	Shell(int angmom, bool cart_flag,std::vector<double> exponents,
 			std::vector<double> coefficients);
 	Shell(Shell s, std::array<double,3>center);
+	Shell();
 	void update_coords(std::array<double,3> center);
 	double evaluate(double x, double y, double z,size_t lx,size_t ly, size_t lz);
 	std::vector<double> alpha_min();
 	double alpha_max();
+    bool operator==(const Shell& other);
 
 private:
 	void normalize();
