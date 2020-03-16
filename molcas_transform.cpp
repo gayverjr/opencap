@@ -46,26 +46,25 @@ std::vector<int> molcas_harmonic_ordering(Shell shell)
 		return {1,-1,0};
 	//d
 	else if (shell.l==2)
-		return {0,1,-1,2,-2};
+		return {-2,-1,0,1,2};
 	//f
 	else if (shell.l==3)
-		return {0,1,-1,2,-2,3,-3};
+		return {-3,-2,-1,0,1,2,3};
 	//g
 	else if (shell.l==4)
-		return {0,1,-1,2,-2,3,-3,4,-4};
+		return {-4,-3,-2,-1,0,1,2,3,4};
 	else
 		return {0,0,0};
 }
 
 //molcas basis sets are specified a little differently, functions of the same subshell are grouped together
-std::vector<Shell> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry)
+std::vector<std::vector<std::vector<Shell>>> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry)
 {
-	std::vector<Shell> reordered_shells;
 	//3D vector
 	// Dimension 1: atom Shell belongs to
 	// Dimension 2: subshell Shell belongs to
 	// Dimension 3: actual Shell object
-	std::vector<std::vector<std::vector<Shell>>> all_shells(geometry.size(),vector<std::vector<Shell>>(bs.max_L()+1));
+	std::vector<std::vector<std::vector<Shell>>> reordered_shells(geometry.size(),vector<std::vector<Shell>>(bs.max_L()+1));
 	//group by atom and subshell
 	for (auto shell:bs.basis)
 	{
@@ -73,65 +72,63 @@ std::vector<Shell> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geome
 		size_t atm_idx = 0;
 		while (shell.origin[2]!=geometry[atm_idx].coords[2])
 			atm_idx++;
-		std::cout << atm_idx << std::endl;
-		std::cout << "L:" << shell.l << std::endl;
-		all_shells[atm_idx][shell.l].push_back(shell);
-	}
-	//unpack the monster vector, put them all into one vector
-	for (auto atm:all_shells)
-	{
-		for(auto subshell:atm)
-		{
-			for (auto shell:subshell)
-			{
-				reordered_shells.push_back(shell);
-			}
-		}
+		reordered_shells[atm_idx][shell.l].push_back(shell);
 	}
 	return reordered_shells;
 }
+
+size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
+{
+	std::vector<int> libcap_order = libcap_harmonic_ordering(shell);
+	size_t matching_idx = 0;
+	for (auto shell2:original_bs.basis)
+	{
+		if (shell==shell2)
+			break;
+		else
+			matching_idx +=shell2.num_bf;
+	}
+	for (size_t i=0;i<libcap_order.size();i++)
+	{
+		if (libcap_order[i]==angmom)
+			return matching_idx + i;
+	}
+	std::cout << "Something's gone wrong." << std::endl;
+	return -1;
+}
+
 
 // matrix in libcap ordering --> matrix in molcas ordering
 void to_molcas_ordering(arma::mat &libcap_mat, BasisSet bs, std::vector<Atom> geometry)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
-	std::vector<Shell> reordered_shells = molcas_reorder_basis_set(bs,geometry);
-	int bf_idx = 0;
-	for(auto shell:reordered_shells)
+	std::vector<std::vector<std::vector<Shell>>> reordered_shells = molcas_reorder_basis_set(bs,geometry);
+	size_t reordered_idx = 0;
+	for (auto atm_group:reordered_shells)
 	{
-		if (shell.pure)
+		for (auto subshell:atm_group)
 		{
-			std::vector<int> libcap_order = libcap_harmonic_ordering(shell);
-			std::vector<int> molcas_order = molcas_harmonic_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			if (!subshell.empty())
 			{
-				for(size_t j=0; j<molcas_order.size();j++)
+				std::vector<int> molcas_order = molcas_harmonic_ordering(subshell[0]);
+				for (auto angmom:molcas_order)
 				{
-					if(libcap_order[i]==molcas_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
+					for(auto shell:subshell)
+					{
+						size_t original_idx = find_matching_index(shell,angmom,bs);
+						swap_indices.push_back(std::make_tuple(original_idx, reordered_idx));
+						reordered_idx++;
+					}
 				}
 			}
 		}
-		else
-		{
-			std::vector<std::array<size_t,3>> libcap_order = libcap_carts_ordering(shell);
-			std::vector<std::array<size_t,3>> molcas_order = molcas_carts_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
-			{
-				for(size_t j=0; j<molcas_order.size();j++)
-				{
-					if(libcap_order[i]==molcas_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		bf_idx+=shell.num_bf;
 	}
 	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
 	per_mat.zeros();
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
+	std::cout << std::endl;
 	libcap_mat = per_mat.t()* libcap_mat * per_mat;
 }
 

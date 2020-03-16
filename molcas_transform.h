@@ -15,7 +15,7 @@
 void to_molcas_ordering(arma::mat &libcap_mat,BasisSet bs,std::vector<Atom> geometry);
 std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell);
 std::vector<int> molcas_harmonic_ordering(Shell shell);
-std::vector<Shell> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry);
+std::vector<std::vector<std::vector<Shell>>> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry);
 
 
 

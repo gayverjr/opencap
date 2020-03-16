@@ -84,6 +84,11 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 
 }
 
+bool Shell::operator==(const Shell& other)
+{
+	return l == other.l && exps == other.exps && coeffs==other.coeffs && origin==other.origin;
+}
+
 
 
 

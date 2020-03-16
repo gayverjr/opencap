@@ -31,8 +31,7 @@ int main(int argc, char **argv)
 	cart2spherical(Smat,spherical_ints,my_system.bs);
 	//to_molden_ordering(spherical_ints, my_system.bs);
 	to_molcas_ordering(spherical_ints, my_system.bs,my_system.atoms);
-	spherical_ints.print();
-	std::cout << std::endl;
+	//spherical_ints.print();
 	// end overlap matrix
 
 	/*
@@ -75,7 +74,20 @@ int main(int argc, char **argv)
 	overlap_mat.load(arma::hdf5_name("ras66.rassi.h5", "AO_OVERLAP_MATRIX"));
 	std::cout << std::endl;
 	overlap_mat.reshape(sqrt(overlap_mat.n_cols),sqrt(overlap_mat.n_cols));
-	overlap_mat.print();
+	std::cout << "Comparing matrix elements:" << std::endl;
+	for (size_t i=0;i<overlap_mat.n_rows;i++)
+	{
+		for(size_t j=0;j<overlap_mat.n_cols;j++)
+		{
+			if (abs(overlap_mat(i,j)-spherical_ints(i,j))>1E-5)
+			{
+				std::cout << "Conflict at:" << i << "," << j << std::endl;
+				std::cout << "Molcas says:" << overlap_mat(i,j) << std::endl;
+				std::cout << "Libcap says:" << spherical_ints(i,j) << std::endl;
+				std::cout << abs(overlap_mat(i,j)-spherical_ints(i,j)) << std::endl;
+			}
+		}
+	}
 
 
 	return 0;
