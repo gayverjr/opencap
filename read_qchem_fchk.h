@@ -11,6 +11,6 @@
 
 std::vector<std::string> split(const std::string& s, char delimiter);
 std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf);
-
+arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf);
 
 #endif /* READ_QCHEM_FCHK_H_ */

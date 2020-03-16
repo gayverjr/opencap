@@ -184,4 +184,32 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 
 }
 
+arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
+{
+    std::ifstream is(dmat_filename);
+	arma::mat smat;
+	smat.zeros(num_bf,num_bf);
+    if (is.good())
+    {
+    	std::string line, rest;
+    	while (line.find("Overlap Matrix")== std::string::npos)
+        	std::getline(is, line);
+    	size_t num_elements = stoi(split(line,' ').back());
+		size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+		std::vector<double> matrix_elements;
+		for (size_t k=1;k<=lines_to_read;k++)
+		{
+			std::getline(is,line);
+			std::vector<std::string> tokens = split(line,' ');
+			for (auto token:tokens)
+			{
+				matrix_elements.push_back(std::stod(token));
+			}
+		}
+		fill_LT(matrix_elements,smat);
+    }
+    return smat;
+}
+
+
 
