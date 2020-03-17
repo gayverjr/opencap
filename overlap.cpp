@@ -71,6 +71,17 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b,
 			gauss_integral(a.exps[i],cart_a,a.origin,b.exps[j],cart_b,b.origin);
 		}
 	}
+	if (abs(res-0.0091)<1E-5)
+	{
+		std::cout << "A" << std::endl;
+		for (size_t a:cart_a)
+			std::cout << a << ",";
+		std::cout<< std::endl;
+		std::cout << "B" << std::endl;
+		for (size_t b:cart_b)
+			std::cout << b << ",";
+		std::cout<< std::endl;
+	}
 	return res;
 }
 

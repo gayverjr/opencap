@@ -47,10 +47,12 @@ std::vector<std::array<size_t,3>> libcap_carts_ordering(Shell shell)
 		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
 	//f
 	else if (shell.l==3)
-		return {{3,0,0},{2,1,0},{2,0,1},{1,0,2},{1,1,1},{1,0,2},{0,3,0},
-				{2,1,0},{1,0,2},{0,0,3}};
+		return {{3,0,0},{2,1,0},{2,0,1},{1,0,2},{1,1,1},{1,2,0},{0,3,0},
+				{0,2,1},{0,1,2},{0,0,3}};
 	else
+	{
 		return {{0,0,0}};
+	}
 }
 
 std::vector<int> libcap_harmonic_ordering(Shell shell)

@@ -15,6 +15,7 @@ double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell sh
 		std::array<size_t,3> b_cart,double* grid_x_bohr,double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
 	double total_integral = 0.0;
+	#pragma omp parallel for reduction(+:total_integral)
 	for(int i=0;i<num_points;i++)
 	{
 		double value= grid_w[i] * box_cap(2.,2.,4.).eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
@@ -88,11 +89,13 @@ void compute_numerical_overlap_mat(arma::mat &Smat, BasisSet bs,std::vector<Atom
 		unsigned int row_idx = 0;
 		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
 		std::cout << "Grid has " << num_points << " points." << std::endl;
-		for(auto&shell1:bs.basis)
+		for(size_t i=0;i<bs.basis.size();i++)
 		{
+			Shell shell1 = bs.basis[i];
 			unsigned int col_idx = 0;
-			for(auto&shell2: bs.basis)
+			for(size_t j=0;j<bs.basis.size();j++)
 			{
+				Shell shell2= bs.basis[j];
 				//view to block of the matrix corresponding to these two pairs of basis functions
 				auto sub_mat = Smat.submat(row_idx,col_idx,
 						row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);

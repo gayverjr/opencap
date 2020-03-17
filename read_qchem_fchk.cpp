@@ -93,9 +93,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 				{
 					//last part of line should be number of elements to read
 					size_t num_elements = stoi(split(line,' ').back());
-					std::cout << "num elements:" << num_elements << std::endl;
 					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
-					std::cout << "lines to read:" << lines_to_read << std::endl;
 					std::vector<double> matrix_elements;
 					for (size_t k=1;k<=lines_to_read;k++)
 					{
@@ -121,9 +119,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 			{
 				//last part of line should be number of elements to read
 				size_t num_elements = stoi(split(line,' ').back());
-				std::cout << "num elements:" << num_elements << std::endl;
 				size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
-				std::cout << "lines to read:" << lines_to_read << std::endl;
 				std::vector<double> matrix_elements;
 				for (size_t k=1;k<=lines_to_read;k++)
 				{
