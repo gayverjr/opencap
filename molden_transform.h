@@ -12,6 +12,8 @@
 
 
 void to_molden_ordering(arma::mat &libcap_mat,BasisSet bs);
+void to_qchem_ordering(arma::mat &libcap_mat,BasisSet bs);
+void molden_to_qchem_ordering(arma::mat &libcap_mat,BasisSet bs);
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell);
 std::vector<int> molden_harmonic_ordering(Shell shell);
 

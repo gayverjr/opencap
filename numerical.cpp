@@ -18,7 +18,7 @@ double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell sh
 	#pragma omp parallel for reduction(+:total_integral)
 	for(int i=0;i<num_points;i++)
 	{
-		double value= grid_w[i] * box_cap(2.,2.,4.).eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
+		double value= grid_w[i] * box_cap(3.,3.,5.).eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
 						shell_a.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],a_cart[0],a_cart[1],a_cart[2]) *
 				        shell_b.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],b_cart[0],b_cart[1],b_cart[2]);
 		total_integral+=value;
@@ -56,9 +56,9 @@ void compute_numerical_overlap_mat(arma::mat &Smat, BasisSet bs,std::vector<Atom
 		z_coords_bohr[i]=atoms[i].coords[2];
 		nuc_charges[i]=atoms[i].Z;
 	}
-    double radial_precision = 1.0e-16;
-    int min_num_angular_points = 590;
-    int max_num_angular_points = 590;
+    double radial_precision = 1.0e-10;
+    int min_num_angular_points = 110;
+    int max_num_angular_points = 110;
 	for(size_t i=0;i<atoms.size();i++)
 	{
 		//allocate and create grid
