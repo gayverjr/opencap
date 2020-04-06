@@ -9,7 +9,9 @@
 #include <numgrid.h>
 #include "utils.h"
 #include "CAP.h"
-#include "CAP.h"
+#include <chrono>
+#include <ctime>
+#include <thread>
 
 CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -102,8 +104,8 @@ double CAP::num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, She
 		std::array<size_t,3> b_cart,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
+
 	double total_integral = 0.0;
-	#pragma omp parallel for reduction(+:total_integral)
 	for(int i=0;i<num_points;i++)
 	{
 		double value= grid_w[i] * eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
@@ -121,14 +123,23 @@ void CAP::num_overlap_block(Shell shell_a, Shell shell_b, arma::subview<double>&
 	std::vector<std::array<size_t,3>> order_b = libcap_carts_ordering(shell_b);
 	for(size_t i=0;i<shell_a.num_carts();i++)
 	{
-		std::array<size_t,3> a_cart = order_a[i];
 		for(size_t j=0;j<shell_b.num_carts();j++)
 		{
+			std::array<size_t,3> a_cart = order_a[i];
 			std::array<size_t,3> b_cart = order_b[j];
 			sub_mat(i,j) += num_overlap_integral(shell_a,a_cart, shell_b, b_cart,
 					grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 		}
 	}
+
+}
+
+size_t CAP::get_mat_idx(size_t bf_idx, BasisSet bs)
+{
+	size_t mat_idx = 0;
+	for (size_t i=0;i<bf_idx;i++)
+		mat_idx += bs.basis[i].num_carts();
+	return mat_idx;
 }
 
 void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
@@ -174,23 +185,22 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
-		unsigned int row_idx = 0;
 		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
 		std::cout << "Grid has " << num_points << " points." << std::endl;
+		#pragma omp parallel for collapse(2)
 		for(size_t i=0;i<bs.basis.size();i++)
 		{
-			Shell shell1 = bs.basis[i];
-			unsigned int col_idx = 0;
 			for(size_t j=0;j<bs.basis.size();j++)
 			{
+				Shell shell1 = bs.basis[i];
 				Shell shell2= bs.basis[j];
+				size_t row_idx = get_mat_idx(i,bs);
+				size_t col_idx = get_mat_idx(j,bs);
 				//view to block of the matrix corresponding to these two pairs of basis functions
 				auto sub_mat = Smat.submat(row_idx,col_idx,
 						row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
 				num_overlap_block(shell1,shell2,sub_mat,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
-				col_idx += shell2.num_carts();
 			}
-			row_idx += shell1.num_carts();
 		}
         delete[] grid_x_bohr;
         delete[] grid_y_bohr;

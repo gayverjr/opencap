@@ -35,6 +35,7 @@ private:
 	double eval_pot(double x, double y, double z);
 	double eval_box_cap(double x, double y, double z);
 	double eval_voronoi_cap(double x, double y, double z);
+	size_t get_mat_idx(size_t bf_idx, BasisSet bs);
 };
 
 

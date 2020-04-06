@@ -14,13 +14,11 @@
 int main(int argc, char **argv)
 {
 	std::cout << "Welcome to OpenCAP!" << std::endl;
-	std::tuple<std::vector<Atom>,std::map<std::string,std::string>> inp_data = parse_input("test.in");
+	std::tuple<std::vector<Atom>,std::map<std::string,std::string>> inp_data = parse_input(argv[1]);
 	std::map<std::string,std::string> params = std::get<1>(inp_data);
 	System my_sys(std::get<0>(inp_data),std::get<1>(inp_data));
 	my_sys.compute_cap_matrix();
-
-
-
+	my_sys.CORRELATED_CAP_MAT.raw_print();
 
 	/*
 // MOLCAS //////
