@@ -1,0 +1,31 @@
+$geometry
+N  0  0   1.039
+N  0  0   -1.039
+$end
+
+$system
+!bohr_coordinates false
+!cart_bf spdf
+method EOM-EA-CCSD
+package Q-Chem
+data_file example/re1.fchk
+!output_file example/re1.out
+nstates 6
+basis_set gen
+basis_file example/big_bas.bas 
+$end
+
+$cap_parameters
+CAP_TYPE box
+CAP_X 3.0
+CAP_Y 3.0
+CAP_Z 5.0
+Radial_precision  14
+Angular_points    170
+$end
+
+$job
+title n2
+jobtype projected_cap
+$end
+

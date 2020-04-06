@@ -1,0 +1,1339 @@
+                  Welcome to Q-Chem
+     A Quantum Leap Into The Future Of Chemistry
+
+
+ Q-Chem 5.3 (devel), Q-Chem, Inc., Pleasanton, CA (2020)
+
+ Yihan Shao,  Zhengting Gan,  E. Epifanovsky,  A. T. B. Gilbert,  M. Wormit,  
+ J. Kussmann,  A. W. Lange,  A. Behn,  Jia Deng,  Xintian Feng,  D. Ghosh,  
+ M. Goldey,  P. R. Horn,  L. D. Jacobson,  I. Kaliman,  T. Kus,  A. Landau,  
+ Jie Liu,  E. I. Proynov,  R. M. Richard,  R. P. Steele,  E. J. Sundstrom,  
+ H. L. Woodcock III,  P. M. Zimmerman,  D. Zuev,  B. Alam,  B. Albrecht,  
+ E. Alguire,  S. A. Baeppler,  D. Barton,  Z. Benda,  Y. A. Bernard,  
+ E. J. Berquist,  K. B. Bravaya,  H. Burton,  K. Carter-Fenk,  D. Casanova,  
+ Chun-Min Chang,  Yunqing Chen,  A. Chien,  K. D. Closser,  M. P. Coons,  
+ S. Coriani,  S. Dasgupta,  A. L. Dempwolff,  M. Diedenhofen,  Hainam Do,  
+ R. G. Edgar,  Po-Tung Fang,  S. Faraji,  S. Fatehi,  Qingguo Feng,  
+ J. Fosso-Tande,  J. Gayvert,  Qinghui Ge,  A. Ghysels,  G. Gidofalvi,  
+ J. Gomes,  J. Gonthier,  A. Gunina,  D. Hait,  M. W. D. Hanson-Heine,  
+ P. H. P. Harbach,  A. W. Hauser,  M. F. Herbst,  J. E. Herr,  
+ E. G. Hohenstein,  Z. C. Holden,  Kerwin Hui,  B. C. Huynh,  T.-C. Jagau,  
+ Hyunjun Ji,  B. Kaduk,  K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  K. Koh,  
+ D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  A. Kunitsa,  
+ Ka Un Lao,  A. Laurent,  K. V. Lawler,  Joonho Lee,  D. Lefrancois,  
+ S. Lehtola,  D. S. Levine,  Yi-Pei Li,  You-Sheng Lin,  Fenglai Liu,  
+ Kuan-Yu Liu,  E. Livshits,  M. Loipersberger,  A. Luenser,  P. Manohar,  
+ E. Mansoor,  S. F. Manzer,  Shan-Ping Mao,  Yuezhi Mao,  N. Mardirossian,  
+ A. V. Marenich,  T. Markovich,  L. A. Martinez-Martinez,  S. A. Maurer,  
+ N. J. Mayhall,  S. C. McKenzie,  J.-M. Mewes,  P. Morgante,  A. F. Morrison,  
+ J. W. Mullinax,  K. Nanda,  T. S. Nguyen-Beck,  R. Olivares-Amaya,  
+ J. A. Parkhill,  S. K. Paul,  F. Pavosevic,  Zheng Pei,  T. M. Perrine,  
+ F. Plasser,  P. Pokhilko,  S. Prager,  A. Prociuk,  E. Ramos,  B. Rana,  
+ D. R. Rehn,  F. Rob,  M. Scheurer,  M. Schneider,  N. Sergueev,  
+ S. M. Sharada,  S. Sharma,  D. W. Small,  T. Stauch,  C. J. Stein,  
+ T. Stein,  Yu-Chuan Su,  S. P. Veccham,  Zhen Tao,  A. J. W. Thom,  
+ A. Tkatchenko,  T. Tsuchimochi,  N. M. Tubman,  L. Vogt,  M. L. Vidal,  
+ O. Vydrov,  M. A. Watson,  J. Wenzel,  M. de Wergifosse,  T. A. Wesolowski,  
+ A. White,  J. Witte,  A. Yamada,  Jun Yang,  K. Yao,  S. Yeganeh,  
+ S. R. Yost,  Zhi-Qiang You,  A. Zech,  Igor Ying Zhang,  Xing Zhang,  
+ Yan Zhao,  Ying Zhu,  B. R. Brooks,  G. K. L. Chan,  C. J. Cramer,  
+ M. S. Gordon,  W. J. Hehre,  A. Klamt,  M. W. Schmidt,  C. D. Sherrill,  
+ D. G. Truhlar,  A. Aspuru-Guzik,  R. Baer,  A. T. Bell,  N. A. Besley,  
+ Jeng-Da Chai,  A. E. DePrince, III,  R. A. DiStasio Jr.,  A. Dreuw,  
+ B. D. Dunietz,  T. R. Furlani,  Chao-Ping Hsu,  Yousung Jung,  Jing Kong,  
+ D. S. Lambrecht,  WanZhen Liang,  C. Ochsenfeld,  V. A. Rassolov,  
+ L. V. Slipchenko,  J. E. Subotnik,  T. Van Voorhis,  J. M. Herbert,  
+ A. I. Krylov,  P. M. W. Gill,  M. Head-Gordon
+
+ Contributors to earlier versions of Q-Chem not listed above: 
+ R. D. Adamson,  B. Austin,  J. Baker,  G. J. O. Beran,  K. Brandhorst,  
+ S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  C.-L. Cheng,  
+ Siu Hung Chien,  D. M. Chipman,  D. L. Crittenden,  H. Dachsel,  
+ R. J. Doerksen,  A. D. Dutoi,  L. Fusti-Molnar,  W. A. Goddard III,  
+ A. Golubeva-Zadorozhnaya,  S. R. Gwaltney,  G. Hawkins,  A. Heyden,  
+ S. Hirata,  G. Kedziora,  F. J. Keil,  C. Kelley,  Jihan Kim,  R. A. King,  
+ R. Z. Khaliullin,  P. P. Korambath,  W. Kurlancheek,  A. M. Lee,  M. S. Lee,  
+ S. V. Levchenko,  Ching Yeh Lin,  D. Liotard,  R. C. Lochan,  I. Lotan,  
+ P. E. Maslen,  N. Nair,  D. P. O'Neill,  D. Neuhauser,  E. Neuscamman,  
+ C. M. Oana,  R. Olson,  B. Peters,  R. Peverati,  P. A. Pieniazek,  
+ Y. M. Rhee,  J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  
+ H. F. Schaefer III,  N. E. Schultz,  N. Shenvi,  A. C. Simmonett,  A. Sodt,  
+ D. Stuck,  K. S. Thanthiriwatte,  V. Vanovschi,  Tao Wang,  A. Warshel,  
+ C. F. Williams,  Q. Wu,  X. Xu,  W. Zhang
+
+ Please cite Q-Chem as follows:
+ Y. Shao et al., Mol. Phys. 113, 184-215 (2015)
+ DOI: 10.1080/00268976.2014.952696
+
+ Q-Chem 5.3.0 for Intel X86 EM64T Linux
+
+ Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
+ http://arma.sourceforge.net/
+
+ Q-Chem begins on Fri Mar 13 01:35:50 2020  
+
+Host: node12
+0
+
+     Scratch files written to /scratch/gayverjr/202030.785258835.saved//
+Processing $rem in /home/gayverjr/qchem_james/proj_cap_fix//config/preferences:
+Processing $rem in /home/gayverjr/.qchemrc:
+Core orbitals will be frozen
+
+Checking the input file for inconsistencies... 	...done.
+
+--------------------------------------------------------------
+User input:
+--------------------------------------------------------------
+$molecule
+0	1
+N	 0.0	 0.0	 0.548756750
+N	 0.0	 0.0	 -0.548756750
+$end
+
+$rem
+JOBTYPE	 sp
+METHOD	 eom-ccsd
+BASIS	 gen
+GUI	 2 
+EA_STATES	[0,0,10,0,0,0,0,0]
+COMPLEX_CCMAN	 1
+MEM_TOTAL	 100000
+XC_GRID  000099000590
+$end
+
+$complex_ccman
+PROJ_CAP 3
+PROJ_PROP 1
+NSTEPS 150
+ETA_STEP 10
+CAP_TYPE	 1
+CAP_ETA	10
+CAP_X	2000
+CAP_Y	2000
+CAP_Z	3000
+$end
+
+$basis
+N	0
+S   10   1.00
+      1.142000D+04           5.230000D-04
+      1.712000D+03           4.045000D-03
+      3.893000D+02           2.077500D-02
+      1.100000D+02           8.072700D-02
+      3.557000D+01           2.330740D-01
+      1.254000D+01           4.335010D-01
+      4.644000D+00           3.474720D-01
+      1.293000D+00           4.126200D-02
+      5.118000D-01          -8.508000D-03
+      1.787000D-01           2.384000D-03
+S   10   1.00
+      1.142000D+04          -1.150000D-04
+      1.712000D+03          -8.950000D-04
+      3.893000D+02          -4.624000D-03
+      1.100000D+02          -1.852800D-02
+      3.557000D+01          -5.733900D-02
+      1.254000D+01          -1.320760D-01
+      4.644000D+00          -1.725100D-01
+      1.293000D+00           1.518140D-01
+      5.118000D-01           5.999440D-01
+      1.787000D-01           3.874620D-01
+S   1   1.00
+      1.293000D+00           1.000000D+00
+S   1   1.00
+      1.787000D-01           1.000000D+00
+S   1   1.00
+      0.0576000              1.0000000
+P   5   1.00
+      2.663000D+01           1.467000D-02
+      5.948000D+00           9.176400D-02
+      1.742000D+00           2.986830D-01
+      5.550000D-01           4.984870D-01
+      1.725000D-01           3.370230D-01
+P   1   1.00
+      5.550000D-01           1.000000D+00
+P   1   1.00
+      1.725000D-01           1.000000D+00
+P   1   1.00
+      0.0491000              1.0000000
+D   1   1.00
+      1.654000D+00           1.000000D+00
+D   1   1.00
+      4.690000D-01           1.000000D+00
+D   1   1.00
+      0.1510000              1.0000000
+F   1   1.00
+      1.093000D+00           1.0000000
+F   1   1.00
+      0.3640000              1.0000000
+S   1   1.00
+      0.0288000              1.0000000
+S   1   1.00
+      0.0144000              1.0000000
+S   1   1.00
+      0.0072000              1.0000000
+P   1   1.00
+      0.0245500              1.0000000 
+P   1   1.00
+      0.0122750              1.0000000 
+P   1   1.00
+      0.0061375              1.0000000
+D   1   1.00
+      0.0755000              1.0000000 
+D   1   1.00
+      0.0377500              1.0000000 
+D   1   1.00
+      0.0188750              1.0000000
+****
+$end
+--------------------------------------------------------------
+ ----------------------------------------------------------------
+             Standard Nuclear Orientation (Angstroms)
+    I     Atom           X                Y                Z
+ ----------------------------------------------------------------
+    1      N       0.0000000000     0.0000000000     0.5487567500
+    2      N       0.0000000000     0.0000000000    -0.5487567500
+ ----------------------------------------------------------------
+ Molecular Point Group                 D2h   NOp =  8
+ Largest Abelian Subgroup              D2h   NOp =  8
+ Nuclear Repulsion Energy =          23.62584454 hartrees
+ There are        7 alpha and        7 beta electrons
+ Requested basis set is non-standard
+ There are 46 shells and 146 basis functions
+ Total memory of 100000 MB is distributed as follows: 
+   MEM_STATIC is set to 192 MB
+   QALLOC/CCMAN JOB total memory use is  99808 MB
+ Warning: actual memory use might exceed 100000 MB
+
+ Total QAlloc Memory Limit 100000 MB
+ Mega-Array Size       188 MB
+ MEM_STATIC part       192 MB
+
+                       Distance Matrix (Angstroms)
+             N (  1)
+   N (  2)  1.097514
+
+ A cutoff of  1.0D-14 yielded   1081 shell pairs
+ There are     10977 function pairs (     14937 Cartesian)
+ Smallest overlap matrix eigenvalue = 3.79E-08
+ Linear dependence detected in AO basis
+ Tighter screening thresholds may be required for diffuse basis sets
+ Use S2THRESH > 14 and THRESH = 14 in case of SCF convergence issues
+ Number of orthogonalized atomic orbitals = 144
+ Maximum deviation from orthogonality = 4.918E-11
+
+ Scale SEOQF with 1.000000e-02/1.000000e-02/1.000000e-02
+
+ Standard Electronic Orientation quadrupole field applied
+ Guess MOs from core Hamiltonian diagonalization
+
+ -----------------------------------------------------------------------
+  General SCF calculation program by
+  Eric Jon Sundstrom, Paul Horn, Yuezhi Mao, Dmitri Zuev, Alec White,
+  David Stuck, Shaama M.S., Shane Yost, Joonho Lee, David Small,
+  Daniel Levine, Susi Lehtola, Hugh Burton, Evgeny Epifanovsky,
+  Bang C. Huynh
+ -----------------------------------------------------------------------
+ Hartree-Fock
+ using 16 threads for integral computing
+ -------------------------------------------------------
+ OpenMP Integral computing Module                
+ Release: version 2.0, May 2017, Q-Chem Inc. Pleasanton 
+ -------------------------------------------------------
+ A restricted SCF calculation will be
+ performed using DIIS
+ SCF converges when DIIS error is below 1.0e-08
+ ---------------------------------------
+  Cycle       Energy         DIIS error
+ ---------------------------------------
+    1     -93.7767694483      9.28e-02  
+    2     -82.8325070511      3.17e-02  
+    3    -106.7310911792      3.37e-02  
+    4    -107.9894569789      2.11e-02  
+    5    -108.9186135341      4.54e-03  
+    6    -108.9844452614      3.58e-04  
+    7    -108.9849241591      6.66e-05  
+    8    -108.9849368951      1.36e-05  
+    9    -108.9849375811      1.57e-06  
+   10    -108.9849375893      1.23e-07  
+   11    -108.9849375894      2.15e-08  
+   12    -108.9849375894      1.56e-09  Convergence criterion met
+ ---------------------------------------
+ SCF time:   CPU 30.11s  wall 4.00s 
+ SCF   energy in the final basis set =     -108.9849375894
+ Total energy in the final basis set =     -108.9849375894
+ CAP matrix will be calculated and saved for subsequent use
+
+
+ ------------------------------------------------------------------------------
+
+   CCMAN2: suite of methods based on coupled cluster
+           and equation of motion theories.
+
+   Components:
+   * libvmm-1.3-trunk
+     by Evgeny Epifanovsky, Ilya Kaliman.
+   * libtensor-2.5-trunk
+     by Evgeny Epifanovsky, Michael Wormit, Dmitry Zuev, Sam Manzer, 
+        Ilya Kaliman.
+   * libcc-2.5-trunk
+     by Evgeny Epifanovsky, Arik Landau, Tomasz Kus, Kirill Khistyaev, 
+        Dmitry Zuev, Prashant Manohar, Xintian Feng, Anna Krylov, 
+        Matthew Goldey, Alec White, Thomas Jagau, Kaushik Nanda, 
+        Anastasia Gunina, Alexander Kunitsa, Joonho Lee.
+
+   CCMAN original authors:
+   Anna I. Krylov, C. David Sherrill, Steven R. Gwaltney,
+   Edward F. C. Byrd (2000)
+   Sergey V. Levchenko, Lyudmila V. Slipchenko, Tao Wang,
+   Ana-Maria C. Cristian (2003)
+   Piotr A. Pieniazek, C. Melania Oana, Evgeny Epifanovsky (2007)
+   Prashant Manohar (2009)
+
+ ------------------------------------------------------------------------------
+
+
+ Allocating and initializing 99808MB of RAM...
+ Calculation will run on 16 cores.
+
+
+ Alpha MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.634  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.007   0.009   0.012   0.012   0.016   0.016   0.018   0.029
+  4 Ag    3 B1u   2 B3u   2 B2u   1 B2g   1 B3g   5 Ag    4 B1u                
+  0.034   0.041   0.041   0.045   0.045   0.052   0.053   0.053
+  6 Ag    3 B3u   3 B2u   2 B2g   2 B3g   7 Ag    8 Ag    1 B1g                
+  0.065   0.072   0.072   0.072   0.073   0.073   0.087   0.089
+  5 B1u   1 Au    6 B1u   7 B1u   4 B3u   4 B2u   9 Ag    3 B2g                
+  0.089   0.104   0.104   0.119   0.128   0.132   0.132   0.154
+  3 B3g   5 B3u   5 B2u  10 Ag    8 B1u   4 B2g   4 B3g  11 Ag                 
+  0.155   0.155   0.167   0.167   0.192   0.193   0.193   0.198
+ 12 Ag    2 B1g   5 B2g   5 B3g   9 B1u   2 Au   10 B1u   6 B3u                
+  0.198   0.209   0.226   0.226   0.243   0.255   0.255   0.285
+  6 B2u  13 Ag    6 B2g   6 B3g  11 B1u   7 B3u   7 B2u  14 Ag                 
+  0.330   0.333   0.333   0.348   0.348   0.415   0.427   0.427
+ 15 Ag    7 B2g   7 B3g  16 Ag    3 B1g  12 B1u   3 Au   13 B1u                
+  0.448   0.448   0.465   0.529   0.531   0.531   0.661   0.714
+  8 B3u   8 B2u  14 B1u  17 Ag    8 B2g   8 B3g  18 Ag   19 Ag                 
+  0.714   0.727   0.727   0.777   0.879   0.879   0.905   0.911
+  4 B1g   9 B3u   9 B2u  15 B1u   4 Au   16 B1u  17 B1u   9 B2g                
+  0.911   1.001   1.001   1.041   1.097   1.097   1.244   1.372
+  9 B3g  10 B3u  10 B2u  20 Ag   10 B2g  10 B3g  18 B1u  11 B2u                
+  1.372   1.473   1.577   1.577   1.656   1.656   1.720   1.720
+ 11 B3u  21 Ag   22 Ag    5 B1g  12 B3u  12 B2u  11 B3g  11 B2g                
+  1.749   1.749   1.803   1.812   1.812   1.838   1.958   1.958
+  6 B1g  23 Ag   24 Ag   19 B1u   5 Au   20 B1u  12 B2g  12 B3g                
+  2.082   2.195   2.195   2.325   2.325   2.476   2.476   2.802
+ 21 B1u  13 B3u  13 B2u  22 B1u   6 Au   13 B2g  13 B3g  23 B1u                
+  2.988   3.464   3.464   4.056   4.437   4.437   4.464   4.464
+ 25 Ag   14 B3u  14 B2u  26 Ag   14 B2g  14 B3g   7 B1g  27 Ag                 
+  4.557   4.557   4.661   4.661   4.721   4.755   5.043   5.043
+ 15 B3u  15 B2u  16 B3u  16 B2u  24 B1u  28 Ag   15 B2g  15 B3g                
+  5.215   5.215   5.269   5.269   5.294   5.446   5.446   5.689
+  8 B1g  29 Ag    7 Au   25 B1u  26 B1u  16 B2g  16 B3g  17 B3u                
+  5.689   5.774   5.774   6.765   6.801   6.923   6.923  12.370
+ 17 B2u  27 B1u   8 Au   30 Ag   28 B1u  17 B2g  17 B3g  31 Ag                 
+ 19.692
+ 29 B1u                                                                        
+
+ Beta MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.634  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.007   0.009   0.012   0.012   0.016   0.016   0.018   0.029
+  4 Ag    3 B1u   2 B3u   2 B2u   1 B2g   1 B3g   5 Ag    4 B1u                
+  0.034   0.041   0.041   0.045   0.045   0.052   0.053   0.053
+  6 Ag    3 B3u   3 B2u   2 B2g   2 B3g   7 Ag    8 Ag    1 B1g                
+  0.065   0.072   0.072   0.072   0.073   0.073   0.087   0.089
+  5 B1u   1 Au    6 B1u   7 B1u   4 B3u   4 B2u   9 Ag    3 B2g                
+  0.089   0.104   0.104   0.119   0.128   0.132   0.132   0.154
+  3 B3g   5 B3u   5 B2u  10 Ag    8 B1u   4 B2g   4 B3g  11 Ag                 
+  0.155   0.155   0.167   0.167   0.192   0.193   0.193   0.198
+ 12 Ag    2 B1g   5 B2g   5 B3g   9 B1u   2 Au   10 B1u   6 B3u                
+  0.198   0.209   0.226   0.226   0.243   0.255   0.255   0.285
+  6 B2u  13 Ag    6 B2g   6 B3g  11 B1u   7 B3u   7 B2u  14 Ag                 
+  0.330   0.333   0.333   0.348   0.348   0.415   0.427   0.427
+ 15 Ag    7 B2g   7 B3g  16 Ag    3 B1g  12 B1u   3 Au   13 B1u                
+  0.448   0.448   0.465   0.529   0.531   0.531   0.661   0.714
+  8 B3u   8 B2u  14 B1u  17 Ag    8 B2g   8 B3g  18 Ag   19 Ag                 
+  0.714   0.727   0.727   0.777   0.879   0.879   0.905   0.911
+  4 B1g   9 B3u   9 B2u  15 B1u   4 Au   16 B1u  17 B1u   9 B2g                
+  0.911   1.001   1.001   1.041   1.097   1.097   1.244   1.372
+  9 B3g  10 B3u  10 B2u  20 Ag   10 B2g  10 B3g  18 B1u  11 B2u                
+  1.372   1.473   1.577   1.577   1.656   1.656   1.720   1.720
+ 11 B3u  21 Ag   22 Ag    5 B1g  12 B3u  12 B2u  11 B3g  11 B2g                
+  1.749   1.749   1.803   1.812   1.812   1.838   1.958   1.958
+  6 B1g  23 Ag   24 Ag   19 B1u   5 Au   20 B1u  12 B2g  12 B3g                
+  2.082   2.195   2.195   2.325   2.325   2.476   2.476   2.802
+ 21 B1u  13 B3u  13 B2u  22 B1u   6 Au   13 B2g  13 B3g  23 B1u                
+  2.988   3.464   3.464   4.056   4.437   4.437   4.464   4.464
+ 25 Ag   14 B3u  14 B2u  26 Ag   14 B2g  14 B3g   7 B1g  27 Ag                 
+  4.557   4.557   4.661   4.661   4.721   4.755   5.043   5.043
+ 15 B3u  15 B2u  16 B3u  16 B2u  24 B1u  28 Ag   15 B2g  15 B3g                
+  5.215   5.215   5.269   5.269   5.294   5.446   5.446   5.689
+  8 B1g  29 Ag    7 Au   25 B1u  26 B1u  16 B2g  16 B3g  17 B3u                
+  5.689   5.774   5.774   6.765   6.801   6.923   6.923  12.370
+ 17 B2u  27 B1u   8 Au   30 Ag   28 B1u  17 B2g  17 B3g  31 Ag                 
+ 19.692
+ 29 B1u                                                                        
+
+ Occupation and symmetry of molecular orbitals
+
+ Point group: D2h (8 irreducible representations).
+
+                           Ag   B1g  B2g  B3g  Au   B1u  B2u  B3u   All 
+ ------------------------------------------------------------------------
+ All molecular orbitals:
+  - Alpha                  31   8    17   17   8    29   17   17    144 
+  - Beta                   31   8    17   17   8    29   17   17    144 
+ ------------------------------------------------------------------------
+ Alpha orbitals:
+  - Restricted occupied    1    0    0    0    0    1    0    0     2   
+  - Active occupied        2    0    0    0    0    1    1    1     5   
+  - Active virtual         28   8    17   17   8    27   16   16    137 
+  - Restricted virtual     0    0    0    0    0    0    0    0     0   
+ ------------------------------------------------------------------------
+ Beta orbitals:
+  - Restricted occupied    1    0    0    0    0    1    0    0     2   
+  - Active occupied        2    0    0    0    0    1    1    1     5   
+  - Active virtual         28   8    17   17   8    27   16   16    137 
+  - Restricted virtual     0    0    0    0    0    0    0    0     0   
+ ------------------------------------------------------------------------
+
+ Import integrals:   CPU 0.00 s  wall 0.00 s
+
+ Import complex integrals:   CPU 108.19 s  wall 8.68 s
+
+ CS-MP2 amplitudes:   CPU 14.80 s  wall 12.87 s
+
+                      cs-CCSD T amplitudes will be solved using DIIS.
+           Start     Size      MaxIter   EConv     TConv     Alpha     Theta     Eta       
+           3         7         100       1.00e-06  1.00e-04  1.00e+00  0.00e+00  1.00e-04  
+ ----------------------------------------------------------------------------------------------------
+                             Energy (a.u.)             Ediff      Tdiff       Comment
+ ----------------------------------------------------------------------------------------------------
+                      (-109.36492230 , 0.00000000)                           
+     1                (-109.34637820 , 0.00000000)   1.85e-02   5.57e-01     
+     2                (-109.36209677 , 0.00000000)   1.57e-02   8.77e-02     
+     3                (-109.36047034 , 0.00000000)   1.63e-03   3.21e-02     
+     4                (-109.36193822 , 0.00000000)   1.47e-03   8.40e-03     Switched to DIIS steps.
+     5                (-109.36229938 , 0.00000000)   3.61e-04   7.51e-03     
+     6                (-109.36230581 , 0.00000000)   6.42e-06   1.18e-03     
+     7                (-109.36230625 , 0.00000000)   4.46e-07   1.93e-04     
+     8                (-109.36230684 , 0.00000000)   5.92e-07   6.24e-05     
+ ----------------------------------------------------------------------------------------------------
+                      (-109.36230684 , 0.00000000)                           CCSD T converged.
+
+ SCF energy                 =             (-108.98493759 ,0.00000000)
+ MP2 energy                 =             (-109.36492230 , 0.00000000)
+ CCSD correlation energy    =             (-0.37736926 , 0.00000000)
+ CCSD total energy          =             (-109.36230684 , 0.00000000)
+
+ CCSD (T1|T1) =  (0.0035 , 0.0000)  (T2|T2) =  (0.1224 , 0.0000). 
+
+ Leading amplitudes (real):
+
+ Amplitude    Orbitals with energies
+  0.0160       1 (B3u) A                 ->    10 (B3u) A                  
+              -0.6144                          1.0014                      
+  0.0160       1 (B3u) B                 ->    10 (B3u) B                  
+              -0.6144                          1.0014                      
+ -0.0160       1 (B2u) A                 ->    10 (B2u) A                  
+              -0.6144                          1.0014                      
+ -0.0160       1 (B2u) B                 ->    10 (B2u) B                  
+              -0.6144                          1.0014                      
+
+ Amplitude    Orbitals with energies
+ -0.0357       1 (B2u) A     1 (B2u) B   ->    4 (B3g) A     4 (B3g) B    
+              -0.6144       -0.6144            0.1318        0.1318       
+  0.0357       1 (B2u) A     1 (B2u) B   ->    4 (B3g) B     4 (B3g) A    
+              -0.6144       -0.6144            0.1318        0.1318       
+  0.0357       1 (B2u) B     1 (B2u) A   ->    4 (B3g) A     4 (B3g) B    
+              -0.6144       -0.6144            0.1318        0.1318       
+ -0.0357       1 (B2u) B     1 (B2u) A   ->    4 (B3g) B     4 (B3g) A    
+              -0.6144       -0.6144            0.1318        0.1318       
+ -0.0357       1 (B3u) A     1 (B3u) B   ->    4 (B2g) A     4 (B2g) B    
+              -0.6144       -0.6144            0.1318        0.1318       
+  0.0357       1 (B3u) A     1 (B3u) B   ->    4 (B2g) B     4 (B2g) A    
+              -0.6144       -0.6144            0.1318        0.1318       
+  0.0357       1 (B3u) B     1 (B3u) A   ->    4 (B2g) A     4 (B2g) B    
+              -0.6144       -0.6144            0.1318        0.1318       
+ -0.0357       1 (B3u) B     1 (B3u) A   ->    4 (B2g) B     4 (B2g) A    
+              -0.6144       -0.6144            0.1318        0.1318       
+
+ CS-CCSD calculation:   CPU 453.58 s  wall 145.95 s
+
+           Solving for CS/CAP-EOMEA-CCSD B2g transitions.
+
+           Complex-valued EOMEA-CCSD right amplitudes will be solved.
+           Alpha=1.00e+00    Theta=0.00e+00    Eta=1.00e-04 
+
+        Amplitudes will be solved using standard  algorithm.
+     Hard-coded thresholds: 
+     LinDepThresh=1.00e-15  NormThresh=1.00e-06  ReorthogonThresh=1.00e-02
+
+      Roots     MaxVec    MaxIter   Precond   Conv      Shift    
+      10        120       60        1         1.00e-05  0.00e+00  
+ ------------------------------------------------------------------------------
+      Iter ConvRoots NVecs ResNorm Current eigenvalues (eV)
+ ------------------------------------------------------------------------------
+      0    0      10    5.88e-02   (0.4405,0.0000)   (1.2182,0.0000)   (2.4632,0.0000)   (3.8860,0.0000)   (5.1173,0.0000)   (6.5505,0.0000)   (9.3176,0.0000)   (14.7110,0.0000)   (24.8128,0.0000)   (30.1170,0.0000)   
+      1    0      20    2.61e-02   (0.4390,0.0000)   (1.2077,0.0000)   (2.3969,0.0000)   (3.5408,0.0000)   (4.5281,0.0000)   (6.1072,0.0000)   (8.9598,0.0000)   (14.1929,0.0000)   (24.4957,0.0000)   (28.9811,0.0000)   
+      2    1      30    1.99e-02   (0.4386,0.0000)*  (1.2010,0.0000)   (2.2510,0.0000)   (2.9437,0.0000)   (4.2394,0.0000)   (5.9195,0.0000)   (8.7340,0.0000)   (13.7629,0.0000)   (17.1659,0.0000)   (21.3268,0.0000)   
+      3    2      39    2.08e-02   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2390,0.0000)   (2.9186,0.0000)   (4.2314,0.0000)   (5.9116,0.0000)   (8.7168,0.0000)   (12.5442,0.0000)   (13.6514,0.0000)   (17.7587,0.0000)   
+      4    6      47    3.62e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9161,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7125,0.0000)   (11.9903,0.0000)   (13.1149,0.0000)   (13.9959,0.0000)   
+      5    7      51    1.86e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7120,0.0000)*  (11.7544,0.0000)   (12.0396,0.0000)   (13.7012,0.0000)   
+      6    7      54    1.22e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7120,0.0000)*  (11.3916,0.0000)   (11.5354,0.0000)   (13.0709,0.0000)   
+      7    7      57    7.14e-04   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (11.1422,0.0000)   (11.3718,0.0000)   (12.9179,0.0000)   
+      8    7      60    2.47e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.7176,0.0000)   (11.3523,0.0000)   (12.2191,0.0000)   
+      9    7      63    1.53e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.3924,0.0000)   (11.2864,0.0000)   (11.5154,0.0000)   
+      10   7      66    2.19e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.1873,0.0000)   (10.8553,0.0000)   (11.2990,0.0000)   
+      11   7      69    1.53e-03   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0692,0.0000)   (10.3600,0.0000)   (10.9831,0.0000)   
+      12   7      72    3.67e-04   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0335,0.0000)   (10.1165,0.0000)   (10.8585,0.0000)   
+      13   7      75    1.03e-04   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0301,0.0000)   (10.0545,0.0000)   (10.8272,0.0000)   
+      14   8      78    2.87e-05   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0295,0.0000)*  (10.0357,0.0000)   (10.8186,0.0000)   
+      15   7      80    9.26e-06   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0291,0.0000)   (10.0310,0.0000)   (10.8162,0.0000)   
+      16   8      83    3.98e-06   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0283,0.0000)   (10.0302,0.0000)*  (10.8153,0.0000)   
+      17   10     85    1.48e-06   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0279,0.0000)*  (10.0300,0.0000)*  (10.8149,0.0000)*  
+
+     Davidson procedure converged
+ Total energies for CS/CAP-EOM-EA states (alpha = 1.00e+00 | theta = 0.00e+00| eta = 1.00e-04):
+ State         Re(E)            Im(E)
+   1      -109.34619013      0.00000000
+   2      -109.31818299      0.00000000
+   3      -109.28006916      0.00000000
+   4      -109.25513933      0.00000000
+   5      -109.20684077      0.00000000
+   6      -109.14510272      0.00000000
+   7      -109.04215140      0.00000000
+   8      -108.99378898      0.00000000
+   9      -108.99370950      0.00000000
+   10      -108.96486573      0.00000000
+
+ Attachment energies for CS/CAP-EOM-EA states (alpha = 1.00e+00 | theta = 0.00e+00| eta = 1.00e-04):
+ State         Re(E)            Im(E)
+   1      0.43855823      0.00000000
+   2      1.20067115      0.00000000
+   3      2.23780113      0.00000000
+   4      2.91617641      0.00000000
+   5      4.23044712      0.00000000
+   6      5.91042470      0.00000000
+   7      8.71187258      0.00000000
+   8      10.02788122      0.00000000
+   9      10.03004395      0.00000000
+   10      10.81492281      0.00000000
+
+ CS/CAP-EOMEA-CCSD transition 1/B2g
+ Total energy = (-109.34619013 , 0.00000000) a.u.  Excitation energy =  (0.4386 , 0.0000) eV.
+ (R1|R1) =  (0.9999 , 0.0000)
+ (R2|R2) =  (0.0001 , 0.0000)
+ Res^2 = 1.15e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.9999       infty       ->    1 (B2g) B                  
+  0.0052       infty       ->    2 (B2g) B                  
+ -0.0035       infty       ->    3 (B2g) B                  
+  0.0035       infty       ->    4 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               12      Vir  Beta        1 (B2g)      0.0162
+               19      Vir  Beta        2 (B2g)      0.0447
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 2/B2g
+ Total energy = (-109.31818299 , 0.00000000) a.u.  Excitation energy =  (1.2007 , 0.0000) eV.
+ (R1|R1) =  (0.9991 , 0.0000)
+ (R2|R2) =  (0.0009 , 0.0000)
+ Res^2 = 2.31e-08
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.9984       infty       ->    2 (B2g) B                  
+  0.0306       infty       ->    4 (B2g) B                  
+ -0.0303       infty       ->    3 (B2g) B                  
+  0.0171       infty       ->    5 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               19      Vir  Beta        2 (B2g)      0.0447
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 3/B2g
+ Total energy = (-109.28006916 , 0.00000000) a.u.  Excitation energy =  (2.2378 , 0.0000) eV.
+ (R1|R1) =  (0.9804 , 0.0000)
+ (R2|R2) =  (0.0196 , 0.0000)
+ Res^2 = 4.25e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.9164       infty       ->    3 (B2g) B                  
+ -0.3231       infty       ->    4 (B2g) B                  
+ -0.1690       infty       ->    5 (B2g) B                  
+  0.0642       infty       ->    6 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 4/B2g
+ Total energy = (-109.25513933 , 0.00000000) a.u.  Excitation energy =  (2.9162 , 0.0000) eV.
+ (R1|R1) =  (0.9669 , 0.0000)
+ (R2|R2) =  (0.0331 , 0.0000)
+ Res^2 = 6.97e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.8326       infty       ->    4 (B2g) B                  
+  0.3846       infty       ->    3 (B2g) B                  
+  0.3273       infty       ->    5 (B2g) B                  
+ -0.1173       infty       ->    6 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 5/B2g
+ Total energy = (-109.20684077 , 0.00000000) a.u.  Excitation energy =  (4.2304 , 0.0000) eV.
+ (R1|R1) =  (0.9903 , 0.0000)
+ (R2|R2) =  (0.0097 , 0.0000)
+ Res^2 = 1.58e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.8983       infty       ->    5 (B2g) B                  
+ -0.4071       infty       ->    4 (B2g) B                  
+ -0.1136       infty       ->    6 (B2g) B                  
+  0.0463       infty       ->    7 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               57      Vir  Beta        7 (B2g)      0.3328
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 6/B2g
+ Total energy = (-109.14510272 , 0.00000000) a.u.  Excitation energy =  (5.9104 , 0.0000) eV.
+ (R1|R1) =  (0.9904 , 0.0000)
+ (R2|R2) =  (0.0096 , 0.0000)
+ Res^2 = 2.26e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.9715       infty       ->    6 (B2g) B                  
+  0.1780       infty       ->    5 (B2g) B                  
+  0.0925       infty       ->    4 (B2g) B                  
+ -0.0705       infty       ->    7 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               57      Vir  Beta        7 (B2g)      0.3328
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 7/B2g
+ Total energy = (-109.04215140 , 0.00000000) a.u.  Excitation energy =  (8.7119 , 0.0000) eV.
+ (R1|R1) =  (0.9818 , 0.0000)
+ (R2|R2) =  (0.0182 , 0.0000)
+ Res^2 = 6.21e-07
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.9788       infty       ->    7 (B2g) B                  
+  0.1025       infty       ->    6 (B2g) B                  
+ -0.0728       infty       ->    5 (B2g) B                  
+  0.0707       infty       ->    8 (B2g) B                  
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               57      Vir  Beta        7 (B2g)      0.3328
+               68      Vir  Beta        8 (B2g)      0.5315
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 8/B2g
+ Total energy = (-108.99378898 , 0.00000000) a.u.  Excitation energy =  (10.0279 , 0.0000) eV.
+ (R1|R1) =  (0.0000 , 0.0000)
+ (R2|R2) =  (1.0000 , 0.0000)
+ Res^2 = 4.38e-06
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+ -0.2696       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
+  0.2696       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
+  0.2695       1 (B2u) A   ->    2 (B3u) A     4 (B3g) B    
+ -0.2695       1 (B2u) A   ->    4 (B3g) B     2 (B3u) A    
+ -0.2576       1 (B3u) B   ->    4 (B2g) B     2 (B3u) B    
+  0.2576       1 (B3u) B   ->    2 (B3u) B     4 (B2g) B    
+  0.2576       1 (B3u) A   ->    4 (B2g) A     2 (B3u) B    
+ -0.2576       1 (B3u) A   ->    2 (B3u) B     4 (B2g) A    
+  0.2575       1 (B2u) B   ->    4 (B3g) B     2 (B3u) B    
+ -0.2575       1 (B2u) B   ->    2 (B3u) B     4 (B3g) B    
+ -0.2574       1 (B2u) A   ->    4 (B3g) A     2 (B3u) B    
+  0.2574       1 (B2u) A   ->    2 (B3u) B     4 (B3g) A    
+ -0.2323       1 (B3u) A   ->    2 (B3u) A     5 (B2g) B    
+  0.2323       1 (B3u) A   ->    5 (B2g) B     2 (B3u) A    
+  0.2322       1 (B2u) A   ->    2 (B3u) A     5 (B3g) B    
+ -0.2322       1 (B2u) A   ->    5 (B3g) B     2 (B3u) A    
+ -0.2220       1 (B3u) B   ->    5 (B2g) B     2 (B3u) B    
+  0.2220       1 (B3u) B   ->    2 (B3u) B     5 (B2g) B    
+  0.2219       1 (B3u) A   ->    5 (B2g) A     2 (B3u) B    
+ -0.2219       1 (B3u) A   ->    2 (B3u) B     5 (B2g) A    
+  0.2219       1 (B2u) B   ->    5 (B3g) B     2 (B3u) B    
+ -0.2219       1 (B2u) B   ->    2 (B3u) B     5 (B3g) B    
+ -0.2217       1 (B2u) A   ->    5 (B3g) A     2 (B3u) B    
+  0.2217       1 (B2u) A   ->    2 (B3u) B     5 (B3g) A    
+  0.1410       1 (B3u) A   ->    2 (B3u) A     6 (B2g) B    
+ -0.1410       1 (B3u) A   ->    6 (B2g) B     2 (B3u) A    
+  0.1409       1 (B2u) A   ->    2 (B3u) A     6 (B3g) B    
+ -0.1409       1 (B2u) A   ->    6 (B3g) B     2 (B3u) A    
+  0.1347       1 (B3u) B   ->    6 (B2g) B     2 (B3u) B    
+ -0.1347       1 (B3u) B   ->    2 (B3u) B     6 (B2g) B    
+ -0.1347       1 (B3u) A   ->    6 (B2g) A     2 (B3u) B    
+  0.1347       1 (B3u) A   ->    2 (B3u) B     6 (B2g) A    
+  0.1346       1 (B2u) B   ->    6 (B3g) B     2 (B3u) B    
+ -0.1346       1 (B2u) B   ->    2 (B3u) B     6 (B3g) B    
+ -0.1345       1 (B2u) A   ->    6 (B3g) A     2 (B3u) B    
+  0.1345       1 (B2u) A   ->    2 (B3u) B     6 (B3g) A    
+ -0.1075       1 (B2u) A   ->    2 (B3u) A     3 (B3g) B    
+  0.1075       1 (B2u) A   ->    3 (B3g) B     2 (B3u) A    
+  0.1075       1 (B3u) A   ->    2 (B3u) A     3 (B2g) B    
+ -0.1075       1 (B3u) A   ->    3 (B2g) B     2 (B3u) A    
+  0.1028       1 (B3u) B   ->    3 (B2g) B     2 (B3u) B    
+ -0.1028       1 (B3u) B   ->    2 (B3u) B     3 (B2g) B    
+ -0.1028       1 (B2u) B   ->    3 (B3g) B     2 (B3u) B    
+  0.1028       1 (B2u) B   ->    2 (B3u) B     3 (B3g) B    
+ -0.1027       1 (B3u) A   ->    3 (B2g) A     2 (B3u) B    
+  0.1027       1 (B3u) A   ->    2 (B3u) B     3 (B2g) A    
+  0.1027       1 (B2u) A   ->    3 (B3g) A     2 (B3u) B    
+ -0.1027       1 (B2u) A   ->    2 (B3u) B     3 (B3g) A    
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               7       Occ  Alpha       1 (B2u)     -0.6144
+               6       Occ  Alpha       1 (B3u)     -0.6144
+               7       Occ  Beta        1 (B2u)     -0.6144
+               6       Occ  Beta        1 (B3u)     -0.6144
+               31      Vir  Alpha       3 (B2g)      0.0891
+               37      Vir  Alpha       4 (B2g)      0.1318
+               42      Vir  Alpha       5 (B2g)      0.1674
+               50      Vir  Alpha       6 (B2g)      0.2261
+               32      Vir  Alpha       3 (B3g)      0.0891
+               38      Vir  Alpha       4 (B3g)      0.1318
+               43      Vir  Alpha       5 (B3g)      0.1674
+               51      Vir  Alpha       6 (B3g)      0.2261
+               10      Vir  Alpha       2 (B3u)      0.0117
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               32      Vir  Beta        3 (B3g)      0.0891
+               38      Vir  Beta        4 (B3g)      0.1318
+               43      Vir  Beta        5 (B3g)      0.1674
+               51      Vir  Beta        6 (B3g)      0.2261
+               10      Vir  Beta        2 (B3u)      0.0117
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 9/B2g
+ Total energy = (-108.99370950 , 0.00000000) a.u.  Excitation energy =  (10.0300 , 0.0000) eV.
+ (R1|R1) =  (0.0003 , 0.0000)
+ (R2|R2) =  (0.9997 , 0.0000)
+ Res^2 = 2.46e-06
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+  0.3650       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
+ -0.3650       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
+ -0.3633       1 (B2u) A   ->    2 (B3u) A     4 (B3g) B    
+  0.3633       1 (B2u) A   ->    4 (B3g) B     2 (B3u) A    
+  0.3147       1 (B3u) A   ->    2 (B3u) A     5 (B2g) B    
+ -0.3147       1 (B3u) A   ->    5 (B2g) B     2 (B3u) A    
+ -0.3130       1 (B2u) A   ->    2 (B3u) A     5 (B3g) B    
+  0.3130       1 (B2u) A   ->    5 (B3g) B     2 (B3u) A    
+ -0.1912       1 (B3u) B   ->    4 (B2g) B     2 (B3u) B    
+  0.1912       1 (B3u) B   ->    2 (B3u) B     4 (B2g) B    
+  0.1911       1 (B3u) A   ->    4 (B2g) A     2 (B3u) B    
+ -0.1911       1 (B3u) A   ->    2 (B3u) B     4 (B2g) A    
+ -0.1910       1 (B3u) A   ->    2 (B3u) A     6 (B2g) B    
+  0.1910       1 (B3u) A   ->    6 (B2g) B     2 (B3u) A    
+ -0.1899       1 (B2u) A   ->    2 (B3u) A     6 (B3g) B    
+  0.1899       1 (B2u) A   ->    6 (B3g) B     2 (B3u) A    
+ -0.1899       1 (B2u) A   ->    4 (B3g) A     2 (B3u) B    
+  0.1899       1 (B2u) A   ->    2 (B3u) B     4 (B3g) A    
+  0.1899       1 (B2u) B   ->    4 (B3g) B     2 (B3u) B    
+ -0.1899       1 (B2u) B   ->    2 (B3u) B     4 (B3g) B    
+ -0.1648       1 (B3u) B   ->    5 (B2g) B     2 (B3u) B    
+  0.1648       1 (B3u) B   ->    2 (B3u) B     5 (B2g) B    
+  0.1648       1 (B3u) A   ->    5 (B2g) A     2 (B3u) B    
+ -0.1648       1 (B3u) A   ->    2 (B3u) B     5 (B2g) A    
+  0.1636       1 (B2u) B   ->    5 (B3g) B     2 (B3u) B    
+ -0.1636       1 (B2u) B   ->    2 (B3u) B     5 (B3g) B    
+ -0.1635       1 (B2u) A   ->    5 (B3g) A     2 (B3u) B    
+  0.1635       1 (B2u) A   ->    2 (B3u) B     5 (B3g) A    
+ -0.1455       1 (B3u) A   ->    2 (B3u) A     3 (B2g) B    
+  0.1455       1 (B3u) A   ->    3 (B2g) B     2 (B3u) A    
+  0.1448       1 (B2u) A   ->    2 (B3u) A     3 (B3g) B    
+ -0.1448       1 (B2u) A   ->    3 (B3g) B     2 (B3u) A    
+  0.1321       1 (B3u) A   ->    2 (B3u) A     7 (B2g) B    
+ -0.1321       1 (B3u) A   ->    7 (B2g) B     2 (B3u) A    
+  0.1313       1 (B2u) A   ->    2 (B3u) A     7 (B3g) B    
+ -0.1313       1 (B2u) A   ->    7 (B3g) B     2 (B3u) A    
+  0.1000       1 (B3u) B   ->    6 (B2g) B     2 (B3u) B    
+ -0.1000       1 (B3u) B   ->    2 (B3u) B     6 (B2g) B    
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               7       Occ  Alpha       1 (B2u)     -0.6144
+               6       Occ  Alpha       1 (B3u)     -0.6144
+               7       Occ  Beta        1 (B2u)     -0.6144
+               6       Occ  Beta        1 (B3u)     -0.6144
+               37      Vir  Alpha       4 (B2g)      0.1318
+               42      Vir  Alpha       5 (B2g)      0.1674
+               38      Vir  Alpha       4 (B3g)      0.1318
+               43      Vir  Alpha       5 (B3g)      0.1674
+               10      Vir  Alpha       2 (B3u)      0.0117
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               57      Vir  Beta        7 (B2g)      0.3328
+               32      Vir  Beta        3 (B3g)      0.0891
+               38      Vir  Beta        4 (B3g)      0.1318
+               43      Vir  Beta        5 (B3g)      0.1674
+               51      Vir  Beta        6 (B3g)      0.2261
+               58      Vir  Beta        7 (B3g)      0.3328
+               10      Vir  Beta        2 (B3u)      0.0117
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+ CS/CAP-EOMEA-CCSD transition 10/B2g
+ Total energy = (-108.96486573 , 0.00000000) a.u.  Excitation energy =  (10.8149 , 0.0000) eV.
+ (R1|R1) =  (0.0020 , 0.0000)
+ (R2|R2) =  (0.9980 , 0.0000)
+ Res^2 = 5.66e-06
+
+ Real part of amplitudes
+ Amplitude    Transitions between orbitals
+ -0.3723       1 (B2u) A   ->    3 (B3u) A     4 (B3g) B    
+  0.3723       1 (B2u) A   ->    4 (B3g) B     3 (B3u) A    
+  0.3681       1 (B3u) A   ->    3 (B3u) A     4 (B2g) B    
+ -0.3681       1 (B3u) A   ->    4 (B2g) B     3 (B3u) A    
+ -0.3202       1 (B2u) A   ->    3 (B3u) A     5 (B3g) B    
+  0.3202       1 (B2u) A   ->    5 (B3g) B     3 (B3u) A    
+  0.3173       1 (B3u) A   ->    3 (B3u) A     5 (B2g) B    
+ -0.3173       1 (B3u) A   ->    5 (B2g) B     3 (B3u) A    
+ -0.1938       1 (B2u) A   ->    3 (B3u) A     6 (B3g) B    
+  0.1938       1 (B2u) A   ->    6 (B3g) B     3 (B3u) A    
+ -0.1921       1 (B3u) A   ->    3 (B3u) A     6 (B2g) B    
+  0.1921       1 (B3u) A   ->    6 (B2g) B     3 (B3u) A    
+  0.1855       1 (B2u) B   ->    4 (B3g) B     3 (B3u) B    
+ -0.1855       1 (B2u) B   ->    3 (B3u) B     4 (B3g) B    
+ -0.1849       1 (B2u) A   ->    4 (B3g) A     3 (B3u) B    
+  0.1849       1 (B2u) A   ->    3 (B3u) B     4 (B3g) A    
+  0.1834       1 (B3u) A   ->    4 (B2g) A     3 (B3u) B    
+ -0.1834       1 (B3u) A   ->    3 (B3u) B     4 (B2g) A    
+ -0.1827       1 (B3u) B   ->    4 (B2g) B     3 (B3u) B    
+  0.1827       1 (B3u) B   ->    3 (B3u) B     4 (B2g) B    
+  0.1595       1 (B2u) B   ->    5 (B3g) B     3 (B3u) B    
+ -0.1595       1 (B2u) B   ->    3 (B3u) B     5 (B3g) B    
+ -0.1591       1 (B2u) A   ->    5 (B3g) A     3 (B3u) B    
+  0.1591       1 (B2u) A   ->    3 (B3u) B     5 (B3g) A    
+  0.1584       1 (B3u) A   ->    5 (B2g) A     3 (B3u) B    
+ -0.1584       1 (B3u) A   ->    3 (B3u) B     5 (B2g) A    
+ -0.1571       1 (B3u) B   ->    5 (B2g) B     3 (B3u) B    
+  0.1571       1 (B3u) B   ->    3 (B3u) B     5 (B2g) B    
+  0.1491       1 (B2u) A   ->    3 (B3u) A     3 (B3g) B    
+ -0.1491       1 (B2u) A   ->    3 (B3g) B     3 (B3u) A    
+ -0.1467       1 (B3u) A   ->    3 (B3u) A     3 (B2g) B    
+  0.1467       1 (B3u) A   ->    3 (B2g) B     3 (B3u) A    
+  0.1337       1 (B2u) A   ->    3 (B3u) A     7 (B3g) B    
+ -0.1337       1 (B2u) A   ->    7 (B3g) B     3 (B3u) A    
+  0.1329       1 (B3u) A   ->    3 (B3u) A     7 (B2g) B    
+ -0.1329       1 (B3u) A   ->    7 (B2g) B     3 (B3u) A    
+
+              Summary of significant orbitals:
+
+               Number  Type             Irrep      Energy
+               7       Occ  Alpha       1 (B2u)     -0.6144
+               6       Occ  Alpha       1 (B3u)     -0.6144
+               7       Occ  Beta        1 (B2u)     -0.6144
+               6       Occ  Beta        1 (B3u)     -0.6144
+               37      Vir  Alpha       4 (B2g)      0.1318
+               42      Vir  Alpha       5 (B2g)      0.1674
+               38      Vir  Alpha       4 (B3g)      0.1318
+               43      Vir  Alpha       5 (B3g)      0.1674
+               17      Vir  Alpha       3 (B3u)      0.0406
+               31      Vir  Beta        3 (B2g)      0.0891
+               37      Vir  Beta        4 (B2g)      0.1318
+               42      Vir  Beta        5 (B2g)      0.1674
+               50      Vir  Beta        6 (B2g)      0.2261
+               57      Vir  Beta        7 (B2g)      0.3328
+               32      Vir  Beta        3 (B3g)      0.0891
+               38      Vir  Beta        4 (B3g)      0.1318
+               43      Vir  Beta        5 (B3g)      0.1674
+               51      Vir  Beta        6 (B3g)      0.2261
+               58      Vir  Beta        7 (B3g)      0.3328
+               17      Vir  Beta        3 (B3u)      0.0406
+
+ Imaginary part of amplitudes
+ Amplitude    Transitions between orbitals
+
+
+           Complex-valued EOMEA-CCSD left amplitudes will be solved.
+           Alpha= 1.00e+00   Theta= 0.00e+00   Eta= 1.00e-04
+
+        Amplitudes will be solved using MOM  algorithm.
+     Hard-coded thresholds: 
+     LinDepThresh=1.00e-15  NormThresh=1.00e-06  ReorthogonThresh=1.00e-02
+
+      Roots     MaxVec    MaxIter   Precond   Conv      Shift    
+      10        120       60        1         1.00e-05  0.00e+00  
+ ------------------------------------------------------------------------------
+      Iter ConvRoots NVecs ResNorm Current eigenvalues (eV)
+ ------------------------------------------------------------------------------
+      0    0      10    8.81e-04   (0.4386,0.0000)   (1.2007,0.0000)   (2.2378,0.0000)   (2.9162,0.0000)   (4.2304,0.0000)   (5.9104,0.0000)   (8.7119,0.0000)   (10.0279,0.0000)   (10.0300,0.0000)   (10.8149,0.0000)   
+      1    0      20    3.72e-04   (0.4386,0.0000)   (1.2007,0.0000)   (2.2378,0.0000)   (2.9162,0.0000)   (4.2305,0.0000)   (5.9104,0.0000)   (8.7119,0.0000)   (10.0278,0.0000)   (10.0300,0.0000)   (10.8149,0.0000)   
+      2    5      30    3.29e-05   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)   (2.9162,0.0000)   (4.2304,0.0000)   (5.9104,0.0000)   (8.7119,0.0000)   (10.0278,0.0000)*  (10.0300,0.0000)*  (10.8148,0.0000)*  
+      3    10     35    2.62e-06   (0.4386,0.0000)*  (1.2007,0.0000)*  (2.2378,0.0000)*  (2.9162,0.0000)*  (4.2304,0.0000)*  (5.9104,0.0000)*  (8.7119,0.0000)*  (10.0278,0.0000)*  (10.0300,0.0000)*  (10.8148,0.0000)*  
+
+     Davidson procedure converged
+ Summary of CS/CAP calculations: 
+ CS/CAP parameters: Alpha = 1.00e+00; Theta = 0.00e+00; Eta = 1.00e-04
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 1/B2g
+
+ Total energy: E_tot = (-109.34619013 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.02887111) a.u. 
+ Absolute value of first-order correction: 0.02887111 a.u.
+ Corrected energy: U_tot = (-109.34619013 , 0.02887111) a.u. 
+ ||OPDM(AO)||: alpha = (2.89537572 , 0.00000000); beta = (872.97145400 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31713637 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-195.09740217 , -0.02887111)
+ Separable two electron energy: (62.50254764 , 0.02885218)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 2/B2g
+
+ Total energy: E_tot = (-109.31818299 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.01813142) a.u. 
+ Absolute value of first-order correction: 0.01813142 a.u.
+ Corrected energy: U_tot = (-109.31818299 , 0.01813142) a.u. 
+ ||OPDM(AO)||: alpha = (2.89442270 , 0.00000000); beta = (3152.23585867 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31687630 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-195.40172731 , -0.01813142)
+ Separable two electron energy: (62.83670331 , 0.01811250)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 3/B2g
+
+ Total energy: E_tot = (-109.28006916 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.00814315) a.u. 
+ Absolute value of first-order correction: 0.00814315 a.u.
+ Corrected energy: U_tot = (-109.28006916 , 0.00814315) a.u. 
+ ||OPDM(AO)||: alpha = (2.80456015 , 0.00000000); beta = (4578.24068350 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31329177 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-196.82798024 , -0.00814315)
+ Separable two electron energy: (64.34588783 , 0.00812423)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 4/B2g
+
+ Total energy: E_tot = (-109.25513933 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.00690485) a.u. 
+ Absolute value of first-order correction: 0.00690485 a.u.
+ Corrected energy: U_tot = (-109.25513933 , 0.00690485) a.u. 
+ ||OPDM(AO)||: alpha = (2.74462304 , 0.00000000); beta = (8084.73172270 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31310631 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-197.38841766 , -0.00690485)
+ Separable two electron energy: (64.96318149 , 0.00688592)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 5/B2g
+
+ Total energy: E_tot = (-109.20684077 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.00631873) a.u. 
+ Absolute value of first-order correction: 0.00631873 a.u.
+ Corrected energy: U_tot = (-109.20684077 , 0.00631873) a.u. 
+ ||OPDM(AO)||: alpha = (2.85606687 , 0.00000000); beta = (23891.50593403 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31440423 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-196.06789924 , -0.00631873)
+ Separable two electron energy: (63.63431399 , 0.00629981)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 6/B2g
+
+ Total energy: E_tot = (-109.14510272 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.00434520) a.u. 
+ Absolute value of first-order correction: 0.00434520 a.u.
+ Corrected energy: U_tot = (-109.14510272 , 0.00434520) a.u. 
+ ||OPDM(AO)||: alpha = (2.87734729 , 0.00000000); beta = (5838.11693153 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31423805 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-196.16046486 , -0.00434520)
+ Separable two electron energy: (63.78659193 , 0.00432627)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 7/B2g
+
+ Total energy: E_tot = (-109.04215140 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.00398633) a.u. 
+ Absolute value of first-order correction: 0.00398633 a.u.
+ Corrected energy: U_tot = (-109.04215140 , 0.00398633) a.u. 
+ ||OPDM(AO)||: alpha = (2.86466635 , 0.00000000); beta = (10898.24790056 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.31162618 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-196.27793783 , -0.00398633)
+ Separable two electron energy: (64.01815343 , 0.00396741)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 8/B2g
+
+ Total energy: E_tot = (-108.99378898 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.02020753) a.u. 
+ Absolute value of first-order correction: 0.02020753 a.u.
+ Corrected energy: U_tot = (-108.99378898 , 0.02020753) a.u. 
+ ||OPDM(AO)||: alpha = (2.96405932 , 0.00000000); beta = (3.45533249 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.33127274 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-194.69623703 , -0.02020753)
+ Separable two electron energy: (62.90406705 , 0.02018860)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 9/B2g
+
+ Total energy: E_tot = (-108.99370950 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.02024577) a.u. 
+ Absolute value of first-order correction: 0.02024577 a.u.
+ Corrected energy: U_tot = (-108.99370950 , 0.02024577) a.u. 
+ ||OPDM(AO)||: alpha = (3.31331664 , 0.00000000); beta = (4.58599977 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.35269688 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-194.69372325 , -0.02024577)
+ Separable two electron energy: (62.90144350 , 0.02022684)
+
+ Properties for CS/CAP-EOM-CCSD/MP2 state 10/B2g
+
+ Total energy: E_tot = (-108.96486573 , 0.00000000) a.u. 
+ First order correction: eta * tr[gamma W] = (0.00000000 , -0.01348136) a.u. 
+ Absolute value of first-order correction: 0.01348136 a.u.
+ Corrected energy: U_tot = (-108.96486573 , 0.01348136) a.u. 
+ ||OPDM(AO)||: alpha = (7.77183079 , 0.00000000); beta = (20.95853499 , 0.00000000)
+ ||OPDM(MO)||: alpha+beta = (3.35616800 , 0.00000000)
+  w_im(MO) = 0.00000000
+ Trace of 1-e DM (MO) = (11.00000000 , 0.00000000)
+ ||eta*W(AO)||: (0.00000000 , 0.06511446)
+ One-electron energy: (-195.05336680 , -0.01348136)
+ Separable two electron energy: (63.28911855 , 0.01346244)
+
+
+ Corrected total energies for CS/CAP-EOM states (alpha = 1.00e+00 | theta = 0.00e+00| eta = 1.00e-04):
+ State         Re(E)            Im(E)
+   1      -109.34619013      0.02887111
+   2      -109.31818299      0.01813142
+   3      -109.28006916      0.00814315
+   4      -109.25513933      0.00690485
+   5      -109.20684077      0.00631873
+   6      -109.14510272      0.00434520
+   7      -109.04215140      0.00398633
+   8      -108.99378898      0.02020753
+   9      -108.99370950      0.02024577
+   10      -108.96486573      0.01348136
+
+ Excited state properties for EOMEA-CCSD transition 1/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 461.670270 (real, imaginary) = (461.670270, 0.000000)
+ (XX (186.674988 , 0.000000), YY (67.346866 , 0.000000), ZZ (207.648415 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 2/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 319.395037 (real, imaginary) = (319.395037, 0.000000)
+ (XX (132.632569 , 0.000000), YY (49.342902 , 0.000000), ZZ (137.419566 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 3/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 175.622420 (real, imaginary) = (175.622420, 0.000000)
+ (XX (67.180816 , 0.000000), YY (27.769573 , 0.000000), ZZ (80.672031 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 4/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 157.124500 (real, imaginary) = (157.124500, 0.000000)
+ (XX (55.488788 , 0.000000), YY (24.043429 , 0.000000), ZZ (77.592282 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 5/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 160.331301 (real, imaginary) = (160.331301, 0.000000)
+ (XX (56.590249 , 0.000000), YY (24.102102 , 0.000000), ZZ (79.638950 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 6/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 131.254536 (real, imaginary) = (131.254536, 0.000000)
+ (XX (45.964462 , 0.000000), YY (20.547582 , 0.000000), ZZ (64.742492 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 7/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 122.816867 (real, imaginary) = (122.816867, 0.000000)
+ (XX (41.981170 , 0.000000), YY (19.261225 , 0.000000), ZZ (61.574472 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 8/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 338.779559 (real, imaginary) = (338.779559, 0.000000)
+ (XX (187.110215 , 0.000000), YY (67.497971 , 0.000000), ZZ (84.171374 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 9/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 339.325167 (real, imaginary) = (339.325167, 0.000000)
+ (XX (187.397727 , 0.000000), YY (67.593127 , 0.000000), ZZ (84.334314 , 0.000000))
+
+ Excited state properties for EOMEA-CCSD transition 10/B2g
+ Dipole moment (a.u.): (real, imaginary) = (0.000000 , -0.000000)
+ (X (0.000000 , -0.000000), Y (0.000000 , -0.000000), Z (0.000000 , -0.000000))
+ R-squared (a.u.): 247.747495 (real, imaginary) = (247.747495, 0.000000)
+ (XX (132.523917 , 0.000000), YY (49.311808 , 0.000000), ZZ (65.911771 , 0.000000))
+
+ Full complex-valued CS/CAP EOMEA-CCSD calculation:   CPU 2041.95 s  wall 311.11 s
+
+Starting Perturbative CAP calculation.
+Solving for CAP-EOM-CCSD B2g transitions.
+Generating CAP matrix for 6 roots.
+Computing TDMs...
+done.
+CAP matrix:
+-225.3757358863 99.5122703402 28.0115182387 -15.4788377649 -3.4426644056 16.4933494028
+99.5122703402 -138.1206004267 -67.7784163569 43.7003422704 -2.5066445435 -23.2728020852
+28.0115182387 -67.7784163569 -58.8819442516 50.2718303488 -14.0139506984 -27.3765394402
+-15.4788377649 43.7003422704 50.2718303488 -50.6536070224 25.7051240748 26.4835314189
+-3.4426644056 -2.5066445435 -14.0139506984 25.7051240748 -41.2987096851 -2.8942614532
+16.4933494028 -23.2728020852 -27.3765394402 26.4835314189 -2.8942614532 -27.3718248623
+Zeroth order hamiltonian:
+-109.3461661374 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+0.0000000000 -109.3181624577 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+0.0000000000 0.0000000000 -109.2803192733 0.0000000000 0.0000000000 0.0000000000
+0.0000000000 0.0000000000 0.0000000000 -109.2555748807 0.0000000000 0.0000000000
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 -109.2070021901 0.0000000000
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 -109.1451611915
+Trajectory will be saved to /scratch/gayverjr/202030.785258835.saved/B2g_traj.out
+Properties will be saved to /scratch/gayverjr/202030.785258835.saved/B2g_prop.out
+Done with B2g states.
+B2g trajectory ran in: 1392.6744533350 s
+ Total ccman2 time:   CPU 14554.48 s  wall 1887.76 s
+ 
+
+
+
+
+ --------------------------------------------------------------
+             Orbital Energies (a.u.) and Symmetries
+ --------------------------------------------------------------
+
+ Alpha MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.634  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.007   0.009   0.012   0.012   0.016   0.016   0.018   0.029
+  4 Ag    3 B1u   2 B3u   2 B2u   1 B2g   1 B3g   5 Ag    4 B1u                
+  0.034   0.041   0.041   0.045   0.045   0.052   0.053   0.053
+  6 Ag    3 B3u   3 B2u   2 B2g   2 B3g   7 Ag    8 Ag    1 B1g                
+  0.065   0.072   0.072   0.072   0.073   0.073   0.087   0.089
+  5 B1u   1 Au    6 B1u   7 B1u   4 B3u   4 B2u   9 Ag    3 B2g                
+  0.089   0.104   0.104   0.119   0.128   0.132   0.132   0.154
+  3 B3g   5 B3u   5 B2u  10 Ag    8 B1u   4 B2g   4 B3g  11 Ag                 
+  0.155   0.155   0.167   0.167   0.192   0.193   0.193   0.198
+ 12 Ag    2 B1g   5 B2g   5 B3g   9 B1u   2 Au   10 B1u   6 B3u                
+  0.198   0.209   0.226   0.226   0.243   0.255   0.255   0.285
+  6 B2u  13 Ag    6 B2g   6 B3g  11 B1u   7 B3u   7 B2u  14 Ag                 
+  0.330   0.333   0.333   0.348   0.348   0.415   0.427   0.427
+ 15 Ag    7 B2g   7 B3g  16 Ag    3 B1g  12 B1u   3 Au   13 B1u                
+  0.448   0.448   0.465   0.529   0.531   0.531   0.661   0.714
+  8 B3u   8 B2u  14 B1u  17 Ag    8 B2g   8 B3g  18 Ag   19 Ag                 
+  0.714   0.727   0.727   0.777   0.879   0.879   0.905   0.911
+  4 B1g   9 B3u   9 B2u  15 B1u   4 Au   16 B1u  17 B1u   9 B2g                
+  0.911   1.001   1.001   1.041   1.097   1.097   1.244   1.372
+  9 B3g  10 B3u  10 B2u  20 Ag   10 B2g  10 B3g  18 B1u  11 B2u                
+  1.372   1.473   1.577   1.577   1.656   1.656   1.720   1.720
+ 11 B3u  21 Ag   22 Ag    5 B1g  12 B3u  12 B2u  11 B3g  11 B2g                
+  1.749   1.749   1.803   1.812   1.812   1.838   1.958   1.958
+  6 B1g  23 Ag   24 Ag   19 B1u   5 Au   20 B1u  12 B2g  12 B3g                
+  2.082   2.195   2.195   2.325   2.325   2.476   2.476   2.802
+ 21 B1u  13 B3u  13 B2u  22 B1u   6 Au   13 B2g  13 B3g  23 B1u                
+  2.988   3.464   3.464   4.056   4.437   4.437   4.464   4.464
+ 25 Ag   14 B3u  14 B2u  26 Ag   14 B2g  14 B3g   7 B1g  27 Ag                 
+  4.557   4.557   4.661   4.661   4.721   4.755   5.043   5.043
+ 15 B3u  15 B2u  16 B3u  16 B2u  24 B1u  28 Ag   15 B2g  15 B3g                
+  5.215   5.215   5.269   5.269   5.294   5.446   5.446   5.689
+  8 B1g  29 Ag    7 Au   25 B1u  26 B1u  16 B2g  16 B3g  17 B3u                
+  5.689   5.774   5.774   6.765   6.801   6.923   6.923  12.370
+ 17 B2u  27 B1u   8 Au   30 Ag   28 B1u  17 B2g  17 B3g  31 Ag                 
+ 19.692
+ 29 B1u                                                                        
+
+ Beta MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.634  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.007   0.009   0.012   0.012   0.016   0.016   0.018   0.029
+  4 Ag    3 B1u   2 B3u   2 B2u   1 B2g   1 B3g   5 Ag    4 B1u                
+  0.034   0.041   0.041   0.045   0.045   0.052   0.053   0.053
+  6 Ag    3 B3u   3 B2u   2 B2g   2 B3g   7 Ag    8 Ag    1 B1g                
+  0.065   0.072   0.072   0.072   0.073   0.073   0.087   0.089
+  5 B1u   1 Au    6 B1u   7 B1u   4 B3u   4 B2u   9 Ag    3 B2g                
+  0.089   0.104   0.104   0.119   0.128   0.132   0.132   0.154
+  3 B3g   5 B3u   5 B2u  10 Ag    8 B1u   4 B2g   4 B3g  11 Ag                 
+  0.155   0.155   0.167   0.167   0.192   0.193   0.193   0.198
+ 12 Ag    2 B1g   5 B2g   5 B3g   9 B1u   2 Au   10 B1u   6 B3u                
+  0.198   0.209   0.226   0.226   0.243   0.255   0.255   0.285
+  6 B2u  13 Ag    6 B2g   6 B3g  11 B1u   7 B3u   7 B2u  14 Ag                 
+  0.330   0.333   0.333   0.348   0.348   0.415   0.427   0.427
+ 15 Ag    7 B2g   7 B3g  16 Ag    3 B1g  12 B1u   3 Au   13 B1u                
+  0.448   0.448   0.465   0.529   0.531   0.531   0.661   0.714
+  8 B3u   8 B2u  14 B1u  17 Ag    8 B2g   8 B3g  18 Ag   19 Ag                 
+  0.714   0.727   0.727   0.777   0.879   0.879   0.905   0.911
+  4 B1g   9 B3u   9 B2u  15 B1u   4 Au   16 B1u  17 B1u   9 B2g                
+  0.911   1.001   1.001   1.041   1.097   1.097   1.244   1.372
+  9 B3g  10 B3u  10 B2u  20 Ag   10 B2g  10 B3g  18 B1u  11 B2u                
+  1.372   1.473   1.577   1.577   1.656   1.656   1.720   1.720
+ 11 B3u  21 Ag   22 Ag    5 B1g  12 B3u  12 B2u  11 B3g  11 B2g                
+  1.749   1.749   1.803   1.812   1.812   1.838   1.958   1.958
+  6 B1g  23 Ag   24 Ag   19 B1u   5 Au   20 B1u  12 B2g  12 B3g                
+  2.082   2.195   2.195   2.325   2.325   2.476   2.476   2.802
+ 21 B1u  13 B3u  13 B2u  22 B1u   6 Au   13 B2g  13 B3g  23 B1u                
+  2.988   3.464   3.464   4.056   4.437   4.437   4.464   4.464
+ 25 Ag   14 B3u  14 B2u  26 Ag   14 B2g  14 B3g   7 B1g  27 Ag                 
+  4.557   4.557   4.661   4.661   4.721   4.755   5.043   5.043
+ 15 B3u  15 B2u  16 B3u  16 B2u  24 B1u  28 Ag   15 B2g  15 B3g                
+  5.215   5.215   5.269   5.269   5.294   5.446   5.446   5.689
+  8 B1g  29 Ag    7 Au   25 B1u  26 B1u  16 B2g  16 B3g  17 B3u                
+  5.689   5.774   5.774   6.765   6.801   6.923   6.923  12.370
+ 17 B2u  27 B1u   8 Au   30 Ag   28 B1u  17 B2g  17 B3g  31 Ag                 
+ 19.692
+ 29 B1u                                                                        
+ --------------------------------------------------------------
+
+          Ground-State Mulliken Net Atomic Charges
+
+     Atom                 Charge (a.u.)
+  ----------------------------------------
+      1 N                    -0.000000
+      2 N                     0.000000
+  ----------------------------------------
+  Sum of atomic charges =     0.000000
+
+ -----------------------------------------------------------------
+                    Cartesian Multipole Moments
+ -----------------------------------------------------------------
+    Charge (ESU x 10^10)
+                -0.0000
+    Dipole Moment (Debye)
+         X       0.0000      Y       0.0000      Z       0.0000
+       Tot       0.0000
+    Quadrupole Moments (Debye-Ang)
+        XX     -10.3981     XY       0.0000     YY     -10.3981
+        XZ       0.0000     YZ      -0.0000     ZZ     -11.6406
+    Octopole Moments (Debye-Ang^2)
+       XXX       0.0000    XXY       0.0000    XYY       0.0000
+       YYY       0.0000    XXZ       0.0000    XYZ       0.0000
+       YYZ       0.0000    XZZ       0.0000    YZZ       0.0000
+       ZZZ       0.0000
+    Hexadecapole Moments (Debye-Ang^3)
+      XXXX      -9.3712   XXXY       0.0000   XXYY      -3.1237
+      XYYY       0.0000   YYYY      -9.3712   XXXZ       0.0000
+      XXYZ      -0.0000   XYYZ       0.0000   YYYZ      -0.0000
+      XXZZ      -6.3448   XYZZ       0.0000   YYZZ      -6.3448
+      XZZZ       0.0000   YZZZ      -0.0000   ZZZZ     -31.5497
+ -----------------------------------------------------------------
+Archival summary:
+1\1\node12\SP\ProcedureUnspecified\BasisUnspecified\2\gayverjr\FriMar1302:08:282020FriMar1302:08:282020\0\\#,ProcedureUnspecified,BasisUnspecified,\\0,1\N\N,1,1.09751\\HF=-108.984938\\@
+
+ Total job time:  1958.19s(wall), 14654.57s(cpu) 
+ Fri Mar 13 02:08:28 2020
+
+        *************************************************************
+        *                                                           *
+        *  Thank you very much for using Q-Chem.  Have a nice day.  *
+        *                                                           *
+        *************************************************************
+
+
