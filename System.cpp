@@ -7,6 +7,7 @@
 #include "System.h"
 #include "BasisSet.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -14,96 +15,172 @@
 #include <string>
 #include <map>
 #include <list>
+#include <armadillo>
+#include "Atom.h"
+#include "read_qchem_fchk.h"
+#include "numerical.h"
+#include "utils.h"
+#include "transforms.h"
+#include "molden_transform.h"
+#include "CAP.h"
+#include <cmath>
+#include <limits>
 
-System::System(std::string xyz_name,std::string basis_name)
+
+void System::compute_cap_correlated_basis()
 {
-	atoms = read_xyz(xyz_name);
-	charge = 0;
-	spin =0;
-	map<string,std::vector<Shell>>all_shells=readBasis(basis_name);
-	bs = BasisSet(atoms,all_shells);
+	arma::mat EOMCAP(nstates,nstates);
+	EOMCAP.zeros();
+    std::cout << std::fixed << std::setprecision(10);
+	for (size_t row_idx=0;row_idx<EOMCAP.n_rows;row_idx++)
+	{
+		for (size_t col_idx=0;col_idx<EOMCAP.n_cols;col_idx++)
+		{
+			EOMCAP(row_idx,col_idx) = arma::trace(alpha_dms[row_idx][col_idx]*AO_CAP_MAT)+
+									  arma::trace(beta_dms[row_idx][col_idx]*AO_CAP_MAT);
+			EOMCAP(row_idx,col_idx) = -1.0* EOMCAP(row_idx,col_idx);
+		}
+	}
+	CORRELATED_CAP_MAT = EOMCAP;
 }
 
-map<string,std::vector<Shell>> System::readBasis(string basis_name)
+void System::reorder_cap()
 {
-	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
-    map<string,std::vector<Shell>> basis_set;
-    std::ifstream is(basis_name);
-    if (is.good())
-    {
-      std::string line, rest;
-      while (std::getline(is, line) && line != "****") continue;
-      bool nextelement = true, nextshell = false;
-      std::string cur_element;
-      std::vector<Shell> shells;
-      // read lines till end
-      while (std::getline(is, line))
-      {
-        // skipping empties and starting with '!' (the comment delimiter)
-        if (line.empty() || line[0] == '!') continue;
-        if (line == "****")
-        {
-          if(!shells.empty())
-          {
-        	  basis_set[cur_element]=shells;
-          	  shells.clear();
-          }
-          nextelement = true;
-          nextshell = false;
-          continue;
-        }
-        if (nextelement)
-        {
-          nextelement = false;
-          std::istringstream iss(line);
-          iss >> cur_element >> rest;
-          transform(cur_element.begin(),cur_element.end(),cur_element.begin(),::toupper);
-          nextshell = true;
-          continue;
-        }
-        if (nextshell)
-        {
+	std::string pkg = parameters["package"];
+	if (pkg=="q-chem"||pkg=="qchem")
+		to_molden_ordering(AO_CAP_MAT, bs);
+	else
+	{
+		std::cout << "NYI" << std::endl;
+	}
+}
 
-          std::istringstream iss(line);
-          std::string shell_label;
-          std::size_t n_prims;
-          iss >> shell_label >> n_prims >> rest;
-          if (shell_label!="SP")
-          {
-				vector<double> exps,coeffs;
-				for (size_t i=0; i<n_prims; i++)
-				{
-				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
-				  std::istringstream iss(line);
-				  double exponent, coefficient;
-				  iss >> exponent >> coefficient;
-				  exps.push_back(exponent);
-				  coeffs.push_back(coefficient);
-				}
-				size_t angmom = shell2angmom[shell_label];
-				shells.push_back(Shell(angmom,true,exps,coeffs));
-          }
-          if (shell_label=="SP")
-          {
-				vector<double> exps, s_coeffs, p_coeffs;
-				for (size_t i=0; i<n_prims; i++)
-				{
-				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
-				  std::istringstream iss(line);
-				  double exponent, s_coeff, p_coeff;
-				  iss >> exponent >> s_coeff >> p_coeff;
-				  exps.push_back(exponent);
-				  s_coeffs.push_back(s_coeff);
-				  p_coeffs.push_back(p_coeff);
-				}
-				shells.push_back(Shell(0,true,exps,s_coeffs));
-				shells.push_back(Shell(1,true,exps,p_coeffs));
-          }
-        }
-      }
+void System::compute_cap_matrix()
+{
+	std::cout << "Calculating CAP matrix in AO basis...";
+	CAP cap_integrator(atoms,parameters);
+	arma::mat cap_mat(bs.num_carts(),bs.num_carts());
+	cap_mat.zeros();
+	auto start = std::chrono::high_resolution_clock::now();
+	cap_integrator.compute_cap_mat(cap_mat,bs);
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+	uniform_cart_norm(cap_mat,bs);
+	arma::mat cap_spherical(bs.Nbasis,bs.Nbasis);
+	cart2spherical(cap_mat,cap_spherical,bs);
+	AO_CAP_MAT = cap_spherical;
+	//re-order cap matrix based on electronic structure package dms came from
+	reorder_cap();
+	std::cout << "done." << std::endl;
+	compute_cap_correlated_basis();
+
 }
-    return basis_set;
+
+void System::ang_to_bohr()
+{
+	for (auto atm:atoms)
+		atm.ang_to_bohr();
 }
+
+bool System::check_overlap_matrix()
+{return true;}
+
+bool System::read_in_dms()
+{
+	stringstream ss(parameters["nstates"]);
+	size_t nstates;
+	ss >> nstates;
+	std::string dmat_filename = parameters["data_file"];
+	auto parsed_dms = qchem_read_in_dms(dmat_filename,nstates,bs.Nbasis);
+	alpha_dms = parsed_dms[0];
+	beta_dms = parsed_dms[1];
+	return true;
+}
+
+System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
+{
+	parameters=params;
+	std::cout << "Checking input file for required keywords...";
+	if(check_parameters())
+		std::cout << "ok." << std::endl;
+	else
+		return;
+	atoms = geometry;
+	if(parameters["bohr_coordinates"]=="false")
+		ang_to_bohr();
+	bs = BasisSet(atoms,parameters);
+	std::cout << "Checking overlap matrix...";
+	if (check_overlap_matrix())
+		std::cout << "ok." << std::endl;
+	stringstream ss(parameters["nstates"]);
+	ss >> nstates;
+	std::cout << "Reading in the density matrices... for " <<nstates << " states." << std::endl;
+	if (read_in_dms())
+		std::cout << "all set!" << std::endl;
+}
+
+bool System::verify_cap_parameters(std::string key)
+{
+	if(parameters[key]=="box" || parameters[key]=="1")
+	{
+		if(parameters.find("cap_x")==parameters.end())
+			return false;
+		if(parameters.find("cap_y")==parameters.end())
+			return false;
+		if (parameters.find("cap_z")==parameters.end())
+			return false;
+	}
+	else if (key=="voronoi" || key=="2")
+	{
+		if(parameters.find("r_cut")==parameters.end())
+			return false;
+	}
+	else
+		return false;
+	return true;
+}
+
+//check that requirements have been specified, and set optional params to their defaults
+bool System::check_parameters()
+{
+	std::map<std::string, std::string> defaults =
+	{{"bohr_coordinates", "false"}, {"radial_precision", "14"}, {"angular_points", "590"},{"cart_bf",""}};
+	std::vector<std::string> requirements = {"method","package","data_file","nstates","cap_type","basis_set"};
+	//first lets verify that all of our requirements are there
+	for (std::string key:requirements)
+	{
+		if (parameters.find(key)!=parameters.end())
+		{
+			if (key=="cap_type")
+			{
+				if(!verify_cap_parameters(key))
+					return false;
+			}
+			if (key=="basis_set" && parameters[key]=="gen")
+			{
+				if (parameters.find("basis_file")==parameters.end())
+				{
+					std::cout << "Need to specify a basis file when using gen basis." << std::endl;
+					return false;
+				}
+			}
+		}
+		else
+		{
+			std::cout << "Error: missing key \"" << key << "\""<< std::endl;
+			return false;
+		}
+	}
+	//now let's set optional parameters to their defaults if not specified
+	for (const auto &pair:defaults)
+	{
+		if(parameters.find(pair.first)==parameters.end())
+			parameters[pair.first]=pair.second;
+	}
+	return true;
+}
+
+/*
 std::vector<Atom> System::read_xyz(std::string xyz_name)
 {
 	ifstream xyzfile;
@@ -131,6 +208,5 @@ std::vector<Atom> System::read_xyz(std::string xyz_name)
 	    atoms.push_back(Atom(element_symbol,x,y,z));
 	}
 	return atoms;
-
-
 }
+*/
