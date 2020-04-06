@@ -8,7 +8,6 @@
 #include <armadillo>
 #include <numgrid.h>
 #include "utils.h"
-#include "CAP.h"
 
 
 double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell shell_b,
@@ -18,7 +17,7 @@ double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell sh
 	#pragma omp parallel for reduction(+:total_integral)
 	for(int i=0;i<num_points;i++)
 	{
-		double value= grid_w[i] * box_cap(3.,3.,5.).eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
+		double value=   grid_w[i] *
 						shell_a.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],a_cart[0],a_cart[1],a_cart[2]) *
 				        shell_b.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],b_cart[0],b_cart[1],b_cart[2]);
 		total_integral+=value;

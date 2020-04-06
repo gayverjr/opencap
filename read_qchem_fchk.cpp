@@ -80,9 +80,10 @@ size_t get_TDM_start(size_t nstates, size_t state_idx)
 //currently this is written for open shell systems which have alpha and beta densities
 std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf)
 {
+	std::cout << "Reading file:" << dmat_filename << std::endl;
 	std::vector<arma::mat> opdms;
 	//start with state density matrices, alpha and beta densities
-    std::ifstream is(dmat_filename);
+	std::ifstream is(dmat_filename);
     if (is.good())
     {
     	std::string line, rest;
@@ -94,8 +95,8 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 					//last part of line should be number of elements to read
 					size_t num_elements = stoi(split(line,' ').back());
 					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
-					std::cout << num_elements << " elements to read" << std::endl;
-					std::cout << "lines to read:" << lines_to_read << std::endl;
+					//std::cout << num_elements << " elements to read" << std::endl;
+					//std::cout << "lines to read:" << lines_to_read << std::endl;
 					std::vector<double> matrix_elements;
 					for (size_t k=1;k<=lines_to_read;k++)
 					{
@@ -108,7 +109,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 					}
 					arma::mat st_opdm(num_bf,num_bf);
 					st_opdm.zeros();
-					fill_LT(matrix_elements,st_opdm);
+					fill_mat(matrix_elements,st_opdm);
 					opdms.push_back(st_opdm);
 				}
 				else

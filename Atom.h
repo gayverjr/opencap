@@ -8,8 +8,8 @@ public:
 	std::string element;
 	int Z;
 	std::array<double,3> coords;
-	const double ANG_TO_BOHR = 1.88973;
 
 public:
+	void ang_to_bohr();
 	Atom(string symbol,double x,double y, double z);
 };
