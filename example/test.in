@@ -4,12 +4,12 @@ N  0  0   -1.039
 $end
 
 $system
-!bohr_coordinates false
+!bohr_coordinates true
 !cart_bf spdf
 method EOM-EA-CCSD
-package Q-Chem
-data_file example/re1.fchk
-!output_file example/re1.out
+package qchem
+fchk_file example/re1.fchk
+qc_output example/re1.out
 nstates 6
 basis_set gen
 basis_file example/big_bas.bas 
@@ -20,7 +20,7 @@ CAP_TYPE box
 CAP_X 3.0
 CAP_Y 3.0
 CAP_Z 5.0
-Radial_precision  14
+Radial_precision  10
 Angular_points    170
 $end
 

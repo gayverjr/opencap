@@ -19,22 +19,22 @@ BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 	cart_bf = parameters["cart_bf"];
 	//change cart_bf to upper case
     transform(cart_bf.begin(),cart_bf.end(),cart_bf.begin(),::toupper);
-	format = parameters["package"];
+	basis_name = parameters["basis_set"];
 	basis_file = parameters["basis_file"];
 }
 
 map<string,std::vector<Shell>> BasisSetParser::read_basis()
 {
-	if(format=="q-chem"||format=="qchem")
-		return read_qchem_format();
+	if(basis_name=="gen")
+		return read_basis_file(basis_file);
 	else
 	{
-		std::cout << "Anything except Q-Chem NYI" << std::endl;
+		std::cout << "Basis set library coming soon..." << std::endl;
 		return {};
 	}
 }
 
-map<string,std::vector<Shell>> BasisSetParser::read_qchem_format()
+map<string,std::vector<Shell>> BasisSetParser::read_basis_file(std::string basis_file)
 {
 	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
     map<string,std::vector<Shell>> basis_set;
@@ -67,7 +67,8 @@ map<string,std::vector<Shell>> BasisSetParser::read_qchem_format()
           nextelement = false;
           std::istringstream iss(line);
           iss >> cur_element >> rest;
-          transform(cur_element.begin(),cur_element.end(),cur_element.begin(),::toupper);
+          transform(cur_element.begin(),cur_element.end(),cur_element.begin(),::tolower);
+          cur_element[0] = toupper(cur_element[0]);
           nextshell = true;
           continue;
         }

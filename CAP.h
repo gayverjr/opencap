@@ -16,7 +16,7 @@
 class CAP
 {
 public:
-	size_t radial_precision;
+	double radial_precision;
 	size_t angular_points;
 	CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	std::string cap_type;

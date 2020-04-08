@@ -104,7 +104,6 @@ double CAP::num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, She
 		std::array<size_t,3> b_cart,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
-
 	double total_integral = 0.0;
 	for(int i=0;i<num_points;i++)
 	{
@@ -144,6 +143,12 @@ size_t CAP::get_mat_idx(size_t bf_idx, BasisSet bs)
 
 void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
 {
+	size_t num_of_blocks=0;
+	for (size_t i=0;i<bs.basis.size();i++)
+	{
+		for (size_t j=i;j<bs.basis.size();j++)
+			num_of_blocks++;
+	}
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
 	double z_coords_bohr[atoms.size()];
@@ -154,17 +159,20 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
 		y_coords_bohr[i]=atoms[i].coords[1];
 		z_coords_bohr[i]=atoms[i].coords[2];
 		nuc_charges[i]=atoms[i].Z;
+		if (atoms[i].symbol=="Gh")
+			nuc_charges[i]=1; //choose bragg radius for H for ghost atoms
 	}
-    double radial_precision = 1.0e-8;
+    //double radial_precision = radial_precision;
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
 	for(size_t i=0;i<atoms.size();i++)
 	{
+        std::cout << "Getting the grid for atom:" << i+1 << std::endl;
 		//allocate and create grid
 		context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,
 		                                 max_num_angular_points,
-		                                 atoms[i].Z,
+		                                 nuc_charges[i],
 		                                 bs.alpha_max(atoms[i]),
 		                                 bs.max_L(),
 		                                 &bs.alpha_min(atoms[i])[0]);
@@ -173,7 +181,6 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
         double *grid_y_bohr = new double[num_points];
         double *grid_z_bohr = new double[num_points];
         double *grid_w = new double[num_points];
-        std::cout << "Getting the grid for atom:" << i+1 << std::endl;
         numgrid_get_grid(  context,
                            atoms.size(),
                            i,
@@ -188,18 +195,21 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
 		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
 		std::cout << "Grid has " << num_points << " points." << std::endl;
 		#pragma omp parallel for collapse(2)
-		for(size_t i=0;i<bs.basis.size();i++)
+		for(size_t j=0;j<bs.basis.size();j++)
 		{
-			for(size_t j=0;j<bs.basis.size();j++)
+			for(size_t k=0;k<bs.basis.size();k++)
 			{
-				Shell shell1 = bs.basis[i];
-				Shell shell2= bs.basis[j];
-				size_t row_idx = get_mat_idx(i,bs);
-				size_t col_idx = get_mat_idx(j,bs);
-				//view to block of the matrix corresponding to these two pairs of basis functions
-				auto sub_mat = Smat.submat(row_idx,col_idx,
-						row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
-				num_overlap_block(shell1,shell2,sub_mat,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+				if (k>=j) //only need to do half of work, structured this way for openmp parallelism
+				{
+					Shell shell1 = bs.basis[j];
+					Shell shell2= bs.basis[k];
+					size_t row_idx = get_mat_idx(j,bs);
+					size_t col_idx = get_mat_idx(k,bs);
+					//view to block of the matrix corresponding to these two pairs of basis functions
+					auto sub_mat = Smat.submat(row_idx,col_idx,
+							row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
+					num_overlap_block(shell1,shell2,sub_mat,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+				}
 			}
 		}
         delete[] grid_x_bohr;
@@ -207,6 +217,12 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
         delete[] grid_z_bohr;
         delete[] grid_w;
         numgrid_free_atom_grid(context);
+	}
+	#pragma omp parallel for
+	for(size_t i=0;i<Smat.n_cols;i++)
+	{
+		for(size_t j=i;j<Smat.n_cols;j++)
+			Smat(j,i) = Smat(i,j);
 	}
 }
 

@@ -15,14 +15,14 @@ class BasisSetParser
 {
 public:
 	std::string cart_bf;
-	std::string format;
 	std::string basis_file;
+	std::string basis_name;
 	BasisSetParser(std::map<std::string, std::string> parameters);
 	map<string,std::vector<Shell>> read_basis();
 
 
 private:
-	map<string,std::vector<Shell>> read_qchem_format();
+	map<string,std::vector<Shell>> read_basis_file(std::string basis_file);
 
 };
 

@@ -39,6 +39,7 @@ private:
 	bool read_in_dms();
 	void compute_cap_correlated_basis();
 	void reorder_cap();
+	bool verify_method(std::string key);
 
 };
 
