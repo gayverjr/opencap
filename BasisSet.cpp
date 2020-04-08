@@ -57,7 +57,7 @@ void BasisSet::build_basis_set(std::vector<Atom> geometry,map<string,std::vector
 
 	for (Atom atm: geometry)
 	{
-		std::vector<Shell> my_shells = all_shells[atm.element];
+		std::vector<Shell> my_shells = all_shells[atm.symbol];
 		for(const auto&shell:my_shells)
 		{
 			auto new_shell = shell;

@@ -35,6 +35,8 @@ std::vector<std::vector<arma::mat>> readRassiHDF5(std::string dmat_filename)
     {
     	for(size_t j=0;j<i;j++)
     	{
+    		//set to 1/2, to use as separate alpha and beta densities later
+    		opdms[i][j]*=0.5;
     		opdms[i][j]= opdms[j][i];
     	}
     }

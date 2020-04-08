@@ -22,8 +22,9 @@
 
 void parse_system_info(std::string input_file,std::map<std::string,std::string> &parameters)
 {
-	std::vector<std::string> valid_fields = {"bohr_coordinates","cart_bf","package","method","data_file","nstates",
-											"basis_set","basis_file","output_file"};
+	std::vector<std::string> valid_fields = {"bohr_coordinates","cart_bf","package","method",
+											"nstates","basis_set","basis_file",
+											"fchk_file","qc_output","rassi_h5","energy_h5"};
 	std::vector<Atom> atoms;
 	std::ifstream is(input_file);
 	if (is.good())
@@ -128,7 +129,7 @@ std::vector<Atom> parse_geometry(std::string input_file)
 					std::string element_symbol;
 					double x, y, z;
 					iss >> element_symbol >> x >> y >> z;
-					transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::toupper);
+					transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::tolower);
 					atoms.push_back(Atom(element_symbol,x,y,z));
 			}
 		}
