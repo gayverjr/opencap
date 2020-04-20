@@ -24,7 +24,7 @@ void parse_system_info(std::string input_file,std::map<std::string,std::string> 
 {
 	std::vector<std::string> valid_fields = {"bohr_coordinates","cart_bf","package","method",
 											"nstates","basis_set","basis_file",
-											"fchk_file","qc_output","rassi_h5","energy_h5"};
+											"fchk_file","qc_output","rassi_h5","molcas_output"};
 	std::vector<Atom> atoms;
 	std::ifstream is(input_file);
 	if (is.good())

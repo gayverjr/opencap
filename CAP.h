@@ -25,17 +25,14 @@ public:
 	double cap_z;
 	double r_cut;
 	std::vector<Atom> atoms;
-	void compute_cap_mat(arma::mat &Smat, BasisSet bs);
+	void compute_cap_mat(arma::mat &cap_mat, BasisSet bs);
 
 private:
-	void num_overlap_block(Shell shell_a, Shell shell_b, arma::subview<double>&sub_mat,
-			double* grid_x_bohr,double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
-	double num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell shell_b,
-			std::array<size_t,3> b_cart,double* grid_x_bohr,double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
 	double eval_pot(double x, double y, double z);
 	double eval_box_cap(double x, double y, double z);
 	double eval_voronoi_cap(double x, double y, double z);
-	size_t get_mat_idx(size_t bf_idx, BasisSet bs);
+	void evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bohr,
+			double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
 };
 
 

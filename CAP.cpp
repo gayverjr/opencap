@@ -100,55 +100,8 @@ double CAP::eval_pot(double x, double y, double z)
 	return 0;
 }
 
-double CAP::num_overlap_integral(Shell shell_a, std::array<size_t,3> a_cart, Shell shell_b,
-		std::array<size_t,3> b_cart,double* grid_x_bohr,
-		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
+void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
 {
-	double total_integral = 0.0;
-	for(int i=0;i<num_points;i++)
-	{
-		double value= grid_w[i] * eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]) *
-						shell_a.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],a_cart[0],a_cart[1],a_cart[2]) *
-				        shell_b.evaluate(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i],b_cart[0],b_cart[1],b_cart[2]);
-		total_integral+=value;
-	}
-	return total_integral;
-}
-
-void CAP::num_overlap_block(Shell shell_a, Shell shell_b, arma::subview<double>&sub_mat,
-		double* grid_x_bohr,double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
-{
-	std::vector<std::array<size_t,3>> order_a = libcap_carts_ordering(shell_a);
-	std::vector<std::array<size_t,3>> order_b = libcap_carts_ordering(shell_b);
-	for(size_t i=0;i<shell_a.num_carts();i++)
-	{
-		for(size_t j=0;j<shell_b.num_carts();j++)
-		{
-			std::array<size_t,3> a_cart = order_a[i];
-			std::array<size_t,3> b_cart = order_b[j];
-			sub_mat(i,j) += num_overlap_integral(shell_a,a_cart, shell_b, b_cart,
-					grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
-		}
-	}
-
-}
-
-size_t CAP::get_mat_idx(size_t bf_idx, BasisSet bs)
-{
-	size_t mat_idx = 0;
-	for (size_t i=0;i<bf_idx;i++)
-		mat_idx += bs.basis[i].num_carts();
-	return mat_idx;
-}
-
-void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
-{
-	size_t num_of_blocks=0;
-	for (size_t i=0;i<bs.basis.size();i++)
-	{
-		for (size_t j=i;j<bs.basis.size();j++)
-			num_of_blocks++;
-	}
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
 	double z_coords_bohr[atoms.size()];
@@ -194,35 +147,44 @@ void CAP::compute_cap_mat(arma::mat &Smat, BasisSet bs)
                            grid_w);
 		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
 		std::cout << "Grid has " << num_points << " points." << std::endl;
-		#pragma omp parallel for collapse(2)
-		for(size_t j=0;j<bs.basis.size();j++)
+		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+	}
+}
+
+void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bohr,
+		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
+{
+	//pre-calculate cap matrix on grid
+	std::vector<float> cap_values (num_points);
+	for (size_t i=0;i<num_points;i++)
+		cap_values[i]= eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]);
+	std::vector<std::vector<float>> bf_values;
+	//pre-calculate basis functions on grid
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell my_shell = bs.basis[i];
+		std::vector<std::array<size_t,3>> order = libcap_carts_ordering(my_shell);
+		for(size_t j=0;j<my_shell.num_carts();j++)
 		{
-			for(size_t k=0;k<bs.basis.size();k++)
+			std::vector<float> vec(num_points);
+			std::array<size_t,3> cart = order[j];
+			for (size_t k=0;k<num_points;k++)
+				vec[k]= my_shell.evaluate(grid_x_bohr[k],grid_y_bohr[k],grid_z_bohr[k],cart[0],cart[1],cart[2]);
+			bf_values.push_back(vec);
+		}
+	}
+    //now lets evaluate
+	for (size_t i=0;i<bs.num_carts();i++)
+	{
+		for(size_t j=i;j<bs.num_carts();j++)
+		{
+			for(size_t k=0;k<num_points;k++)
 			{
-				if (k>=j) //only need to do half of work, structured this way for openmp parallelism
-				{
-					Shell shell1 = bs.basis[j];
-					Shell shell2= bs.basis[k];
-					size_t row_idx = get_mat_idx(j,bs);
-					size_t col_idx = get_mat_idx(k,bs);
-					//view to block of the matrix corresponding to these two pairs of basis functions
-					auto sub_mat = Smat.submat(row_idx,col_idx,
-							row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
-					num_overlap_block(shell1,shell2,sub_mat,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
-				}
+				cap_mat(i,j)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
+				if (j!=i)
+					cap_mat(j,i)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
 			}
 		}
-        delete[] grid_x_bohr;
-        delete[] grid_y_bohr;
-        delete[] grid_z_bohr;
-        delete[] grid_w;
-        numgrid_free_atom_grid(context);
-	}
-	#pragma omp parallel for
-	for(size_t i=0;i<Smat.n_cols;i++)
-	{
-		for(size_t j=i;j<Smat.n_cols;j++)
-			Smat(j,i) = Smat(i,j);
 	}
 }
 

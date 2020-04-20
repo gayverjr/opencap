@@ -88,7 +88,7 @@ H_0 = np.reshape(H_0,(num_roots,num_roots))
 
 
 guess=3
-eta_list = np.linspace(0,2000,501)
+eta_list = np.linspace(0,8000,101)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):

@@ -8,6 +8,6 @@
 #ifndef READMOLCASHDF5_H_
 #define READMOLCASHDF5_H_
 
-std::vector<std::vector<arma::mat>> readRassiHDF5(std::string dmat_filename);
+std::array<std::vector<std::vector<arma::mat>>,2> read_rassi_HDF5(std::string dmat_filename);
 
 #endif /* READMOLCASHDF5_H_ */
