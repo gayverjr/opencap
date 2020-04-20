@@ -25,7 +25,7 @@ public:
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	arma::mat AO_CAP_MAT;
 	arma::mat CORRELATED_CAP_MAT;
-	std::vector<double> ES_energies;
+	arma::mat ZERO_ORDER_H;
 	std::vector<std::vector<arma::mat>> alpha_dms;
 	std::vector<std::vector<arma::mat>> beta_dms;
 	size_t nstates;
@@ -40,6 +40,9 @@ private:
 	void compute_cap_correlated_basis();
 	void reorder_cap();
 	bool verify_method(std::string key);
+	bool read_in_zero_order_H();
+	bool read_qchem_energies();
+	bool read_molcas_Heff();
 
 };
 

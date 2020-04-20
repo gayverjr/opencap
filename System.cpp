@@ -39,8 +39,8 @@ void System::compute_cap_correlated_basis()
 	{
 		for (size_t col_idx=0;col_idx<EOMCAP.n_cols;col_idx++)
 		{
-			EOMCAP(row_idx,col_idx) = arma::trace(alpha_dms[row_idx][col_idx]*AO_CAP_MAT)+
-									  arma::trace(beta_dms[row_idx][col_idx]*AO_CAP_MAT);
+			EOMCAP(row_idx,col_idx) =  arma::trace(alpha_dms[row_idx][col_idx]*AO_CAP_MAT)+
+									   arma::trace(beta_dms[row_idx][col_idx]*AO_CAP_MAT);
 			EOMCAP(row_idx,col_idx) = -1.0* EOMCAP(row_idx,col_idx);
 		}
 	}
@@ -49,19 +49,13 @@ void System::compute_cap_correlated_basis()
 
 void System::reorder_cap()
 {
-	std::cout << "Ok I'm reordering now" << std::endl;
 	std::string pkg = parameters["package"];
 	if (pkg=="q-chem"||pkg=="qchem")
 		to_molden_ordering(AO_CAP_MAT, bs);
 	else if(pkg=="molcas")
-	{
 		to_molcas_ordering(AO_CAP_MAT,bs,atoms);
-	}
 	else
-	{
 		std::cout << "Other things coming soon!" << std::endl;
-	}
-	std::cout << "Finished re-ordering." << std::endl;
 }
 
 void System::compute_cap_matrix()
@@ -80,7 +74,6 @@ void System::compute_cap_matrix()
 	AO_CAP_MAT = cap_spherical;
 	//re-order cap matrix based on electronic structure package dms came from
 	reorder_cap();
-	std::cout << "done." << std::endl;
 	compute_cap_correlated_basis();
 
 }
@@ -133,12 +126,13 @@ bool System::check_overlap_matrix()
 		arma::mat overlap_mat;
 		overlap_mat.load(arma::hdf5_name(parameters["rassi_h5"], "AO_OVERLAP_MATRIX"));
 		overlap_mat.reshape(sqrt(overlap_mat.n_cols),sqrt(overlap_mat.n_cols));
+	    std::cout << std::fixed << std::setprecision(10);
 		bool conflicts = false;
 		for (size_t i=0;i<overlap_mat.n_rows;i++)
 		{
 			for(size_t j=0;j<overlap_mat.n_cols;j++)
 			{
-				if (abs(overlap_mat(i,j)-spherical_ints(i,j))>1E-5)
+				if (abs(overlap_mat(i,j)-spherical_ints(i,j))>1E-12)
 				{
 					std::cout << "Conflict at:" << i << "," << j << std::endl;
 					std::cout << "Molcas says:" << overlap_mat(i,j) << std::endl;
@@ -176,13 +170,61 @@ bool System::read_in_dms()
 	}
 	else if (parameters["package"]=="molcas")
 	{
-		auto parsed_dms = readRassiHDF5(parameters["rassi_h5"]);
-		alpha_dms = parsed_dms;
-		beta_dms = parsed_dms;
+		auto parsed_dms = read_rassi_HDF5(parameters["rassi_h5"]);
+		alpha_dms = parsed_dms[0];
+		beta_dms = parsed_dms[1];
 		return true;
 	}
 	else
 		std::cout << "Only q-chem and molcas are supported." << std::endl;
+	return false;
+
+}
+
+bool System::read_molcas_Heff()
+{
+	return true;
+}
+
+bool System::read_qchem_energies()
+{
+	ZERO_ORDER_H = arma::mat(nstates,nstates);
+	ZERO_ORDER_H.zeros();
+	std::string method = parameters["method"];
+	transform(method.begin(),method.end(),method.begin(),::toupper);
+	std::cout << "Reading file:" << parameters["qc_output"] << std::endl;
+	std::ifstream is(parameters["qc_output"]);
+    if (is.good())
+    {
+    	std::string line, rest;
+    	std::getline(is, line);
+    	size_t state_idx = 1;
+    	while (state_idx<=nstates)
+    	{
+    		std::string line_to_find = method +" transition " + std::to_string(state_idx);
+    		if (line.find(line_to_find)!= std::string::npos)
+    		{
+				std::getline(is,line);
+				ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
+				state_idx++;
+    		}
+    		else
+    			std::getline(is,line);
+    	}
+    }
+    std::cout << "Printing Zeroth Order Hamiltonian" << std::endl;
+    ZERO_ORDER_H.raw_print();
+    return false;
+}
+
+bool System::read_in_zero_order_H()
+{
+	if (parameters["package"]=="qchem")
+		return read_qchem_energies();
+	else if (parameters["package"]=="molcas")
+		return read_molcas_Heff();
+	else
+		std::cout << "Only q-chem and molcas formats are supported." << std::endl;
 	return false;
 
 }
@@ -207,6 +249,8 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 	std::cout << "Reading in the density matrices... for " <<nstates << " states." << std::endl;
 	if (read_in_dms())
 		std::cout << "all set!" << std::endl;
+	if (read_in_zero_order_H())
+		std::cout << "Successfully read in zeroth order Hamiltonian." << std::endl;
 }
 
 bool System::verify_cap_parameters(std::string key)
@@ -241,7 +285,7 @@ bool System::verify_method(std::string key)
 	std::string method = parameters["method"];
 	if (package_name=="qchem"||package_name=="q-chem")
 	{
-		std::vector<std::string> supported = {"eom-ea-ccsd","eom-ee-ccsd","eom-ip-ccsd"};
+		std::vector<std::string> supported = {"eomea","eomee","eomip"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 		{
 			std::cout << "Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom-ea-ccsd','eom-ee-ccsd','eom-ip-ccsd'."<< std::endl;
@@ -261,7 +305,7 @@ bool System::verify_method(std::string key)
 	}
 	else if(package_name=="molcas")
 	{
-		std::vector<std::string> supported = {"rasscf","dmrgscf","caspt2","nevpt2"};
+		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","qd-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 		{
 			std::cout << "Error: unsupported Molcas method. OpenCAP currently supports: 'dmrgscf','nevpt2','caspt2','rasscf'."<< std::endl;
@@ -272,9 +316,9 @@ bool System::verify_method(std::string key)
 			std::cout << "Error: missing keyword: rassi_h5." << std::endl;
 			return false;
 		}
-		if (parameters.find("energy_h5")==parameters.end())
+		if (parameters.find("molcas_output")==parameters.end())
 		{
-			std::cout << "Error: missing keyword: energy_h5" << std::endl;
+			std::cout << "Error: missing keyword: molcas_output" << std::endl;
 			return false;
 		}
 		return true;
