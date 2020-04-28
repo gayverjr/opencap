@@ -9,13 +9,27 @@
 #include "Shell.h"
 #include <array>
 #include <limits>
-using namespace std;
+#include <iostream>
+#include "BasisSetParser.h"
+
+BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters)
+{
+	//TODO don't assume there's a basis name
+	std::string basis_name = parameters["basis_file"];
+	std::string cart_bf = parameters["cart_bf"];
+	BasisSetParser parser (parameters);
+	build_basis_set(geometry,parser.read_basis());
+	Nshells = basis.size();
+	Nbasis = calc_basis_size();
+	std::cout << "Nbasis:" << Nbasis << std::endl;
+	name = "gen";
+}
 
 BasisSet::BasisSet()
 {
-	name = "No basis specified";
-	Nshells = 0;
-	Nbasis  = 0;
+	Nshells=0;
+	Nbasis=0;
+	name="undefined";
 }
 
 size_t BasisSet::calc_basis_size()
@@ -38,12 +52,12 @@ size_t BasisSet::num_carts()
 	return num_carts;
 }
 
-BasisSet::BasisSet(std::vector<Atom> geometry,map<string,std::vector<Shell>> all_shells)
+void BasisSet::build_basis_set(std::vector<Atom> geometry,map<string,std::vector<Shell>> all_shells)
 {
 
 	for (Atom atm: geometry)
 	{
-		std::vector<Shell> my_shells = all_shells[atm.element];
+		std::vector<Shell> my_shells = all_shells[atm.symbol];
 		for(const auto&shell:my_shells)
 		{
 			auto new_shell = shell;
