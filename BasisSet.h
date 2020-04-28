@@ -16,7 +16,7 @@ public:
 	BasisSet();
 	BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters);
 	size_t num_carts();
-	size_t max_L();
+	int max_L();
 	std::vector<double> alpha_min(Atom atm);
 	double alpha_max(Atom atm);
 private:

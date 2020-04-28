@@ -156,7 +156,8 @@ void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bo
 {
 	//pre-calculate cap matrix on grid
 	std::vector<float> cap_values (num_points);
-	for (size_t i=0;i<num_points;i++)
+	#pragma omp parallel for
+	for (int i=0;i<num_points;i++)
 		cap_values[i]= eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]);
 	std::vector<std::vector<float>> bf_values;
 	//pre-calculate basis functions on grid
@@ -168,7 +169,8 @@ void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bo
 		{
 			std::vector<float> vec(num_points);
 			std::array<size_t,3> cart = order[j];
-			for (size_t k=0;k<num_points;k++)
+			#pragma omp parallel for
+			for (int k=0;k<num_points;k++)
 				vec[k]= my_shell.evaluate(grid_x_bohr[k],grid_y_bohr[k],grid_z_bohr[k],cart[0],cart[1],cart[2]);
 			bf_values.push_back(vec);
 		}
@@ -178,7 +180,7 @@ void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bo
 	{
 		for(size_t j=i;j<bs.num_carts();j++)
 		{
-			for(size_t k=0;k<num_points;k++)
+			for(int k=0;k<num_points;k++)
 			{
 				cap_mat(i,j)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
 				if (j!=i)
