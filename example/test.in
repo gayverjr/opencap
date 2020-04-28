@@ -12,7 +12,7 @@ fchk_file example/re1.fchk
 qc_output example/re1.out
 nstates 6
 basis_set gen
-basis_file example/big_bas.bas 
+basis_file example/qchem_bas.bas 
 $end
 
 $cap_parameters

@@ -18,12 +18,10 @@
 #include <armadillo>
 #include "Atom.h"
 #include "read_qchem_fchk.h"
-#include "numerical.h"
 #include "utils.h"
 #include "transforms.h"
-#include "molden_transform.h"
-#include "molcas_transform.h"
-#include "readMolcasHDF5.h"
+#include "gto_ordering.h"
+#include "read_rassi_h5.h"
 #include "CAP.h"
 #include "overlap.h"
 #include <cmath>
@@ -92,6 +90,7 @@ bool System::check_overlap_matrix()
 	uniform_cart_norm(Smat,bs);
 	arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
+	OVERLAP_MAT = spherical_ints;
 	if (parameters["package"]=="qchem")
 	{
 		to_molden_ordering(spherical_ints, bs);
@@ -123,9 +122,7 @@ bool System::check_overlap_matrix()
 	else if (parameters["package"]=="molcas")
 	{
 		to_molcas_ordering(spherical_ints,bs,atoms);
-		arma::mat overlap_mat;
-		overlap_mat.load(arma::hdf5_name(parameters["rassi_h5"], "AO_OVERLAP_MATRIX"));
-		overlap_mat.reshape(sqrt(overlap_mat.n_cols),sqrt(overlap_mat.n_cols));
+		arma::mat overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
 	    std::cout << std::fixed << std::setprecision(10);
 		bool conflicts = false;
 		for (size_t i=0;i<overlap_mat.n_rows;i++)
@@ -170,7 +167,7 @@ bool System::read_in_dms()
 	}
 	else if (parameters["package"]=="molcas")
 	{
-		auto parsed_dms = read_rassi_HDF5(parameters["rassi_h5"]);
+		auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"]);
 		alpha_dms = parsed_dms[0];
 		beta_dms = parsed_dms[1];
 		return true;
@@ -181,48 +178,54 @@ bool System::read_in_dms()
 
 }
 
-bool System::read_molcas_Heff()
+arma::mat System::read_h0_file()
 {
-	return true;
-}
-
-bool System::read_qchem_energies()
-{
-	ZERO_ORDER_H = arma::mat(nstates,nstates);
-	ZERO_ORDER_H.zeros();
-	std::string method = parameters["method"];
-	transform(method.begin(),method.end(),method.begin(),::toupper);
-	std::cout << "Reading file:" << parameters["qc_output"] << std::endl;
-	std::ifstream is(parameters["qc_output"]);
-    if (is.good())
-    {
-    	std::string line, rest;
-    	std::getline(is, line);
-    	size_t state_idx = 1;
-    	while (state_idx<=nstates)
-    	{
-    		std::string line_to_find = method +" transition " + std::to_string(state_idx);
-    		if (line.find(line_to_find)!= std::string::npos)
-    		{
+	arma::mat h0(nstates,nstates);
+	h0.zeros();
+	std::ifstream is(parameters["h0_file"]);
+	if (is.good())
+	{
+		//first line should be diagonal or full
+		std::string line;
+		std::getline(is,line);
+		std::string mat_type = line;
+		std::transform(mat_type.begin(), mat_type.end(), mat_type.begin(), ::tolower);
+		if (mat_type=="diagonal")
+		{
+			for(size_t i=0;i<nstates;i++)
+			{
 				std::getline(is,line);
-				ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
-				state_idx++;
-    		}
-    		else
-    			std::getline(is,line);
-    	}
-    }
-    std::cout << "Printing Zeroth Order Hamiltonian" << std::endl;
-    ZERO_ORDER_H.raw_print();
-    return false;
+				h0(i,i)=std::stod(line);
+			}
+		}
+		else if (mat_type=="full")
+		{
+			for (size_t i=0;i<nstates;i++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				for(size_t j=0;j<nstates;j++)
+				{
+					h0(i,j)=std::stod(tokens[j]);
+				}
+			}
+		}
+		else
+		{
+			return h0;
+		}
+	}
+	return h0;
 }
 
 bool System::read_in_zero_order_H()
 {
-	if (parameters["package"]=="qchem")
-		return read_qchem_energies();
+	if (parameters.find("h0_file")!=parameters.end())
+		ZERO_ORDER_H = read_h0_file();
+	else if (parameters["package"]=="qchem")
+		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qc_output"]);
 	else if (parameters["package"]=="molcas")
-		return read_molcas_Heff();
+		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
 	else
 		std::cout << "Only q-chem and molcas formats are supported." << std::endl;
 	return false;
@@ -264,7 +267,7 @@ bool System::verify_cap_parameters(std::string key)
 		if (parameters.find("cap_z")==parameters.end())
 			return false;
 	}
-	else if (key=="voronoi" || key=="2")
+	else if (key=="voronoi")
 	{
 		if(parameters.find("r_cut")==parameters.end())
 			return false;
@@ -283,7 +286,7 @@ bool System::verify_method(std::string key)
 		return false;
 	}
 	std::string method = parameters["method"];
-	if (package_name=="qchem"||package_name=="q-chem")
+	if (package_name=="qchem")
 	{
 		std::vector<std::string> supported = {"eomea","eomee","eomip"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
@@ -296,16 +299,16 @@ bool System::verify_method(std::string key)
 			std::cout << "Error: missing keyword: fchk_file." << std::endl;
 			return false;
 		}
-		if (parameters.find("qc_output")==parameters.end())
+		if (parameters.find("qc_output")==parameters.end() && parameters.find("h0_file")==parameters.end())
 		{
-			std::cout << "Error: missing keyword: qc_output" << std::endl;
+			std::cout << "Error: Need to specify H0 Hamiltonian via \"qc_output\" or \"h0_file\" fields." << std::endl;
 			return false;
 		}
 		return true;
 	}
 	else if(package_name=="molcas")
 	{
-		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","qd-nevpt2"};
+		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 		{
 			std::cout << "Error: unsupported Molcas method. OpenCAP currently supports: 'dmrgscf','nevpt2','caspt2','rasscf'."<< std::endl;
@@ -316,9 +319,9 @@ bool System::verify_method(std::string key)
 			std::cout << "Error: missing keyword: rassi_h5." << std::endl;
 			return false;
 		}
-		if (parameters.find("molcas_output")==parameters.end())
+		if (parameters.find("molcas_output")==parameters.end() && parameters.find("h0_file")==parameters.end())
 		{
-			std::cout << "Error: missing keyword: molcas_output" << std::endl;
+			std::cout << "Error: Need to specify H0 Hamiltonian via \"molcas_output\" or \"h0_file\" fields." << std::endl;
 			return false;
 		}
 		return true;
@@ -356,8 +359,8 @@ bool System::check_parameters()
 			}
 			else if(key=="package")
 			{
-				if(!verify_method(key))
-					return false;
+				if (parameters.find("h0_file")==parameters.end())
+					return verify_method(key);
 			}
 		}
 		else
@@ -374,34 +377,3 @@ bool System::check_parameters()
 	}
 	return true;
 }
-
-/*
-std::vector<Atom> System::read_xyz(std::string xyz_name)
-{
-	ifstream xyzfile;
-	xyzfile.open(xyz_name);
-	//read in number of atoms
-	size_t natom;
-	xyzfile >> natom;
-	std::string rest_of_line;
-	std::getline(xyzfile, rest_of_line);
-	//read in comment
-	std::string comment;
-	std::getline(xyzfile, comment);
-	//now the coordinates
-	std::vector<Atom> atoms;
-	for (size_t i=0;i<natom;i++)
-	{
-	    // read line
-	    std::string linestr;
-	    std::getline(xyzfile, linestr);
-	    std::istringstream iss(linestr);
-	    std::string element_symbol;
-	    double x, y, z;
-	    iss >> element_symbol >> x >> y >> z;
-	    transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::toupper);
-	    atoms.push_back(Atom(element_symbol,x,y,z));
-	}
-	return atoms;
-}
-*/

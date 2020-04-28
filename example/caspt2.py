@@ -4,7 +4,7 @@ import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
 
-ccsd_energy = -109.36195558
+ccsd_energy = -109.35451902
 au2eV= 27.2113961
 
 
@@ -53,7 +53,7 @@ class trajectory():
     
 
 irrep="B2g"
-with open('good_eom.out', 'r') as file :
+with open('caspt2.out', 'r') as file :
     filedata = file.readlines()
 
 for i in range(0,len(filedata)):
@@ -87,8 +87,8 @@ for i in range(start,start+num_roots):
 H_0 = np.reshape(H_0,(num_roots,num_roots))	
 
 
-guess=3
-eta_list = np.linspace(0,8000,101)
+guess=2.5
+eta_list = np.linspace(0,2000,201)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):
@@ -133,8 +133,8 @@ for root in traj.states:
     corr_re.append(np.real(root.corr_energy))
     corr_im.append(np.imag(root.corr_energy))
     corr_energies.append(root.corr_energy)
-plt.plot(re_traj,im_traj,'ro')
-plt.plot(corr_re,corr_im,'bo')
+plt.plot(re_traj,im_traj,'-ro')
+#plt.plot(corr_re,corr_im,'-bo')
 plt.show()
 
 derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
