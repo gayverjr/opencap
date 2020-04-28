@@ -11,49 +11,7 @@
 #include <algorithm>
 #include <string>
 #include "read_qchem_fchk.h"
-
-std::vector<std::string> split(const std::string& s, char delimiter)
-{
-   std::vector<std::string> tokens;
-   std::string token;
-   std::istringstream tokenStream(s);
-   while (std::getline(tokenStream, token, delimiter))
-   {
-	  if (!token.empty())
-		  tokens.push_back(token);
-   }
-   return tokens;
-}
-
-void fill_mat(std::vector<double> &matrix_elements, arma::mat &opdm)
-{
-	size_t vec_idx = 0;
-	for (size_t row_idx=0;row_idx<opdm.n_rows;row_idx++)
-	{
-		for (size_t col_idx=0;col_idx<opdm.n_cols;col_idx++)
-		{
-			opdm(row_idx,col_idx) = matrix_elements[vec_idx];
-			vec_idx++;
-		}
-	}
-}
-
-void fill_LT(std::vector<double> matrix_elements, arma::mat &opdm)
-{
-	size_t vec_idx = 0;
-	size_t row_idx = 0;
-	while(row_idx<opdm.n_rows && vec_idx<matrix_elements.size())
-	{
-		//elements are added to each column <= row index
-		for (size_t col_idx=0;col_idx<=row_idx;col_idx++)
-		{
-			opdm(row_idx,col_idx) = matrix_elements[vec_idx];
-			opdm(col_idx,row_idx) = matrix_elements[vec_idx];
-			vec_idx++;
-		}
-		row_idx++;
-	}
-}
+#include "utils.h"
 
 size_t total_TDMs_to_read(size_t nstates)
 {
@@ -95,8 +53,6 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 					//last part of line should be number of elements to read
 					size_t num_elements = stoi(split(line,' ').back());
 					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
-					//std::cout << num_elements << " elements to read" << std::endl;
-					//std::cout << "lines to read:" << lines_to_read << std::endl;
 					std::vector<double> matrix_elements;
 					for (size_t k=1;k<=lines_to_read;k++)
 					{
@@ -129,9 +85,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 					std::getline(is,line);
 					std::vector<std::string> tokens = split(line,' ');
 					for (auto token:tokens)
-					{
 						matrix_elements.push_back(std::stod(token));
-					}
 				}
 				arma::mat st_opdm(num_bf,num_bf);
 				st_opdm.zeros();
@@ -201,14 +155,37 @@ arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
 			std::getline(is,line);
 			std::vector<std::string> tokens = split(line,' ');
 			for (auto token:tokens)
-			{
 				matrix_elements.push_back(std::stod(token));
-			}
 		}
 		fill_LT(matrix_elements,smat);
     }
     return smat;
 }
 
-
+arma::mat read_qchem_energies(size_t nstates,std::string method,std::string output_file)
+{
+	arma::mat ZERO_ORDER_H(nstates,nstates);
+	ZERO_ORDER_H.zeros();
+	transform(method.begin(),method.end(),method.begin(),::toupper);
+	std::ifstream is(output_file);
+    if (is.good())
+    {
+    	std::string line, rest;
+    	std::getline(is, line);
+    	size_t state_idx = 1;
+    	while (state_idx<=nstates)
+    	{
+    		std::string line_to_find = method +" transition " + std::to_string(state_idx);
+    		if (line.find(line_to_find)!= std::string::npos)
+    		{
+				std::getline(is,line);
+				ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
+				state_idx++;
+    		}
+    		else
+    			std::getline(is,line);
+    	}
+    }
+    return ZERO_ORDER_H;
+}
 
