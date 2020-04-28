@@ -7,7 +7,7 @@
 #include <armadillo>
 #include <algorithm>
 #include <iostream>
-#include "read_rassi_h5.h"
+#include "molcas_interface.h"
 #include "utils.h"
 #include <math.h>
 #include <stdio.h>
@@ -59,6 +59,7 @@ arma::mat read_rassi_overlap(std::string filename)
 
 arma::mat read_mscaspt2_heff(size_t nstates, std::string filename)
 {
+	std::cout << "Reading effective Hamiltonian from:" << filename << std::endl;
 	arma::mat ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H.zeros();
 	std::ifstream is(filename);

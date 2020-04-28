@@ -10,7 +10,7 @@
 #include <sstream>
 #include <algorithm>
 #include <string>
-#include "read_qchem_fchk.h"
+#include "qchem_interface.h"
 #include "utils.h"
 
 size_t total_TDMs_to_read(size_t nstates)
@@ -164,6 +164,7 @@ arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
 
 arma::mat read_qchem_energies(size_t nstates,std::string method,std::string output_file)
 {
+	std::cout << "Reading energies from file:" << output_file << std::endl;
 	arma::mat ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H.zeros();
 	transform(method.begin(),method.end(),method.begin(),::toupper);

@@ -21,7 +21,7 @@ BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string>
 	build_basis_set(geometry,parser.read_basis());
 	Nshells = basis.size();
 	Nbasis = calc_basis_size();
-	std::cout << "Nbasis:" << Nbasis << std::endl;
+	std::cout << "Number of basis functions:" << Nbasis << std::endl;
 	name = "gen";
 }
 
@@ -70,9 +70,9 @@ void BasisSet::build_basis_set(std::vector<Atom> geometry,map<string,std::vector
 	name = "user defined";
 }
 
-size_t BasisSet::max_L()
+int BasisSet::max_L()
 {
-	size_t l_max = 0;
+	int l_max = 0;
 	for(const auto&shell:basis)
 	{
 		if(shell.l > l_max)

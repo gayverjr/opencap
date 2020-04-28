@@ -4,7 +4,11 @@ import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
 
-ccsd_energy = -109.35451902
+
+ccsd_energy = -109.36228398
+caspt2_energy = -109.37059673
+E_0 = ccsd_energy
+#E_0 = caspt2_energy
 au2eV= 27.2113961
 
 
@@ -50,45 +54,36 @@ class trajectory():
         derivs=list(np.gradient(energies)/np.gradient(etas))
         for i in range(0,len(self.states)):
             self.states[i].corr_energy=self.states[i].energy-derivs[i]*self.states[i].eta
-    
 
-irrep="B2g"
-with open('caspt2.out', 'r') as file :
+
+with open('qchem_test.out', 'r') as file :
     filedata = file.readlines()
 
+idx=-1
 for i in range(0,len(filedata)):
-	line = filedata[i]
-	if "Starting Perturbative CAP calculation." in line:
-		break
-for j in range(i,len(filedata)):
-	line=filedata[j]
-	if "Solving for CAP-EOM-CCSD " + irrep + " transitions" in line:
-		break
-num_roots=int(filedata[j+1].split()[4])
-start=j+5
-cap_mat=[]
-for i in range(start,start+num_roots):
-	l1 = filedata[i].split()
-	l1= [float(x) for x in l1]
-	cap_mat+=l1
-cap_mat = np.reshape(cap_mat,(num_roots,num_roots))
-
-
-for q in range(0,len(cap_mat)):
-    for w in range(q,len(cap_mat)):
-        cap_mat[w][q]=cap_mat[q][w]
-
-start=i+2
+    line = filedata[i]
+    if "Printing out matrices required for Projected CAP calculation." in line:
+        idx=i
+num_roots=int(filedata[idx+1].split()[-1])
+start=idx+3
 H_0=[]
 for i in range(start,start+num_roots):
-	l1 = filedata[i].split()
-	l1= [float(x) for x in l1]
-	H_0+=l1
-H_0 = np.reshape(H_0,(num_roots,num_roots))	
+    l1 = filedata[i].split()
+    l1= [float(x) for x in l1]
+    H_0+=l1
+H_0 = np.reshape(H_0,(num_roots,num_roots))
+
+start2=start+num_roots+1
+cap_mat=[]
+for i in range(start2,start2+num_roots):
+    l1 = filedata[i].split()
+    l1= [float(x) for x in l1]
+    cap_mat+=l1
+cap_mat= np.reshape(cap_mat,(num_roots,num_roots))
 
 
-guess=2.5
-eta_list = np.linspace(0,2000,201)
+guess=3
+eta_list = np.linspace(0,4000,101)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):
@@ -97,7 +92,7 @@ for i in range(0,len(eta_list)):
     fullH = H_0 +1.0j * eta * cap_mat
     eigv,eigvc=LA.eig(fullH)
     for eig in eigv:
-        E = (eig - ccsd_energy) * au2eV
+        E = (eig - E_0) * au2eV
         roots.append(root(E,eta))
         all_roots.append(root(E,eta))
     if i==0:
@@ -108,11 +103,9 @@ for i in range(0,len(eta_list)):
 
 re_traj = []
 im_traj = []
-print("Printing energies")
 energies=[]
 for root in all_roots:
     re_traj.append(np.real(root.energy))
-    print(root.energy)
     im_traj.append(np.imag(root.energy))
     energies.append(root.energy)
 plt.plot(re_traj,im_traj,'ro')
@@ -134,7 +127,7 @@ for root in traj.states:
     corr_im.append(np.imag(root.corr_energy))
     corr_energies.append(root.corr_energy)
 plt.plot(re_traj,im_traj,'-ro')
-#plt.plot(corr_re,corr_im,'-bo')
+plt.plot(corr_re,corr_im,'-bo')
 plt.show()
 
 derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
@@ -205,6 +198,5 @@ print("Imaginary part:")
 print(points)
 print(sorted_derivs[:5])
 print(etas)
-
 
 

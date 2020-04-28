@@ -34,7 +34,7 @@ public:
 
 private:
 	bool check_overlap_matrix();
-	void ang_to_bohr();
+	void convert_ang_to_bohr();
 	bool verify_cap_parameters(std::string key);
 	bool check_parameters();
 	bool read_in_dms();

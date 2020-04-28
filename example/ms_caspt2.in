@@ -9,12 +9,12 @@ bohr_coordinates true
 !cart_bf spdf
 method ms-caspt2
 package molcas
-rassi_h5 example/10states_rassi.h5
-!molcas_output example/10caspt2.out
+rassi_h5 example/mscaspt2.rassi.h5
+molcas_output example/mscaspt2.out
 nstates 10
 basis_set gen
-basis_file example/molcas_bas.bas
-h0_file example/heff.in
+basis_file example/test_bas.bas
+!h0_file example/heff.in
 $end
 
 $cap_parameters
@@ -23,7 +23,7 @@ CAP_X 2.76
 CAP_Y 2.76
 CAP_Z 4.88
 Radial_precision  14
-Angular_points    110
+Angular_points    590
 $end
 
 $job

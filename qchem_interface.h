@@ -5,8 +5,8 @@
  *      Author: JG
  */
 
-#ifndef READ_QCHEM_FCHK_H_
-#define READ_QCHEM_FCHK_H_
+#ifndef QCHEM_INTERFACE_H_
+#define QCHEM_INTERFACE_H_
 #include <armadillo>
 
 std::vector<std::string> split(const std::string& s, char delimiter);
@@ -14,4 +14,4 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf);
 arma::mat read_qchem_energies(size_t nstates,std::string method,std::string output_file);
 
-#endif /* READ_QCHEM_FCHK_H_ */
+#endif /* QCHEM_INTERFACE_H_*/

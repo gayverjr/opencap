@@ -17,11 +17,11 @@
 #include <list>
 #include <armadillo>
 #include "Atom.h"
-#include "read_qchem_fchk.h"
+#include "qchem_interface.h"
 #include "utils.h"
 #include "transforms.h"
 #include "gto_ordering.h"
-#include "read_rassi_h5.h"
+#include "molcas_interface.h"
 #include "CAP.h"
 #include "overlap.h"
 #include <cmath>
@@ -65,7 +65,7 @@ void System::compute_cap_matrix()
 	auto start = std::chrono::high_resolution_clock::now();
 	cap_integrator.compute_cap_mat(cap_mat,bs);
 	auto stop = std::chrono::high_resolution_clock::now();
-	std::cout << "Integration time:" << std::chrono::duration<double, std::milli>(stop-start).count() << std::endl;
+	std::cout << "Integration time:" << std::chrono::duration<double>(stop-start).count() << std::endl;
 	uniform_cart_norm(cap_mat,bs);
 	arma::mat cap_spherical(bs.Nbasis,bs.Nbasis);
 	cart2spherical(cap_mat,cap_spherical,bs);
@@ -74,12 +74,6 @@ void System::compute_cap_matrix()
 	reorder_cap();
 	compute_cap_correlated_basis();
 
-}
-
-void System::ang_to_bohr()
-{
-	for (auto atm:atoms)
-		atm.ang_to_bohr();
 }
 
 bool System::check_overlap_matrix()
@@ -103,9 +97,8 @@ bool System::check_overlap_matrix()
 				if (abs(qchem_smat(i,j)-spherical_ints(i,j))>1E-5)
 				{
 					std::cout << "Conflict at:" << i << "," << j << std::endl;
-					std::cout << "qchem says:" << qchem_smat(i,j) << std::endl;
+					std::cout << "Qchem says:" << qchem_smat(i,j) << std::endl;
 					std::cout << "OpenCAP says:" << spherical_ints(i,j) << std::endl;
-					std::cout << abs(qchem_smat(i,j)-spherical_ints(i,j)) << std::endl;
 					conflicts = true;
 				}
 			}
@@ -132,9 +125,8 @@ bool System::check_overlap_matrix()
 				if (abs(overlap_mat(i,j)-spherical_ints(i,j))>1E-12)
 				{
 					std::cout << "Conflict at:" << i << "," << j << std::endl;
-					std::cout << "Molcas says:" << overlap_mat(i,j) << std::endl;
+					std::cout << "OpenMolcas says:" << overlap_mat(i,j) << std::endl;
 					std::cout << "OpenCAP says:" << spherical_ints(i,j) << std::endl;
-					std::cout << abs(overlap_mat(i,j)-spherical_ints(i,j)) << std::endl;
 					conflicts = true;
 				}
 			}
@@ -228,7 +220,7 @@ bool System::read_in_zero_order_H()
 		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
 	else
 		std::cout << "Only q-chem and molcas formats are supported." << std::endl;
-	return false;
+	return true;
 
 }
 
@@ -242,18 +234,24 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		return;
 	atoms = geometry;
 	if(parameters["bohr_coordinates"]=="false")
-		ang_to_bohr();
+	{
+		for (size_t i=0;i<atoms.size();i++)
+			atoms[i].ang_to_bohr();
+	}
 	bs = BasisSet(atoms,parameters);
 	std::cout << "Checking overlap matrix...";
 	if (check_overlap_matrix())
 		std::cout << "ok." << std::endl;
 	stringstream ss(parameters["nstates"]);
 	ss >> nstates;
-	std::cout << "Reading in the density matrices... for " <<nstates << " states." << std::endl;
+	std::cout << "Reading in the density matrices for " <<nstates << " states." << std::endl;
 	if (read_in_dms())
 		std::cout << "all set!" << std::endl;
+	std::cout << "Reading in zeroth order Hamiltonian." << std::endl;
 	if (read_in_zero_order_H())
 		std::cout << "Successfully read in zeroth order Hamiltonian." << std::endl;
+	else
+		std::cout << "Failed!" << std::endl;
 }
 
 bool System::verify_cap_parameters(std::string key)
@@ -360,7 +358,10 @@ bool System::check_parameters()
 			else if(key=="package")
 			{
 				if (parameters.find("h0_file")==parameters.end())
-					return verify_method(key);
+				{
+					if(!verify_method(key))
+						return false;
+				}
 			}
 		}
 		else
