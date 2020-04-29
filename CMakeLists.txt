@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpenCAP
-        LANGUAGES CXX C
+        LANGUAGES CXX C Fortran
         )
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-find_package(armadillo)
-find_package(hdf5)
-
+find_package(HDF5 REQUIRED)
+include_directories(${HDF5_INCLUDE_DIRS})
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
 include(FetchContent)
 
 FetchContent_Declare(
@@ -26,7 +27,7 @@ if(NOT numgrid_POPULATED)
 endif()
 
 add_executable(OpenCAP ${SOURCES})
-target_link_libraries(OpenCAP armadillo hdf5 numgrid)
+target_link_libraries(OpenCAP ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
 
 install(TARGETS OpenCAP
     DESTINATION ${CMAKE_INSTALL_PREFIX}

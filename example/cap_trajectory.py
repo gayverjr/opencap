@@ -3,15 +3,11 @@ import numpy as np
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
+import argparse
 
-
-ccsd_energy = -109.36228398
-caspt2_energy = -109.37059673
-E_0 = ccsd_energy
-#E_0 = caspt2_energy
+caspt2_energy = -109.35042571
+E_0 = caspt2_energy
 au2eV= 27.2113961
-
-
 
 @functools.total_ordering
 class root():
@@ -55,8 +51,11 @@ class trajectory():
         for i in range(0,len(self.states)):
             self.states[i].corr_energy=self.states[i].energy-derivs[i]*self.states[i].eta
 
-
-with open('qchem_test.out', 'r') as file :
+parser = argparse.ArgumentParser()
+parser.add_argument('pos_arg', type=str,
+                    help='Name of OpenCAP output file')
+args = parser.parse_args()
+with open(args.pos_arg, 'r') as file :
     filedata = file.readlines()
 
 idx=-1
@@ -83,7 +82,7 @@ cap_mat= np.reshape(cap_mat,(num_roots,num_roots))
 
 
 guess=3
-eta_list = np.linspace(0,4000,101)
+eta_list = np.linspace(0,3000,301)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):
