@@ -77,7 +77,7 @@ Additionally, Armadillo must be configured with HDF5 support, which may not be t
 
 # Example
 
-Below, we outline how to conduct a CAP-augmented multi-state complete active space second order perturbation theory (CAP-MS-CASPT2) calculation on the <sup>2</sup>&#928<sub>g</sub> resonance state of N<sub>2</sub><sup>-</sup> using OpenCAP in tandem with OpenMolcas.
+Below, we outline how to conduct a CAP-augmented multi-state complete active space second order perturbation theory (CAP-MS-CASPT2) calculation on the <sup>2</sup>&#928;<sub>g</sub> resonance state of N<sub>2</sub><sup>-</sup> using OpenCAP in tandem with OpenMolcas.
 
 
 
