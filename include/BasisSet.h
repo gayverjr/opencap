@@ -2,6 +2,7 @@
 #include "Atom.h"
 #include <map>
 #include "Shell.h"
+#include <string>
 #pragma once
 using namespace std;
 

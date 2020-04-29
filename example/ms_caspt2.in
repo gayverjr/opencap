@@ -23,7 +23,7 @@ CAP_X 2.76
 CAP_Y 2.76
 CAP_Z 4.88
 Radial_precision  14
-Angular_points    590
+Angular_points    110
 $end
 
 $job
