@@ -7,13 +7,14 @@ $end
 $system
 bohr_coordinates true
 !cart_bf spdf
-method EOMEA
-package qchem
-fchk_file example/eomea.fchk
-qc_output example/eomea.out
+method ms-caspt2
+package molcas
+rassi_h5 example/test.rassi.h5
+molcas_output example/anion_reference.out
 nstates 10
 basis_set gen
 basis_file example/test_bas.bas
+!h0_file example/heff.in
 $end
 
 $cap_parameters
@@ -22,7 +23,7 @@ CAP_X 2.76
 CAP_Y 2.76
 CAP_Z 4.88
 Radial_precision  14
-Angular_points    590
+Angular_points    110
 $end
 
 $job
