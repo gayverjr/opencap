@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpenCAP
-        LANGUAGES CXX C Fortran
+        LANGUAGES CXX C 
         )
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
