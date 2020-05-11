@@ -1,4 +1,4 @@
-__*An open-source application for studying resonances in molecules*__
+__An open-source application for studying resonances in molecules__
 
 OpenCAP is capable of generating the matrices required to perform projected *complex absorbing potential* calculations on metastable electronic states. These types of calculations are able to extract resonance position and width at the cost of a single bound-state electronic structure calculation.  We currently support an interface with the OpenMolcas quantum chemistry package, which specializes in multi-reference wave functions.
 
