@@ -1,3 +1,0 @@
-repository='https://github.com/dftlibs/numgrid.git'
-module=''
-tag='origin'

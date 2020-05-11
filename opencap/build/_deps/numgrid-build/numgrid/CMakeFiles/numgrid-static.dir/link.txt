@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../../lib/libnumgrid.a  CMakeFiles/numgrid-objects.dir/AtomGrid.cpp.o CMakeFiles/numgrid-objects.dir/becke_partitioning.cpp.o CMakeFiles/numgrid-objects.dir/grid_radial.cpp.o CMakeFiles/numgrid-objects.dir/version.cpp.o CMakeFiles/numgrid-objects.dir/bragg.cpp.o CMakeFiles/numgrid-objects.dir/lebedev/sphere_lebedev_rule.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../../lib/libnumgrid.a
