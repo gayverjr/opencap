@@ -8,6 +8,7 @@
 #include <armadillo>
 #include <numgrid.h>
 #include "utils.h"
+#include "gto_ordering.h"
 #include "CAP.h"
 #include <chrono>
 #include <ctime>
@@ -164,7 +165,7 @@ void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bo
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
 		Shell my_shell = bs.basis[i];
-		std::vector<std::array<size_t,3>> order = libcap_carts_ordering(my_shell);
+		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(my_shell);
 		for(size_t j=0;j<my_shell.num_carts();j++)
 		{
 			std::vector<float> vec(num_points);

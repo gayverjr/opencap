@@ -26,7 +26,7 @@ BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 map<string,std::vector<Shell>> BasisSetParser::read_basis()
 {
 	if(basis_name=="gen")
-		return read_basis_file(basis_file);
+		return read_basis_file();
 	else
 	{
 		std::cout << "Basis set library coming soon..." << std::endl;
@@ -34,7 +34,7 @@ map<string,std::vector<Shell>> BasisSetParser::read_basis()
 	}
 }
 
-map<string,std::vector<Shell>> BasisSetParser::read_basis_file(std::string basis_file)
+map<string,std::vector<Shell>> BasisSetParser::read_basis_file()
 {
 	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
     map<string,std::vector<Shell>> basis_set;
