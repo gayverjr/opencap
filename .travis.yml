@@ -11,7 +11,7 @@ addons:
       - doxygen
 
 script:
-  - doxygen dox/Doxyfile.in
+  - cd dox; doxygen Doxyfile.in
 
 deploy:
   provider: pages
