@@ -7,7 +7,7 @@ compute resonance positions and widths using the complex absorbing potential met
 See the example below for a brief tutorial on how to use the software.
 
 
-Documentation (in progress): https://gayverjr.github.io/OpenCAP/ 
+Documentation (in progress): https://gayverjr.github.io/opencap/
 
 
 
@@ -37,7 +37,7 @@ First clone the git repo
 
 ```
 
-git clone https://github.com/gayverjr/OpenCAP.git
+git clone https://github.com/gayverjr/opencap.git
 
 cd opencap
 
