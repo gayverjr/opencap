@@ -12,6 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include <math.h>
+#include "gto_ordering.h"
 
 
 void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
@@ -19,7 +20,7 @@ void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
 	unsigned int bf_idx = 0;
 	for(auto&shell:bs.basis)
 	{
-		std::vector<std::array<size_t,3>> order = libcap_carts_ordering(shell);
+		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(shell);
 		for(unsigned int i=0;i<shell.num_carts();i++)
 		{
 			std::array<size_t,3> cart = order[i];
@@ -86,8 +87,8 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
 
 arma::mat get_trans_mat(Shell shell)
 {
-	std::vector<std::array<size_t,3>> cart_order = libcap_carts_ordering(shell);
-	std::vector<int> sph_order = libcap_harmonic_ordering(shell);
+	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell);
+	std::vector<int> sph_order = opencap_harmonic_ordering(shell);
 	arma::mat trans_mat(shell.num_bf,shell.num_carts());
 	for(size_t i=0;i<shell.num_bf;i++)
 	{

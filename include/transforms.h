@@ -1,8 +1,6 @@
-/*
- * transforms.h
- *
- *  Created on: Feb 12, 2020
- *      Author: JG
+ /*! \file transforms.h
+     \brief Functions for transforming between cartesian and solid harmonic GTOs, and for normalization
+     of contracted GTOs.
  */
 #include <armadillo>
 #include "BasisSet.h"

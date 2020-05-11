@@ -6,6 +6,7 @@
 #include <armadillo>
 #include "utils.h"
 #include "BasisSet.h"
+#include "gto_ordering.h"
 # define M_PIl          3.141592653589793238462643383279502884
 
 //overlap between pair of gaussians
@@ -76,8 +77,8 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b,
 
 void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
 {
-	std::vector<std::array<size_t,3>> order_a = libcap_carts_ordering(shell_a);
-	std::vector<std::array<size_t,3>> order_b = libcap_carts_ordering(shell_b);
+	std::vector<std::array<size_t,3>> order_a = opencap_carts_ordering(shell_a);
+	std::vector<std::array<size_t,3>> order_b = opencap_carts_ordering(shell_b);
 	for(size_t i=0;i<shell_a.num_carts();i++)
 	{
 		std::array<size_t,3> a_cart = order_a[i];
