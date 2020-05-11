@@ -1,7 +1,13 @@
 
 # Welcome to OpenCAP!
 
-OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to compute resonance positions and widths using the complex absorbing potential method (CAP). See the example below for a brief tutorial on how to use the software.
+OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
+We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to 
+compute resonance positions and widths using the complex absorbing potential method (CAP). 
+See the example below for a brief tutorial on how to use the software.
+
+
+Documentation (in progress): https://gayverjr.github.io/OpenCAP/ 
 
 
 
