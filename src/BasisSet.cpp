@@ -12,6 +12,7 @@
 #include <iostream>
 #include "BasisSetParser.h"
 
+
 BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters)
 {
 	//TODO don't assume there's a basis name
