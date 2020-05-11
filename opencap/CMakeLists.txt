@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(OpenCAP
+project(opencap
         LANGUAGES CXX C 
         )
 include_directories(include)
@@ -26,9 +26,9 @@ if(NOT numgrid_POPULATED)
     )
 endif()
 
-add_executable(OpenCAP ${SOURCES})
-target_link_libraries(OpenCAP ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
+add_executable(opencap ${SOURCES})
+target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
 
-install(TARGETS OpenCAP
+install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
