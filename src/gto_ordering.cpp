@@ -16,6 +16,55 @@
 #include "gto_ordering.h"
 
 
+std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell shell)
+{
+	//s
+	if(shell.l == 0)
+		return {{0,0,0}};
+	//p
+	if(shell.l==1)
+		return {{1,0,0},{0,1,0},{0,0,1}};
+	//d
+	else if (shell.l==2)
+		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
+	//f
+	else if (shell.l==3)
+		return {{3,0,0},{2,1,0},{2,0,1},{1,0,2},{1,1,1},{1,2,0},{0,3,0},
+				{0,2,1},{0,1,2},{0,0,3}};
+	//g
+	else if (shell.l==4)
+		return { {4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},
+		         {1,2,1},{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
+	else
+	{
+		return {{0,0,0}};
+	}
+}
+
+std::vector<int> opencap_harmonic_ordering(Shell shell)
+{
+	//s
+	if(shell.l == 0)
+		return {0};
+	//p
+	if(shell.l==1)
+		return {-1,0,1};
+	//d
+	else if (shell.l==2)
+		return {-2,-1,0,1,2};
+	//f
+	else if (shell.l==3)
+		return {-3,-2,-1,0,1,2,3};
+	//g
+	else if (shell.l==4)
+		return {-4,-3,-2,-1,0,1,2,3,4};
+	//h
+	else if(shell.l==5)
+		return {-5,-4,-3,-2,-1,0,1,2,3,4,5};
+	else
+		return {0,0,0};
+}
+
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell)
 {
 	//s
@@ -81,8 +130,8 @@ std::vector<int> qchem_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-// matrix in libcap ordering --> matrix in molden ordering
-void to_molden_ordering(arma::mat &libcap_mat, BasisSet bs)
+// matrix in opencap ordering --> matrix in molden ordering
+void to_molden_ordering(arma::mat &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -90,26 +139,26 @@ void to_molden_ordering(arma::mat &libcap_mat, BasisSet bs)
 	{
 		if (shell.pure)
 		{
-			std::vector<int> libcap_order = libcap_harmonic_ordering(shell);
+			std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
 			std::vector<int> molden_order = molden_harmonic_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
 		}
 		else
 		{
-			std::vector<std::array<size_t,3>> libcap_order = libcap_carts_ordering(shell);
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
 			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
@@ -121,11 +170,11 @@ void to_molden_ordering(arma::mat &libcap_mat, BasisSet bs)
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	libcap_mat = per_mat.t()* libcap_mat * per_mat;
+	opencap_mat = per_mat.t()* opencap_mat * per_mat;
 }
 
-// matrix in libcap ordering --> matrix in qchem ordering
-void to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
+// matrix in opencap ordering --> matrix in qchem ordering
+void to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -133,26 +182,26 @@ void to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
 	{
 		if (shell.pure)
 		{
-			std::vector<int> libcap_order = libcap_harmonic_ordering(shell);
+			std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
 			std::vector<int> molden_order = qchem_harmonic_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
 		}
 		else
 		{
-			std::vector<std::array<size_t,3>> libcap_order = libcap_carts_ordering(shell);
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
 			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
@@ -164,11 +213,11 @@ void to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	libcap_mat = per_mat.t()* libcap_mat * per_mat;
+	opencap_mat = per_mat.t()* opencap_mat * per_mat;
 }
 
-// matrix in libcap ordering --> matrix in qchem ordering
-void molden_to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
+// matrix in opencap ordering --> matrix in qchem ordering
+void molden_to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -176,26 +225,26 @@ void molden_to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
 	{
 		if (shell.pure)
 		{
-			std::vector<int> libcap_order = molden_harmonic_ordering(shell);
+			std::vector<int> opencap_order = molden_harmonic_ordering(shell);
 			std::vector<int> molden_order = qchem_harmonic_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
 		}
 		else
 		{
-			std::vector<std::array<size_t,3>> libcap_order = libcap_carts_ordering(shell);
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
 			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<libcap_order.size();i++)
+			for (size_t i=0;i<opencap_order.size();i++)
 			{
 				for(size_t j=0; j<molden_order.size();j++)
 				{
-					if(libcap_order[i]==molden_order[j])
+					if(opencap_order[i]==molden_order[j])
 						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
 				}
 			}
@@ -207,7 +256,7 @@ void molden_to_qchem_ordering(arma::mat &libcap_mat, BasisSet bs)
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	libcap_mat = per_mat.t()* libcap_mat * per_mat;
+	opencap_mat = per_mat.t()* opencap_mat * per_mat;
 }
 
 std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell)
@@ -272,7 +321,7 @@ std::vector<std::vector<std::vector<Shell>>> molcas_reorder_basis_set(BasisSet b
 
 size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
 {
-	std::vector<int> libcap_order = libcap_harmonic_ordering(shell);
+	std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
 	size_t matching_idx = 0;
 	for (auto shell2:original_bs.basis)
 	{
@@ -281,9 +330,9 @@ size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
 		else
 			matching_idx +=shell2.num_bf;
 	}
-	for (size_t i=0;i<libcap_order.size();i++)
+	for (size_t i=0;i<opencap_order.size();i++)
 	{
-		if (libcap_order[i]==angmom)
+		if (opencap_order[i]==angmom)
 			return matching_idx + i;
 	}
 	std::cout << "Something's gone wrong." << std::endl;
@@ -291,8 +340,8 @@ size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
 }
 
 
-// matrix in libcap ordering --> matrix in molcas ordering
-void to_molcas_ordering(arma::mat &libcap_mat, BasisSet bs, std::vector<Atom> geometry)
+// matrix in opencap ordering --> matrix in molcas ordering
+void to_molcas_ordering(arma::mat &opencap_mat, BasisSet bs, std::vector<Atom> geometry)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	std::vector<std::vector<std::vector<Shell>>> reordered_shells = molcas_reorder_basis_set(bs,geometry);
@@ -321,5 +370,5 @@ void to_molcas_ordering(arma::mat &libcap_mat, BasisSet bs, std::vector<Atom> ge
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	libcap_mat = per_mat.t()* libcap_mat * per_mat;
+	opencap_mat = per_mat.t()* opencap_mat * per_mat;
 }
