@@ -1,0 +1,3 @@
+/Users/JG/Documents/Software/OpenCAP/OpenCAP/opencap/build/_deps/CMakeFiles/rebuild_cache.dir
+/Users/JG/Documents/Software/OpenCAP/OpenCAP/opencap/build/_deps/CMakeFiles/edit_cache.dir
+/Users/JG/Documents/Software/OpenCAP/OpenCAP/opencap/build/_deps/CMakeFiles/googletest.dir

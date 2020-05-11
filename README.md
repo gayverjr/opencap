@@ -39,13 +39,15 @@ First clone the git repo
 
 git clone https://github.com/gayverjr/OpenCAP.git
 
+cd opencap
+
 ```
 
 Generate the Makefile using CMake
 
 ```
 
-cd OpenCAP
+cd opencap
 
 mkdir build
 
