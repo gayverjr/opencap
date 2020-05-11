@@ -157,7 +157,7 @@ bool System::read_in_dms()
 		beta_dms = parsed_dms[1];
 		return true;
 	}
-	else if (parameters["package"]=="molcas")
+	else if (parameters["package"]=="openmolcas")
 	{
 		auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"]);
 		alpha_dms = parsed_dms[0];
