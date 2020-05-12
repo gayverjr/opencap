@@ -8,7 +8,7 @@ $system
 bohr_coordinates true
 !cart_bf spdf
 method ms-caspt2
-package molcas
+package openmolcas
 rassi_h5 example/test.rassi.h5
 molcas_output example/anion_reference.out
 nstates 10

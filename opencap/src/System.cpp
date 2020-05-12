@@ -50,7 +50,7 @@ void System::reorder_cap()
 	std::string pkg = parameters["package"];
 	if (pkg=="q-chem"||pkg=="qchem")
 		to_molden_ordering(AO_CAP_MAT, bs);
-	else if(pkg=="molcas")
+	else if(pkg=="openmolcas")
 		to_molcas_ordering(AO_CAP_MAT,bs,atoms);
 	else
 		std::cout << "Other things coming soon!" << std::endl;
@@ -112,7 +112,7 @@ bool System::check_overlap_matrix()
 			return true;
 	}
 
-	else if (parameters["package"]=="molcas")
+	else if (parameters["package"]=="openmolcas")
 	{
 		to_molcas_ordering(spherical_ints,bs,atoms);
 		arma::mat overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
@@ -165,7 +165,7 @@ bool System::read_in_dms()
 		return true;
 	}
 	else
-		std::cout << "Only q-chem and molcas are supported." << std::endl;
+		std::cout << "Only q-chem and openmolcas are supported." << std::endl;
 	return false;
 
 }
@@ -216,10 +216,10 @@ bool System::read_in_zero_order_H()
 		ZERO_ORDER_H = read_h0_file();
 	else if (parameters["package"]=="qchem")
 		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qc_output"]);
-	else if (parameters["package"]=="molcas")
+	else if (parameters["package"]=="openmolcas")
 		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
 	else
-		std::cout << "Only q-chem and molcas formats are supported." << std::endl;
+		std::cout << "Only q-chem and openmolcas formats are supported." << std::endl;
 	return true;
 
 }
@@ -304,12 +304,12 @@ bool System::verify_method(std::string key)
 		}
 		return true;
 	}
-	else if(package_name=="molcas")
+	else if(package_name=="openmolcas")
 	{
 		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 		{
-			std::cout << "Error: unsupported Molcas method. OpenCAP currently supports: 'dmrgscf','nevpt2','caspt2','rasscf'."<< std::endl;
+			std::cout << "Error: unsupported OpenMolcas method. OpenCAP currently supports: 'dmrgscf','nevpt2','caspt2','rasscf'."<< std::endl;
 			return false;
 		}
 		if (parameters.find("rassi_h5")==parameters.end())
@@ -326,7 +326,7 @@ bool System::verify_method(std::string key)
 	}
 	else
 	{
-		std::cout << "Error: unsupported package. Only Q-Chem and Molcas are currently supported." << std::endl;
+		std::cout << "Error: unsupported package. Only Q-Chem and OpenMolcas are currently supported." << std::endl;
 		return false;
 	}
 }
