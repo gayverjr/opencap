@@ -4,7 +4,7 @@ OpenCAP is capable of generating the matrices required to perform projected *com
 
 For information on the theoretical background behind the %CAP method, please see the <a href="md_cap_theory.html">%CAP</a> page.
 
-For information on the interface with OpenMolcas, please see the OpenMolcas page.
+For information on the interface with OpenMolcas, please see the <a href="md_openmolcas.html">OpenMolcas</a> page.
 
-For help on constructing an input for OpenCAP, please see our input section page.
+For information on constructing an input for OpenCAP, please see our <a href="md_input.html">input </a> page.
 
