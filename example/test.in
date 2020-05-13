@@ -12,7 +12,7 @@ package openmolcas
 rassi_h5 example/test.rassi.h5
 molcas_output example/anion_reference.out
 nstates 10
-basis_set gen
+!basis_set gen
 basis_file example/test_bas.bas
 !h0_file example/heff.in
 $end
