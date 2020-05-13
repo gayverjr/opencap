@@ -13,9 +13,12 @@
 #include <chrono>
 #include <ctime>
 #include <thread>
+#include <vector>
+#include "opencap_exception.h"
 
 CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
+	verify_cap_parameters(params);
 	double capx,capy,capz,rcut,radial,angpts;
 	std::stringstream capxss(params["cap_x"]);
 	std::stringstream capyss(params["cap_y"]);
@@ -188,6 +191,42 @@ void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bo
 					cap_mat(j,i)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
 			}
 		}
+	}
+}
+
+void CAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
+{
+	std::vector<std::string> missing_keys;
+	if(parameters.find("cap_type")==parameters.end())
+		opencap_throw("Error: Missing cap_type keyword.");
+	if(parameters["cap_type"]=="box")
+	{
+		if(parameters.find("cap_x")==parameters.end())
+			missing_keys.push_back("cap_x");
+		if(parameters.find("cap_y")==parameters.end())
+			missing_keys.push_back("cap_y");
+		if (parameters.find("cap_z")==parameters.end())
+			missing_keys.push_back("cap_z");
+	}
+	else if (parameters["cap_type"]=="voronoi")
+	{
+		if(parameters.find("r_cut")==parameters.end())
+			missing_keys.push_back("r_cut");
+	}
+	else
+		opencap_throw("Error: only box and voronoi CAPs supported.");
+	if(missing_keys.size()!=0)
+	{
+		std::string error_str = "Missing CAP keywords: ";
+		for (auto key: missing_keys)
+			error_str+=key+" ";
+		opencap_throw(error_str);
+	}
+	std::map<std::string, std::string> defaults = {{"radial_precision", "14"}, {"angular_points", "590"}};
+	for (const auto &pair:defaults)
+	{
+		if(parameters.find(pair.first)==parameters.end())
+			parameters[pair.first]=pair.second;
 	}
 }
 
