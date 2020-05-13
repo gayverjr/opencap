@@ -1,5 +1,5 @@
  /*! \file System.h
-     \brief Class which holds all of the data pertaining to the physical system.
+     \brief Class which holds molecular geometry and basis set data.
  */
 #include "Atom.h"
 #include "BasisSet.h"
@@ -10,10 +10,7 @@
 #define SYSTEM_H_
 
 
-/*! \brief Class which holds all data pertaining to the physical system.
- *
- * Currently, this class is capable of computing the %CAP in AO basis, and with data
- * read in from the electronic structure package, in correlated many electron basis.
+/*! \brief Class which holds molecular geometry and basis set data.
  *
  */
 
@@ -32,7 +29,7 @@ public:
 	/** Default constructor, does nothing
 	 */
 	System(){};
-	/** Constructor from geometry and paramters
+	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	/** Overlap matrix in AO basis
@@ -43,7 +40,12 @@ private:
 	/** Converts atomic coordinates from angstrom to bohr units
 	 */
 	void convert_ang_to_bohr();
+	/** Checks that parameters are sufficient to construct system.
+	 */
 	void verify_system_parameters(std::map<std::string, std::string> &params);
+	/** Checks bohr_coordinates keyword.
+	 */
+	bool bohr_coords();
 };
 
 

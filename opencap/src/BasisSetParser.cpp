@@ -19,20 +19,12 @@ BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 	cart_bf = parameters["cart_bf"];
 	//change cart_bf to upper case
     transform(cart_bf.begin(),cart_bf.end(),cart_bf.begin(),::toupper);
-	//basis_name = parameters["basis_set"];
-    basis_name = "gen";
 	basis_file = parameters["basis_file"];
 }
 
 map<string,std::vector<Shell>> BasisSetParser::read_basis()
 {
-	if(basis_name=="gen")
-		return read_basis_file();
-	else
-	{
-		std::cout << "Basis set library coming soon..." << std::endl;
-		return {};
-	}
+	return read_basis_file();
 }
 
 map<string,std::vector<Shell>> BasisSetParser::read_basis_file()

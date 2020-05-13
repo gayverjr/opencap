@@ -5,19 +5,18 @@ Gh 0  0   0.0
 $end
 
 $system
-bohr_coordinates false
+bohr_coordinates true
 !cart_bf spdf
+basis_file example/test_bas.bas
+$end
+
+$projected_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 example/test.rassi.h5
 molcas_output example/anion_reference.out
 nstates 10
-!basis_set gen
-basis_file example/test_bas.bas
 !h0_file example/heff.in
-$end
-
-$cap_parameters
 CAP_TYPE box
 CAP_X 2.76
 CAP_Y 2.76

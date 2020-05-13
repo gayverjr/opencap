@@ -16,7 +16,6 @@ class Projected_CAP
 {
 public:
 	System system;
-	//CAP cap_function;
 	/** %CAP matrix in AO basis
 	 */
 	arma::mat AO_CAP_MAT;
@@ -38,10 +37,14 @@ public:
 	/** Map containing the parameters defined in the input
 	 */
 	std::map<std::string, std::string> parameters;
+	/** Constructs Projected %CAP object from System object.
+	 */
 	Projected_CAP(System my_sys);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
 	 */
 	void compute_cap_matrix();
+	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
+	 */
 	void verify_method();
 
 private:

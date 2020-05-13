@@ -15,7 +15,6 @@
 
 BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters)
 {
-	//TODO don't assume there's a basis name
 	std::string basis_name = parameters["basis_file"];
 	std::string cart_bf = parameters["cart_bf"];
 	BasisSetParser parser (parameters);
@@ -23,14 +22,16 @@ BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string>
 	Nshells = basis.size();
 	Nbasis = calc_basis_size();
 	std::cout << "Number of basis functions:" << Nbasis << std::endl;
-	name = "gen";
+	if (parameters["cart_bf"]!="")
+		std::cout << parameters["cart_bf"] + " basis functions are cartesian." << std::endl;
+	else
+		std::cout << "All basis functions are spherical harmonic." << std::endl;
 }
 
 BasisSet::BasisSet()
 {
 	Nshells=0;
 	Nbasis=0;
-	name="undefined";
 }
 
 size_t BasisSet::calc_basis_size()
@@ -68,7 +69,6 @@ void BasisSet::build_basis_set(std::vector<Atom> geometry,map<string,std::vector
 	}
 	Nshells = basis.size();
 	Nbasis = calc_basis_size();
-	name = "user defined";
 }
 
 int BasisSet::max_L()

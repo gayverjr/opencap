@@ -14,6 +14,8 @@ std::tuple<std::vector<Atom>,std::map<std::string,std::string>> parse_input(std:
 /** Parses the geometry section.
  */
 std::vector<Atom> parse_geometry(std::string input_file);
+/** Parses a section of the input file.
+ */
 void parse_section(std::string input_file,std::map<std::string,std::string> &parameters,
 		std::string section_name);
 

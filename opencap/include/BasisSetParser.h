@@ -26,12 +26,9 @@ public:
 	 * harmonic.
 	 */
 	std::string cart_bf;
-	/** Title of basis set, currently defaults to ``gen''.
-	 */
-	std::string basis_file;
 	/** String location of basis set file to be read
 	 */
-	std::string basis_name;
+	std::string basis_file;
 	BasisSetParser(std::map<std::string, std::string> parameters);
 	/*! Read in basis set from file.
 	    \return Mapping of atomic symbol to a list of shells corresponding to that atom in the basis set.

@@ -11,7 +11,6 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include "CAP.h"
 #include <string>
 #include <map>
 #include <list>
@@ -33,11 +32,7 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		verify_system_parameters(params);
 		parameters=params;
 		atoms = geometry;
-		bool bohr_coords;
-		stringstream ss(parameters["bohr_coordinates"]);
-		ss >> bohr_coords;
-		std::cout << bohr_coords;
-		if(bohr_coords)
+		if(!bohr_coords())
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
@@ -68,4 +63,20 @@ void System::verify_system_parameters(std::map<std::string, std::string> &params
 		if(parameters.find(pair.first)==parameters.end())
 			parameters[pair.first]=pair.second;
 	}
+}
+
+bool System::bohr_coords()
+{
+	std::string my_str = parameters["bohr_coordinates"];
+	if (my_str == "false")
+		return false;
+	else if (my_str == "true")
+		return true;
+	else if (my_str == "0")
+		return false;
+	else if (my_str == "1")
+		return true;
+	else
+		opencap_throw("Invalid value for keyword 'bohr_coordinates'");
+	return false;
 }

@@ -96,6 +96,7 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 
 std::tuple<std::vector<Atom>,std::map<std::string,std::string>> parse_input(std::string input_file)
 {
+	//TODO: check that fields are present
 	std::map<std::string,std::string> parameters;
 	std::vector<Atom>atoms;
 	try
@@ -109,7 +110,7 @@ std::tuple<std::vector<Atom>,std::map<std::string,std::string>> parse_input(std:
 			//parse system
 			parse_section(input_file,parameters,"system");
 			//parse cap_parameters
-			parse_section(input_file,parameters,"cap_parameters");
+			parse_section(input_file,parameters,"projected_cap");
 		}
 		else
 			opencap_throw("Invalid jobtype: " + parameters["jobtype"]);
