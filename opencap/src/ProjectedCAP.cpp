@@ -33,7 +33,7 @@
 
 Projected_CAP::Projected_CAP(System my_sys)
 {
-	nstates = 0;
+	//nstates = 0;
 	system = my_sys;
 	parameters=system.parameters;
 	try
