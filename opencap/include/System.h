@@ -63,31 +63,22 @@ public:
 private:
 	/** Compares computed overlap matrix to that read in from the electronic structure package
 	 */
-	bool check_overlap_matrix();
+	void check_overlap_matrix();
 	/** Converts atomic coordinates from angstrom to bohr units
 	 */
 	void convert_ang_to_bohr();
-	/** Checks %CAP section of input to ensure that all required keywords have valid values
-	 */
-	bool verify_cap_parameters(std::string key);
-	/** Checks %System section of input to ensure that all required keywords have valid values
-	 */
-	bool check_parameters();
 	/** Reads in TDMs from electronic structure package
 	 */
-	bool read_in_dms();
+	void read_in_dms();
 	/** Computes %CAP in correlated many electron basis
 	 */
 	void compute_cap_correlated_basis();
 	/** Re-orders %CAP matrix in AO basis to match electronic structure package ordering
 	 */
 	void reorder_cap();
-	/** Verifies choice of electronic structure method
-	 */
-	bool verify_method(std::string key);
 	/** Reads in zeroth order Hamiltonian from electronic structure package
 	 */
-	bool read_in_zero_order_H();
+	void read_in_zero_order_H();
 	/** Reads in zeroth order Hamiltonian from file
 	 */
 	arma::mat read_h0_file();

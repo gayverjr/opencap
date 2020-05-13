@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <string>
 #include "qchem_interface.h"
+#include "opencap_exception.h"
 #include "utils.h"
 
 size_t total_TDMs_to_read(size_t nstates)
@@ -38,7 +39,6 @@ size_t get_TDM_start(size_t nstates, size_t state_idx)
 //currently this is written for open shell systems which have alpha and beta densities
 std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf)
 {
-	std::cout << "Reading file:" << dmat_filename << std::endl;
 	std::vector<arma::mat> opdms;
 	//start with state density matrices, alpha and beta densities
 	std::ifstream is(dmat_filename);
@@ -164,7 +164,6 @@ arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
 
 arma::mat read_qchem_energies(size_t nstates,std::string method,std::string output_file)
 {
-	std::cout << "Reading energies from file:" << output_file << std::endl;
 	arma::mat ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H.zeros();
 	transform(method.begin(),method.end(),method.begin(),::toupper);

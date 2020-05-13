@@ -19,8 +19,10 @@ std::vector<Atom> parse_geometry(std::string input_file);
 void parse_system_info(std::string input_file,std::map<std::string,std::string> &parameters);
 /** Parses the %CAP section.
  */
-void parse_cap_parameters(std::string input_file,std::map<std::string,std::string> &parameters);
+void parse_cap_params(std::string input_file,std::map<std::string,std::string> &parameters);
 
-
+void verify_method(std::map<std::string,std::string> parameters,std::string key);
+void check_parameters(std::map<std::string,std::string> parameters);
+void verify_cap_parameters(std::map<std::string,std::string> parameters);
 
 #endif /* INPUTPARSER_H_ */
