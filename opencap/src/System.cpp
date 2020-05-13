@@ -33,7 +33,11 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		verify_system_parameters(params);
 		parameters=params;
 		atoms = geometry;
-		if(parameters["bohr_coordinates"]!="true")
+		bool bohr_coords;
+		stringstream ss(parameters["bohr_coordinates"]);
+		ss >> bohr_coords;
+		std::cout << bohr_coords;
+		if(bohr_coords)
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();

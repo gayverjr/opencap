@@ -5,7 +5,7 @@ Gh 0  0   0.0
 $end
 
 $system
-bohr_coordinates true
+bohr_coordinates false
 !cart_bf spdf
 method ms-caspt2
 package openmolcas
