@@ -47,6 +47,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> read_rassi_tdms(std::string fi
     		beta_opdms[i][j]= beta_opdms[j][i];
     	}
     }
+	std::cout << "Successfully read in densities from file:" << filename << std::endl;
     return {alpha_opdms,beta_opdms};
 }
 
@@ -96,5 +97,6 @@ arma::mat read_mscaspt2_heff(size_t nstates, std::string filename)
 		for (size_t i=0;i<nstates;i++)
 			ZERO_ORDER_H(i,i)+=E_shift;
 	}
+	std::cout << "Successfully read in zeroth order Hamiltonian from file:" << filename << std::endl;
 	return ZERO_ORDER_H;
 }

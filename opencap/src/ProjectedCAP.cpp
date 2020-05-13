@@ -88,6 +88,7 @@ arma::mat Projected_CAP::read_h0_file()
 			return h0;
 		}
 	}
+	std::cout << "Successfully read in zeroth order Hamiltonian from file:" << parameters["h0_file"] << std::endl;
 	return h0;
 }
 
@@ -195,7 +196,10 @@ void Projected_CAP::check_overlap_matrix()
 		to_molden_ordering(OVERLAP_MAT, system.bs);
 		auto qchem_smat = qchem_read_overlap(parameters["fchk_file"],system.bs.Nbasis);
 		if(OVERLAP_MAT.n_rows != qchem_smat.n_rows || OVERLAP_MAT.n_cols != qchem_smat.n_cols)
-			opencap_throw("Basis set has wrong dimension when checking overlap matrix. Check your input files.");
+			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
+					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
+					"and that the basis set is the same as that used in the electronic structure"
+					" calculation.");
 		bool conflicts = false;
 		for (size_t i=0;i<qchem_smat.n_rows;i++)
 		{
@@ -210,15 +214,20 @@ void Projected_CAP::check_overlap_matrix()
 				}
 			}
 		}
-			if(conflicts)
-				opencap_throw("Error. Overlap matrices do not match. Check your basis set.");
+		if (conflicts)
+			opencap_throw("Error. The dimensions of the overlap matrices match, but the elements do not. Verify that"
+					" your geometry has the right units, and that your basis file is ordered the same as in "
+					"the electronic structure calculation.");
 	}
 	else if (parameters["package"]=="openmolcas")
 	{
 		to_molcas_ordering(OVERLAP_MAT,system.bs,system.atoms);
 		arma::mat overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
 		if(OVERLAP_MAT.n_rows != overlap_mat.n_rows || OVERLAP_MAT.n_cols != overlap_mat.n_cols)
-			opencap_throw("Basis set has wrong dimension when checking overlap matrix. Check your input files.");
+			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
+					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
+					"and that the basis set is the same as that used in the electronic structure"
+					" calculation.");
 		std::cout << std::fixed << std::setprecision(10);
 		bool conflicts = false;
 		for (size_t i=0;i<overlap_mat.n_rows;i++)
@@ -236,7 +245,7 @@ void Projected_CAP::check_overlap_matrix()
 		}
 		if (conflicts)
 			opencap_throw("Error. The dimensions of the overlap matrices match, but the elements do not. Verify that"
-					"your geometry has the right units, and that your basis file is ordered the same as in "
+					" your geometry has the right units, and that your basis file is ordered the same as in "
 					"the electronic structure calculation.");
 	}
 	else

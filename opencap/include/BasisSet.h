@@ -24,9 +24,6 @@ using namespace std;
 
 class BasisSet {
 public:
-	/** Title of basis set, currently defaults to ``gen''.
-	 */
-	std::string name;
 	/** Number of gaussian shells specified in the ab initio basis set.
 	 */
 	size_t Nshells;

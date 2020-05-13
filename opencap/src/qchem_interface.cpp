@@ -133,6 +133,7 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
     		beta_densities[i][j]= beta_densities[j][i];
     	}
     }
+	std::cout << "Successfully read in densities from file:" << dmat_filename << std::endl;
     return {alpha_densities,beta_densities};
 
 }
@@ -186,6 +187,7 @@ arma::mat read_qchem_energies(size_t nstates,std::string method,std::string outp
     			std::getline(is,line);
     	}
     }
+	std::cout << "Successfully read in zeroth order Hamiltonian from file:" << output_file << std::endl;
     return ZERO_ORDER_H;
 }
 

@@ -1,8 +1,13 @@
+ /*! \file opencap_exception.h
+     Exception handling adapted from: https://github.com/GPMueller/mwe-cpp-exception
+ */
 #pragma once
 #include <stdexcept>
 #include <string>
 
-// Custom exception class to be used for more practical throwing
+/*! \brief Class for handling nested exceptions.
+ *
+ */
 class Exception : public std::runtime_error
 {
 		public:
@@ -23,13 +28,14 @@ class Exception : public std::runtime_error
         std::string _message;
  };
 
-    // Rethrow (creates a std::nested_exception) an exception, using the Exception class
-    // which contains file and line info. The original exception is preserved...
+/** Rethrow (creates a std::nested_exception) an exception, using the Exception class
+ * which contains file and line info. The original exception is preserved...
+ */
 void rethrow(const std::string & message, const char * file, unsigned int line);
 
-// General Exception handler
+/** General exception handler
+ */
 void Handle_Exception(const std::exception & ex, const std::string & function);
-
 
 // Shorthand for throwing an Exception with file and line info using macros
 #define opencap_throw(message) throw Exception(message, __FILE__, __LINE__);
