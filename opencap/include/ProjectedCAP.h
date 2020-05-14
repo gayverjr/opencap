@@ -1,8 +1,5 @@
-/*
- * ProjectedCAP.h
- *
- *  Created on: May 13, 2020
- *      Author: JG
+ /*! \file ProjectedCAP.h
+     \brief Class which handles projected %CAP calculations.
  */
 #include "opencap_exception.h"
 #include "System.h"
@@ -12,6 +9,9 @@
 #ifndef INCLUDE_PROJECTEDCAP_H_
 #define INCLUDE_PROJECTEDCAP_H_
 
+/*! \brief Class which handles projected %CAP calculations.
+ *
+ */
 class Projected_CAP
 {
 public:
@@ -37,7 +37,7 @@ public:
 	/** Map containing the parameters defined in the input
 	 */
 	std::map<std::string, std::string> parameters;
-	/** Constructs Projected %CAP object from System object.
+	/** Constructs Projected %CAP object from %System object.
 	 */
 	Projected_CAP(System my_sys);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
