@@ -1,5 +1,5 @@
  /*! \file opencap_exception.h
-     Exception handling adapted from: https://github.com/GPMueller/mwe-cpp-exception
+     \brief %Exception handling adapted from: https://github.com/GPMueller/mwe-cpp-exception
  */
 #pragma once
 #include <stdexcept>
