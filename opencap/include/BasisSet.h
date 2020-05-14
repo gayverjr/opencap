@@ -43,6 +43,8 @@ public:
     /** Default constructor.
       *
 	  * Constructs BasisSet using geometry and dictionary of parameters which define ab initio basis set.
+	  * \param geometry: molecular geometry
+	  * \param parameters: parameters map
       */
 	BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters);
     /** Returns number of Cartesian basis functions in basis set.
@@ -51,10 +53,15 @@ public:
     /** Returns largest angular momentum of basis functions in the basis set.
       */
 	int max_L();
-    /** Returns smallest exponent of all primitives in the basis set centered at a particular Atom.
+    /** Returns smallest exponent of all primitives in the basis set centered at a particular Atom
+     * for each orbital angular momentum.
+     * \param atm: Atom of interest
+     * \return Vector of smallest exponents belonging to a particular atom
       */
 	std::vector<double> alpha_min(Atom atm);
     /** Returns largest exponent of all primitives in the basis set centered at a particular Atom.
+     * \param atm: Atom of interest
+     * \return Largest exponent in the basis set belonging to a particular atom
       */
 	double alpha_max(Atom atm);
 private:
@@ -62,10 +69,14 @@ private:
       */
 	size_t calc_basis_size();
     /** Returns a list of Shells centered on a particular Atom.
+     * \param atm: Atom of interest
+     * \return Vector containing all Shell objects centered on the atom
       */
 	std::vector<Shell> shells_on_center(Atom atm);
-    /** Populates basis vector with Shells read in from the ab initio basis set. The coordinates of the Shell
+    /** Populates basis class member with Shells read in from the ab initio basis set. The coordinates of the Shell
      * are updated to the Atom it belongs to before being stored in the basis vector.
+     * \param geometry: molecular geometry
+     * \param all_shells: mapping of shells to atom types
       */
 	void build_basis_set(std::vector<Atom> geometry,map<string,std::vector<Shell>> all_shells);
 };

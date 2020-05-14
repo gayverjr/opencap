@@ -6,7 +6,7 @@
 #include <string>
 
 /*! \brief Class for handling nested exceptions.
- *
+ *  Adapted from: https://github.com/GPMueller/mwe-cpp-exception
  */
 class Exception : public std::runtime_error
 {
