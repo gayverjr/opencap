@@ -51,6 +51,10 @@ public:
       */
 	void ang_to_bohr();
     /** Constructs Atom object from atomic symbol and coordinates.
+     * \param symbol: element symbol
+     * \param x: x coordinate
+     * \param y: y coordinate
+     * \param z: z coordinate
       */
 	Atom(string symbol,double x,double y, double z);
     /** Returns element structure corresponding to atomic symbol.

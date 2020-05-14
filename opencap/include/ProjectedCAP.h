@@ -38,6 +38,7 @@ public:
 	 */
 	std::map<std::string, std::string> parameters;
 	/** Constructs Projected %CAP object from %System object.
+	 *  \param my_sys: System object
 	 */
 	Projected_CAP(System my_sys);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members

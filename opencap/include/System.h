@@ -40,7 +40,9 @@ private:
 	/** Converts atomic coordinates from angstrom to bohr units
 	 */
 	void convert_ang_to_bohr();
-	/** Checks that parameters are sufficient to construct system.
+	/** Checks that parameters are sufficient to construct system,
+	 * and sets unspecified fields to their defaults.
+	 * \return Updated parameters map.
 	 */
 	void verify_system_parameters(std::map<std::string, std::string> &params);
 	/** Checks bohr_coordinates keyword.
