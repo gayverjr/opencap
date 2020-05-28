@@ -6,6 +6,7 @@
 #include "CAP.h"
 #include <map>
 #include <armadillo>
+#include <iostream>
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
 
@@ -29,12 +30,16 @@ public:
 	/** Default constructor, does nothing
 	 */
 	System(){};
+	System(std::string name) {};
 	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	/** Overlap matrix in AO basis
 	 */
 	arma::mat OVERLAP_MAT;
+	/** Sets geometry from python
+	 */
+	void set_geometry(std::string geometry_string);
 
 private:
 	/** Converts atomic coordinates from angstrom to bohr units

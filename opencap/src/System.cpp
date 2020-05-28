@@ -80,3 +80,8 @@ bool System::bohr_coords()
 		opencap_throw("Invalid value for keyword 'bohr_coordinates'");
 	return false;
 }
+
+void System::set_geometry(std::string geometry_string)
+{
+	std::cout << geometry_string << std::endl;
+}
