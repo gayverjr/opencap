@@ -23,6 +23,10 @@ struct element
     /** Atomic symbol
       */
     std::string symbol;
+
+    element(int new_Z, std::string new_name, std::string new_symbol)
+    {Z=new_Z; name = new_name; symbol=new_symbol;};
+    std::string &getName() {return name;};
 };
 
 
@@ -60,4 +64,6 @@ public:
     /** Returns element structure corresponding to atomic symbol.
       */
 	element get_element_info(std::string symbol);
+	void hello_world();
+	Atom (std::string test);
 };
