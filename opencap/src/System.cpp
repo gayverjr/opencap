@@ -85,3 +85,10 @@ void System::set_geometry(std::string geometry_string)
 {
 	std::cout << geometry_string << std::endl;
 }
+
+void System::print_dict(std::map<std::string,std::string> dict)
+{
+    for (auto item : dict)
+        std::cout << "key=" << std::string(item.first) << ", "
+                  << "value=" << std::string(item.second) << std::endl;
+}

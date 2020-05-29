@@ -40,6 +40,7 @@ public:
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
+	void print_dict(std::map<std::string,std::string> dict);
 
 private:
 	/** Converts atomic coordinates from angstrom to bohr units
