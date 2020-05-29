@@ -40,7 +40,7 @@ pybind11_add_module(pycap ${SOURCES} ${BIND_SOURCES})
 target_link_libraries(pycap PRIVATE ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
 
 add_executable(opencap ${SOURCES})
-target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
+target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects pybind11::module)
 
 install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}
