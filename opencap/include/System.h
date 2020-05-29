@@ -1,15 +1,17 @@
  /*! \file System.h
      \brief Class which holds molecular geometry and basis set data.
  */
+#include <pybind11/pybind11.h>
 #include "Atom.h"
 #include "BasisSet.h"
 #include "CAP.h"
 #include <map>
 #include <armadillo>
 #include <iostream>
+
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
-
+namespace py = pybind11;
 
 /*! \brief Class which holds molecular geometry and basis set data.
  *
@@ -41,6 +43,12 @@ public:
 	 */
 	void set_geometry(std::string geometry_string);
 	void print_dict(std::map<std::string,std::string> dict);
+	void print_dict2(py::dict dict)
+	{
+	    for (auto item : dict)
+	        std::cout << "key=" << std::string(py::str(item.first)) << ", "
+	                  << "value=" << std::string(py::str(item.second)) << std::endl;
+	}
 
 private:
 	/** Converts atomic coordinates from angstrom to bohr units
