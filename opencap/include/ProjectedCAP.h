@@ -47,6 +47,8 @@ public:
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method();
+	Projected_CAP();
+	void run();
 
 private:
 	/** Reads in TDMs from electronic structure package

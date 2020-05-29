@@ -32,7 +32,9 @@ public:
 	/** Default constructor, does nothing
 	 */
 	System(){};
-	System(std::string name) {};
+	/** Construct from python
+	 */
+	System(py::dict dict);
 	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
@@ -42,13 +44,7 @@ public:
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
-	void print_dict(std::map<std::string,std::string> dict);
-	void print_dict2(py::dict dict)
-	{
-	    for (auto item : dict)
-	        std::cout << "key=" << std::string(py::str(item.first)) << ", "
-	                  << "value=" << std::string(py::str(item.second)) << std::endl;
-	}
+
 
 private:
 	/** Converts atomic coordinates from angstrom to bohr units

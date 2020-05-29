@@ -2,12 +2,16 @@ cmake_minimum_required(VERSION 3.10)
 project(opencap
         LANGUAGES CXX C 
         )
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB BIND_SOURCES "bindings/*.cpp")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(HDF5 REQUIRED)
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
 find_package(Armadillo REQUIRED)
 include_directories(${ARMADILLO_INCLUDE_DIRS})
@@ -40,7 +44,7 @@ pybind11_add_module(pycap ${SOURCES} ${BIND_SOURCES})
 target_link_libraries(pycap PRIVATE ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects)
 
 add_executable(opencap ${SOURCES})
-target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects pybind11::module)
+target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects pybind11::module python)
 
 install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}

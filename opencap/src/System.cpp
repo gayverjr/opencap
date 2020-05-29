@@ -4,6 +4,7 @@
  *  Created on: Feb 18, 2020
  *      Author: JG
  */
+#include <pybind11/pybind11.h>
 #include "System.h"
 #include "BasisSet.h"
 #include <iostream>
@@ -53,6 +54,50 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 
 }
 
+System::System(py::dict dict)
+{
+	std::map<std::string,std::string> params;
+    for (auto item : dict)
+    {
+    	if (py::str(item.first).cast<std::string>()!="geometry")
+    		params[std::string(py::str(item.first))]=std::string(py::str(item.second));
+    	else
+    		set_geometry(py::str(item.second));
+    }
+    verify_system_parameters(params);
+    parameters = params;
+	if(!bohr_coords())
+	{
+		for (size_t i=0;i<atoms.size();i++)
+			atoms[i].ang_to_bohr();
+	}
+	bs = BasisSet(atoms,parameters);
+	//now construct overlap matrix
+	arma::mat Smat(bs.num_carts(),bs.num_carts());
+	compute_analytical_overlap(bs,Smat);
+	uniform_cart_norm(Smat,bs);
+	arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
+	cart2spherical(Smat,spherical_ints,bs);
+	OVERLAP_MAT = spherical_ints;
+}
+
+void System::set_geometry(std::string geometry_string)
+{
+	std::vector<Atom> atom_list;
+	stringstream ss(geometry_string);
+	string line;
+	while(std::getline(ss,line))
+	{
+		std::istringstream iss(line);
+		std::string element_symbol;
+		double x, y, z;
+		iss >> element_symbol >> x >> y >> z;
+		transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::tolower);
+		atom_list.push_back(Atom(element_symbol,x,y,z));
+	}
+	atoms = atom_list;
+}
+
 void System::verify_system_parameters(std::map<std::string, std::string> &params)
 {
 	if(params.find("basis_file")==params.end())
@@ -81,14 +126,5 @@ bool System::bohr_coords()
 	return false;
 }
 
-void System::set_geometry(std::string geometry_string)
-{
-	std::cout << geometry_string << std::endl;
-}
 
-void System::print_dict(std::map<std::string,std::string> dict)
-{
-    for (auto item : dict)
-        std::cout << "key=" << std::string(item.first) << ", "
-                  << "value=" << std::string(item.second) << std::endl;
-}
+
