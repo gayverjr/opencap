@@ -30,7 +30,6 @@
 #include <limits>
 #include "opencap_exception.h"
 
-
 Projected_CAP::Projected_CAP(System my_sys)
 {
 	//nstates = 0;
@@ -281,4 +280,18 @@ void Projected_CAP::verify_method()
 	}
 	else
 		opencap_throw("Error: unsupported package. Only QChem and OpenMolcas are currently supported.");
+}
+
+void Projected_CAP::run()
+{
+	auto t_start = std::chrono::high_resolution_clock::now();
+	compute_cap_matrix();
+	std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
+	std::cout << "Number of states: " << nstates << std::endl;
+	std::cout << "Zeroth order Hamiltonian" << std::endl;
+	ZERO_ORDER_H.raw_print();
+	std::cout << "CAP matrix" << std::endl;
+	CORRELATED_CAP_MAT.raw_print();
+	auto t_end = std::chrono::high_resolution_clock::now();
+	std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
 }
