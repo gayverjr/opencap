@@ -2,6 +2,7 @@
 #include <pybind11/stl.h>
 #include "System.h"
 #include "ProjectedCAP.h"
+#include <pybind11/numpy.h>
 
 namespace py = pybind11;
 
@@ -17,7 +18,10 @@ PYBIND11_MODULE(pycap, m) {
     	.def("get_AO_CAP",&Projected_CAP::get_AO_CAP)
 		.def("get_H",&Projected_CAP::get_H)
     	.def("get_CAP_mat",&Projected_CAP::get_CAP_mat)
-		.def("set_tdms",&Projected_CAP::set_tdms)
+		.def("add_tdm",(void (Projected_CAP::*)(py::array_t<double>&,size_t,size_t))
+				&Projected_CAP::add_tdm)
+		.def("add_tdm",(void (Projected_CAP::*)(py::array_t<double>&,py::array_t<double>&,
+				size_t,size_t)) &Projected_CAP::add_tdm)
 		.def("set_h0",&Projected_CAP::set_h0)
 		.def("read_data",&Projected_CAP::read_electronic_structure_data)
 		.def("set_cap_params",&Projected_CAP::set_cap_params)
