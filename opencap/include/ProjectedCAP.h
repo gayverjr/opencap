@@ -57,8 +57,9 @@ public:
 	py::array get_AO_CAP();
 	py::array get_CAP_mat();
 	py::array get_H();
-	void set_tdms(py::array_t<double> & alpha_density,
+	void add_tdm(py::array_t<double> & alpha_density,
 			py::array_t<double> & beta_density,size_t row_idx, size_t col_idx);
+	void add_tdm(py::array_t<double> & tdm, size_t row_idx, size_t col_idx);
 	void set_h0(py::array_t<double> &h0);
 	void read_electronic_structure_data(py::dict dict);
 	void set_cap_params(py::dict dict);

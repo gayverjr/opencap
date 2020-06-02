@@ -321,13 +321,20 @@ py::array Projected_CAP::get_H()
 	return carma::mat_to_arr(ZERO_ORDER_H);
 }
 
-void Projected_CAP::set_tdms(py::array_t<double> & alpha_density,
+void Projected_CAP::add_tdm(py::array_t<double> & alpha_density,
 		py::array_t<double> & beta_density,size_t row_idx, size_t col_idx)
 {
 	arma::mat alpha_dm = carma::arr_to_mat<double>(alpha_density);
 	arma::mat beta_dm = carma::arr_to_mat<double>(beta_density);
 	alpha_dms [row_idx][col_idx] = alpha_dm;
 	beta_dms [row_idx][col_idx] = beta_dm;
+}
+
+void Projected_CAP::add_tdm(py::array_t<double> & tdm,size_t row_idx, size_t col_idx)
+{
+	arma::mat dmat = 0.5 * carma::arr_to_mat<double>(tdm);
+	alpha_dms[row_idx][col_idx] = dmat;
+	beta_dms[row_idx][col_idx] = dmat;
 }
 
 void Projected_CAP::set_h0(py::array_t<double> &h0)
