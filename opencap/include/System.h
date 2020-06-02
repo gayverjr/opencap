@@ -8,6 +8,7 @@
 #include <map>
 #include <armadillo>
 #include <iostream>
+#include <pybind11/numpy.h>
 
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
@@ -44,6 +45,7 @@ public:
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
+	py::array get_overlap_mat();
 
 
 private:

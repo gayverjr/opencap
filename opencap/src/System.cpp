@@ -20,11 +20,13 @@
 #include "utils.h"
 #include "transforms.h"
 #include "gto_ordering.h"
+#include "keywords.h"
 #include "CAP.h"
 #include "overlap.h"
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
+#include <carma/carma.h>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -59,10 +61,14 @@ System::System(py::dict dict)
 	std::map<std::string,std::string> params;
     for (auto item : dict)
     {
-    	if (py::str(item.first).cast<std::string>()!="geometry")
-    		params[std::string(py::str(item.first))]=std::string(py::str(item.second));
+    	std::string key = py::str(item.first).cast<std::string>();
+    	std::string value = py::str(item.second).cast<std::string>();
+		transform(key.begin(),key.end(),key.begin(),::tolower);
+		transform(value.begin(),value.end(),value.begin(),::tolower);
+    	if (key!="geometry")
+    		params[key]=value;
     	else
-    		set_geometry(py::str(item.second));
+    		set_geometry(value);
     }
     verify_system_parameters(params);
     parameters = params;
@@ -124,6 +130,11 @@ bool System::bohr_coords()
 	else
 		opencap_throw("Invalid value for keyword 'bohr_coordinates'");
 	return false;
+}
+
+py::array System::get_overlap_mat()
+{
+	return carma::mat_to_arr(OVERLAP_MAT);
 }
 
 

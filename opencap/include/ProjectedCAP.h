@@ -1,10 +1,12 @@
  /*! \file ProjectedCAP.h
      \brief Class which handles projected %CAP calculations.
  */
+#include <pybind11/pybind11.h>
 #include "opencap_exception.h"
 #include "System.h"
 #include "CAP.h"
 #include <armadillo>
+#include <pybind11/numpy.h>
 
 #ifndef INCLUDE_PROJECTEDCAP_H_
 #define INCLUDE_PROJECTEDCAP_H_
@@ -22,6 +24,7 @@ public:
 	/** %CAP matrix in correlated many electron basis
 	 */
 	arma::mat CORRELATED_CAP_MAT;
+	bool python;
 	/** Zeroth order Hamiltonian. Dimension is (nstates,nstates)
 	 */
 	arma::mat ZERO_ORDER_H;
@@ -40,15 +43,25 @@ public:
 	/** Constructs Projected %CAP object from %System object.
 	 *  \param my_sys: System object
 	 */
-	Projected_CAP(System my_sys);
+	Projected_CAP(System my_sys,std::map<std::string, std::string> params);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
 	 */
 	void compute_cap_matrix();
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method();
-	Projected_CAP();
+	/** Executes Projected CAP method.
+	 */
 	void run();
+	Projected_CAP(System my_sys,size_t num_states,std::string gto_ordering);
+	py::array get_AO_CAP();
+	py::array get_CAP_mat();
+	py::array get_H();
+	void set_tdms(py::array_t<double> & alpha_density,
+			py::array_t<double> & beta_density,size_t row_idx, size_t col_idx);
+	void set_h0(py::array_t<double> &h0);
+	void read_electronic_structure_data(py::dict dict);
+	void set_cap_params(py::dict dict);
 
 private:
 	/** Reads in TDMs from electronic structure package

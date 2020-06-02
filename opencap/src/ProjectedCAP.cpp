@@ -29,17 +29,17 @@
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
+#include <carma/carma.h>
 
-Projected_CAP::Projected_CAP(System my_sys)
+Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> params)
 {
-	//nstates = 0;
 	system = my_sys;
-	parameters=system.parameters;
+	parameters=params;
 	try
 	{
+		verify_method();
 		stringstream ss(parameters["nstates"]);
 		ss >> nstates;
-		verify_method();
 		read_in_zero_order_H();
 		read_in_dms();
 	}
@@ -47,8 +47,20 @@ Projected_CAP::Projected_CAP(System my_sys)
 	{
 		opencap_rethrow("Failed to initialize Projected CAP calculation.");
 	}
+	python = false;
 }
 
+Projected_CAP::Projected_CAP(System my_sys,size_t num_states, std::string gto_ordering)
+{
+	system = my_sys;
+	nstates = num_states;
+	parameters["package"] = gto_ordering;
+	alpha_dms = std::vector<std::vector<arma::mat>>(nstates,
+			std::vector<arma::mat>(nstates));
+	beta_dms = std::vector<std::vector<arma::mat>>(nstates,
+			std::vector<arma::mat>(nstates));
+	python = true;
+}
 
 arma::mat Projected_CAP::read_h0_file()
 {
@@ -167,7 +179,8 @@ void Projected_CAP::reorder_cap()
 
 void Projected_CAP::compute_cap_matrix()
 {
-	check_overlap_matrix();
+	if(!python)
+		check_overlap_matrix();
 	std::cout << "Verified overlap matrix." << std::endl;
 	std::cout << "Calculating CAP matrix in AO basis..." << std::endl;
 	CAP cap_integrator(system.atoms,parameters);
@@ -254,6 +267,9 @@ void Projected_CAP::check_overlap_matrix()
 
 void Projected_CAP::verify_method()
 {
+	if(parameters.find("nstates")==parameters.end())
+		opencap_throw("Error: missing the 'nstates' keyword. "
+				"Please specify the number of electronic states.")
 	std::string package_name = parameters["package"];
 	if(parameters.find("method")==parameters.end())
 		opencap_throw("Error: missing the 'method' keyword. Please choose a supported package/method.");
@@ -286,12 +302,91 @@ void Projected_CAP::run()
 {
 	auto t_start = std::chrono::high_resolution_clock::now();
 	compute_cap_matrix();
-	std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
-	std::cout << "Number of states: " << nstates << std::endl;
-	std::cout << "Zeroth order Hamiltonian" << std::endl;
-	ZERO_ORDER_H.raw_print();
-	std::cout << "CAP matrix" << std::endl;
-	CORRELATED_CAP_MAT.raw_print();
 	auto t_end = std::chrono::high_resolution_clock::now();
-	std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
+	std::cout << "CAP integration time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
 }
+
+py::array Projected_CAP::get_AO_CAP()
+{
+	return carma::mat_to_arr(AO_CAP_MAT);
+}
+
+py::array Projected_CAP::get_CAP_mat()
+{
+	return carma::mat_to_arr(CORRELATED_CAP_MAT);
+}
+
+py::array Projected_CAP::get_H()
+{
+	return carma::mat_to_arr(ZERO_ORDER_H);
+}
+
+void Projected_CAP::set_tdms(py::array_t<double> & alpha_density,
+		py::array_t<double> & beta_density,size_t row_idx, size_t col_idx)
+{
+	arma::mat alpha_dm = carma::arr_to_mat<double>(alpha_density);
+	arma::mat beta_dm = carma::arr_to_mat<double>(beta_density);
+	alpha_dms [row_idx][col_idx] = alpha_dm;
+	beta_dms [row_idx][col_idx] = beta_dm;
+}
+
+void Projected_CAP::set_h0(py::array_t<double> &h0)
+{
+	ZERO_ORDER_H = carma::arr_to_mat<double>(h0);
+}
+
+void Projected_CAP::read_electronic_structure_data(py::dict dict)
+{
+    for (auto item : dict)
+    {
+    	std::string key = py::str(item.first).cast<std::string>();
+    	std::string value = py::str(item.second).cast<std::string>();
+		transform(key.begin(),key.end(),key.begin(),::tolower);
+		transform(value.begin(),value.end(),value.begin(),::tolower);
+    	parameters[key]=value;
+    }
+	try
+	{
+		verify_method();
+		stringstream ss(parameters["nstates"]);
+		ss >> nstates;
+		read_in_zero_order_H();
+		read_in_dms();
+	}
+	catch(exception &e)
+	{
+		//clean up bad params map
+		for (auto item: dict)
+		{
+			std::string key = py::str(item.first).cast<std::string>();
+			auto it1 = parameters.find(key);
+			parameters.erase(it1);
+		}
+		opencap_rethrow("Failed to read electronic structure data.");
+	}
+}
+
+void Projected_CAP::set_cap_params(py::dict dict)
+{
+	std::map<std::string, std::string> cap_params;
+    for (auto item : dict)
+    {
+    	std::string key = py::str(item.first).cast<std::string>();
+    	std::string value = py::str(item.second).cast<std::string>();
+		transform(key.begin(),key.end(),key.begin(),::tolower);
+		transform(value.begin(),value.end(),value.begin(),::tolower);
+    	cap_params[key]=value;
+    }
+    try
+    {
+    	CAP cap_integrator(system.atoms,cap_params);
+    	//success
+    	for (auto item: cap_params)
+    		parameters[item.first]=item.second;
+    }
+    catch(exception &e)
+    {
+    	opencap_rethrow("Invalid CAP parameters.")
+    }
+}
+

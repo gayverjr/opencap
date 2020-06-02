@@ -12,6 +12,7 @@
 #include "Atom.h"
 #include "opencap_exception.h"
 #include "ProjectedCAP.h"
+#include "keywords.h"
 
 int main(int argc, char **argv)
 {
@@ -23,11 +24,11 @@ int main(int argc, char **argv)
 		{
 			std::tuple<std::vector<Atom>,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 			std::map<std::string,std::string> params = std::get<1>(inp_data);
-			System my_sys(std::get<0>(inp_data),std::get<1>(inp_data));
+			System my_sys(std::get<0>(inp_data),get_params_for_field(params,"system"));
 			if(params["jobtype"] == "projected_cap")
 			{
 				auto t_start = std::chrono::high_resolution_clock::now();
-				Projected_CAP pc(my_sys);
+				Projected_CAP pc(my_sys,get_params_for_field(params,"projected_cap"));
 				pc.compute_cap_matrix();
 				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;
