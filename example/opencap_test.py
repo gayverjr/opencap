@@ -18,10 +18,8 @@ cap_dict = {
             "angular_points": "110"
 }
 es_dict = {"method" : "ms-caspt2",
-           "package": "openmolcas",
            "molcas_output":"anion_reference.out",
            "rassi_h5":"test.rassi.h5",
-           "nstates": "10"
 }
 
 f = h5py.File('test.rassi.h5', 'r')
@@ -39,18 +37,38 @@ while idx<len(lines):
     idx+=1
 all_values = np.reshape(all_values,(nstates,nstates))
 
+#read data
 s = pycap.System(sys_dict)
 pc = pycap.Projected_CAP(s,10,"openmolcas")
 pc.read_data(es_dict)
-'''
+pc.set_cap_params(cap_dict)
+pc.run()
+mat=pc.get_CAP_mat()
+print(DataFrame(mat).to_string(index=False, header=False))
+
+# separate alpha beta
+pc = pycap.Projected_CAP(s,10,"openmolcas")
 pc.set_h0(all_values)
 for i in range(0,10):
     for j in range(i,10):
         arr1 = 0.5*np.reshape(arr[i][j],(119,119))
-        pc.set_tdms(arr1,arr1,i,j)
+        pc.add_tdm(arr1,arr1,i,j)
         if i!=j:
-            pc.set_tdms(arr1,arr1,j,i)
-'''
+            pc.add_tdm(arr1,arr1,j,i)
+pc.set_cap_params(cap_dict)
+pc.run()
+mat=pc.get_CAP_mat()
+print(DataFrame(mat).to_string(index=False, header=False))
+
+# spin traced
+pc = pycap.Projected_CAP(s,10,"openmolcas")
+pc.set_h0(all_values)
+for i in range(0,10):
+    for j in range(i,10):
+        arr1 = np.reshape(arr[i][j],(119,119))
+        pc.add_tdm(arr1,i,j)
+        if i!=j:
+            pc.add_tdm(arr1,j,i)
 pc.set_cap_params(cap_dict)
 pc.run()
 mat=pc.get_CAP_mat()

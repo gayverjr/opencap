@@ -124,7 +124,6 @@ void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
     int max_num_angular_points = angular_points;
 	for(size_t i=0;i<atoms.size();i++)
 	{
-        std::cout << "Getting the grid for atom:" << i+1 << std::endl;
 		//allocate and create grid
 		context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,
@@ -149,8 +148,6 @@ void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
-		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
-		std::cout << "Grid has " << num_points << " points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
 }
