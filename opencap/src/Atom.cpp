@@ -27,11 +27,9 @@ Atom::Atom(string sym,double x_coord,double y_coord, double z_coord)
 
 void Atom::ang_to_bohr()
 {
-	std::cout << coords[2] << std::endl;
 	const double ANG_TO_BOHR_CONV=1/0.5291772108;
 	for(size_t i=0;i<coords.size();i++)
 		coords[i]=coords[i]*ANG_TO_BOHR_CONV;
-	std::cout << coords[2] << std::endl;
 }
 
 void Atom::hello_world()

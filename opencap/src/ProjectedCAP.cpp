@@ -76,7 +76,7 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 		if(num_states<1)
 			opencap_throw("Error: not enough states to run calculation.");
 		std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
-		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem"))
+		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem" || gto_ordering=="pyscf"))
 			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
 		parameters["package"] = gto_ordering;
 		alpha_dms = std::vector<std::vector<arma::mat>>(nstates,
@@ -232,6 +232,8 @@ void Projected_CAP::reorder_cap()
 		to_molden_ordering(AO_CAP_MAT, system.bs);
 	else if(pkg=="openmolcas")
 		to_molcas_ordering(AO_CAP_MAT,system.bs,system.atoms);
+	else if(pkg == "pyscf")
+		return;
 	else
 		opencap_throw("Error. Package: " + pkg + " is unsupported.");
 }
@@ -388,8 +390,7 @@ void Projected_CAP::run()
 void Projected_CAP::verify_data()
 {
 	//check that number of states is correct
-	if(!(nstates == ZERO_ORDER_H.n_cols && ZERO_ORDER_H.n_cols == nstates &&
-		nstates == alpha_dms.size() && nstates == beta_dms.size()))
+	if(!(nstates == alpha_dms.size() && nstates == beta_dms.size()))
 		opencap_throw("Error: dimensions of H and density matrix container do not match number of states.")
 	//check that dimensionality of density matrices is correct
 	//alpha
