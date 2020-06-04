@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 			{
 				auto t_start = std::chrono::high_resolution_clock::now();
 				Projected_CAP pc(my_sys,get_params_for_field(params,"projected_cap"));
-				pc.compute_cap_matrix();
+				pc.run();
 				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;
 				std::cout << "Zeroth order Hamiltonian" << std::endl;

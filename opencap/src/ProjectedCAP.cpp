@@ -50,21 +50,46 @@ Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> pa
 	python = false;
 }
 
-Projected_CAP::Projected_CAP(System my_sys,size_t num_states, std::string gto_ordering)
+Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_ordering)
 {
-	system = my_sys;
-	nstates = num_states;
-	if(num_states<1)
-		opencap_throw("Error: not enough states to run calculation.");
-	std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
-	if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem"))
-		opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
-	parameters["package"] = gto_ordering;
-	alpha_dms = std::vector<std::vector<arma::mat>>(nstates,
-			std::vector<arma::mat>(nstates));
-	beta_dms = std::vector<std::vector<arma::mat>>(nstates,
-			std::vector<arma::mat>(nstates));
-	python = true;
+	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
+			"r_cut","radial_precision","angular_points"};
+	std::map<std::string, std::string> params;
+    for (auto item : dict)
+    {
+    	std::string key = py::str(item.first).cast<std::string>();
+    	std::string value = py::str(item.second).cast<std::string>();
+		transform(key.begin(),key.end(),key.begin(),::tolower);
+		transform(value.begin(),value.end(),value.begin(),::tolower);
+    	if (std::find(valid_keywords.begin(),
+    			valid_keywords.end(),key)==valid_keywords.end())
+    		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
+		params[key]=value;
+    }
+    try
+    {
+    	CAP cap_integrator(system.atoms,params);
+		for (auto item: params)
+			parameters[item.first]=item.second;
+		system = my_sys;
+		nstates = num_states;
+		if(num_states<1)
+			opencap_throw("Error: not enough states to run calculation.");
+		std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
+		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem"))
+			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
+		parameters["package"] = gto_ordering;
+		alpha_dms = std::vector<std::vector<arma::mat>>(nstates,
+				std::vector<arma::mat>(nstates));
+		beta_dms = std::vector<std::vector<arma::mat>>(nstates,
+				std::vector<arma::mat>(nstates));
+		python = true;
+    }
+    catch(exception &e)
+    {
+    	opencap_throw("Failed to construct Projected CAP object.");
+    }
+
 }
 
 arma::mat Projected_CAP::read_h0_file()
@@ -182,8 +207,9 @@ void Projected_CAP::read_in_dms()
 
 }
 
-void Projected_CAP::compute_cap_correlated_basis()
+void Projected_CAP::compute_projected_cap()
 {
+	verify_data();
 	arma::mat EOMCAP(nstates,nstates);
 	EOMCAP.zeros();
     std::cout << std::fixed << std::setprecision(10);
@@ -210,7 +236,7 @@ void Projected_CAP::reorder_cap()
 		opencap_throw("Error. Package: " + pkg + " is unsupported.");
 }
 
-void Projected_CAP::compute_cap_matrix()
+void Projected_CAP::compute_ao_cap()
 {
 	if(!python)
 	{
@@ -238,7 +264,6 @@ void Projected_CAP::compute_cap_matrix()
 	AO_CAP_MAT = cap_spherical;
 	//re-order cap matrix based on electronic structure package dms came from
 	reorder_cap();
-	compute_cap_correlated_basis();
 }
 
 void Projected_CAP::check_overlap_matrix()
@@ -351,8 +376,8 @@ void Projected_CAP::run()
 {
 	try
 	{
-		verify_data();
-		compute_cap_matrix();
+		compute_ao_cap();
+		compute_projected_cap();
 	}
 	catch(exception &e)
 	{
@@ -387,12 +412,12 @@ void Projected_CAP::verify_data()
 	}
 }
 
-py::array Projected_CAP::get_AO_CAP()
+py::array Projected_CAP::get_ao_cap()
 {
 	return carma::mat_to_arr(AO_CAP_MAT);
 }
 
-py::array Projected_CAP::get_CAP_mat()
+py::array Projected_CAP::get_projected_cap()
 {
 	return carma::mat_to_arr(CORRELATED_CAP_MAT);
 }
@@ -473,43 +498,3 @@ void Projected_CAP::read_electronic_structure_data(py::dict dict)
 		opencap_rethrow("Failed to read electronic structure data.");
 	}
 }
-
-void Projected_CAP::set_cap_params(py::dict dict)
-{
-	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
-			"r_cut","radial_precision","angular_points"};
-	std::map<std::string, std::string> params;
-    for (auto item : dict)
-    {
-    	std::string key = py::str(item.first).cast<std::string>();
-    	std::string value = py::str(item.second).cast<std::string>();
-		transform(key.begin(),key.end(),key.begin(),::tolower);
-		transform(value.begin(),value.end(),value.begin(),::tolower);
-    	if (std::find(valid_keywords.begin(),
-    			valid_keywords.end(),key)==valid_keywords.end())
-    		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
-		params[key]=value;
-    }
-    try
-    {
-    	CAP cap_integrator(system.atoms,params);
-		for (auto item: params)
-			parameters[item.first]=item.second;
-    }
-    catch(exception &e)
-    {
-		//remove bad params
-		for (auto item: dict)
-		{
-			std::string key = py::str(item.first).cast<std::string>();
-	    	std::string value = py::str(item.second).cast<std::string>();
-			if(parameters[key] == value)
-			{
-				auto it1 = parameters.find(key);
-				parameters.erase(it1);
-			}
-		}
-    	opencap_rethrow("Invalid CAP parameters.")
-    }
-}
-

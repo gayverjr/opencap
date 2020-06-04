@@ -16,7 +16,6 @@ find_package(Armadillo REQUIRED)
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 include(FetchContent)
 
-
 FetchContent_Declare(
     carma
     GIT_REPOSITORY https://github.com/RUrlus/carma.git
@@ -50,11 +49,14 @@ if(NOT numgrid_POPULATED)
     )
 endif()
 
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 pybind11_add_module(pycap ${SOURCES} ${BIND_SOURCES})
 target_link_libraries(pycap PRIVATE ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects carma)
 
 add_executable(opencap ${SOURCES})
-target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed carma)
+target_link_libraries(opencap ${ARMADILLO_LIBRARIES} ${HDF5_LIBRARIES} ${PYTHON_LIBRARIES} numgrid-objects pybind11::module pybind11::embed carma)
 
 install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}
