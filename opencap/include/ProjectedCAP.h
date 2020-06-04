@@ -46,7 +46,10 @@ public:
 	Projected_CAP(System my_sys,std::map<std::string, std::string> params);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
 	 */
-	void compute_cap_matrix();
+	void compute_ao_cap();
+	/** Computes %CAP in correlated many electron basis
+	 */
+	void compute_projected_cap();
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method(std::map<std::string,std::string> params);
@@ -58,13 +61,13 @@ public:
 	 *\param num_states: number of states
 	 *\param gto_ordering: Name of electronic structure package
 	 */
-	Projected_CAP(System my_sys,size_t num_states,std::string gto_ordering);
+	Projected_CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
 	/** Returns CAP matrix in AO basis.
 	 */
-	py::array get_AO_CAP();
+	py::array get_ao_cap();
 	/** Returns CAP matrix in wave function basis.
 	 */
-	py::array get_CAP_mat();
+	py::array get_projected_cap();
 	/** Returns zeroth order Hamiltonian in wave function basis.
 	 */
 	py::array get_H();
@@ -93,22 +96,14 @@ public:
 	 * \param override: Set to true when overriding existing keywords
 	 */
 	void read_electronic_structure_data(py::dict dict);
-	/** Sets CAP parameters from python.
-	 * Valid keywords: cap_type,cap_x,cap_y,cap_z,
-	 * r_cut,radial_precision,angular_points.
-	 * \param dict: Python dictionary containing keywords for setting CAP parameters.
-	 * \param override: Set to true when overriding existing keywords
+	/** Verifies that required electronic structure data is present to perform calculation.
 	 */
-	void set_cap_params(py::dict dict);
 	void verify_data();
 
 private:
 	/** Reads in TDMs from electronic structure package
 	 */
 	void read_in_dms();
-	/** Computes %CAP in correlated many electron basis
-	 */
-	void compute_cap_correlated_basis();
 	/** Re-orders %CAP matrix in AO basis to match electronic structure package ordering
 	 */
 	void reorder_cap();
