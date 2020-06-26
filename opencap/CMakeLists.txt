@@ -19,6 +19,7 @@ include(FetchContent)
 FetchContent_Declare(
     carma
     GIT_REPOSITORY https://github.com/RUrlus/carma.git
+    GIT_TAG  baef46c
 )
 FetchContent_GetProperties(carma)
 if(NOT carma_POPULATED)

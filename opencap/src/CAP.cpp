@@ -23,7 +23,7 @@ CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 	std::stringstream capxss(params["cap_x"]);
 	std::stringstream capyss(params["cap_y"]);
 	std::stringstream capzss(params["cap_z"]);
-	std::stringstream rcutss(params["cap_z"]);
+	std::stringstream rcutss(params["r_cut"]);
 	std::stringstream radialss(params["radial_precision"]);
 	std::stringstream angularss(params["angular_points"]);
 	capxss >> capx;

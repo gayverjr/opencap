@@ -15,6 +15,9 @@ std::vector<int> opencap_harmonic_ordering(Shell shell);
 /** Re-order matrix from opencap ordering to molcas ordering.
  */
 void to_molcas_ordering(arma::mat &opencap_mat,BasisSet bs,std::vector<Atom> geometry);
+/** Re-order matrix from opencap ordering to pyscf ordering.
+ */
+void to_pyscf_ordering(arma::mat &opencap_mat,BasisSet bs);
 /** Ordering of cartesian gaussians in molcas.
  */
 std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell);
@@ -33,12 +36,21 @@ void to_qchem_ordering(arma::mat &opencap_mat,BasisSet bs);
 /** Re-order matrix from molden ordering to q-chem internal ordering.
  */
 void molden_to_qchem_ordering(arma::mat &opencap_mat,BasisSet bs);
+/** Re-order matrix from opencap ordering to pyscf ordering.
+ */
+void to_pyscf_ordering(arma::mat &opencap_mat,BasisSet bs);
 /** Ordering of cartesian gaussians in molden format.
  */
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell);
 /** Ordering of harmonic gaussians in molden format.
  */
 std::vector<int> molden_harmonic_ordering(Shell shell);
+/** Ordering of harmonic gaussians in pyscf format.
+ */
+std::vector<int> pyscf_harmonic_ordering(Shell shell);
+/** Ordering of cartesian gaussians in pyscf format.
+ */
+std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell shell);
 
 
 

@@ -233,7 +233,7 @@ void Projected_CAP::reorder_cap()
 	else if(pkg=="openmolcas")
 		to_molcas_ordering(AO_CAP_MAT,system.bs,system.atoms);
 	else if(pkg == "pyscf")
-		return;
+		to_pyscf_ordering(AO_CAP_MAT,system.bs);
 	else
 		opencap_throw("Error. Package: " + pkg + " is unsupported.");
 }
@@ -315,9 +315,10 @@ void Projected_CAP::check_overlap_matrix()
 		{
 			for(size_t j=0;j<overlap_mat.n_cols;j++)
 			{
-				if (abs(overlap_mat(i,j)-OVERLAP_MAT(i,j))>1E-12)
+				if (abs(overlap_mat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 				{
 					std::cout << "Conflict at:" << i << "," << j << std::endl;
+					std::cout <<  overlap_mat(i,j)-OVERLAP_MAT(i,j) << std::endl;
 					std::cout << "OpenMolcas says:" << overlap_mat(i,j) << std::endl;
 					std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
 					conflicts = true;

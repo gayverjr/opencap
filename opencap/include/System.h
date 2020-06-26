@@ -45,7 +45,7 @@ public:
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
-	py::array get_overlap_mat();
+	py::array get_overlap_mat(std::string gto_ordering="opencap");
 
 
 private:

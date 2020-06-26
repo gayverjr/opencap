@@ -10,7 +10,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(pycap, m) {
     py::class_<System>(m, "System")
 		.def(py::init<py::dict>())
-		.def("get_overlap_mat",&System::get_overlap_mat)
+		.def("get_overlap_mat",&System::get_overlap_mat,py::arg("gto_ordering") = "opencap")
 		;
     py::class_<Projected_CAP>(m, "Projected_CAP")
 		.def(py::init<System,py::dict,size_t,std::string>())
