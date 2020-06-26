@@ -132,9 +132,29 @@ bool System::bohr_coords()
 	return false;
 }
 
-py::array System::get_overlap_mat()
+py::array System::get_overlap_mat(std::string gto_ordering)
 {
-	return carma::mat_to_arr(OVERLAP_MAT);
+	arma::mat overlap_copy(OVERLAP_MAT);
+	transform(gto_ordering.begin(),gto_ordering.end(),gto_ordering.begin(),::tolower);
+	if(gto_ordering=="opencap")
+		return carma::mat_to_arr(overlap_copy);
+	else if (gto_ordering=="pyscf")
+	{
+		to_pyscf_ordering(overlap_copy,bs);
+		return carma::mat_to_arr(overlap_copy);
+	}
+	else if(gto_ordering=="molcas")
+	{
+		to_molcas_ordering(overlap_copy,bs,atoms);
+		return carma::mat_to_arr(overlap_copy);
+	}
+	else if(gto_ordering=="molden"||gto_ordering=="qchem"||gto_ordering=="q-chem")
+	{
+		to_molden_ordering(overlap_copy,bs);
+		return carma::mat_to_arr(overlap_copy);
+	}
+	else
+		opencap_throw("Error: "+gto_ordering + " GTO ordering is not supported.");
 }
 
 
