@@ -12,12 +12,33 @@
 #include "utils.h"
 #include <math.h>
 #include <stdio.h>
+#include <h5pp/h5pp.h>
+#include <unsupported/Eigen/CXX11/Tensor>
+#include <Eigen/Dense>
+
+template<typename T>
+using  MatrixType = Eigen::Matrix<T,Eigen::Dynamic, Eigen::Dynamic>;
+
+template<typename Scalar,int rank, typename sizeType>
+auto Tensor_to_Matrix(const Eigen::Tensor<Scalar,rank> &tensor,const sizeType rows,const sizeType cols)
+{
+    return Eigen::Map<const MatrixType<Scalar>> (tensor.data(), rows,cols);
+}
 
 std::array<std::vector<std::vector<arma::mat>>,2> read_rassi_tdms(std::string filename)
 {
 	std::vector<std::vector<arma::mat>> alpha_opdms;
 	std::vector<std::vector<arma::mat>> beta_opdms;
+
+	std::vector<std::vector<Eigen::MatrixXd>> alpha_opdms2;
+	std::vector<std::vector<Eigen::MatrixXd>> beta_opdms2;
+
 	//first lets load in the hdf5 file
+	//arma::cube rassi_data, spin_density;
+	Eigen::Tensor<double,3> rass_data, spin_dens;
+	h5pp::File file(filename, h5pp::FilePermission::READONLY);
+	file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
+	file.readDataset(spin_dens,"SFS_TRANSITION_SPIN_DENSITIES");
 	arma::cube rassi_data, spin_density;
 	rassi_data.load(arma::hdf5_name(filename, "SFS_TRANSITION_DENSITIES"));
 	spin_density.load(arma::hdf5_name(filename, "SFS_TRANSITION_SPIN_DENSITIES"));
@@ -47,6 +68,40 @@ std::array<std::vector<std::vector<arma::mat>>,2> read_rassi_tdms(std::string fi
     		beta_opdms[i][j]= beta_opdms[j][i];
     	}
     }
+
+    const auto& d = rass_data.dimensions();
+    cout << "Dim size: " << d.size() << ", dim 0: " << d[0]
+         << ", dim 1: " << d[1] << ", dim2:" << d[2] << std::endl;
+    for(long i=0;i<d[0];i++)
+    {
+		std::vector<Eigen::MatrixXd> alpha_state_row;
+		std::vector<Eigen::MatrixXd> beta_state_row;
+		for (long j=0;j<d[1];j++)
+		{
+			long nbas = sqrt(d[2]);
+			Eigen::array<long,3> offset = {i,j,0};         //Starting point
+			Eigen::array<long,3> extent = {i+1,j+1,nbas}; //end point
+			Eigen::Tensor<double, 2> dmt_slice = rass_data.slice(offset, extent).reshape(Eigen::array<long,2>{nbas,nbas});
+			Eigen::MatrixXd  dmt_mat =  Tensor_to_Matrix(dmt_slice,nbas,nbas);
+			Eigen::Tensor<double, 2> spin_slice = spin_dens.slice(offset, extent).reshape(Eigen::array<long,2>{nbas,nbas});
+			Eigen::MatrixXd  spin_mat =  Tensor_to_Matrix(dmt_slice,nbas,nbas);
+			Eigen::MatrixXd alpha_opdm = 0.5*(dmt_mat+spin_mat);
+			Eigen::MatrixXd beta_opdm = 0.5*(dmt_mat-spin_mat);
+			alpha_state_row.push_back(alpha_opdm);
+			beta_state_row.push_back(beta_opdm);
+		}
+		alpha_opdms2.push_back(alpha_state_row);
+		beta_opdms2.push_back(beta_state_row);
+    }
+    for (size_t i=0;i<d[0];i++)
+    {
+    	for(size_t j=0;j<i;j++)
+    	{
+    		alpha_opdms2[i][j]= alpha_opdms2[j][i];
+    		beta_opdms2[i][j]= beta_opdms2[j][i];
+    	}
+    }
+
     return {alpha_opdms,beta_opdms};
 }
 
