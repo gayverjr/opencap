@@ -6,7 +6,7 @@
 #include "opencap_exception.h"
 #include "System.h"
 #include "CAP.h"
-#include <armadillo>
+#include <pybind11/eigen.h>
 
 #ifndef INCLUDE_PROJECTEDCAP_H_
 #define INCLUDE_PROJECTEDCAP_H_
@@ -20,20 +20,20 @@ public:
 	System system;
 	/** %CAP matrix in AO basis
 	 */
-	arma::mat AO_CAP_MAT;
+	Eigen::MatrixXd AO_CAP_MAT;
 	/** %CAP matrix in correlated many electron basis
 	 */
-	arma::mat CORRELATED_CAP_MAT;
+	Eigen::MatrixXd CORRELATED_CAP_MAT;
 	bool python;
 	/** Zeroth order Hamiltonian. Dimension is (nstates,nstates)
 	 */
-	arma::mat ZERO_ORDER_H;
+	Eigen::MatrixXd ZERO_ORDER_H;
 	/** Transition density matrices in AO basis, alpha densities
 	 */
-	std::vector<std::vector<arma::mat>> alpha_dms;
+	std::vector<std::vector<Eigen::MatrixXd>> alpha_dms;
 	/** Transition density matrices in AO basis, beta densities
 	 */
-	std::vector<std::vector<arma::mat>> beta_dms;
+	std::vector<std::vector<Eigen::MatrixXd>> beta_dms;
 	/** Number of states
 	 */
 	size_t nstates;
@@ -64,31 +64,31 @@ public:
 	Projected_CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
 	/** Returns CAP matrix in AO basis.
 	 */
-	py::array get_ao_cap();
+	Eigen::MatrixXd get_ao_cap();
 	/** Returns CAP matrix in wave function basis.
 	 */
-	py::array get_projected_cap();
+	Eigen::MatrixXd get_projected_cap();
 	/** Returns zeroth order Hamiltonian in wave function basis.
 	 */
-	py::array get_H();
+	Eigen::MatrixXd get_H();
 	/** Adds transition density matrices (alpha and beta) from state row_idx --> col_idx.
 	 * \param alpha_density: TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param beta_density: TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
 	 */
-	void add_tdm(py::array_t<double> & alpha_density,
-			py::array_t<double> & beta_density,size_t row_idx, size_t col_idx);
+	void add_tdms(Eigen::MatrixXd & alpha_density,
+			Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx);
 	/** Adds spin traced transition density matrix from state row_idx --> col_idx.
 	 * \param alpha_density: Spin traced TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
 	 */
-	void add_tdm(py::array_t<double> & tdm, size_t row_idx, size_t col_idx);
+	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx);
 	/** Sets zeroth order Hamiltonian.
 	 * \param h0: Zeroth order Hamiltonian of dimension (nstates,nstates)
 	 */
-	void set_h0(py::array_t<double> &h0);
+	void set_h0(Eigen::MatrixXd &h0);
 	/** Reads in electronic structure data from file, from python.
 	 * Valid keywords: method,qc_output,h0_file,rassi_h5,
 			fchk_file,molcas_output.
@@ -112,7 +112,7 @@ private:
 	void read_in_zero_order_H();
 	/** Reads in zeroth order Hamiltonian from file
 	 */
-	arma::mat read_h0_file();
+	Eigen::MatrixXd read_h0_file();
 	/** Compares computed overlap matrix to that read in from the electronic structure package
 	 */
 	void check_overlap_matrix();

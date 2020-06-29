@@ -7,7 +7,7 @@ from pyscf import gto, scf, ci, ao2mo
 sys_dict = {"geometry":    '''N  0  0   1.039
                              N  0  0   -1.039
                             Gh 0  0   0.0''',
-            "basis_file":"test_bas.bas",
+            "basis_file":"molcas_bas.bas",
             "bohr_coordinates": "true",
             "cart_bf": ""}
 
@@ -37,7 +37,7 @@ pc.compute_projected_cap()
 mat=pc.get_projected_cap()
 h0 = pc.get_H()
 #print(DataFrame(h0).to_string(index=False, header=False))
-#print(DataFrame(mat).to_string(index=False, header=False))
+print(DataFrame(mat).to_string(index=False, header=False))
 
 
 # separate alpha beta
@@ -45,13 +45,13 @@ pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = 0.5*np.reshape(arr[i][j],(119,119))
-        pc.add_tdm(arr1,arr1,i,j)
+        pc.add_tdms(arr1,arr1,i,j)
         if i!=j:
-            pc.add_tdm(arr1,arr1,j,i)
+            pc.add_tdms(arr1,arr1,j,i)
 pc.compute_ao_cap()
 pc.compute_projected_cap()
 mat=pc.get_projected_cap()
-#print(DataFrame(mat).to_string(index=False, header=False))
+print(DataFrame(mat).to_string(index=False, header=False))
 
 
 # spin traced
@@ -67,13 +67,12 @@ pc.compute_projected_cap()
 mat=pc.get_projected_cap()
 print(DataFrame(mat).to_string(index=False, header=False))
 
-
 ### now time for trajectories
 import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-ms_caspt2_energy = -109.35042571
+ms_caspt2_energy = -109.35042485
 E_0 = ms_caspt2_energy
 au2eV= 27.2113961
 @functools.total_ordering

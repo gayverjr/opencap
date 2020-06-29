@@ -10,11 +10,9 @@ file(GLOB SOURCES "src/*.cpp")
 file(GLOB BIND_SOURCES "bindings/*.cpp")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-find_package (Eigen3 REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
-find_package(Armadillo REQUIRED)
-include_directories(${ARMADILLO_INCLUDE_DIRS})
 include(FetchContent)
 
 FetchContent_Declare(

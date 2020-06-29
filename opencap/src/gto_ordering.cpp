@@ -4,7 +4,6 @@
  *  Created on: Apr 27, 2020
  *      Author: JG
  */
-#include <armadillo>
 #include "BasisSet.h"
 #include "Shell.h"
 #include "utils.h"
@@ -14,6 +13,8 @@
 #include <math.h>
 #include <tuple>
 #include "gto_ordering.h"
+#include <iostream>
+#include <Eigen/Dense>
 
 
 std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell shell)
@@ -180,7 +181,7 @@ std::vector<int> qchem_harmonic_ordering(Shell shell)
 }
 
 // matrix in opencap ordering --> matrix in molden ordering
-void to_molden_ordering(arma::mat &opencap_mat, BasisSet bs)
+void to_molden_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -214,16 +215,16 @@ void to_molden_ordering(arma::mat &opencap_mat, BasisSet bs)
 		}
 		bf_idx+=shell.num_bf;
 	}
-	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat.zeros();
+	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
+	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.t()* opencap_mat * per_mat;
+	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
 }
 
 // matrix in opencap ordering --> matrix in qchem ordering
-void to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
+void to_qchem_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -257,16 +258,16 @@ void to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
 		}
 		bf_idx+=shell.num_bf;
 	}
-	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat.zeros();
+	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
+	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.t()* opencap_mat * per_mat;
+	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
 }
 
 // matrix in opencap ordering --> matrix in qchem ordering
-void molden_to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
+void molden_to_qchem_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -300,12 +301,12 @@ void molden_to_qchem_ordering(arma::mat &opencap_mat, BasisSet bs)
 		}
 		bf_idx+=shell.num_bf;
 	}
-	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat.zeros();
+	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
+	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.t()* opencap_mat * per_mat;
+	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
 }
 
 std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell)
@@ -400,7 +401,7 @@ size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
 
 
 // matrix in opencap ordering --> matrix in molcas ordering
-void to_molcas_ordering(arma::mat &opencap_mat, BasisSet bs, std::vector<Atom> geometry)
+void to_molcas_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs, std::vector<Atom> geometry)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	std::vector<std::vector<std::vector<Shell>>> reordered_shells = molcas_reorder_basis_set(bs,geometry);
@@ -424,15 +425,15 @@ void to_molcas_ordering(arma::mat &opencap_mat, BasisSet bs, std::vector<Atom> g
 			}
 		}
 	}
-	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat.zeros();
+	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
+	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.t()* opencap_mat * per_mat;
+	opencap_mat = per_mat.transpose() * opencap_mat * per_mat;
 }
 
-void to_pyscf_ordering(arma::mat &opencap_mat,BasisSet bs)
+void to_pyscf_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	int bf_idx = 0;
@@ -466,10 +467,10 @@ void to_pyscf_ordering(arma::mat &opencap_mat,BasisSet bs)
 		}
 		bf_idx+=shell.num_bf;
 	}
-	arma::mat per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat.zeros();
+	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
+	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.t()* opencap_mat * per_mat;
+	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
 }

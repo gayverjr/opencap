@@ -15,7 +15,6 @@
 #include <string>
 #include <map>
 #include <list>
-#include <armadillo>
 #include "Atom.h"
 #include "utils.h"
 #include "transforms.h"
@@ -27,6 +26,7 @@
 #include <limits>
 #include "opencap_exception.h"
 #include <carma/carma.h>
+#include <Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -42,10 +42,10 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		}
 		bs = BasisSet(atoms,parameters);
 		//now construct overlap matrix
-		arma::mat Smat(bs.num_carts(),bs.num_carts());
+		Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 		compute_analytical_overlap(bs,Smat);
 		uniform_cart_norm(Smat,bs);
-		arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
+		Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 		cart2spherical(Smat,spherical_ints,bs);
 		OVERLAP_MAT = spherical_ints;
 	}
@@ -79,10 +79,10 @@ System::System(py::dict dict)
 	}
 	bs = BasisSet(atoms,parameters);
 	//now construct overlap matrix
-	arma::mat Smat(bs.num_carts(),bs.num_carts());
+	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 	compute_analytical_overlap(bs,Smat);
 	uniform_cart_norm(Smat,bs);
-	arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
+	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
 	OVERLAP_MAT = spherical_ints;
 }
@@ -132,29 +132,37 @@ bool System::bohr_coords()
 	return false;
 }
 
-py::array System::get_overlap_mat(std::string gto_ordering)
+Eigen::MatrixXd System::get_overlap_mat(std::string gto_ordering)
 {
-	arma::mat overlap_copy(OVERLAP_MAT);
+	Eigen::MatrixXd overlap_copy;
+	overlap_copy = OVERLAP_MAT;
 	transform(gto_ordering.begin(),gto_ordering.end(),gto_ordering.begin(),::tolower);
 	if(gto_ordering=="opencap")
-		return carma::mat_to_arr(overlap_copy);
+	{
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
+	}
 	else if (gto_ordering=="pyscf")
 	{
 		to_pyscf_ordering(overlap_copy,bs);
-		return carma::mat_to_arr(overlap_copy);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
 	}
 	else if(gto_ordering=="molcas")
 	{
 		to_molcas_ordering(overlap_copy,bs,atoms);
-		return carma::mat_to_arr(overlap_copy);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
 	}
 	else if(gto_ordering=="molden"||gto_ordering=="qchem"||gto_ordering=="q-chem")
 	{
 		to_molden_ordering(overlap_copy,bs);
-		return carma::mat_to_arr(overlap_copy);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
 	}
 	else
 		opencap_throw("Error: "+gto_ordering + " GTO ordering is not supported.");
+
 }
 
 

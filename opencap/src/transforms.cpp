@@ -4,7 +4,6 @@
  *  Created on: Feb 12, 2020
  *      Author: JG
  */
-#include <armadillo>
 #include "BasisSet.h"
 #include "Shell.h"
 #include "utils.h"
@@ -13,9 +12,9 @@
 #include <algorithm>
 #include <math.h>
 #include "gto_ordering.h"
+#include <Eigen/Dense>
 
-
-void uniform_cart_norm(arma::mat &my_mat, BasisSet bs)
+void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet bs)
 {
 	unsigned int bf_idx = 0;
 	for(auto&shell:bs.basis)
@@ -85,11 +84,11 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
       return result;
 }
 
-arma::mat get_trans_mat(Shell shell)
+Eigen::MatrixXd get_trans_mat(Shell shell)
 {
 	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell);
 	std::vector<int> sph_order = opencap_harmonic_ordering(shell);
-	arma::mat trans_mat(shell.num_bf,shell.num_carts());
+	Eigen::MatrixXd trans_mat(shell.num_bf,shell.num_carts());
 	for(size_t i=0;i<shell.num_bf;i++)
 	{
 		int M = sph_order[i];
@@ -102,19 +101,20 @@ arma::mat get_trans_mat(Shell shell)
 	return trans_mat;
 }
 
-void transform_block(Shell shell1, Shell shell2, arma::subview<double>&cart_sub_mat,arma::subview<double>&sph_sub_mat)
+Eigen::MatrixXd transform_block(Shell shell1, Shell shell2, Eigen::MatrixXd cart_block)
 {
+
 	if(!shell1.pure && !shell2.pure)
-		sph_sub_mat = cart_sub_mat;
+		return cart_block;
 	else if(shell1.pure && !shell2.pure)
-		sph_sub_mat = get_trans_mat(shell1)*cart_sub_mat;
+		return get_trans_mat(shell1)*cart_block;
 	else if(shell1.pure && shell2.pure)
-		sph_sub_mat = get_trans_mat(shell1)*cart_sub_mat*get_trans_mat(shell2).t();
+		return get_trans_mat(shell1)*cart_block*get_trans_mat(shell2).transpose();
 	else
-		sph_sub_mat = cart_sub_mat*get_trans_mat(shell2).t();
+		return cart_block*get_trans_mat(shell2).transpose();
 }
 
-void cart2spherical(arma::mat &cart_ints, arma::mat &spherical_ints, BasisSet bs)
+void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints, BasisSet bs)
 {
 	//indices for first basis function for cart and spherical matrices
 	unsigned int cart_row_idx = 0;
@@ -126,11 +126,15 @@ void cart2spherical(arma::mat &cart_ints, arma::mat &spherical_ints, BasisSet bs
 		unsigned int sph_col_idx = 0;
 		for(auto shell2:bs.basis)
 		{
+			/*
 			auto cart_sub_mat = cart_ints.submat(cart_row_idx,cart_col_idx,
 								cart_row_idx+shell1.num_carts()-1,cart_col_idx+shell2.num_carts()-1);
 			auto sph_sub_mat = spherical_ints.submat(sph_row_idx,sph_col_idx,
 					sph_row_idx+shell1.num_bf-1,sph_col_idx+shell2.num_bf-1);
-			transform_block(shell1,shell2,cart_sub_mat,sph_sub_mat);
+			*/
+			Eigen::MatrixXd cart_block = cart_ints.block(cart_row_idx,cart_col_idx, shell1.num_carts(),shell2.num_carts());
+			spherical_ints.block(sph_row_idx,sph_col_idx,shell1.num_bf,shell2.num_bf)
+							= transform_block(shell1,shell2,cart_block);
 			cart_col_idx+=shell2.num_carts();
 			sph_col_idx+=shell2.num_bf;
 		}

@@ -33,9 +33,9 @@ int main(int argc, char **argv)
 				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;
 				std::cout << "Zeroth order Hamiltonian" << std::endl;
-				pc.ZERO_ORDER_H.raw_print();
+				std::cout << pc.ZERO_ORDER_H << std::endl;
 				std::cout << "CAP matrix" << std::endl;
-				pc.CORRELATED_CAP_MAT.raw_print();
+				std::cout << pc.CORRELATED_CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
 				std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
 			}
