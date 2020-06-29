@@ -23,15 +23,15 @@ OpenCAP requires the following:
 
 * [CMake](https://cmake.org/)  version 3.10 or higher
 
-*  [HDF5](https://www.hdfgroup.org/solutions/hdf5/) hierarchical data format
+* [HDF5](https://www.hdfgroup.org/solutions/hdf5/) hierarchical data format
 
-* [Armadillo](http://arma.sourceforge.net/) linear algebra library configured with HDF5 support
+* [Eigen](http://eigen.tuxfamily.org/dox/) linear algebra library
 
 * [Numgrid](https://github.com/dftlibs/numgrid) numerical integration library
 
 
 
-## Install with CMake
+## Install the executable with CMake
 
 First clone the git repo
 
@@ -67,21 +67,32 @@ make install
 
 ```
 
+## Installing the python package (experimental)
 
-
-## Troubleshooting
-
-If Armadillo is not installed in a standard location visible by CMake (e.g. on a computing cluster or machine without root access), the ARMADILLO_INCLUDE_DIR and ARMADILLO_LIBRARY variables must be passed to CMake.
+First clone the git repo
 
 ```
 
-cmake -DARMADILLO_INCLUDE_DIR=/path/to/arma/include -DARMADILLO_LIBRARY=/path/to/arma/lib/libarmadillo.so \
+git clone https://github.com/gayverjr/opencap.git
 
-../
+cd opencap
 
 ```
 
-Additionally, Armadillo must be configured with HDF5 support, which may not be the case when installed by package managers such as Anaconda. Therefore, we suggest compiling Armadillo from source and configuring with HDF5 support. See their [documentation](http://arma.sourceforge.net/docs.html) for how to do so.
+Then pip install
+
+```
+
+pip install ./opencap
+
+```
+
+The module is now importable within a python shell as "pycap".
+
+```
+import pycap
+
+```
 
 # Example
 
@@ -95,11 +106,11 @@ Below, we outline how to conduct a CAP-augmented multi-state complete active spa
 
 * Step 3: Run OpenCAP to generate the matrices required for the projected CAP calculation.
 
-```OpenCAP example/test.in > example/test.out ```
+```opencap test.in > test.out ```
 
 * Step 4: Use the script provided in [example/cap_trajectory.py](https://github.com/gayverjr/OpenCAP/blob/master/example/cap_trajectory.py) to analyze the eigenvalue trajectory to extract resonance position and width.
 
-```` python example/cap_trajectory.py example/test.out````
+```` python cap_trajectory.py test.out````
 
 The script provides visualization and numerical analysis functionality to identify the resonance trajectory and extract the resonance parameters. It should be modified to suit your purposes.  For our MS-CASPT2 example, the corrected (blue) and uncorrected trajectories look like:
 
@@ -108,7 +119,7 @@ The script provides visualization and numerical analysis functionality to identi
 Analysis of the uncorrected trajectory results in a resonance energy of 2.26eV, and a width of 0.338eV, which is in good agreement with previous theoretical results obtained for this system.
 
 # Acknowledgements
-This project was funded by the Molecular Sciences Software Institute.
+This project is funded by the Molecular Sciences Software Institute.
 
 
 ![MolSSI logo](https://github.com/gayverjr/OpenCAP/blob/master/images/molssi_logo.png)

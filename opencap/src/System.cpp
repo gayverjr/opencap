@@ -4,6 +4,7 @@
  *  Created on: Feb 18, 2020
  *      Author: JG
  */
+#include <pybind11/pybind11.h>
 #include "System.h"
 #include "BasisSet.h"
 #include <iostream>
@@ -14,16 +15,17 @@
 #include <string>
 #include <map>
 #include <list>
-#include <armadillo>
 #include "Atom.h"
 #include "utils.h"
 #include "transforms.h"
 #include "gto_ordering.h"
+#include "keywords.h"
 #include "CAP.h"
 #include "overlap.h"
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
+#include <Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -39,10 +41,10 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		}
 		bs = BasisSet(atoms,parameters);
 		//now construct overlap matrix
-		arma::mat Smat(bs.num_carts(),bs.num_carts());
+		Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 		compute_analytical_overlap(bs,Smat);
 		uniform_cart_norm(Smat,bs);
-		arma::mat spherical_ints(bs.Nbasis,bs.Nbasis);
+		Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 		cart2spherical(Smat,spherical_ints,bs);
 		OVERLAP_MAT = spherical_ints;
 	}
@@ -51,6 +53,54 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		opencap_rethrow("Failed to construct System.");
 	}
 
+}
+
+System::System(py::dict dict)
+{
+	std::map<std::string,std::string> params;
+    for (auto item : dict)
+    {
+    	std::string key = py::str(item.first).cast<std::string>();
+    	std::string value = py::str(item.second).cast<std::string>();
+		transform(key.begin(),key.end(),key.begin(),::tolower);
+		transform(value.begin(),value.end(),value.begin(),::tolower);
+    	if (key!="geometry")
+    		params[key]=value;
+    	else
+    		set_geometry(value);
+    }
+    verify_system_parameters(params);
+    parameters = params;
+	if(!bohr_coords())
+	{
+		for (size_t i=0;i<atoms.size();i++)
+			atoms[i].ang_to_bohr();
+	}
+	bs = BasisSet(atoms,parameters);
+	//now construct overlap matrix
+	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
+	compute_analytical_overlap(bs,Smat);
+	uniform_cart_norm(Smat,bs);
+	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
+	cart2spherical(Smat,spherical_ints,bs);
+	OVERLAP_MAT = spherical_ints;
+}
+
+void System::set_geometry(std::string geometry_string)
+{
+	std::vector<Atom> atom_list;
+	stringstream ss(geometry_string);
+	string line;
+	while(std::getline(ss,line))
+	{
+		std::istringstream iss(line);
+		std::string element_symbol;
+		double x, y, z;
+		iss >> element_symbol >> x >> y >> z;
+		transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::tolower);
+		atom_list.push_back(Atom(element_symbol,x,y,z));
+	}
+	atoms = atom_list;
 }
 
 void System::verify_system_parameters(std::map<std::string, std::string> &params)
@@ -80,3 +130,39 @@ bool System::bohr_coords()
 		opencap_throw("Invalid value for keyword 'bohr_coordinates'");
 	return false;
 }
+
+Eigen::MatrixXd System::get_overlap_mat(std::string gto_ordering)
+{
+	Eigen::MatrixXd overlap_copy;
+	overlap_copy = OVERLAP_MAT;
+	transform(gto_ordering.begin(),gto_ordering.end(),gto_ordering.begin(),::tolower);
+	if(gto_ordering=="opencap")
+	{
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
+	}
+	else if (gto_ordering=="pyscf")
+	{
+		to_pyscf_ordering(overlap_copy,bs);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
+	}
+	else if(gto_ordering=="molcas")
+	{
+		to_molcas_ordering(overlap_copy,bs,atoms);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
+	}
+	else if(gto_ordering=="molden"||gto_ordering=="qchem"||gto_ordering=="q-chem")
+	{
+		to_molden_ordering(overlap_copy,bs);
+		return overlap_copy;
+		//return cEigen::MatrixXd_to_arr(overlap_copy);
+	}
+	else
+		opencap_throw("Error: "+gto_ordering + " GTO ordering is not supported.");
+
+}
+
+
+

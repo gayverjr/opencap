@@ -3,10 +3,10 @@
 #include <math.h>
 #include "overlap.h"
 #include <cstdlib>
-#include <armadillo>
 #include "utils.h"
 #include "BasisSet.h"
 #include "gto_ordering.h"
+#include <Eigen/Dense>
 # define M_PIl          3.141592653589793238462643383279502884
 
 //overlap between pair of gaussians
@@ -75,8 +75,9 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b,
 	return res;
 }
 
-void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
+Eigen::MatrixXd shell_overlap(Shell shell_a, Shell shell_b)
 {
+	Eigen::MatrixXd block(shell_a.num_carts(),shell_b.num_carts());
 	std::vector<std::array<size_t,3>> order_a = opencap_carts_ordering(shell_a);
 	std::vector<std::array<size_t,3>> order_b = opencap_carts_ordering(shell_b);
 	for(size_t i=0;i<shell_a.num_carts();i++)
@@ -85,12 +86,13 @@ void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat)
 		for(size_t j=0;j<shell_b.num_carts();j++)
 		{
 			std::array<size_t,3> b_cart = order_b[j];
-			sub_mat(i,j) = overlap_integral(shell_a,a_cart, shell_b, b_cart);
+			block(i,j) = overlap_integral(shell_a,a_cart, shell_b, b_cart);
 		}
 	}
+	return block;
 }
 
-void compute_analytical_overlap(BasisSet bs, arma::mat &Smat)
+void compute_analytical_overlap(BasisSet bs, Eigen::MatrixXd &Smat)
 {
 	unsigned int row_idx = 0;
 	for(auto&shell1:bs.basis)
@@ -98,10 +100,7 @@ void compute_analytical_overlap(BasisSet bs, arma::mat &Smat)
 		unsigned int col_idx = 0;
 		for(auto&shell2: bs.basis)
 		{
-			//view to block of the matrix corresponding to these two pairs of basis functions
-			auto sub_mat = Smat.submat(row_idx,col_idx,
-					row_idx+shell1.num_carts()-1,col_idx+shell2.num_carts()-1);
-            shell_overlap(shell1,shell2,sub_mat);
+			Smat.block(row_idx,col_idx,shell1.num_carts(),shell2.num_carts()) = shell_overlap(shell1,shell2);
             col_idx += shell2.num_carts();
 		}
 		row_idx += shell1.num_carts();

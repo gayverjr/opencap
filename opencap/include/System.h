@@ -1,14 +1,18 @@
  /*! \file System.h
      \brief Class which holds molecular geometry and basis set data.
  */
+#include <pybind11/pybind11.h>
 #include "Atom.h"
 #include "BasisSet.h"
 #include "CAP.h"
 #include <map>
-#include <armadillo>
+#include <iostream>
+#include <pybind11/numpy.h>
+#include <Eigen/Dense>
+
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
-
+namespace py = pybind11;
 
 /*! \brief Class which holds molecular geometry and basis set data.
  *
@@ -29,12 +33,20 @@ public:
 	/** Default constructor, does nothing
 	 */
 	System(){};
+	/** Construct from python
+	 */
+	System(py::dict dict);
 	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	/** Overlap matrix in AO basis
 	 */
-	arma::mat OVERLAP_MAT;
+	Eigen::MatrixXd OVERLAP_MAT;
+	/** Sets geometry from python
+	 */
+	void set_geometry(std::string geometry_string);
+	Eigen::MatrixXd get_overlap_mat(std::string gto_ordering="opencap");
+
 
 private:
 	/** Converts atomic coordinates from angstrom to bohr units

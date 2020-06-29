@@ -1,7 +1,7 @@
 #include "Shell.h"
 #include <iostream>
 #include <vector>
-#include <armadillo>
+#include <Eigen/Dense>
 double fact2(int n)
 {
     int res = 1;
@@ -35,12 +35,12 @@ double binom(int p, int q)
 	return fact(p)/fact(q)/fact(p-q);
 }
 
-void fill_mat(std::vector<double> &matrix_elements, arma::mat &opdm)
+void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm)
 {
 	size_t vec_idx = 0;
-	for (size_t row_idx=0;row_idx<opdm.n_rows;row_idx++)
+	for (size_t row_idx=0;row_idx<opdm.rows();row_idx++)
 	{
-		for (size_t col_idx=0;col_idx<opdm.n_cols;col_idx++)
+		for (size_t col_idx=0;col_idx<opdm.cols();col_idx++)
 		{
 			opdm(row_idx,col_idx) = matrix_elements[vec_idx];
 			vec_idx++;
@@ -48,11 +48,11 @@ void fill_mat(std::vector<double> &matrix_elements, arma::mat &opdm)
 	}
 }
 
-void fill_LT(std::vector<double> matrix_elements, arma::mat &opdm)
+void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm)
 {
 	size_t vec_idx = 0;
 	size_t row_idx = 0;
-	while(row_idx<opdm.n_rows && vec_idx<matrix_elements.size())
+	while(row_idx<opdm.rows() && vec_idx<matrix_elements.size())
 	{
 		//elements are added to each column <= row index
 		for (size_t col_idx=0;col_idx<=row_idx;col_idx++)
