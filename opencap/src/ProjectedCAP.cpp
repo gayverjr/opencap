@@ -38,6 +38,7 @@ Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> pa
 	system = my_sys;
 	try
 	{
+		python = false;
 		verify_method(params);
 		parameters=params;
 		stringstream ss(parameters["nstates"]);
@@ -49,7 +50,6 @@ Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> pa
 	{
 		opencap_rethrow("Failed to initialize Projected CAP calculation.");
 	}
-	python = false;
 }
 
 Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_ordering)
@@ -57,6 +57,7 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
 			"r_cut","radial_precision","angular_points"};
 	std::map<std::string, std::string> params;
+	python = true;
     for (auto item : dict)
     {
     	std::string key = py::str(item.first).cast<std::string>();
@@ -85,7 +86,6 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 				std::vector<Eigen::MatrixXd>(nstates));
 		beta_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
 				std::vector<Eigen::MatrixXd>(nstates));
-		python = true;
     }
     catch(exception &e)
     {
@@ -349,7 +349,7 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 		package_name = params["package"];
 	}
 	else
-		package_name = parameters["package"];
+		package_name = params["package"];
 	if(params.find("method")==params.end())
 		opencap_throw("Error: missing the 'method' keyword. "
 				"Please choose a supported package/method.");
