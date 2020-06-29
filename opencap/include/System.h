@@ -6,9 +6,9 @@
 #include "BasisSet.h"
 #include "CAP.h"
 #include <map>
-#include <armadillo>
 #include <iostream>
 #include <pybind11/numpy.h>
+#include <Eigen/Dense>
 
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
@@ -41,11 +41,11 @@ public:
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	/** Overlap matrix in AO basis
 	 */
-	arma::mat OVERLAP_MAT;
+	Eigen::MatrixXd OVERLAP_MAT;
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
-	py::array get_overlap_mat(std::string gto_ordering="opencap");
+	Eigen::MatrixXd get_overlap_mat(std::string gto_ordering="opencap");
 
 
 private:

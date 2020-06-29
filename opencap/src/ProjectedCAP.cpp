@@ -5,6 +5,7 @@
  *      Author: JG
  */
 #include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
 #include "ProjectedCAP.h"
 #include "System.h"
 #include "BasisSet.h"
@@ -17,7 +18,6 @@
 #include <string>
 #include <map>
 #include <list>
-#include <armadillo>
 #include "Atom.h"
 #include "utils.h"
 #include "transforms.h"
@@ -30,6 +30,8 @@
 #include <limits>
 #include "opencap_exception.h"
 #include <carma/carma.h>
+#include <Eigen/Dense>
+
 
 Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> params)
 {
@@ -79,10 +81,10 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem" || gto_ordering=="pyscf"))
 			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
 		parameters["package"] = gto_ordering;
-		alpha_dms = std::vector<std::vector<arma::mat>>(nstates,
-				std::vector<arma::mat>(nstates));
-		beta_dms = std::vector<std::vector<arma::mat>>(nstates,
-				std::vector<arma::mat>(nstates));
+		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
+		beta_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
 		python = true;
     }
     catch(exception &e)
@@ -92,10 +94,10 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 
 }
 
-arma::mat Projected_CAP::read_h0_file()
+Eigen::MatrixXd Projected_CAP::read_h0_file()
 {
-	arma::mat h0(nstates,nstates);
-	h0.zeros();
+	Eigen::MatrixXd h0(nstates,nstates);
+	h0= Eigen::MatrixXd::Zero(nstates,nstates);
 	std::ifstream is(parameters["h0_file"]);
 	if (is.good())
 	{
@@ -210,15 +212,16 @@ void Projected_CAP::read_in_dms()
 void Projected_CAP::compute_projected_cap()
 {
 	verify_data();
-	arma::mat EOMCAP(nstates,nstates);
-	EOMCAP.zeros();
+	Eigen::MatrixXd EOMCAP(nstates,nstates);
+	EOMCAP= Eigen::MatrixXd::Zero(nstates,nstates);
     std::cout << std::fixed << std::setprecision(10);
-	for (size_t row_idx=0;row_idx<EOMCAP.n_rows;row_idx++)
+	for (size_t row_idx=0;row_idx<EOMCAP.rows();row_idx++)
 	{
-		for (size_t col_idx=0;col_idx<EOMCAP.n_cols;col_idx++)
+		for (size_t col_idx=0;col_idx<EOMCAP.cols();col_idx++)
 		{
-			EOMCAP(row_idx,col_idx) =  arma::trace(alpha_dms[row_idx][col_idx]*AO_CAP_MAT)+
-									   arma::trace(beta_dms[row_idx][col_idx]*AO_CAP_MAT);
+			Eigen::MatrixXd alpha_mat_prod = alpha_dms[row_idx][col_idx]*AO_CAP_MAT;
+			Eigen::MatrixXd beta_mat_prod = beta_dms[row_idx][col_idx]*AO_CAP_MAT;
+			EOMCAP(row_idx,col_idx) =  alpha_mat_prod.trace()+beta_mat_prod.trace();
 			EOMCAP(row_idx,col_idx) = -1.0* EOMCAP(row_idx,col_idx);
 		}
 	}
@@ -250,8 +253,8 @@ void Projected_CAP::compute_ao_cap()
 	else
 		std::cout << "Calculating CAP matrix in AO basis..." << std::endl;
 	CAP cap_integrator(system.atoms,parameters);
-	arma::mat cap_mat(system.bs.num_carts(),system.bs.num_carts());
-	cap_mat.zeros();
+	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
+	cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
 	auto start = std::chrono::high_resolution_clock::now();
 	cap_integrator.compute_cap_mat(cap_mat,system.bs);
 	auto stop = std::chrono::high_resolution_clock::now();
@@ -261,7 +264,7 @@ void Projected_CAP::compute_ao_cap()
 	else
 		std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
 	uniform_cart_norm(cap_mat,system.bs);
-	arma::mat cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
+	Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
 	cart2spherical(cap_mat,cap_spherical,system.bs);
 	AO_CAP_MAT = cap_spherical;
 	//re-order cap matrix based on electronic structure package dms came from
@@ -271,20 +274,20 @@ void Projected_CAP::compute_ao_cap()
 void Projected_CAP::check_overlap_matrix()
 {
 	//get overlap matrix
-	arma::mat OVERLAP_MAT=system.OVERLAP_MAT;
+	Eigen::MatrixXd OVERLAP_MAT=system.OVERLAP_MAT;
 	if (parameters["package"]=="qchem")
 	{
 		to_molden_ordering(OVERLAP_MAT, system.bs);
 		auto qchem_smat = qchem_read_overlap(parameters["fchk_file"],system.bs.Nbasis);
-		if(OVERLAP_MAT.n_rows != qchem_smat.n_rows || OVERLAP_MAT.n_cols != qchem_smat.n_cols)
+		if(OVERLAP_MAT.rows() != qchem_smat.rows() || OVERLAP_MAT.cols() != qchem_smat.cols())
 			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
 					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
 					"and that the basis set is the same as that used in the electronic structure"
 					" calculation.");
 		bool conflicts = false;
-		for (size_t i=0;i<qchem_smat.n_rows;i++)
+		for (size_t i=0;i<qchem_smat.rows();i++)
 		{
-			for(size_t j=0;j<qchem_smat.n_cols;j++)
+			for(size_t j=0;j<qchem_smat.cols();j++)
 			{
 				if (abs(qchem_smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 				{
@@ -303,17 +306,17 @@ void Projected_CAP::check_overlap_matrix()
 	else if (parameters["package"]=="openmolcas")
 	{
 		to_molcas_ordering(OVERLAP_MAT,system.bs,system.atoms);
-		arma::mat overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
-		if(OVERLAP_MAT.n_rows != overlap_mat.n_rows || OVERLAP_MAT.n_cols != overlap_mat.n_cols)
+		Eigen::MatrixXd overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
+		if(OVERLAP_MAT.rows() != overlap_mat.rows() || OVERLAP_MAT.cols() != overlap_mat.cols())
 			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
 					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
 					"and that the basis set is the same as that used in the electronic structure"
 					" calculation.");
 		std::cout << std::fixed << std::setprecision(10);
 		bool conflicts = false;
-		for (size_t i=0;i<overlap_mat.n_rows;i++)
+		for (size_t i=0;i<overlap_mat.rows();i++)
 		{
-			for(size_t j=0;j<overlap_mat.n_cols;j++)
+			for(size_t j=0;j<overlap_mat.cols();j++)
 			{
 				if (abs(overlap_mat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 				{
@@ -398,7 +401,7 @@ void Projected_CAP::verify_data()
 	for(size_t i=0;i<nstates;i++)
 	{
 		for(size_t j=0;j<nstates;j++)
-			if(!(alpha_dms[i][j].n_cols == alpha_dms[i][j].n_rows && alpha_dms[i][j].n_rows == system.bs.Nbasis))
+			if(!(alpha_dms[i][j].cols() == alpha_dms[i][j].rows() && alpha_dms[i][j].rows() == system.bs.Nbasis))
 				opencap_throw("Error: Dimensionality of the density matrices do not match"
 						"the basis set specified in the system object.")
 	}
@@ -407,55 +410,56 @@ void Projected_CAP::verify_data()
 	{
 		for(size_t j=0;j<nstates;j++)
 		{
-			if(!(beta_dms[i][j].n_cols == beta_dms[i][j].n_rows && beta_dms[i][j].n_rows == system.bs.Nbasis))
+			if(!(beta_dms[i][j].cols() == beta_dms[i][j].rows() && beta_dms[i][j].rows() == system.bs.Nbasis))
 				opencap_throw("Error: Dimensionality of the density matrices do not match"
 			"the basis set specified in the system object.")
 		}
 	}
 }
 
-py::array Projected_CAP::get_ao_cap()
+Eigen::MatrixXd Projected_CAP::get_ao_cap()
 {
-	return carma::mat_to_arr(AO_CAP_MAT);
+	return AO_CAP_MAT;
 }
 
-py::array Projected_CAP::get_projected_cap()
+Eigen::MatrixXd Projected_CAP::get_projected_cap()
 {
-	return carma::mat_to_arr(CORRELATED_CAP_MAT);
+	return CORRELATED_CAP_MAT;
 }
 
-py::array Projected_CAP::get_H()
+Eigen::MatrixXd Projected_CAP::get_H()
 {
-	return carma::mat_to_arr(ZERO_ORDER_H);
+	return ZERO_ORDER_H;
 }
 
-void Projected_CAP::add_tdm(py::array_t<double> & alpha_density,
-		py::array_t<double> & beta_density,size_t row_idx, size_t col_idx)
+void Projected_CAP::add_tdms(Eigen::MatrixXd & alpha_density,
+		Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx)
 {
-	arma::mat alpha_dm = carma::arr_to_mat<double>(alpha_density);
-	arma::mat beta_dm = carma::arr_to_mat<double>(beta_density);
-	if(!(alpha_dm.n_cols == alpha_dm.n_rows && alpha_dm.n_cols == system.bs.Nbasis &&
-			beta_dm.n_cols == beta_dm.n_rows && beta_dm.n_cols == system.bs.Nbasis))
+	Eigen::MatrixXd alpha_dm = alpha_density;
+	Eigen::MatrixXd beta_dm = beta_density;
+	if(!(alpha_dm.cols() == alpha_dm.rows() && alpha_dm.cols() == system.bs.Nbasis &&
+			beta_dm.cols() == beta_dm.rows() && beta_dm.cols() == system.bs.Nbasis))
 		opencap_throw("Error: Dimensionality of the density matrices "
 				"do not match the basis set specified in the system object.");
 	alpha_dms [row_idx][col_idx] = alpha_dm;
 	beta_dms [row_idx][col_idx] = beta_dm;
 }
 
-void Projected_CAP::add_tdm(py::array_t<double> & tdm,size_t row_idx, size_t col_idx)
+void Projected_CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx)
 {
-	arma::mat dmat = 0.5 * carma::arr_to_mat<double>(tdm);
-	if(!(dmat.n_cols == dmat.n_rows&& dmat.n_cols == system.bs.Nbasis))
+	Eigen::MatrixXd dmat;
+	dmat = 0.5 * tdm;
+	if(!(dmat.cols() == dmat.rows()&& dmat.cols() == system.bs.Nbasis))
 		opencap_throw("Error: Dimensionality of the density matrix "
 				"does not match the basis set specified in the system object.");
 	alpha_dms[row_idx][col_idx] = dmat;
 	beta_dms[row_idx][col_idx] = dmat;
 }
 
-void Projected_CAP::set_h0(py::array_t<double> &h0)
+void Projected_CAP::set_h0(Eigen::MatrixXd &h0)
 {
-	arma::mat mat = carma::arr_to_mat<double>(h0);
-	if(!(mat.n_cols==mat.n_rows&&mat.n_cols==nstates))
+	Eigen::MatrixXd mat = h0;
+	if(!(mat.cols()==mat.rows()&&mat.cols()==nstates))
 		opencap_throw("Error: dimensionality of matrix does not match number of states.");
 	ZERO_ORDER_H = mat ;
 }

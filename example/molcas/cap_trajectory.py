@@ -5,7 +5,7 @@ from numpy import linalg as LA
 import matplotlib.pyplot as plt
 import argparse
 
-caspt2_energy = -109.35042571
+caspt2_energy = -109.35714881
 E_0 = caspt2_energy
 au2eV= 27.2113961
 
@@ -81,8 +81,8 @@ for i in range(start2,start2+num_roots):
 cap_mat= np.reshape(cap_mat,(num_roots,num_roots))
 
 
-guess=3
-eta_list = np.linspace(0,3000,301)
+guess=2.2
+eta_list = np.linspace(0,1000,101)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):

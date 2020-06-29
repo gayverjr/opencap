@@ -5,7 +5,6 @@
  *      Author: JG
  */
 #include "BasisSet.h"
-#include <armadillo>
 #include <numgrid.h>
 #include "utils.h"
 #include "gto_ordering.h"
@@ -15,6 +14,7 @@
 #include <thread>
 #include <vector>
 #include "opencap_exception.h"
+#include <Eigen/Dense>
 
 CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -104,7 +104,7 @@ double CAP::eval_pot(double x, double y, double z)
 	return 0;
 }
 
-void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
+void CAP::compute_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
@@ -152,7 +152,7 @@ void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
 	}
 }
 
-void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bohr,
+void CAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
 	//pre-calculate cap matrix on grid

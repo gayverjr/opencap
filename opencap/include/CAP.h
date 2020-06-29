@@ -6,8 +6,8 @@
 #include <map>
 #include <vector>
 #include "Atom.h"
-#include <armadillo>
 #include "BasisSet.h"
+#include <Eigen/Dense>
 #pragma once
 
 /*! \brief Class for numerically integrating the %CAP matrix in AO basis.
@@ -47,7 +47,7 @@ public:
 	std::vector<Atom> atoms;
 	/** Computes %CAP matrix in AO basis via numerical integration.
 	 */
-	void compute_cap_mat(arma::mat &cap_mat, BasisSet bs);
+	void compute_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
 
 private:
 	/** Evaluate potential at grid point.
@@ -61,7 +61,7 @@ private:
 	double eval_voronoi_cap(double x, double y, double z);
 	/** Evaluate all points on grid for a given atom.
 	 */
-	void evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bohr,
+	void evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 			double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
 };

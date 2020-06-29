@@ -4,7 +4,6 @@
  *  Created on: Mar 12, 2020
  *      Author: JG
  */
-#include <armadillo>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -13,6 +12,7 @@
 #include "qchem_interface.h"
 #include "opencap_exception.h"
 #include "utils.h"
+#include <Eigen/Dense>
 
 size_t total_TDMs_to_read(size_t nstates)
 {
@@ -37,9 +37,9 @@ size_t get_TDM_start(size_t nstates, size_t state_idx)
 }
 
 //currently this is written for open shell systems which have alpha and beta densities
-std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf)
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms(std::string dmat_filename,size_t nstates, size_t num_bf)
 {
-	std::vector<arma::mat> opdms;
+	std::vector<Eigen::MatrixXd> opdms;
 	//start with state density matrices, alpha and beta densities
 	std::ifstream is(dmat_filename);
     if (is.good())
@@ -63,8 +63,8 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 							matrix_elements.push_back(std::stod(token));
 						}
 					}
-					arma::mat st_opdm(num_bf,num_bf);
-					st_opdm.zeros();
+					Eigen::MatrixXd st_opdm(num_bf,num_bf);
+					st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
 					fill_mat(matrix_elements,st_opdm);
 					opdms.push_back(st_opdm);
 				}
@@ -87,8 +87,8 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 					for (auto token:tokens)
 						matrix_elements.push_back(std::stod(token));
 				}
-				arma::mat st_opdm(num_bf,num_bf);
-				st_opdm.zeros();
+				Eigen::MatrixXd st_opdm(num_bf,num_bf);
+				st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
 				fill_mat(matrix_elements,st_opdm);
 				opdms.push_back(st_opdm);
 			}
@@ -98,17 +98,17 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
     }
     //now that we have our density matrices, lets organize them into a
     //handy form which corresponds to how they'll actually be used
-    std::vector<std::vector<arma::mat>> alpha_densities;
-    std::vector<std::vector<arma::mat>> beta_densities;
+    std::vector<std::vector<Eigen::MatrixXd>> alpha_densities;
+    std::vector<std::vector<Eigen::MatrixXd>> beta_densities;
     for (size_t state_idx=1; state_idx<=nstates;state_idx++)
     {
-    	std::vector<arma::mat> alpha_row;
-    	std::vector<arma::mat> beta_row;
+    	std::vector<Eigen::MatrixXd> alpha_row;
+    	std::vector<Eigen::MatrixXd> beta_row;
     	//fill with placeholders
     	for (size_t i=1;i<state_idx;i++)
     	{
-    		alpha_row.push_back(arma::mat(1,1));
-    		beta_row.push_back(arma::mat(1,1));
+    		alpha_row.push_back(Eigen::MatrixXd(1,1));
+    		beta_row.push_back(Eigen::MatrixXd(1,1));
     	}
     	//state densities
     	alpha_row.push_back(opdms[2*state_idx-2]);
@@ -137,11 +137,11 @@ std::array<std::vector<std::vector<arma::mat>>,2> qchem_read_in_dms(std::string 
 
 }
 
-arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
+Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, size_t num_bf)
 {
     std::ifstream is(dmat_filename);
-	arma::mat smat;
-	smat.zeros(num_bf,num_bf);
+	Eigen::MatrixXd smat(num_bf,num_bf);
+	smat=Eigen::MatrixXd::Zero(num_bf,num_bf);
     if (is.good())
     {
     	std::string line, rest;
@@ -162,10 +162,10 @@ arma::mat qchem_read_overlap(std::string dmat_filename, size_t num_bf)
     return smat;
 }
 
-arma::mat read_qchem_energies(size_t nstates,std::string method,std::string output_file)
+Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::string output_file)
 {
-	arma::mat ZERO_ORDER_H(nstates,nstates);
-	ZERO_ORDER_H.zeros();
+	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
+	ZERO_ORDER_H=Eigen::MatrixXd::Zero(nstates,nstates);
 	transform(method.begin(),method.end(),method.begin(),::toupper);
 	std::ifstream is(output_file);
     if (is.good())
