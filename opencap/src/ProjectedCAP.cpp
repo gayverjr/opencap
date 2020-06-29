@@ -349,7 +349,7 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 		package_name = params["package"];
 	}
 	else
-		package_name = params["package"];
+		package_name = parameters["package"];
 	if(params.find("method")==params.end())
 		opencap_throw("Error: missing the 'method' keyword. "
 				"Please choose a supported package/method.");
