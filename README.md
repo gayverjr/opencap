@@ -106,11 +106,11 @@ Below, we outline how to conduct a CAP-augmented multi-state complete active spa
 
 * Step 3: Run OpenCAP to generate the matrices required for the projected CAP calculation.
 
-```OpenCAP example/test.in > example/test.out ```
+```opencap test.in > test.out ```
 
 * Step 4: Use the script provided in [example/cap_trajectory.py](https://github.com/gayverjr/OpenCAP/blob/master/example/cap_trajectory.py) to analyze the eigenvalue trajectory to extract resonance position and width.
 
-```` python example/cap_trajectory.py example/test.out````
+```` python cap_trajectory.py test.out````
 
 The script provides visualization and numerical analysis functionality to identify the resonance trajectory and extract the resonance parameters. It should be modified to suit your purposes.  For our MS-CASPT2 example, the corrected (blue) and uncorrected trajectories look like:
 
