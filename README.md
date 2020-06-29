@@ -21,9 +21,9 @@ OpenCAP requires the following:
 
 *  C++ compiler with C++17 support
 
-* [CMake](https://cmake.org/)  version 3.10 or higher
+* [CMake](https://cmake.org/)  verison >= 3.12
 
-* [HDF5](https://www.hdfgroup.org/solutions/hdf5/) hierarchical data format
+* [HDF5](https://www.hdfgroup.org/solutions/hdf5/) hierarchical data format, version >= 1.8
 
 * [Eigen](http://eigen.tuxfamily.org/dox/) linear algebra library
 
@@ -100,15 +100,15 @@ Below, we outline how to conduct a CAP-augmented multi-state complete active spa
 
 
 
-* Step 1:  Perform an MS-CASPT2 calculation on the anion in OpenMolcas, using the ``TRD1`` keyword in the ``RASSI`` module (see [example/anion_reference.out](https://github.com/gayverjr/OpenCAP/blob/master/example/anion_reference.out)), which exports state one particle density matrices and transition density matrices to a file called $JOBNAME.rassi.h5.
+* Step 1:  Perform an MS-CASPT2 calculation on the anion in OpenMolcas, using the ``TRD1`` keyword in the ``RASSI`` module (see [example/anion_reference.out](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/anion_ms.out)), which exports state one particle density matrices and transition density matrices to a file called $JOBNAME.rassi.h5.
 
-*  Step 2:  Construct an input file for OpenCAP(see [example/test.in](https://github.com/gayverjr/OpenCAP/blob/master/example/test.in)) which contains the relevant system information, and points to the rassi.h5 and OpenMolcas output file which contains the  MS-CASPT2 effective Hamiltonian.
+*  Step 2:  Construct an input file for OpenCAP(see [example/test.in](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/test.in)) which contains the relevant system information, and points to the rassi.h5 and OpenMolcas output file which contains the  MS-CASPT2 effective Hamiltonian.
 
 * Step 3: Run OpenCAP to generate the matrices required for the projected CAP calculation.
 
 ```opencap test.in > test.out ```
 
-* Step 4: Use the script provided in [example/cap_trajectory.py](https://github.com/gayverjr/OpenCAP/blob/master/example/cap_trajectory.py) to analyze the eigenvalue trajectory to extract resonance position and width.
+* Step 4: Use the script provided in [example/cap_trajectory.py](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/cap_trajectory.py) to analyze the eigenvalue trajectory to extract resonance position and width.
 
 ```` python cap_trajectory.py test.out````
 
@@ -116,7 +116,7 @@ The script provides visualization and numerical analysis functionality to identi
 
 ![CAP trajectory](https://github.com/gayverjr/OpenCAP/blob/master/images/cap_traj.png)
 
-Analysis of the uncorrected trajectory results in a resonance energy of 2.26eV, and a width of 0.338eV, which is in good agreement with previous theoretical results obtained for this system.
+Analysis of the uncorrected trajectory results in a resonance energy of 2.16eV, and a width of 0.29eV, which is in good agreement with previous theoretical results obtained for this system.
 
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
