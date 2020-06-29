@@ -5,7 +5,6 @@
  *      Author: JG
  */
 #include "BasisSet.h"
-#include <armadillo>
 #include <numgrid.h>
 #include "utils.h"
 #include "gto_ordering.h"
@@ -15,6 +14,7 @@
 #include <thread>
 #include <vector>
 #include "opencap_exception.h"
+#include <Eigen/Dense>
 
 CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -23,7 +23,7 @@ CAP::CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 	std::stringstream capxss(params["cap_x"]);
 	std::stringstream capyss(params["cap_y"]);
 	std::stringstream capzss(params["cap_z"]);
-	std::stringstream rcutss(params["cap_z"]);
+	std::stringstream rcutss(params["r_cut"]);
 	std::stringstream radialss(params["radial_precision"]);
 	std::stringstream angularss(params["angular_points"]);
 	capxss >> capx;
@@ -104,7 +104,7 @@ double CAP::eval_pot(double x, double y, double z)
 	return 0;
 }
 
-void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
+void CAP::compute_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
@@ -124,7 +124,6 @@ void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
     int max_num_angular_points = angular_points;
 	for(size_t i=0;i<atoms.size();i++)
 	{
-        std::cout << "Getting the grid for atom:" << i+1 << std::endl;
 		//allocate and create grid
 		context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,
@@ -149,13 +148,11 @@ void CAP::compute_cap_mat(arma::mat &cap_mat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
-		std::cout << "Finished allocating the grid for atom:" << i+1 << std::endl;
-		std::cout << "Grid has " << num_points << " points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
 }
 
-void CAP::evaluate_grid_on_atom(arma::mat &cap_mat,BasisSet bs,double* grid_x_bohr,
+void CAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
 	//pre-calculate cap matrix on grid

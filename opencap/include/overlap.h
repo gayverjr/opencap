@@ -5,8 +5,8 @@
 #include <vector>
 #include <math.h>
 #include "Shell.h"
-#include <armadillo>
 #include "BasisSet.h"
+#include <Eigen/Dense>
 
 /** Overlap between pair of cartesian gaussian functions
 */
@@ -20,7 +20,7 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b, std::arra
 double mcmurchie_davidson(double exp_a, double exp_b, int t, int angmom_a, int angmom_b, double dist);
 /** Computes group of integrals between pair of Shells
 */
-void shell_overlap(Shell shell_a, Shell shell_b,arma::subview<double>&sub_mat);
+Eigen::MatrixXd shell_overlap(Shell shell_a, Shell shell_b,Eigen::MatrixXd&sub_mat);
 /** Computes overlap matrix
 */
-void compute_analytical_overlap(BasisSet bs, arma::mat &Smat);
+void compute_analytical_overlap(BasisSet bs, Eigen::MatrixXd &Smat);

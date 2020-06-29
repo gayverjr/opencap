@@ -2,7 +2,7 @@
      \brief Helper functions used by various pieces of the software.
  */
 #include "Shell.h"
-#include <armadillo>
+#include <Eigen/Dense>
 /*! Computes double factorial (https://mathworld.wolfram.com/DoubleFactorial.html)
  *  \param n : integer to be evaluated
 */
@@ -30,9 +30,9 @@ std::vector<std::string> split(const std::string& s, char delimiter);
  * \param matrix_elements: list of lower triangular matrix elements in row-major order
  * \param opdm: matrix to be populated
 */
-void fill_LT(std::vector<double> matrix_elements, arma::mat &opdm);
+void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
 /*! Populates matrix given full list of elements in row major order
  * \param matrix_elements: list of all matrix elements in row-major order
  * \param opdm: matrix to be populated
 */
-void fill_mat(std::vector<double> &matrix_elements, arma::mat &opdm);
+void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
