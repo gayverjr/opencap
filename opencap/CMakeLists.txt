@@ -16,17 +16,6 @@ include_directories(${HDF5_INCLUDE_DIRS})
 include(FetchContent)
 
 FetchContent_Declare(
-    carma
-    GIT_REPOSITORY https://github.com/RUrlus/carma.git
-    GIT_TAG  baef46c
-)
-FetchContent_GetProperties(carma)
-if(NOT carma_POPULATED)
-    FetchContent_Populate(carma)
-    add_subdirectory(${carma_SOURCE_DIR} ${carma_BINARY_DIR})
-endif()
-
-FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
 )
