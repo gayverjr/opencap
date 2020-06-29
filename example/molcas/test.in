@@ -11,10 +11,10 @@ basis_file molcas_bas.bas
 $end
 
 $projected_cap
-method xms-caspt2
+method ms-caspt2
 package openmolcas
-rassi_h5 anion_xms.rassi.h5
-molcas_output anion_xms.out
+rassi_h5 anion_ms.rassi.h5
+molcas_output anion_ms.out
 nstates 10
 !h0_file example/heff.in
 CAP_TYPE box
