@@ -29,7 +29,6 @@
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
-#include <carma/carma.h>
 #include <Eigen/Dense>
 
 
