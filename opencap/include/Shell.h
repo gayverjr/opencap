@@ -55,6 +55,7 @@ public:
 	/** Default constructor does nothing currently
 	 */
 	Shell();
+	Shell(int angmom,std::array<double,3>center);
 	/** Updates center of %Shell
 	 */
 	void update_coords(std::array<double,3> center);
@@ -68,11 +69,12 @@ public:
 	/** Checks if two shells are equivalent (same exps,coeffs,center)
 	 */
     bool operator==(const Shell& other);
-
-private:
+    void add_primitive(double exp,double coeff);
 	/** Normalizes contraction coefficients so that self overlap = 1
 	 */
 	void normalize();
+
+private:
 	/** Returns number of basis functions
 	 */
 	size_t get_size();

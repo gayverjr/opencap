@@ -9,4 +9,4 @@ void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints,
 void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet bs);
 double get_coeff(int L, int m, int lx, int ly, int lz);
 Eigen::MatrixXd transform_block(Shell shell1, Shell shell2, Eigen::MatrixXd cart_block);
-Eigen::MatrixXd get_trans_mat(Shell shell);
+Eigen::MatrixXd get_trans_mat(Shell shell,std::string ordering);

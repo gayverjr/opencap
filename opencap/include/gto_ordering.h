@@ -24,21 +24,6 @@ std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell);
 /** Ordering of harmonic gaussians in molcas.
  */
 std::vector<int> molcas_harmonic_ordering(Shell shell);
-/** Re-order shells in molcas format.
- */
-std::vector<std::vector<std::vector<Shell>>> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry);
-/** Re-order matrix from opencap ordering to molden.
- */
-void to_molden_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs);
-/** Re-order matrix from opencap ordering to q-chem internal ordering.
- */
-void to_qchem_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs);
-/** Re-order matrix from molden ordering to q-chem internal ordering.
- */
-void molden_to_qchem_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs);
-/** Re-order matrix from opencap ordering to pyscf ordering.
- */
-void to_pyscf_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs);
 /** Ordering of cartesian gaussians in molden format.
  */
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell);
@@ -50,7 +35,10 @@ std::vector<int> molden_harmonic_ordering(Shell shell);
 std::vector<int> pyscf_harmonic_ordering(Shell shell);
 /** Ordering of cartesian gaussians in pyscf format.
  */
-std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell shell);
+std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename);
+std::vector<bf_id> get_molden_ids(BasisSet bs);
+std::vector<bf_id> get_pyscf_ids(BasisSet bs);
+void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet bs,std::vector<bf_id> input_ids);
 
 
 

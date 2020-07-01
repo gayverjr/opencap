@@ -104,9 +104,6 @@ private:
 	/** Reads in TDMs from electronic structure package
 	 */
 	void read_in_dms();
-	/** Re-orders %CAP matrix in AO basis to match electronic structure package ordering
-	 */
-	void reorder_cap();
 	/** Reads in zeroth order Hamiltonian from electronic structure package
 	 */
 	void read_in_zero_order_H();

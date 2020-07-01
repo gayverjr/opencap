@@ -36,3 +36,4 @@ void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
  * \param opdm: matrix to be populated
 */
 void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
+bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords);

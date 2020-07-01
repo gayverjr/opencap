@@ -39,13 +39,17 @@ public:
 	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
+	/**
+	 * Constructor from output file
+	 */
+	System(std::string filename,std::string file_type);
 	/** Overlap matrix in AO basis
 	 */
 	Eigen::MatrixXd OVERLAP_MAT;
 	/** Sets geometry from python
 	 */
 	void set_geometry(std::string geometry_string);
-	Eigen::MatrixXd get_overlap_mat(std::string gto_ordering="opencap");
+	Eigen::MatrixXd get_overlap_mat(std::string gto_ordering="default");
 
 
 private:

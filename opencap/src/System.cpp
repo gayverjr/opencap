@@ -25,6 +25,8 @@
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
+#include "molcas_interface.h"
+#include "qchem_interface.h"
 #include <Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
@@ -86,6 +88,29 @@ System::System(py::dict dict)
 	OVERLAP_MAT = spherical_ints;
 }
 
+System::System(std::string filename,std::string file_type)
+{
+	if(file_type=="qchem_fchk")
+	{
+		atoms = read_atoms_from_fchk(filename);
+		bs = read_basis_from_fchk(filename,atoms);
+	}
+	else if (file_type=="molcas_rassi")
+	{
+		atoms = read_geometry_from_rassi(filename);
+		bs = read_basis_from_rassi(filename,atoms);
+	}
+	else
+		opencap_throw("That file type isn't supported, sorry.");
+	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
+	compute_analytical_overlap(bs,Smat);
+	uniform_cart_norm(Smat,bs);
+	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
+	cart2spherical(Smat,spherical_ints,bs);
+	OVERLAP_MAT = spherical_ints;
+	std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
+}
+
 void System::set_geometry(std::string geometry_string)
 {
 	std::vector<Atom> atom_list;
@@ -136,31 +161,20 @@ Eigen::MatrixXd System::get_overlap_mat(std::string gto_ordering)
 	Eigen::MatrixXd overlap_copy;
 	overlap_copy = OVERLAP_MAT;
 	transform(gto_ordering.begin(),gto_ordering.end(),gto_ordering.begin(),::tolower);
-	if(gto_ordering=="opencap")
-	{
+	if(gto_ordering=="default")
 		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
-	}
 	else if (gto_ordering=="pyscf")
 	{
-		to_pyscf_ordering(overlap_copy,bs);
-		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
-	}
-	else if(gto_ordering=="molcas")
-	{
-		to_molcas_ordering(overlap_copy,bs,atoms);
 		return overlap_copy;
 		//return cEigen::MatrixXd_to_arr(overlap_copy);
 	}
 	else if(gto_ordering=="molden"||gto_ordering=="qchem"||gto_ordering=="q-chem")
 	{
-		to_molden_ordering(overlap_copy,bs);
 		return overlap_copy;
 		//return cEigen::MatrixXd_to_arr(overlap_copy);
 	}
 	else
-		opencap_throw("Error: "+gto_ordering + " GTO ordering is not supported.");
+		opencap_throw("Error: Re-ordering to "+ gto_ordering + " format is not supported.");
 
 }
 

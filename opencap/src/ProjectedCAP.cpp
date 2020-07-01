@@ -98,6 +98,7 @@ Eigen::MatrixXd Projected_CAP::read_h0_file()
 {
 	Eigen::MatrixXd h0(nstates,nstates);
 	h0= Eigen::MatrixXd::Zero(nstates,nstates);
+	std::cout << "Reading in Hamiltonian from:" << parameters["h0_file"] << std::endl;
 	std::ifstream is(parameters["h0_file"]);
 	if (is.good())
 	{
@@ -145,8 +146,8 @@ void Projected_CAP::read_in_zero_order_H()
 		ZERO_ORDER_H = read_h0_file();
 	else if (parameters["package"]=="qchem")
 	{
-		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qc_output"]);
-		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qc_output"];
+		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qchem_output"]);
+		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
 		if(python)
 			py::print(message);
 		else
@@ -169,13 +170,22 @@ void Projected_CAP::read_in_dms()
 {
 	if (parameters["package"]=="qchem")
 	{
-		std::string dmat_filename = parameters["fchk_file"];
+		std::string dmat_filename = parameters["qchem_fchk"];
 		try
 		{
-			auto parsed_dms = qchem_read_in_dms(dmat_filename,nstates,system.bs.Nbasis);
-			alpha_dms = parsed_dms[0];
-			beta_dms = parsed_dms[1];
-			std::string message= "Successfully read in densities from file:" + parameters["fchk_file"];
+			if(parameters["method"]=="eomee")
+			{
+				auto parsed_dms = qchem_read_in_dms_closed_shell(dmat_filename,nstates,system.bs);
+				alpha_dms = parsed_dms[0];
+				beta_dms = parsed_dms[1];
+			}
+			else
+			{
+				auto parsed_dms = qchem_read_in_dms_open_shell(dmat_filename,nstates,system.bs);
+				alpha_dms = parsed_dms[0];
+				beta_dms = parsed_dms[1];
+			}
+			std::string message= "Successfully read in densities from file:" + parameters["qchem_fchk"];
 			if(python)
 				py::print(message);
 			else
@@ -190,7 +200,7 @@ void Projected_CAP::read_in_dms()
 	{
 		try
 		{
-			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"]);
+			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"],system.bs);
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
 			std::string message = "Successfully read in densities from file:" + parameters["rassi_h5"];
@@ -228,19 +238,6 @@ void Projected_CAP::compute_projected_cap()
 	CORRELATED_CAP_MAT = EOMCAP;
 }
 
-void Projected_CAP::reorder_cap()
-{
-	std::string pkg = parameters["package"];
-	if (pkg=="q-chem"||pkg=="qchem")
-		to_molden_ordering(AO_CAP_MAT, system.bs);
-	else if(pkg=="openmolcas")
-		to_molcas_ordering(AO_CAP_MAT,system.bs,system.atoms);
-	else if(pkg == "pyscf")
-		to_pyscf_ordering(AO_CAP_MAT,system.bs);
-	else
-		opencap_throw("Error. Package: " + pkg + " is unsupported.");
-}
-
 void Projected_CAP::compute_ao_cap()
 {
 	if(!python)
@@ -267,8 +264,6 @@ void Projected_CAP::compute_ao_cap()
 	Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
 	cart2spherical(cap_mat,cap_spherical,system.bs);
 	AO_CAP_MAT = cap_spherical;
-	//re-order cap matrix based on electronic structure package dms came from
-	reorder_cap();
 }
 
 void Projected_CAP::check_overlap_matrix()
@@ -277,8 +272,7 @@ void Projected_CAP::check_overlap_matrix()
 	Eigen::MatrixXd OVERLAP_MAT=system.OVERLAP_MAT;
 	if (parameters["package"]=="qchem")
 	{
-		to_molden_ordering(OVERLAP_MAT, system.bs);
-		auto qchem_smat = qchem_read_overlap(parameters["fchk_file"],system.bs.Nbasis);
+		auto qchem_smat = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
 		if(OVERLAP_MAT.rows() != qchem_smat.rows() || OVERLAP_MAT.cols() != qchem_smat.cols())
 			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
 					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
@@ -305,8 +299,7 @@ void Projected_CAP::check_overlap_matrix()
 	}
 	else if (parameters["package"]=="openmolcas")
 	{
-		to_molcas_ordering(OVERLAP_MAT,system.bs,system.atoms);
-		Eigen::MatrixXd overlap_mat = read_rassi_overlap(parameters["rassi_h5"]);
+		Eigen::MatrixXd overlap_mat = read_rassi_overlap(parameters["rassi_h5"],system.bs);
 		if(OVERLAP_MAT.rows() != overlap_mat.rows() || OVERLAP_MAT.cols() != overlap_mat.cols())
 			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
 					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
@@ -321,7 +314,9 @@ void Projected_CAP::check_overlap_matrix()
 				if (abs(overlap_mat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 				{
 					std::cout << "Conflict at:" << i << "," << j << std::endl;
-					std::cout <<  overlap_mat(i,j)-OVERLAP_MAT(i,j) << std::endl;
+					std::cout << "Basis ID:" << std::endl;
+					system.bs.bf_ids[j].print();
+					//std::cout <<  overlap_mat(i,j)-OVERLAP_MAT(i,j) << std::endl;
 					std::cout << "OpenMolcas says:" << overlap_mat(i,j) << std::endl;
 					std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
 					conflicts = true;
@@ -359,10 +354,10 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 		std::vector<std::string> supported = {"eomea","eomee","eomip"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eomea','eomee','eomip'.");
-		if (params.find("fchk_file")==params.end())
-			opencap_throw("Error: missing keyword: fchk_file.");
-		if (params.find("qc_output")==params.end() && params.find("h0_file")==params.end())
-			opencap_throw("Error: Need to specify zeroth order Hamiltonian via \"qc_output\" or \"h0_file\" fields.");
+		if (params.find("qchem_fchk")==params.end())
+			opencap_throw("Error: missing keyword: qchem_fchk.");
+		if (params.find("qchem_output")==params.end() && params.find("h0_file")==params.end())
+			opencap_throw("Error: Need to specify zeroth order Hamiltonian via \"qchem_output\" or \"h0_file\" fields.");
 	}
 	else if(package_name=="openmolcas")
 	{
@@ -466,8 +461,8 @@ void Projected_CAP::set_h0(Eigen::MatrixXd &h0)
 
 void Projected_CAP::read_electronic_structure_data(py::dict dict)
 {
-	std::vector<std::string> valid_keywords = {"method","qc_output","h0_file","rassi_h5",
-			"fchk_file","molcas_output"};
+	std::vector<std::string> valid_keywords = {"method","qchem_output","h0_file","rassi_h5",
+			"qchem_fchk","molcas_output"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)
     {
