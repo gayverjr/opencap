@@ -61,9 +61,11 @@ public:
      * \param z: z coordinate
       */
 	Atom(string symbol,double x,double y, double z);
+	Atom(int atom_num,double x,double y, double z);
     /** Returns element structure corresponding to atomic symbol.
       */
 	element get_element_info(std::string symbol);
+	element get_element_info(int Z);
 	void hello_world();
 	Atom (std::string test);
 };

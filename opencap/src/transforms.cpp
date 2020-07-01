@@ -126,12 +126,6 @@ void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints,
 		unsigned int sph_col_idx = 0;
 		for(auto shell2:bs.basis)
 		{
-			/*
-			auto cart_sub_mat = cart_ints.submat(cart_row_idx,cart_col_idx,
-								cart_row_idx+shell1.num_carts()-1,cart_col_idx+shell2.num_carts()-1);
-			auto sph_sub_mat = spherical_ints.submat(sph_row_idx,sph_col_idx,
-					sph_row_idx+shell1.num_bf-1,sph_col_idx+shell2.num_bf-1);
-			*/
 			Eigen::MatrixXd cart_block = cart_ints.block(cart_row_idx,cart_col_idx, shell1.num_carts(),shell2.num_carts());
 			spherical_ints.block(sph_row_idx,sph_col_idx,shell1.num_bf,shell2.num_bf)
 							= transform_block(shell1,shell2,cart_block);

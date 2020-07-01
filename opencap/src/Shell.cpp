@@ -21,12 +21,21 @@ Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
 	normalize();
 }
 
-Shell::Shell()
+Shell::Shell(int angmom,std::array<double,3>center)
 {
-	l = 0;
+	l = angmom;
 	num_prims = 0;
 	num_bf = 0;
-	pure = false;
+	pure = true;
+	origin = center;
+}
+
+Shell::Shell()
+{
+	l = -1;
+	num_prims = 0;
+	num_bf = 0;
+	pure = true;
 	origin = {{0.0,0.0,0.0}};
 }
 
@@ -82,6 +91,14 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 	}
 	return result;
 
+}
+
+void Shell::add_primitive(double exp,double coeff)
+{
+	exps.push_back(exp);
+	coeffs.push_back(coeff);
+	num_prims = exps.size();
+	num_bf = get_size();
 }
 
 bool Shell::operator==(const Shell& other)
