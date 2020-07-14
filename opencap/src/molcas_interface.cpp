@@ -30,12 +30,18 @@ auto Tensor_to_Matrix(const Eigen::Tensor<Scalar,rank> &tensor,const sizeType ro
 
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string filename,BasisSet bs)
 {
+	h5pp::File file(filename, h5pp::FilePermission::READONLY);
+	//first lets check if the dimensions are correct
+	std::vector<long> nbas_vec = file.readAttribute<std::vector<long>>("NBAS","/");
+	long nbas=0;
+	for(auto num_bas:nbas_vec)
+		nbas+=num_bas;
+	if(nbas!=bs.Nbasis)
+		opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+	//now lets load the densities
+	Eigen::Tensor<double,3> rass_data, spin_dens;
 	std::vector<std::vector<Eigen::MatrixXd>> alpha_opdms;
 	std::vector<std::vector<Eigen::MatrixXd>> beta_opdms;
-
-	//first lets load in the hdf5 file
-	Eigen::Tensor<double,3> rass_data, spin_dens;
-	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
 	file.readDataset(spin_dens,"SFS_TRANSITION_SPIN_DENSITIES");
 	//now lets loop over the matrices
@@ -212,7 +218,7 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms)
 		{
 			Shell new_shell(l,bs.centers[ctr-1]);
 			new_shell.l=abs(l);
-			if(l<0)
+			if(l<0 && abs(l)>1)
 				new_shell.pure=false;
 			bs.add_shell(new_shell);
 		}

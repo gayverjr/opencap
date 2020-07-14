@@ -23,7 +23,6 @@ struct element
     /** Atomic symbol
       */
     std::string symbol;
-
     element(int new_Z, std::string new_name, std::string new_symbol)
     {Z=new_Z; name = new_name; symbol=new_symbol;};
     std::string &getName() {return name;};

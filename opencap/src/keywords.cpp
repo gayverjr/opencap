@@ -22,7 +22,7 @@ bool check_keyword(std::string my_key,std::string my_section)
 		{"bohr_coordinates","system"},
 		{"cart_bf","system"},
 		{"basis_file","system"},
-		{"geometry","system"},
+		{"molecule","system"},
 		{"method","projected_cap"},
 		{"package","projected_cap"},
 		{"nstates","projected_cap"},

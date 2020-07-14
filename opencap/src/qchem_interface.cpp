@@ -70,7 +70,9 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 					while(line.find("State Density")== std::string::npos)
 						std::getline(is,line);
 					//last part of line should be number of elements to read
-					size_t num_elements = stoi(split(line,' ').back());
+					int num_elements = stoi(split(line,' ').back());
+					if(sqrt(num_elements)!=bs.Nbasis)
+						opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
 					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 					std::vector<double> matrix_elements;
 					for (size_t k=1;k<=lines_to_read;k++)
@@ -104,6 +106,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 						std::getline(is,line);
 					//last part of line should be number of elements to read
 					size_t num_elements = stoi(split(line,' ').back());
+					if(sqrt(num_elements)!=bs.Nbasis)
+						opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
 					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 					std::vector<double> matrix_elements;
 					for (size_t k=1;k<=lines_to_read;k++)
@@ -255,7 +259,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
 
 }
 
-std::vector<Atom> read_atoms_from_fchk(std::string fchk_filename)
+std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
 {
 	std::vector<Atom> atoms;
 	std::vector<size_t> atom_nums;

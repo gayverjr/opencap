@@ -98,16 +98,16 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 System get_System(std::string input_file, std::map<std::string,std::string> params)
 {
 	//first check that we've got what we need to at least try to construct a system
-	if (params.find("geometry")==params.end())
-		opencap_throw("Missing required keyword: geometry. Please choose one of the following: qchem_fchk, "
-				"molcas_rassi,read");
+	if (params.find("molecule")==params.end())
+		opencap_throw("Missing required keyword: molecule. Please choose one of the following: qchem_fchk, "
+				"molcas_rassi,read, molden");
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
-	if(params["geometry"]=="read")
+	if(params["molecule"]=="read")
 		return System(parse_geometry(input_file),params);
 	else
-		return System(params["basis_file"],params["geometry"]);
+		return System(params["basis_file"],params["molecule"]);
 
 }
 

@@ -25,6 +25,6 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs);
 */
 Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::string output_file);
 
-std::vector<Atom> read_atoms_from_fchk(std::string dmat_filename);
+std::vector<Atom> read_geometry_from_fchk(std::string dmat_filename);
 BasisSet read_basis_from_fchk(std::string dmat_filename, std::vector<Atom> atoms);
 #endif /* QCHEM_INTERFACE_H_*/
