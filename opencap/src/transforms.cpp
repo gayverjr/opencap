@@ -88,8 +88,8 @@ Eigen::MatrixXd get_trans_mat(Shell shell)
 {
 	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell);
 	std::vector<int> sph_order = opencap_harmonic_ordering(shell);
-	Eigen::MatrixXd trans_mat(shell.num_bf,shell.num_carts());
-	for(size_t i=0;i<shell.num_bf;i++)
+	Eigen::MatrixXd trans_mat(shell.num_bf(),shell.num_carts());
+	for(size_t i=0;i<shell.num_bf();i++)
 	{
 		int M = sph_order[i];
 		for(size_t j=0;j<shell.num_carts();j++)
@@ -127,13 +127,13 @@ void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints,
 		for(auto shell2:bs.basis)
 		{
 			Eigen::MatrixXd cart_block = cart_ints.block(cart_row_idx,cart_col_idx, shell1.num_carts(),shell2.num_carts());
-			spherical_ints.block(sph_row_idx,sph_col_idx,shell1.num_bf,shell2.num_bf)
+			spherical_ints.block(sph_row_idx,sph_col_idx,shell1.num_bf(),shell2.num_bf())
 							= transform_block(shell1,shell2,cart_block);
 			cart_col_idx+=shell2.num_carts();
-			sph_col_idx+=shell2.num_bf;
+			sph_col_idx+=shell2.num_bf();
 		}
 		cart_row_idx+=shell1.num_carts();
-		sph_row_idx+=shell1.num_bf;
+		sph_row_idx+=shell1.num_bf();
 	}
 }
 

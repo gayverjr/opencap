@@ -33,9 +33,6 @@ public:
 	/** Expansion coefficients for contraction
 	 */
 	std::vector<double> coeffs;
-	/** Number of basis functions in the %Shell
-	 */
-	size_t num_bf;
 	/** Number of primitive gaussians in the %Shell
 	 */
 	size_t num_prims;
@@ -73,11 +70,11 @@ public:
 	/** Normalizes contraction coefficients so that self overlap = 1
 	 */
 	void normalize();
-
-private:
 	/** Returns number of basis functions
 	 */
-	size_t get_size();
+	size_t num_bf();
+
+private:
 
 
 };

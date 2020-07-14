@@ -16,7 +16,6 @@ Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
 	exps=exponents;
 	coeffs=coefficients;
 	num_prims = exps.size();
-	num_bf = get_size();
 	origin = {{0.0,0.0,0.0}};
 	normalize();
 }
@@ -25,7 +24,6 @@ Shell::Shell(int angmom,std::array<double,3>center)
 {
 	l = angmom;
 	num_prims = 0;
-	num_bf = 0;
 	pure = true;
 	origin = center;
 }
@@ -34,7 +32,6 @@ Shell::Shell()
 {
 	l = -1;
 	num_prims = 0;
-	num_bf = 0;
 	pure = true;
 	origin = {{0.0,0.0,0.0}};
 }
@@ -49,7 +46,7 @@ size_t Shell::num_carts()
   return (l + 1) * (l + 2) / 2;
 }
 
-size_t Shell::get_size()
+size_t Shell::num_bf()
 {
 	return pure ? (2 * l + 1) : num_carts();
 }
@@ -98,13 +95,14 @@ void Shell::add_primitive(double exp,double coeff)
 	exps.push_back(exp);
 	coeffs.push_back(coeff);
 	num_prims = exps.size();
-	num_bf = get_size();
 }
 
 bool Shell::operator==(const Shell& other)
 {
 	return l == other.l && exps == other.exps && coeffs==other.coeffs && origin==other.origin;
 }
+
+
 
 
 

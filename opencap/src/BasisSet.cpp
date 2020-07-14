@@ -46,11 +46,6 @@ BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string>
 	build_basis_set(geometry,parser.read_basis());
 	Nshells = basis.size();
 	Nbasis = calc_basis_size();
-	std::cout << "Number of basis functions:" << Nbasis << std::endl;
-	if (parameters["cart_bf"]!="")
-		std::cout << parameters["cart_bf"] + " basis functions are cartesian." << std::endl;
-	else
-		std::cout << "All basis functions are spherical harmonic." << std::endl;
 }
 
 BasisSet::BasisSet()
@@ -110,7 +105,7 @@ size_t BasisSet::calc_basis_size()
 	size_t num_functions = 0;
 	for(size_t i=0;i<Nshells;i++)
 	{
-		num_functions+=basis[i].num_bf;
+		num_functions+=basis[i].num_bf();
 	}
 	return num_functions;
 }
@@ -207,7 +202,7 @@ shell_id BasisSet::get_id_by_bf_index(size_t idx)
 	size_t cur_idx = 0;
 	for(size_t i=0;i<Nshells;i++)
 	{
-		cur_idx+=basis[i].num_bf;
+		cur_idx+=basis[i].num_bf();
 		if(cur_idx>idx)
 		{
 			std::cout << "Shell number:" << i << std::endl;

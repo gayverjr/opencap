@@ -37,3 +37,4 @@ void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
 */
 void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
 bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords);
+void fortran_dfloats_to_efloats(std::string& str);

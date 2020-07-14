@@ -12,6 +12,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include "utils.h"
 #include "Shell.h"
 
 BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
@@ -78,6 +79,7 @@ map<string,std::vector<Shell>> BasisSetParser::read_basis_file()
 				for (size_t i=0; i<n_prims; i++)
 				{
 				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
+				  fortran_dfloats_to_efloats(line);
 				  std::istringstream iss(line);
 				  double exponent, coefficient;
 				  iss >> exponent >> coefficient;
@@ -96,6 +98,7 @@ map<string,std::vector<Shell>> BasisSetParser::read_basis_file()
 				for (size_t i=0; i<n_prims; i++)
 				{
 				  while (std::getline(is, line) && (line.empty() || line[0] == '!')) continue;
+				  fortran_dfloats_to_efloats(line);
 				  std::istringstream iss(line);
 				  double exponent, s_coeff, p_coeff;
 				  iss >> exponent >> s_coeff >> p_coeff;

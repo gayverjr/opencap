@@ -240,11 +240,6 @@ void Projected_CAP::compute_projected_cap()
 
 void Projected_CAP::compute_ao_cap()
 {
-	if(!python)
-	{
-		check_overlap_matrix();
-		std::cout << "Verified overlap matrix." << std::endl;
-	}
 	if(python)
 		py::print("Calculating CAP matrix in AO basis...");
 	else
@@ -270,66 +265,12 @@ void Projected_CAP::check_overlap_matrix()
 {
 	//get overlap matrix
 	Eigen::MatrixXd OVERLAP_MAT=system.OVERLAP_MAT;
+	Eigen::MatrixXd smat;
 	if (parameters["package"]=="qchem")
-	{
-		auto qchem_smat = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
-		if(OVERLAP_MAT.rows() != qchem_smat.rows() || OVERLAP_MAT.cols() != qchem_smat.cols())
-			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
-					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
-					"and that the basis set is the same as that used in the electronic structure"
-					" calculation.");
-		bool conflicts = false;
-		for (size_t i=0;i<qchem_smat.rows();i++)
-		{
-			for(size_t j=0;j<qchem_smat.cols();j++)
-			{
-				if (abs(qchem_smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
-				{
-					std::cout << "Conflict at:" << i << "," << j << std::endl;
-					std::cout << "Qchem says:" << qchem_smat(i,j) << std::endl;
-					std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
-					conflicts = true;
-				}
-			}
-		}
-		if (conflicts)
-			opencap_throw("Error. The dimensions of the overlap matrices match, but the elements do not. Verify that"
-					" your geometry has the right units, and that your basis file is ordered the same as in "
-					"the electronic structure calculation.");
-	}
+		smat = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
 	else if (parameters["package"]=="openmolcas")
-	{
-		Eigen::MatrixXd overlap_mat = read_rassi_overlap(parameters["rassi_h5"],system.bs);
-		if(OVERLAP_MAT.rows() != overlap_mat.rows() || OVERLAP_MAT.cols() != overlap_mat.cols())
-			opencap_throw("Basis set has wrong dimension when checking overlap matrix. "
-					"Verify that cart_bf field is set correctly (default is all spherical harmonic), "
-					"and that the basis set is the same as that used in the electronic structure"
-					" calculation.");
-		std::cout << std::fixed << std::setprecision(10);
-		bool conflicts = false;
-		for (size_t i=0;i<overlap_mat.rows();i++)
-		{
-			for(size_t j=0;j<overlap_mat.cols();j++)
-			{
-				if (abs(overlap_mat(i,j)-OVERLAP_MAT(i,j))>1E-5)
-				{
-					std::cout << "Conflict at:" << i << "," << j << std::endl;
-					std::cout << "Basis ID:" << std::endl;
-					system.bs.bf_ids[j].print();
-					//std::cout <<  overlap_mat(i,j)-OVERLAP_MAT(i,j) << std::endl;
-					std::cout << "OpenMolcas says:" << overlap_mat(i,j) << std::endl;
-					std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
-					conflicts = true;
-				}
-			}
-		}
-		if (conflicts)
-			opencap_throw("Error. The dimensions of the overlap matrices match, but the elements do not. Verify that"
-					" your geometry has the right units, and that your basis file is ordered the same as in "
-					"the electronic structure calculation.");
-	}
-	else
-		opencap_throw("Error. Package: " + parameters["package"] + " is unsupported.");
+		smat = read_rassi_overlap(parameters["rassi_h5"],system.bs);
+	system.check_overlap_mat(smat,"opencap");
 }
 
 
@@ -378,6 +319,7 @@ void Projected_CAP::run()
 	try
 	{
 		compute_ao_cap();
+		check_overlap_matrix();
 		compute_projected_cap();
 	}
 	catch(exception &e)
@@ -428,7 +370,8 @@ Eigen::MatrixXd Projected_CAP::get_H()
 }
 
 void Projected_CAP::add_tdms(Eigen::MatrixXd & alpha_density,
-		Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx)
+		Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx,
+		std::string ordering,std::string basis_file)
 {
 	Eigen::MatrixXd alpha_dm = alpha_density;
 	Eigen::MatrixXd beta_dm = beta_density;
@@ -436,33 +379,56 @@ void Projected_CAP::add_tdms(Eigen::MatrixXd & alpha_density,
 			beta_dm.cols() == beta_dm.rows() && beta_dm.cols() == system.bs.Nbasis))
 		opencap_throw("Error: Dimensionality of the density matrices "
 				"do not match the basis set specified in the system object.");
+	std::vector<bf_id> ids;
+	if(ordering=="pyscf")
+		ids = get_pyscf_ids(system.bs);
+	else if(ordering=="openmolcas")
+	{
+		if(basis_file=="")
+			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+					"specified with the basis_file optional argument.");
+		ids = get_molcas_ids(system.bs,basis_file);
+	}
+	else if(ordering=="qchem"||ordering=="molden")
+		ids = get_molden_ids(system.bs);
+	else
+		opencap_throw("Error: " + ordering +" is unsupported.");
+	to_opencap_ordering(alpha_dm,system.bs,ids);
+	to_opencap_ordering(beta_dm,system.bs,ids);
 	alpha_dms [row_idx][col_idx] = alpha_dm;
 	beta_dms [row_idx][col_idx] = beta_dm;
 }
 
-void Projected_CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx)
+void Projected_CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string ordering,
+		std::string basis_file)
 {
 	Eigen::MatrixXd dmat;
 	dmat = 0.5 * tdm;
 	if(!(dmat.cols() == dmat.rows()&& dmat.cols() == system.bs.Nbasis))
 		opencap_throw("Error: Dimensionality of the density matrix "
 				"does not match the basis set specified in the system object.");
+	std::vector<bf_id> ids;
+	if(ordering=="pyscf")
+		ids = get_pyscf_ids(system.bs);
+	else if(ordering=="openmolcas")
+	{
+		if(basis_file=="")
+			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+					"specified with the basis_file optional argument.");
+		ids = get_molcas_ids(system.bs,basis_file);
+	}
+	else if(ordering=="qchem"||ordering=="molden")
+		ids = get_molden_ids(system.bs);
+	else
+		opencap_throw("Error: " + ordering +" is unsupported.");
+	to_opencap_ordering(dmat,system.bs,ids);
 	alpha_dms[row_idx][col_idx] = dmat;
 	beta_dms[row_idx][col_idx] = dmat;
 }
 
-void Projected_CAP::set_h0(Eigen::MatrixXd &h0)
-{
-	Eigen::MatrixXd mat = h0;
-	if(!(mat.cols()==mat.rows()&&mat.cols()==nstates))
-		opencap_throw("Error: dimensionality of matrix does not match number of states.");
-	ZERO_ORDER_H = mat ;
-}
-
 void Projected_CAP::read_electronic_structure_data(py::dict dict)
 {
-	std::vector<std::string> valid_keywords = {"method","qchem_output","h0_file","rassi_h5",
-			"qchem_fchk","molcas_output"};
+	std::vector<std::string> valid_keywords = {"method","qchem_output","rassi_h5","qchem_fchk","molcas_output"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)
     {
