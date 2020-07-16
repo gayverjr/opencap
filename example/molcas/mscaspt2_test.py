@@ -4,12 +4,8 @@ from pandas import DataFrame
 import h5py
 from pyscf import gto, scf, ci, ao2mo
 
-sys_dict = {"geometry":    '''N  0  0   1.039
-                             N  0  0   -1.039
-                            Gh 0  0   0.0''',
-            "basis_file":"molcas_bas.bas",
-            "bohr_coordinates": "true",
-            "cart_bf": ""}
+sys_dict = {"molecule": "molcas_rassi",
+"basis_file": "anion_ms.rassi.h5"}
 
 cap_dict = {
             "cap_type": "box",
@@ -27,9 +23,12 @@ es_dict = {"method" : "ms-caspt2",
 
 f = h5py.File('anion_ms.rassi.h5', 'r')
 arr = f["SFS_TRANSITION_DENSITIES"]
+arr2 = np.array(f["AO_OVERLAP_MATRIX"])
+arr2 = np.reshape(arr2,(119,119))
 
 #read data
 s = pycap.System(sys_dict)
+s.check_overlap_mat(arr2,"openmolcas","anion_ms.rassi.h5")
 pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
 pc.read_data(es_dict)
 pc.compute_ao_cap()
@@ -37,7 +36,7 @@ pc.compute_projected_cap()
 mat=pc.get_projected_cap()
 h0 = pc.get_H()
 #print(DataFrame(h0).to_string(index=False, header=False))
-print(DataFrame(mat).to_string(index=False, header=False))
+#print(DataFrame(mat).to_string(index=False, header=False))
 
 
 # separate alpha beta
@@ -45,13 +44,13 @@ pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = 0.5*np.reshape(arr[i][j],(119,119))
-        pc.add_tdms(arr1,arr1,i,j)
+        pc.add_tdms(arr1,arr1,i,j,"openmolcas","anion_ms.rassi.h5")
         if i!=j:
-            pc.add_tdms(arr1,arr1,j,i)
+            pc.add_tdms(arr1,arr1,j,i,"openmolcas","anion_ms.rassi.h5")
 pc.compute_ao_cap()
 pc.compute_projected_cap()
 mat=pc.get_projected_cap()
-print(DataFrame(mat).to_string(index=False, header=False))
+#print(DataFrame(mat).to_string(index=False, header=False))
 
 
 # spin traced
@@ -59,21 +58,22 @@ pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = np.reshape(arr[i][j],(119,119))
-        pc.add_tdm(arr1,i,j)
+        pc.add_tdm(arr1,i,j,"openmolcas","anion_ms.rassi.h5")
         if i!=j:
-            pc.add_tdm(arr1,j,i)
+            pc.add_tdm(arr1,j,i,"openmolcas","anion_ms.rassi.h5")
 pc.compute_ao_cap()
 pc.compute_projected_cap()
 mat=pc.get_projected_cap()
 print(DataFrame(mat).to_string(index=False, header=False))
+
 
 ### now time for trajectories
 import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-ms_caspt2_energy = -109.35042485
-E_0 = ms_caspt2_energy
+xms_caspt2_energy = -109.35714881
+E_0 = xms_caspt2_energy
 au2eV= 27.2113961
 @functools.total_ordering
 class root():

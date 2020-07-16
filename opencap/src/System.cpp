@@ -25,21 +25,33 @@
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
+#include "molcas_interface.h"
+#include "qchem_interface.h"
+#include "molden_parser.h"
 #include <Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
 	try
 	{
-		verify_system_parameters(params);
+		python = false;
 		parameters=params;
 		atoms = geometry;
-		if(!bohr_coords())
+		//set defaults for cart_bf and bohr_coordinates
+		std::map<std::string, std::string> defaults = {{"cart_bf", ""}, {"bohr_coordinates", "true"}};
+		for (const auto &pair:defaults)
+		{
+			if(parameters.find(pair.first)==parameters.end())
+				parameters[pair.first]=pair.second;
+		}
+		if(parameters.find("bohr_coordinates")!=parameters.end() && parameters["bohr_coordinates"]=="false")
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
 		}
 		bs = BasisSet(atoms,parameters);
+		verify_system();
+		std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 		//now construct overlap matrix
 		Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 		compute_analytical_overlap(bs,Smat);
@@ -57,26 +69,49 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 
 System::System(py::dict dict)
 {
-	std::map<std::string,std::string> params;
+	python = true;
     for (auto item : dict)
     {
     	std::string key = py::str(item.first).cast<std::string>();
     	std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
 		transform(value.begin(),value.end(),value.begin(),::tolower);
-    	if (key!="geometry")
-    		params[key]=value;
-    	else
-    		set_geometry(value);
+		if(check_keyword(key,"system")||key=="geometry")
+			parameters[key]=value;
+		else
+			opencap_throw("Invalid key:" +key);
     }
-    verify_system_parameters(params);
-    parameters = params;
-	if(!bohr_coords())
+    if (parameters.find("molecule")==parameters.end()||parameters.find("basis_file")==parameters.end())
+    	opencap_throw("Error: molecule and basis_file keywords are required.");
+	if(parameters["molecule"]=="qchem_fchk")
 	{
-		for (size_t i=0;i<atoms.size();i++)
-			atoms[i].ang_to_bohr();
+		atoms = read_geometry_from_fchk(parameters["basis_file"]);
+		bs = read_basis_from_fchk(parameters["basis_file"],atoms);
 	}
-	bs = BasisSet(atoms,parameters);
+	else if (parameters["molecule"]=="molcas_rassi")
+	{
+		atoms = read_geometry_from_rassi(parameters["basis_file"]);
+		bs = read_basis_from_rassi(parameters["basis_file"],atoms);
+	}
+	else if(parameters["molecule"]=="molden")
+	{
+		atoms = read_geometry_from_molden(parameters["basis_file"]);
+		bs = read_basis_from_molden(parameters["basis_file"],atoms);
+	}
+	else if(parameters["molecule"]=="read")
+	{
+		if(parameters.find("geometry")==parameters.end())
+			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");
+		atoms = parse_geometry_string(parameters["geometry"]);
+		if(parameters.find("bohr_coordinates")!=parameters.end() && parameters["bohr_coordinates"]=="false")
+		{
+			for (size_t i=0;i<atoms.size();i++)
+				atoms[i].ang_to_bohr();
+		}
+		bs = BasisSet(atoms,parameters);
+	}
+    verify_system();
+	py::print("Number of basis functions:"+std::to_string(bs.Nbasis));
 	//now construct overlap matrix
 	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 	compute_analytical_overlap(bs,Smat);
@@ -86,83 +121,116 @@ System::System(py::dict dict)
 	OVERLAP_MAT = spherical_ints;
 }
 
-void System::set_geometry(std::string geometry_string)
+System::System(std::string filename,std::string file_type)
+{
+	parameters["molecule"]   = filename;
+	parameters["basis_file"] = file_type;
+	python = false;
+	if(file_type=="qchem_fchk")
+	{
+		atoms = read_geometry_from_fchk(filename);
+		bs = read_basis_from_fchk(filename,atoms);
+	}
+	else if (file_type=="molcas_rassi")
+	{
+		atoms = read_geometry_from_rassi(filename);
+		bs = read_basis_from_rassi(filename,atoms);
+	}
+	else if(file_type=="molden")
+	{
+		atoms = read_geometry_from_molden(filename);
+		bs = read_basis_from_molden(filename,atoms);
+	}
+	else
+		opencap_throw("That file type isn't supported, sorry.");
+	verify_system();
+	std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
+	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
+	compute_analytical_overlap(bs,Smat);
+	uniform_cart_norm(Smat,bs);
+	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
+	cart2spherical(Smat,spherical_ints,bs);
+	OVERLAP_MAT = spherical_ints;
+}
+
+std::vector<Atom> System::parse_geometry_string(std::string geometry_string)
 {
 	std::vector<Atom> atom_list;
-	stringstream ss(geometry_string);
-	string line;
-	while(std::getline(ss,line))
+	try
 	{
-		std::istringstream iss(line);
-		std::string element_symbol;
-		double x, y, z;
-		iss >> element_symbol >> x >> y >> z;
-		transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::tolower);
-		atom_list.push_back(Atom(element_symbol,x,y,z));
+		stringstream ss(geometry_string);
+		string line;
+		while(std::getline(ss,line))
+		{
+			std::istringstream iss(line);
+			std::string element_symbol;
+			double x, y, z;
+			iss >> element_symbol >> x >> y >> z;
+			transform(element_symbol.begin(),element_symbol.end(),element_symbol.begin(),::tolower);
+			atom_list.push_back(Atom(element_symbol,x,y,z));
+		}
 	}
-	atoms = atom_list;
+	catch (exception &e)
+	{
+		opencap_rethrow("Failed to parse geometry string.");
+	}
+	return atom_list;
 }
 
-void System::verify_system_parameters(std::map<std::string, std::string> &params)
+void System::verify_system()
 {
-	if(params.find("basis_file")==params.end())
-		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
-	std::map<std::string, std::string> defaults = {{"cart_bf", ""}, {"bohr_coordinates", "true"}};
-	for (const auto &pair:defaults)
-	{
-		if(parameters.find(pair.first)==parameters.end())
-			parameters[pair.first]=pair.second;
-	}
+	if(atoms.size()==0)
+		opencap_throw("Error: No atoms specified.");
+	if(bs.Nbasis==0)
+		opencap_throw("Error: Basis set has 0 basis functions.");
 }
 
-bool System::bohr_coords()
+Eigen::MatrixXd System::get_overlap_mat()
 {
-	std::string my_str = parameters["bohr_coordinates"];
-	if (my_str == "false")
-		return false;
-	else if (my_str == "true")
-		return true;
-	else if (my_str == "0")
-		return false;
-	else if (my_str == "1")
-		return true;
+	return OVERLAP_MAT;
+}
+
+void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
+{
+	std::vector<bf_id> ids;
+	if(ordering=="pyscf")
+		ids = get_pyscf_ids(bs);
+	else if(ordering=="openmolcas")
+	{
+		if(basis_file=="")
+			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+					"specified with the basis_file optional argument.");
+		ids = get_molcas_ids(bs,basis_file);
+	}
+	else if(ordering=="qchem"||ordering=="molden")
+		ids = get_molden_ids(bs);
+	else if(ordering=="opencap")
+		ids = bs.bf_ids;
 	else
-		opencap_throw("Invalid value for keyword 'bohr_coordinates'");
-	return false;
-}
-
-Eigen::MatrixXd System::get_overlap_mat(std::string gto_ordering)
-{
-	Eigen::MatrixXd overlap_copy;
-	overlap_copy = OVERLAP_MAT;
-	transform(gto_ordering.begin(),gto_ordering.end(),gto_ordering.begin(),::tolower);
-	if(gto_ordering=="opencap")
+		opencap_throw(ordering +" ordering is not supported.");
+	to_opencap_ordering(smat,bs,ids);
+	if(OVERLAP_MAT.rows() != smat.rows() || OVERLAP_MAT.cols() != smat.cols())
+		opencap_throw("Error: Dimension of overlap matrix is incorrect.");
+	bool conflicts = false;
+	for (size_t i=0;i<smat.rows();i++)
 	{
-		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
+		for(size_t j=0;j<smat.cols();j++)
+		{
+			if (abs(smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
+			{
+				std::cout << "Conflict at:" << i << "," << j << std::endl;
+				std::cout << ordering + " says:" << smat(i,j) << std::endl;
+				std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
+				conflicts = true;
+			}
+		}
 	}
-	else if (gto_ordering=="pyscf")
-	{
-		to_pyscf_ordering(overlap_copy,bs);
-		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
-	}
-	else if(gto_ordering=="molcas")
-	{
-		to_molcas_ordering(overlap_copy,bs,atoms);
-		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
-	}
-	else if(gto_ordering=="molden"||gto_ordering=="qchem"||gto_ordering=="q-chem")
-	{
-		to_molden_ordering(overlap_copy,bs);
-		return overlap_copy;
-		//return cEigen::MatrixXd_to_arr(overlap_copy);
-	}
+	if (conflicts)
+		opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not.");
+	if(python)
+		py::print("Verified overlap matrix.");
 	else
-		opencap_throw("Error: "+gto_ordering + " GTO ordering is not supported.");
-
+		std::cout << "Verified overlap matrix.";
 }
-
 
 

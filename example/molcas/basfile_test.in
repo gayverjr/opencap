@@ -5,6 +5,7 @@ Gh 0  0   0.0
 $end
 
 $system
+molecule read
 bohr_coordinates true
 !cart_bf spdf
 basis_file molcas_bas.bas
@@ -14,9 +15,9 @@ $projected_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 anion_ms.rassi.h5
-molcas_output anion_ms.out
+!molcas_output anion_ms.out
 nstates 10
-!h0_file example/heff.in
+h0_file heff.in
 CAP_TYPE box
 CAP_X 2.76
 CAP_Y 2.76

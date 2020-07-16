@@ -22,6 +22,34 @@ using namespace std;
  *
  */
 
+struct shell_id
+{
+	size_t ctr;
+	size_t shell_num;
+	/** Positive if pure, negative if Cartesian
+	 */
+	size_t l;
+	shell_id(size_t center,size_t shell_n, size_t l_num)
+	{ctr=center;shell_num=shell_n;l=l_num;};
+	void print();
+	bool operator==(const shell_id& other);
+};
+
+struct bf_id
+{
+	size_t ctr;
+	size_t shell_num;
+	/** Positive if pure, negative if Cartesian
+	 */
+	size_t l;
+	int m;
+	bf_id(shell_id id,int angmom)
+	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=angmom;};
+	void print();
+	bool operator==(const bf_id& other);
+};
+
+
 class BasisSet {
 public:
 	/** Number of gaussian shells specified in the ab initio basis set.
@@ -33,6 +61,10 @@ public:
 	   /** Number of basis functions after rotation in spherical harmonic basis.
 	    */
 	size_t Nbasis;
+	std::vector<shell_id> shell_ids;
+	std::vector<bf_id> bf_ids;
+	std::vector<std::array<double,3>> centers;
+	void print_basis();
 
 public:
     /** Default constructor.
@@ -64,6 +96,10 @@ public:
      * \return Largest exponent in the basis set belonging to a particular atom
       */
 	double alpha_max(Atom atm);
+	void add_shell(Shell new_shell);
+	long get_index_of_shell_id(shell_id id);
+	void normalize();
+	shell_id get_id_by_bf_index(size_t idx);
 private:
     /** Calculates number of basis functions based on the Shells stored in the basis vector.
       */

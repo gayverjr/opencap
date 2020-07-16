@@ -23,7 +23,6 @@ struct element
     /** Atomic symbol
       */
     std::string symbol;
-
     element(int new_Z, std::string new_name, std::string new_symbol)
     {Z=new_Z; name = new_name; symbol=new_symbol;};
     std::string &getName() {return name;};
@@ -61,9 +60,11 @@ public:
      * \param z: z coordinate
       */
 	Atom(string symbol,double x,double y, double z);
+	Atom(int atom_num,double x,double y, double z);
     /** Returns element structure corresponding to atomic symbol.
       */
 	element get_element_info(std::string symbol);
+	element get_element_info(int Z);
 	void hello_world();
 	Atom (std::string test);
 };

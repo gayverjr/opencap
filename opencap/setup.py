@@ -63,9 +63,9 @@ class CMakeBuild(build_ext):
 setup(
     name='pycap',
     version='0.0.1',
-    author='Dean Moldovan',
-    author_email='dean0x7d@gmail.com',
-    description='A test project using pybind11 and CMake',
+    author='James Gayvert',
+    author_email='jrg44$@gmail.com',
+    description='An open source software for studying resonances in molecules.',
     long_description='',
     ext_modules=[CMakeExtension('pycap')],
     cmdclass=dict(build_ext=CMakeBuild),

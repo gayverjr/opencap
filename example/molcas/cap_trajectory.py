@@ -5,8 +5,9 @@ from numpy import linalg as LA
 import matplotlib.pyplot as plt
 import argparse
 
-caspt2_energy = -109.35042485
-E_0 = caspt2_energy
+xms_caspt2_energy = -109.35714881
+ms_caspt2_energy = -109.35042485
+E_0 = ms_caspt2_energy
 au2eV= 27.2113961
 
 @functools.total_ordering
@@ -39,6 +40,7 @@ class trajectory():
             if np.absolute(st.energy-guess)<min:
                 cur=st
                 min=np.absolute(st.energy-self.last.energy)
+        self.last = cur
         self.states.append(cur)
 
     def get_corrections(self):
@@ -81,8 +83,9 @@ for i in range(start2,start2+num_roots):
 cap_mat= np.reshape(cap_mat,(num_roots,num_roots))
 
 
-guess=2.2
-eta_list = np.linspace(0,3000,301)
+guess = 2.4
+#guess = 12.5
+eta_list = np.linspace(0,2000,101)
 eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):
