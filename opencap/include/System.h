@@ -32,20 +32,26 @@ public:
 	BasisSet bs;
 	/** Default constructor, does nothing
 	 */
-	System(){};
+	System(){python=false;};
 	/** Construct from python
 	 */
 	System(py::dict dict);
 	/** Constructor from geometry and parameters
 	 */
 	System(std::vector<Atom> geometry,std::map<std::string, std::string> params);
+	/**
+	 * Constructor from output file
+	 */
+	System(std::string filename,std::string file_type);
 	/** Overlap matrix in AO basis
 	 */
 	Eigen::MatrixXd OVERLAP_MAT;
 	/** Sets geometry from python
 	 */
-	void set_geometry(std::string geometry_string);
-	Eigen::MatrixXd get_overlap_mat(std::string gto_ordering="opencap");
+	std::vector<Atom> parse_geometry_string(std::string geometry_string);
+	Eigen::MatrixXd get_overlap_mat();
+	void check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	bool python;
 
 
 private:
@@ -56,10 +62,7 @@ private:
 	 * and sets unspecified fields to their defaults.
 	 * \return Updated parameters map.
 	 */
-	void verify_system_parameters(std::map<std::string, std::string> &params);
-	/** Checks bohr_coordinates keyword.
-	 */
-	bool bohr_coords();
+	void verify_system();
 };
 
 

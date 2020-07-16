@@ -78,5 +78,22 @@ std::vector<std::string> split(const std::string& s, char delimiter)
    return tokens;
 }
 
+bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords)
+{
+	for(size_t i=0;i<3;i++)
+	{
+		if(shell_origin[i]!=atom_coords[i])
+			return false;
+	}
+	return true;
+}
 
+void fortran_dfloats_to_efloats(std::string& str)
+{
+	for(auto& ch: str)
+	{
+		if (ch == 'd') ch = 'e';
+		if (ch == 'D') ch = 'E';
+	}
+}
 

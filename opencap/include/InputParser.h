@@ -6,13 +6,14 @@
 #include <map>
 #include <tuple>
 #include <string>
+#include "System.h"
 
 
 /** Parses an input file.
  * \param input_file: OpenCAP input file
  * \return A tuple, 1st element is the geometry, second element is the parameters map
 */
-std::tuple<std::vector<Atom>,std::map<std::string,std::string>> parse_input(std::string input_file);
+std::tuple<System,std::map<std::string,std::string>> parse_input(std::string input_file);
 /** Parses the geometry section.
  * \param input_file: OpenCAP input file
  * \return Geometry of molecular system

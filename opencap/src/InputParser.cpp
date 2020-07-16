@@ -21,6 +21,7 @@
 #include "InputParser.h"
 #include "opencap_exception.h"
 #include "keywords.h"
+#include "System.h"
 
 std::vector<Atom> parse_geometry(std::string input_file)
 {
@@ -94,33 +95,47 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 		}
 }
 
-std::tuple<std::vector<Atom>,std::map<std::string,std::string>> parse_input(std::string input_file)
+System get_System(std::string input_file, std::map<std::string,std::string> params)
+{
+	//first check that we've got what we need to at least try to construct a system
+	if (params.find("molecule")==params.end())
+		opencap_throw("Missing required keyword: molecule. Please choose one of the following: qchem_fchk, "
+				"molcas_rassi,read, molden");
+	if(params.find("basis_file")==params.end())
+		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
+	//geometry
+	if(params["molecule"]=="read")
+		return System(parse_geometry(input_file),params);
+	else
+		return System(params["basis_file"],params["molecule"]);
+
+}
+
+std::tuple<System,std::map<std::string,std::string>> parse_input(std::string input_file)
 {
 	//TODO: check that fields are present
 	std::map<std::string,std::string> parameters;
-	std::vector<Atom>atoms;
+	System my_sys;
 	try
 	{
-		//run parser for each input field
-		atoms = parse_geometry(input_file);
 		//parse job section
 		parse_section(input_file,parameters,"job");
+		//parse system
+		parse_section(input_file,parameters,"system");
 		if(parameters["jobtype"]=="projected_cap")
 		{
-			//parse system
-			parse_section(input_file,parameters,"system");
 			//parse cap_parameters
 			parse_section(input_file,parameters,"projected_cap");
 		}
 		else
 			opencap_throw("Invalid jobtype: " + parameters["jobtype"]);
-
+		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
 	}
 	catch (exception &e)
 	{
 		opencap_rethrow("Failed to parse input file.");
 	}
-	return std::make_tuple(atoms,parameters);
+	return std::make_tuple(my_sys,parameters);
 }
 
 

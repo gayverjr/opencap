@@ -78,17 +78,15 @@ public:
 	 * \param col_idx: final state index
 	 */
 	void add_tdms(Eigen::MatrixXd & alpha_density,
-			Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx);
+			Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx,
+			std::string ordering, std::string basis_file="");
 	/** Adds spin traced transition density matrix from state row_idx --> col_idx.
 	 * \param alpha_density: Spin traced TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
 	 */
-	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx);
-	/** Sets zeroth order Hamiltonian.
-	 * \param h0: Zeroth order Hamiltonian of dimension (nstates,nstates)
-	 */
-	void set_h0(Eigen::MatrixXd &h0);
+	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,
+			std::string ordering,std::string basis_file="");
 	/** Reads in electronic structure data from file, from python.
 	 * Valid keywords: method,qc_output,h0_file,rassi_h5,
 			fchk_file,molcas_output.
@@ -104,9 +102,6 @@ private:
 	/** Reads in TDMs from electronic structure package
 	 */
 	void read_in_dms();
-	/** Re-orders %CAP matrix in AO basis to match electronic structure package ordering
-	 */
-	void reorder_cap();
 	/** Reads in zeroth order Hamiltonian from electronic structure package
 	 */
 	void read_in_zero_order_H();

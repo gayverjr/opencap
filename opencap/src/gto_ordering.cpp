@@ -13,6 +13,8 @@
 #include <math.h>
 #include <tuple>
 #include "gto_ordering.h"
+#include "opencap_exception.h"
+#include <h5pp/h5pp.h>
 #include <iostream>
 #include <Eigen/Dense>
 
@@ -40,6 +42,30 @@ std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell shell)
 	{
 		return {{0,0,0}};
 	}
+}
+
+std::vector<int> opencap_harmonic_ordering(Shell shell)
+{
+	//s
+	if(shell.l == 0)
+		return {0};
+	//p
+	if(shell.l==1)
+		return {-1,0,1};
+	//d
+	else if (shell.l==2)
+		return {-2,-1,0,1,2};
+	//f
+	else if (shell.l==3)
+		return {-3,-2,-1,0,1,2,3};
+	//g
+	else if (shell.l==4)
+		return {-4,-3,-2,-1,0,1,2,3,4};
+	//h
+	else if(shell.l==5)
+		return {-5,-4,-3,-2,-1,0,1,2,3,4,5};
+	else
+		return {0,0,0};
 }
 
 std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell shell)
@@ -91,28 +117,37 @@ std::vector<int> pyscf_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<int> opencap_harmonic_ordering(Shell shell)
+std::vector<bf_id> get_pyscf_ids(BasisSet bs)
 {
-	//s
-	if(shell.l == 0)
-		return {0};
-	//p
-	if(shell.l==1)
-		return {-1,0,1};
-	//d
-	else if (shell.l==2)
-		return {-2,-1,0,1,2};
-	//f
-	else if (shell.l==3)
-		return {-3,-2,-1,0,1,2,3};
-	//g
-	else if (shell.l==4)
-		return {-4,-3,-2,-1,0,1,2,3,4};
-	//h
-	else if(shell.l==5)
-		return {-5,-4,-3,-2,-1,0,1,2,3,4,5};
-	else
-		return {0,0,0};
+	std::vector<bf_id> ids;
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell my_shell = bs.basis[i];
+		if (my_shell.pure)
+		{
+			std::vector<int> pyscf_order = pyscf_harmonic_ordering(my_shell);
+			for(int angmom:pyscf_order)
+				ids.push_back(bf_id(bs.shell_ids[i],angmom));
+		}
+		else
+		{
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
+			std::vector<std::array<size_t,3>> pyscf_order = pyscf_carts_ordering(my_shell);
+			for(auto angmom:pyscf_order)
+			{
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				if (it != opencap_order.end())
+				{
+					int index = std::distance(opencap_order.begin(), it);
+					int angmom_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+				}
+				else
+				    opencap_throw("Something's gone wrong.");
+			}
+		}
+	}
+	return ids;
 }
 
 std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell)
@@ -159,154 +194,37 @@ std::vector<int> molden_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<int> qchem_harmonic_ordering(Shell shell)
+std::vector<bf_id> get_molden_ids(BasisSet bs)
 {
-	//s
-	if(shell.l == 0)
-		return {0};
-	//p
-	if(shell.l==1)
-		return {1,-1,0};
-	//d
-	else if (shell.l==2)
-		return {-2,-1,0,1,2};
-	//f
-	else if (shell.l==3)
-		return {-3,-2,-1,0,1,2,3};
-	//g
-	else if (shell.l==4)
-		return {-4,-3,-2,-1,0,1,2,3,4};
-	else
-		return {0,0,0};
-}
-
-// matrix in opencap ordering --> matrix in molden ordering
-void to_molden_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
-{
-	std::vector<std::tuple<int,int>> swap_indices;
-	int bf_idx = 0;
-	for(auto shell:bs.basis)
+	std::vector<bf_id> ids;
+	for(size_t i=0;i<bs.basis.size();i++)
 	{
-		if (shell.pure)
+		Shell my_shell = bs.basis[i];
+		if (my_shell.pure)
 		{
-			std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
-			std::vector<int> molden_order = molden_harmonic_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<molden_order.size();j++)
-				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
+			std::vector<int> molden_order = molden_harmonic_ordering(my_shell);
+			for(int angmom:molden_order)
+				ids.push_back(bf_id(bs.shell_ids[i],angmom));
 		}
 		else
 		{
-			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
-			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
+			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(my_shell);
+			for(auto angmom:molden_order)
 			{
-				for(size_t j=0; j<molden_order.size();j++)
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				if (it != opencap_order.end())
 				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
+					int index = std::distance(opencap_order.begin(), it);
+					int angmom_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
 				}
+				else
+				    opencap_throw("Something's gone wrong.");
 			}
 		}
-		bf_idx+=shell.num_bf;
 	}
-	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
-	for(auto t:swap_indices)
-		per_mat(std::get<0>(t),std::get<1>(t))=1;
-	// permute indices: P^T * A * P
-	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
-}
-
-// matrix in opencap ordering --> matrix in qchem ordering
-void to_qchem_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
-{
-	std::vector<std::tuple<int,int>> swap_indices;
-	int bf_idx = 0;
-	for(auto shell:bs.basis)
-	{
-		if (shell.pure)
-		{
-			std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
-			std::vector<int> molden_order = qchem_harmonic_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<molden_order.size();j++)
-				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		else
-		{
-			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
-			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<molden_order.size();j++)
-				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		bf_idx+=shell.num_bf;
-	}
-	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
-	for(auto t:swap_indices)
-		per_mat(std::get<0>(t),std::get<1>(t))=1;
-	// permute indices: P^T * A * P
-	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
-}
-
-// matrix in opencap ordering --> matrix in qchem ordering
-void molden_to_qchem_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs)
-{
-	std::vector<std::tuple<int,int>> swap_indices;
-	int bf_idx = 0;
-	for(auto shell:bs.basis)
-	{
-		if (shell.pure)
-		{
-			std::vector<int> opencap_order = molden_harmonic_ordering(shell);
-			std::vector<int> molden_order = qchem_harmonic_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<molden_order.size();j++)
-				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		else
-		{
-			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
-			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<molden_order.size();j++)
-				{
-					if(opencap_order[i]==molden_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		bf_idx+=shell.num_bf;
-	}
-	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
-	for(auto t:swap_indices)
-		per_mat(std::get<0>(t),std::get<1>(t))=1;
-	// permute indices: P^T * A * P
-	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
+	return ids;
 }
 
 std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell)
@@ -349,79 +267,61 @@ std::vector<int> molcas_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords)
+std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename)
 {
-	for(size_t i=0;i<3;i++)
+	std::vector<bf_id> ids;
+	h5pp::File file(rassi_filename, h5pp::FilePermission::READONLY);
+	Eigen::Matrix<long,Eigen::Dynamic,Eigen::Dynamic> basis_ids;
+	auto nsym = file.readAttribute<long>("NSYM", "/");
+	std::string bf_ids_tag;
+	if(nsym>1)
+		bf_ids_tag="DESYM_BASIS_FUNCTION_IDS";
+	else
+		bf_ids_tag ="BASIS_FUNCTION_IDS";
+	file.readDataset(basis_ids,bf_ids_tag);
+	for(size_t i=0;i<basis_ids.rows();i++)
 	{
-		if(shell_origin[i]!=atom_coords[i])
-			return false;
-	}
-	return true;
-}
-
-//molcas basis sets are specified a little differently, functions of the same subshell are grouped together
-std::vector<std::vector<std::vector<Shell>>> molcas_reorder_basis_set(BasisSet bs, std::vector<Atom> geometry)
-{
-	//3D vector
-	// Dimension 1: atom Shell belongs to
-	// Dimension 2: subshell Shell belongs to
-	// Dimension 3: actual Shell object
-	std::vector<std::vector<std::vector<Shell>>> reordered_shells(geometry.size(),vector<std::vector<Shell>>(bs.max_L()+1));
-	//group by atom and subshell
-	for (auto shell:bs.basis)
-	{
-		//find which atom it belongs to
-		size_t atm_idx = 0;
-		while (!same_atom(shell.origin,geometry[atm_idx].coords))
-			atm_idx++;
-		reordered_shells[atm_idx][shell.l].push_back(shell);
-	}
-	return reordered_shells;
-}
-
-size_t find_matching_index(Shell shell, int angmom, BasisSet original_bs)
-{
-	std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
-	size_t matching_idx = 0;
-	for (auto shell2:original_bs.basis)
-	{
-		if (shell==shell2)
-			break;
+		long ctr = basis_ids(i,0);
+		long shell_num = basis_ids(i,1);
+		long l = basis_ids(i,2);
+		size_t shell_idx = bs.get_index_of_shell_id(shell_id(ctr,shell_num,l));
+		Shell my_shell = bs.basis[shell_idx];
+		long m = basis_ids(i,3);
+		//cartesian, need to translate molcas cartesian IDs to opencap IDs
+		if(l<0)
+		{
+			std::vector<std::array<size_t,3>> molcas_order = molcas_carts_ordering(my_shell);
+			std::vector<std::array<size_t,3>> opencap_order = molcas_carts_ordering(my_shell);
+			std::array<size_t,3> cart_angmom = molcas_order[m+(molcas_order.size()-1)/2];
+			auto it = std::find(opencap_order.begin(), opencap_order.end(), cart_angmom);
+			if (it != opencap_order.end())
+			{
+				int index = std::distance(opencap_order.begin(), it);
+				int angmom_id = index-(opencap_order.size()-1)/2;
+				ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+			}
+			else
+			    opencap_throw("Something's gone wrong.");
+		}
+		//spherical harmonic, don't need to do anything fancy
 		else
-			matching_idx +=shell2.num_bf;
+		{
+			ids.push_back(bf_id(bs.shell_ids[shell_idx],m));
+		}
 	}
-	for (size_t i=0;i<opencap_order.size();i++)
-	{
-		if (opencap_order[i]==angmom)
-			return matching_idx + i;
-	}
-	std::cout << "Something's gone wrong." << std::endl;
-	return -1;
+	return ids;
 }
 
-
-// matrix in opencap ordering --> matrix in molcas ordering
-void to_molcas_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs, std::vector<Atom> geometry)
+void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet bs,std::vector<bf_id> input_ids)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
-	std::vector<std::vector<std::vector<Shell>>> reordered_shells = molcas_reorder_basis_set(bs,geometry);
-	size_t reordered_idx = 0;
-	for (auto atm_group:reordered_shells)
+	for(size_t i=0;i<input_ids.size();i++)
 	{
-		for (auto subshell:atm_group)
+		for(size_t j=0;j<bs.bf_ids.size();j++)
 		{
-			if (!subshell.empty())
+			if(input_ids[i]==bs.bf_ids[j])
 			{
-				std::vector<int> molcas_order = molcas_harmonic_ordering(subshell[0]);
-				for (auto angmom:molcas_order)
-				{
-					for(auto shell:subshell)
-					{
-						size_t original_idx = find_matching_index(shell,angmom,bs);
-						swap_indices.push_back(std::make_tuple(original_idx, reordered_idx));
-						reordered_idx++;
-					}
-				}
+				swap_indices.push_back(std::make_tuple(i, j));
 			}
 		}
 	}
@@ -430,47 +330,5 @@ void to_molcas_ordering(Eigen::MatrixXd &opencap_mat, BasisSet bs, std::vector<A
 	for(auto t:swap_indices)
 		per_mat(std::get<0>(t),std::get<1>(t))=1;
 	// permute indices: P^T * A * P
-	opencap_mat = per_mat.transpose() * opencap_mat * per_mat;
-}
-
-void to_pyscf_ordering(Eigen::MatrixXd &opencap_mat,BasisSet bs)
-{
-	std::vector<std::tuple<int,int>> swap_indices;
-	int bf_idx = 0;
-	for(auto shell:bs.basis)
-	{
-		if (shell.pure)
-		{
-			std::vector<int> opencap_order = opencap_harmonic_ordering(shell);
-			std::vector<int> pyscf_order = pyscf_harmonic_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<pyscf_order.size();j++)
-				{
-					if(opencap_order[i]==pyscf_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		else
-		{
-			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(shell);
-			std::vector<std::array<size_t,3>> pyscf_order = pyscf_carts_ordering(shell);
-			for (size_t i=0;i<opencap_order.size();i++)
-			{
-				for(size_t j=0; j<pyscf_order.size();j++)
-				{
-					if(opencap_order[i]==pyscf_order[j])
-						swap_indices.push_back(std::make_tuple(i+bf_idx, j+bf_idx));
-				}
-			}
-		}
-		bf_idx+=shell.num_bf;
-	}
-	Eigen::MatrixXd per_mat(bs.Nbasis,bs.Nbasis);
-	per_mat= Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
-	for(auto t:swap_indices)
-		per_mat(std::get<0>(t),std::get<1>(t))=1;
-	// permute indices: P^T * A * P
-	opencap_mat = per_mat.transpose()* opencap_mat * per_mat;
+	mat = per_mat.transpose()* mat * per_mat;
 }
