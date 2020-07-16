@@ -22,6 +22,7 @@
 #include "opencap_exception.h"
 #include "keywords.h"
 #include "System.h"
+#include "utils.h"
 
 std::vector<Atom> parse_geometry(std::string input_file)
 {
@@ -67,15 +68,13 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 	    std::string line, rest;
 		while (std::getline(is, line))
 		{
-			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-			if(line=="$"+section_name)
+			if(compare_strings(line,"$"+section_name))
 				break;
 		}
 		while (!is.eof())
 		{
 			std::getline(is, line);
-			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-			if (line=="$end")
+			if (compare_strings(line,"$end"))
 				break;
 			else
 			{

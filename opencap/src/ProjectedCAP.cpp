@@ -63,7 +63,6 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
     	std::string key = py::str(item.first).cast<std::string>();
     	std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
-		transform(value.begin(),value.end(),value.begin(),::tolower);
     	if (std::find(valid_keywords.begin(),
     			valid_keywords.end(),key)==valid_keywords.end())
     		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
@@ -79,7 +78,7 @@ Projected_CAP::Projected_CAP(System my_sys, py::dict dict, size_t num_states, st
 		if(num_states<1)
 			opencap_throw("Error: not enough states to run calculation.");
 		std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
-		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem" || gto_ordering=="pyscf"))
+		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem" || gto_ordering=="pyscf")||gto_ordering=="molden")
 			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
 		parameters["package"] = gto_ordering;
 		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
@@ -144,7 +143,7 @@ void Projected_CAP::read_in_zero_order_H()
 {
 	if (parameters.find("h0_file")!=parameters.end())
 		ZERO_ORDER_H = read_h0_file();
-	else if (parameters["package"]=="qchem")
+	else if (compare_strings(parameters["package"],"qchem"))
 	{
 		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qchem_output"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
@@ -153,7 +152,7 @@ void Projected_CAP::read_in_zero_order_H()
 		else
 			std::cout << message << std::endl;
 	}
-	else if (parameters["package"]=="openmolcas")
+	else if (compare_strings(parameters["package"],"openmolcas"))
 	{
 		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["molcas_output"];
@@ -168,12 +167,12 @@ void Projected_CAP::read_in_zero_order_H()
 
 void Projected_CAP::read_in_dms()
 {
-	if (parameters["package"]=="qchem")
+	if (compare_strings(parameters["package"],"qchem"))
 	{
 		std::string dmat_filename = parameters["qchem_fchk"];
 		try
 		{
-			if(parameters["method"]=="eomee")
+			if(compare_strings(parameters["method"],"eomee"))
 			{
 				auto parsed_dms = qchem_read_in_dms_closed_shell(dmat_filename,nstates,system.bs);
 				alpha_dms = parsed_dms[0];
@@ -196,7 +195,7 @@ void Projected_CAP::read_in_dms()
 			opencap_rethrow("Failed to read TDMs from Q-Chem .fchk.");
 		}
 	}
-	else if (parameters["package"]=="openmolcas")
+	else if (compare_strings(parameters["package"],"openmolcas"))
 	{
 		try
 		{
@@ -264,11 +263,10 @@ void Projected_CAP::compute_ao_cap()
 void Projected_CAP::check_overlap_matrix()
 {
 	//get overlap matrix
-	Eigen::MatrixXd OVERLAP_MAT=system.OVERLAP_MAT;
 	Eigen::MatrixXd smat;
-	if (parameters["package"]=="qchem")
+	if (compare_strings(parameters["package"],"qchem"))
 		smat = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
-	else if (parameters["package"]=="openmolcas")
+	else if (compare_strings(parameters["package"],"openmolcas"))
 		smat = read_rassi_overlap(parameters["rassi_h5"],system.bs);
 	system.check_overlap_mat(smat,"opencap");
 }
@@ -290,7 +288,8 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 		opencap_throw("Error: missing the 'method' keyword. "
 				"Please choose a supported package/method.");
 	std::string method = params["method"];
-	if (package_name=="qchem")
+	std::transform(method.begin(), method.end(), method.begin(), ::tolower);
+	if (compare_strings(package_name,"qchem"))
 	{
 		std::vector<std::string> supported = {"eomea","eomee","eomip"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
@@ -300,7 +299,7 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 		if (params.find("qchem_output")==params.end() && params.find("h0_file")==params.end())
 			opencap_throw("Error: Need to specify zeroth order Hamiltonian via \"qchem_output\" or \"h0_file\" fields.");
 	}
-	else if(package_name=="openmolcas")
+	else if(compare_strings(package_name,"openmolcas"))
 	{
 		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
@@ -380,16 +379,16 @@ void Projected_CAP::add_tdms(Eigen::MatrixXd & alpha_density,
 		opencap_throw("Error: Dimensionality of the density matrices "
 				"do not match the basis set specified in the system object.");
 	std::vector<bf_id> ids;
-	if(ordering=="pyscf")
+	if(compare_strings(ordering,"pyscf"))
 		ids = get_pyscf_ids(system.bs);
-	else if(ordering=="openmolcas")
+	else if(compare_strings(ordering,"openmolcas"))
 	{
 		if(basis_file=="")
 			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(system.bs,basis_file);
 	}
-	else if(ordering=="qchem"||ordering=="molden")
+	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
 		ids = get_molden_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
@@ -408,16 +407,16 @@ void Projected_CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,s
 		opencap_throw("Error: Dimensionality of the density matrix "
 				"does not match the basis set specified in the system object.");
 	std::vector<bf_id> ids;
-	if(ordering=="pyscf")
+	if(compare_strings(ordering,"pyscf"))
 		ids = get_pyscf_ids(system.bs);
-	else if(ordering=="openmolcas")
+	else if(compare_strings(ordering,"openmolcas"))
 	{
 		if(basis_file=="")
 			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(system.bs,basis_file);
 	}
-	else if(ordering=="qchem"||ordering=="molden")
+	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
 		ids = get_molden_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
@@ -435,7 +434,6 @@ void Projected_CAP::read_electronic_structure_data(py::dict dict)
     	std::string key = py::str(item.first).cast<std::string>();
     	std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
-		transform(value.begin(),value.end(),value.begin(),::tolower);
     	if (std::find(valid_keywords.begin(),
     			valid_keywords.end(),key)==valid_keywords.end())
     		opencap_throw("Invalid key in dictionary:`" + key + "'\n");

@@ -15,6 +15,7 @@
 
 bool check_keyword(std::string my_key,std::string my_section)
 {
+	std::transform(my_key.begin(), my_key.end(), my_key.begin(), ::tolower);
 	std::vector<valid_key> valid_keys
 	{
 		{"title","job"},

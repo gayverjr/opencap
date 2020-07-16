@@ -116,7 +116,7 @@ void CAP::compute_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 		y_coords_bohr[i]=atoms[i].coords[1];
 		z_coords_bohr[i]=atoms[i].coords[2];
 		nuc_charges[i]=atoms[i].Z;
-		if (atoms[i].symbol=="Gh")
+		if (atoms[i].Z==0)
 			nuc_charges[i]=1; //choose bragg radius for H for ghost atoms
 	}
     //double radial_precision = radial_precision;
