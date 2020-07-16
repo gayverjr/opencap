@@ -1,14 +1,23 @@
+$geometry
+N  0  0   1.039
+N  0  0   -1.039
+Gh 0  0   0.0
+$end
+
 $system
-geometry molcas_rassi
-basis_file anion_ms.rassi.h5
+molecule read
+bohr_coordinates true
+!cart_bf spdf
+basis_file molcas_bas.bas
 $end
 
 $projected_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 anion_ms.rassi.h5
-molcas_output anion_ms.out
+!molcas_output anion_ms.out
 nstates 10
+h0_file heff.in
 CAP_TYPE box
 CAP_X 2.76
 CAP_Y 2.76
@@ -21,3 +30,4 @@ $job
 title n2
 jobtype projected_cap
 $end
+
