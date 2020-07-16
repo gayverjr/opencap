@@ -230,7 +230,7 @@ void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	if(python)
 		py::print("Verified overlap matrix.");
 	else
-		std::cout << "Verified overlap matrix.";
+		std::cout << "Verified overlap matrix." << std::endl;
 }
 
 
