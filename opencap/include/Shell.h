@@ -49,7 +49,7 @@ public:
 	/** Copy constructor with coordinates
 	 */
 	Shell(Shell s, std::array<double,3>center);
-	/** Default constructor does nothing currently
+	/** Default constructor
 	 */
 	Shell();
 	Shell(int angmom,std::array<double,3>center);

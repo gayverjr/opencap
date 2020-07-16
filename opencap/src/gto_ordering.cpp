@@ -126,21 +126,21 @@ std::vector<bf_id> get_pyscf_ids(BasisSet bs)
 		if (my_shell.pure)
 		{
 			std::vector<int> pyscf_order = pyscf_harmonic_ordering(my_shell);
-			for(int angmom:pyscf_order)
-				ids.push_back(bf_id(bs.shell_ids[i],angmom));
+			for(int m:pyscf_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
 		}
 		else
 		{
 			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> pyscf_order = pyscf_carts_ordering(my_shell);
-			for(auto angmom:pyscf_order)
+			for(auto m:pyscf_order)
 			{
-				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
 				if (it != opencap_order.end())
 				{
 					int index = std::distance(opencap_order.begin(), it);
-					int angmom_id = index-(opencap_order.size()-1)/2;
-					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+					int m_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],m_id));
 				}
 				else
 				    opencap_throw("Something's gone wrong.");
@@ -203,21 +203,21 @@ std::vector<bf_id> get_molden_ids(BasisSet bs)
 		if (my_shell.pure)
 		{
 			std::vector<int> molden_order = molden_harmonic_ordering(my_shell);
-			for(int angmom:molden_order)
-				ids.push_back(bf_id(bs.shell_ids[i],angmom));
+			for(int m:molden_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
 		}
 		else
 		{
 			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(my_shell);
-			for(auto angmom:molden_order)
+			for(auto m:molden_order)
 			{
-				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
 				if (it != opencap_order.end())
 				{
 					int index = std::distance(opencap_order.begin(), it);
-					int angmom_id = index-(opencap_order.size()-1)/2;
-					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+					int m_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],m_id));
 				}
 				else
 				    opencap_throw("Something's gone wrong.");
@@ -292,13 +292,13 @@ std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename)
 		{
 			std::vector<std::array<size_t,3>> molcas_order = molcas_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> opencap_order = molcas_carts_ordering(my_shell);
-			std::array<size_t,3> cart_angmom = molcas_order[m+(molcas_order.size()-1)/2];
-			auto it = std::find(opencap_order.begin(), opencap_order.end(), cart_angmom);
+			std::array<size_t,3> cart_m = molcas_order[m+(molcas_order.size()-1)/2];
+			auto it = std::find(opencap_order.begin(), opencap_order.end(), cart_m);
 			if (it != opencap_order.end())
 			{
 				int index = std::distance(opencap_order.begin(), it);
-				int angmom_id = index-(opencap_order.size()-1)/2;
-				ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+				int m_id = index-(opencap_order.size()-1)/2;
+				ids.push_back(bf_id(bs.shell_ids[i],m_id));
 			}
 			else
 			    opencap_throw("Something's gone wrong.");

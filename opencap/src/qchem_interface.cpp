@@ -14,7 +14,7 @@
 #include "gto_ordering.h"
 #include "utils.h"
 #include "BasisSet.h"
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 size_t total_TDMs_to_read(size_t nstates)
 {
@@ -178,6 +178,8 @@ Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::strin
     	size_t state_idx = 1;
     	while (state_idx<=nstates)
     	{
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found.");
     		std::string line_to_find = method +" transition " + std::to_string(state_idx);
     		if (line.find(line_to_find)!= std::string::npos)
     		{
@@ -294,6 +296,10 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
 		//ok now lets populate our atoms
 		for(size_t i=0;i<atom_nums.size();i++)
 			atoms.push_back(Atom(atom_nums[i],coords[i*3],coords[i*3+1],coords[i*3+2]));
+    }
+    else
+    {
+    	opencap_throw("Error: I couldn't read:" + fchk_filename);
     }
     return atoms;
 }

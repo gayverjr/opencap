@@ -1,29 +1,25 @@
  /*! \file BasisSet.h
-     \brief Class containing data and helper functions pertaining to ab initio basis set.
+     \brief Classes and structs for storing basis set data.
  */
+#pragma once
 #include <vector>
 #include "Atom.h"
 #include <map>
 #include "Shell.h"
 #include <string>
-#pragma once
 using namespace std;
 
 
-/*! \brief Contains data and helpful functions pertaining to the ab initio basis set.
+/*! \brief ID of Shell
  *
- *	The BasisSet class is essentially a wrapper around the vector of Shell objects which
- *	comprise the ab initio basis set. It contains a number of helpful functions such as computing the
- *	number of cartesian basis functions, computing the number of basis after rotation into
- *	spherical harmonic basis, maximum angular momentum etc.
- *
- *	Constructing a BasisSet object requires a geometry, and basis set parameters, including the basis set file
- *	containing primitive exponents and coefficients. Currently, only basis set files in Psi4 format are supported.
+ * Contains center (atom) index, principal quantum number n, angular momentum quantum number l. Angular momentum
+ * quantum number l is negative when the shell is cartesian.
  *
  */
-
 struct shell_id
 {
+	/* Index of atom this shell belongs to
+	 */
 	size_t ctr;
 	size_t shell_num;
 	/** Positive if pure, negative if Cartesian
@@ -35,6 +31,11 @@ struct shell_id
 	bool operator==(const shell_id& other);
 };
 
+/*! \brief ID of basis function
+ *
+ * Contains center (atom) index, principal quantum number n, angular momentum quantum number l, magnetic quantum number m.
+ * Angular momentum quantum number l is negative when the shell is cartesian.
+ */
 struct bf_id
 {
 	size_t ctr;
@@ -43,13 +44,16 @@ struct bf_id
 	 */
 	size_t l;
 	int m;
-	bf_id(shell_id id,int angmom)
-	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=angmom;};
+	bf_id(shell_id id,int new_m)
+	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=new_m;};
 	void print();
 	bool operator==(const bf_id& other);
 };
 
 
+/*! \brief Object for storing basis set information.
+ *
+ */
 class BasisSet {
 public:
 	/** Number of gaussian shells specified in the ab initio basis set.
@@ -61,15 +65,21 @@ public:
 	   /** Number of basis functions after rotation in spherical harmonic basis.
 	    */
 	size_t Nbasis;
+	/* Ordered list of shell_ids.
+	 */
 	std::vector<shell_id> shell_ids;
+	/* Ordered list of bf_ids, specifies the ordering of the basis set.
+	 */
 	std::vector<bf_id> bf_ids;
+	/* List of centers in basis set.
+	 */
 	std::vector<std::array<double,3>> centers;
+	/* Prints order of basis functions in the basis set.
+	 */
 	void print_basis();
 
 public:
     /** Default constructor.
-      *
-	  * For current version of OpenCAP, does nothing.
       */
 	BasisSet();
     /** Default constructor.
@@ -96,10 +106,16 @@ public:
      * \return Largest exponent in the basis set belonging to a particular atom
       */
 	double alpha_max(Atom atm);
+	/** Adds a new shell to the basis set and updates the data structures.
+	 * \param new_shell: New Shell object to be added to the basis set.
+	 */
 	void add_shell(Shell new_shell);
+	/** Gets index in shell_ids list of given shell_id.
+	 */
 	long get_index_of_shell_id(shell_id id);
+	/** Normalizes all of the shells in the basis set.
+	 */
 	void normalize();
-	shell_id get_id_by_bf_index(size_t idx);
 private:
     /** Calculates number of basis functions based on the Shells stored in the basis vector.
       */

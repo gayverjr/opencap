@@ -7,7 +7,6 @@
 #include "BasisSet.h"
 #include "gto_ordering.h"
 #include <Eigen/Dense>
-# define M_PIl          3.141592653589793238462643383279502884
 
 //overlap between pair of gaussians
 double gauss_integral(double exp_a,std::array<size_t, 3> cart_a,std::array<double,3> coord_a,
