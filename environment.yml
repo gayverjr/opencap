@@ -1,0 +1,10 @@
+name: pyopencap
+channels:
+   - anaconda
+   - conda-forge
+dependencies:
+   - eigen
+   - hdf5
+   - cmake
+   - numpy
+   - gcc_linux-64

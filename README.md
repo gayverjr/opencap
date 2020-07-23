@@ -1,5 +1,20 @@
+<div align="left">
+  <img src="https://github.com/gayverjr/opencap/blob/fchk_parse/images/opencap_logo.png" height="200px">
+</div>
 
-# Welcome to OpenCAP!
+# OpenCAP: An open-source program for studying resonances in molecules.                                                               
+| **Documentation** | [![][docs-img]][docs-url] [![][rtd-img]][rtd-url] |
+| :------ | :------- |
+| **Build Status**  | [![][travis-img]][travis-url] [![][lgtm-img]][lgtm-url] |
+
+[docs-img]: https://img.shields.io/badge/doc-latest-blue.svg
+[docs-url]: https://gayverjr.github.io/opencap/
+[travis-img]: https://travis-ci.com/gayverjr/opencap.svg?branch=master
+[travis-url]: https://travis-ci.com/gayverjr/opencap
+[lgtm-img]: https://img.shields.io/lgtm/grade/cpp/g/gayverjr/opencap.svg?logo=lgtm&logoWidth=18
+[lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
+[rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
+[rtd-url]: https://gayverjropencap.readthedocs.io/en/latest/?badge=latest
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to 
@@ -83,40 +98,16 @@ Then pip install
 
 ```
 
-pip install ./opencap
+pip install .
 
 ```
 
-The module is now importable within a python shell as "pycap".
+The module is now importable within a python shell as "pyopencap".
 
 ```
-import pycap
+import pyopencap
 
 ```
-
-# Example
-
-Below, we outline how to conduct a CAP-augmented multi-state complete active space second order perturbation theory (CAP-MS-CASPT2) calculation on the <sup>2</sup>&#928;<sub>g</sub> resonance state of N<sub>2</sub><sup>-</sup> using OpenCAP in tandem with OpenMolcas.
-
-
-
-* Step 1:  Perform an MS-CASPT2 calculation on the anion in OpenMolcas, using the ``TRD1`` keyword in the ``RASSI`` module (see [example/anion_reference.out](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/anion_ms.out)), which exports state one particle density matrices and transition density matrices to a file called $JOBNAME.rassi.h5.
-
-*  Step 2:  Construct an input file for OpenCAP(see [example/test.in](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/test.in)) which contains the relevant system information, and points to the rassi.h5 and OpenMolcas output file which contains the  MS-CASPT2 effective Hamiltonian.
-
-* Step 3: Run OpenCAP to generate the matrices required for the projected CAP calculation.
-
-```opencap test.in > test.out ```
-
-* Step 4: Use the script provided in [example/cap_trajectory.py](https://github.com/gayverjr/OpenCAP/blob/master/example/molcas/cap_trajectory.py) to analyze the eigenvalue trajectory to extract resonance position and width.
-
-```` python cap_trajectory.py test.out````
-
-The script provides visualization and numerical analysis functionality to identify the resonance trajectory and extract the resonance parameters. It should be modified to suit your purposes.  For our MS-CASPT2 example, the corrected (blue) and uncorrected trajectories look like:
-
-![CAP trajectory](https://github.com/gayverjr/OpenCAP/blob/master/images/cap_traj.png)
-
-Analysis of the uncorrected trajectory results in a resonance energy of 2.16eV, and a width of 0.29eV, which is in good agreement with previous theoretical results obtained for this system.
 
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.

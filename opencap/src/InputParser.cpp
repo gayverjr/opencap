@@ -22,6 +22,7 @@
 #include "opencap_exception.h"
 #include "keywords.h"
 #include "System.h"
+#include "utils.h"
 
 std::vector<Atom> parse_geometry(std::string input_file)
 {
@@ -67,15 +68,13 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 	    std::string line, rest;
 		while (std::getline(is, line))
 		{
-			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-			if(line=="$"+section_name)
+			if(compare_strings(line,"$"+section_name))
 				break;
 		}
 		while (!is.eof())
 		{
 			std::getline(is, line);
-			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-			if (line=="$end")
+			if (compare_strings(line,"$end"))
 				break;
 			else
 			{
@@ -104,7 +103,7 @@ System get_System(std::string input_file, std::map<std::string,std::string> para
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
-	if(params["molecule"]=="read")
+	if(params["molecule"]=="inline")
 		return System(parse_geometry(input_file),params);
 	else
 		return System(params["basis_file"],params["molecule"]);

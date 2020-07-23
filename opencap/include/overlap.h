@@ -1,6 +1,8 @@
  /*! \file overlap.h
      \brief Functions for computing the overlap matrix analytically.
  */
+#ifndef OVERLAP_H_
+#define OVERLAP_H_
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -24,3 +26,5 @@ Eigen::MatrixXd shell_overlap(Shell shell_a, Shell shell_b,Eigen::MatrixXd&sub_m
 /** Computes overlap matrix
 */
 void compute_analytical_overlap(BasisSet bs, Eigen::MatrixXd &Smat);
+
+#endif /* OVERLAP_H_ */

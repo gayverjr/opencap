@@ -75,7 +75,6 @@ System::System(py::dict dict)
     	std::string key = py::str(item.first).cast<std::string>();
     	std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
-		transform(value.begin(),value.end(),value.begin(),::tolower);
 		if(check_keyword(key,"system")||key=="geometry")
 			parameters[key]=value;
 		else
@@ -83,22 +82,22 @@ System::System(py::dict dict)
     }
     if (parameters.find("molecule")==parameters.end()||parameters.find("basis_file")==parameters.end())
     	opencap_throw("Error: molecule and basis_file keywords are required.");
-	if(parameters["molecule"]=="qchem_fchk")
+	if(compare_strings(parameters["molecule"],"qchem_fchk"))
 	{
 		atoms = read_geometry_from_fchk(parameters["basis_file"]);
 		bs = read_basis_from_fchk(parameters["basis_file"],atoms);
 	}
-	else if (parameters["molecule"]=="molcas_rassi")
+	else if (compare_strings(parameters["molecule"],"molcas_rassi"))
 	{
 		atoms = read_geometry_from_rassi(parameters["basis_file"]);
 		bs = read_basis_from_rassi(parameters["basis_file"],atoms);
 	}
-	else if(parameters["molecule"]=="molden")
+	else if(compare_strings(parameters["molecule"],"molden"))
 	{
 		atoms = read_geometry_from_molden(parameters["basis_file"]);
 		bs = read_basis_from_molden(parameters["basis_file"],atoms);
 	}
-	else if(parameters["molecule"]=="read")
+	else if(compare_strings(parameters["molecule"],"inline"))
 	{
 		if(parameters.find("geometry")==parameters.end())
 			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");
@@ -123,8 +122,8 @@ System::System(py::dict dict)
 
 System::System(std::string filename,std::string file_type)
 {
-	parameters["molecule"]   = filename;
-	parameters["basis_file"] = file_type;
+	parameters["molecule"]   = file_type;
+	parameters["basis_file"] = filename;
 	python = false;
 	if(file_type=="qchem_fchk")
 	{
@@ -193,18 +192,18 @@ Eigen::MatrixXd System::get_overlap_mat()
 void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
 {
 	std::vector<bf_id> ids;
-	if(ordering=="pyscf")
+	if(compare_strings(ordering,"pyscf"))
 		ids = get_pyscf_ids(bs);
-	else if(ordering=="openmolcas")
+	else if(compare_strings(ordering,"openmolcas"))
 	{
 		if(basis_file=="")
 			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(bs,basis_file);
 	}
-	else if(ordering=="qchem"||ordering=="molden")
+	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
 		ids = get_molden_ids(bs);
-	else if(ordering=="opencap")
+	else if(compare_strings(ordering,"opencap"))
 		ids = bs.bf_ids;
 	else
 		opencap_throw(ordering +" ordering is not supported.");

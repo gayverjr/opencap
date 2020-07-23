@@ -1,0 +1,2 @@
+# "." uses requirements defined inside setup.py
+.

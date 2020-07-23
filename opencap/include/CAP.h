@@ -63,5 +63,7 @@ private:
 	 */
 	void evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 			double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
+	/** Checks whether specified CAP is valid.
+	 */
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
 };
