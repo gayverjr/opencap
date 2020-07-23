@@ -1,8 +1,18 @@
- /*! \file utils.h
+
+/*! \file utils.h
      \brief Helper functions used by various pieces of the software.
  */
+#ifndef UTILS_H_
+#define UTILS_H_
 #include "Shell.h"
+#include <map>
 #include <Eigen/Dense>
+
+//useful constants
+#ifndef M_PIl
+#define M_PIl 3.141592653589793238462643383279502884
+#endif
+#define euler 2.718281828459045235360287471352662497
 /*! Computes double factorial (https://mathworld.wolfram.com/DoubleFactorial.html)
  *  \param n : integer to be evaluated
 */
@@ -36,5 +46,10 @@ void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
  * \param opdm: matrix to be populated
 */
 void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
-bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords);
+/*! Converts fortran-style d floats to e c-style floats.
+ */
 void fortran_dfloats_to_efloats(std::string& str);
+int shell2angmom(std::string angmom);
+bool compare_strings(std::string s1, std::string s2);
+
+#endif /* UTILS_H_ */

@@ -1,0 +1,20 @@
+pyopencap.Projected\_CAP
+====================
+The Projected_CAP class is used to compute the CAP matrix first in AO basis, and then in 
+wave function basis using the densities which are passed in. It is also capable of 
+parsing OpenMolcas output files to obtain the zeroth order Hamiltonian and return it to the user.
+
+.. currentmodule:: pyopencap
+
+.. autoclass:: Projected_CAP
+
+   .. automethod:: __init__
+   .. automethod:: add_tdm
+   .. automethod:: add_tdms
+   .. automethod:: compute_ao_cap
+   .. automethod:: compute_projected_cap
+   .. automethod:: get_H
+   .. automethod:: get_ao_cap
+   .. automethod:: get_projected_cap  
+   .. automethod:: read_data 
+   .. automethod:: run 

@@ -19,7 +19,7 @@
 #include <Eigen/Dense>
 
 
-std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell shell)
+std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -44,7 +44,7 @@ std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell shell)
 	}
 }
 
-std::vector<int> opencap_harmonic_ordering(Shell shell)
+std::vector<int> opencap_harmonic_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -68,7 +68,7 @@ std::vector<int> opencap_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell shell)
+std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -93,7 +93,7 @@ std::vector<std::array<size_t,3>> pyscf_carts_ordering(Shell shell)
 	}
 }
 
-std::vector<int> pyscf_harmonic_ordering(Shell shell)
+std::vector<int> pyscf_harmonic_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -117,7 +117,7 @@ std::vector<int> pyscf_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<bf_id> get_pyscf_ids(BasisSet bs)
+std::vector<bf_id> get_pyscf_ids(BasisSet &bs)
 {
 	std::vector<bf_id> ids;
 	for(size_t i=0;i<bs.basis.size();i++)
@@ -126,21 +126,21 @@ std::vector<bf_id> get_pyscf_ids(BasisSet bs)
 		if (my_shell.pure)
 		{
 			std::vector<int> pyscf_order = pyscf_harmonic_ordering(my_shell);
-			for(int angmom:pyscf_order)
-				ids.push_back(bf_id(bs.shell_ids[i],angmom));
+			for(int m:pyscf_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
 		}
 		else
 		{
 			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> pyscf_order = pyscf_carts_ordering(my_shell);
-			for(auto angmom:pyscf_order)
+			for(auto m:pyscf_order)
 			{
-				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
 				if (it != opencap_order.end())
 				{
 					int index = std::distance(opencap_order.begin(), it);
-					int angmom_id = index-(opencap_order.size()-1)/2;
-					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+					int m_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],m_id));
 				}
 				else
 				    opencap_throw("Something's gone wrong.");
@@ -150,7 +150,7 @@ std::vector<bf_id> get_pyscf_ids(BasisSet bs)
 	return ids;
 }
 
-std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell)
+std::vector<std::array<size_t,3>> molden_carts_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -173,7 +173,7 @@ std::vector<std::array<size_t,3>> molden_carts_ordering(Shell shell)
 		return {{0,0,0}};
 }
 
-std::vector<int> molden_harmonic_ordering(Shell shell)
+std::vector<int> molden_harmonic_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -194,7 +194,7 @@ std::vector<int> molden_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<bf_id> get_molden_ids(BasisSet bs)
+std::vector<bf_id> get_molden_ids(BasisSet &bs)
 {
 	std::vector<bf_id> ids;
 	for(size_t i=0;i<bs.basis.size();i++)
@@ -203,21 +203,21 @@ std::vector<bf_id> get_molden_ids(BasisSet bs)
 		if (my_shell.pure)
 		{
 			std::vector<int> molden_order = molden_harmonic_ordering(my_shell);
-			for(int angmom:molden_order)
-				ids.push_back(bf_id(bs.shell_ids[i],angmom));
+			for(int m:molden_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
 		}
 		else
 		{
 			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(my_shell);
-			for(auto angmom:molden_order)
+			for(auto m:molden_order)
 			{
-				auto it = std::find(opencap_order.begin(), opencap_order.end(), angmom);
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
 				if (it != opencap_order.end())
 				{
 					int index = std::distance(opencap_order.begin(), it);
-					int angmom_id = index-(opencap_order.size()-1)/2;
-					ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+					int m_id = index-(opencap_order.size()-1)/2;
+					ids.push_back(bf_id(bs.shell_ids[i],m_id));
 				}
 				else
 				    opencap_throw("Something's gone wrong.");
@@ -227,7 +227,7 @@ std::vector<bf_id> get_molden_ids(BasisSet bs)
 	return ids;
 }
 
-std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell)
+std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -246,7 +246,7 @@ std::vector<std::array<size_t,3>> molcas_carts_ordering(Shell shell)
 		return {{0,0,0}};
 }
 
-std::vector<int> molcas_harmonic_ordering(Shell shell)
+std::vector<int> molcas_harmonic_ordering(Shell &shell)
 {
 	//s
 	if(shell.l == 0)
@@ -267,7 +267,7 @@ std::vector<int> molcas_harmonic_ordering(Shell shell)
 		return {0,0,0};
 }
 
-std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename)
+std::vector<bf_id> get_molcas_ids(BasisSet &bs,std::string rassi_filename)
 {
 	std::vector<bf_id> ids;
 	h5pp::File file(rassi_filename, h5pp::FilePermission::READONLY);
@@ -292,13 +292,13 @@ std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename)
 		{
 			std::vector<std::array<size_t,3>> molcas_order = molcas_carts_ordering(my_shell);
 			std::vector<std::array<size_t,3>> opencap_order = molcas_carts_ordering(my_shell);
-			std::array<size_t,3> cart_angmom = molcas_order[m+(molcas_order.size()-1)/2];
-			auto it = std::find(opencap_order.begin(), opencap_order.end(), cart_angmom);
+			std::array<size_t,3> cart_m = molcas_order[m+(molcas_order.size()-1)/2];
+			auto it = std::find(opencap_order.begin(), opencap_order.end(), cart_m);
 			if (it != opencap_order.end())
 			{
 				int index = std::distance(opencap_order.begin(), it);
-				int angmom_id = index-(opencap_order.size()-1)/2;
-				ids.push_back(bf_id(bs.shell_ids[i],angmom_id));
+				int m_id = index-(opencap_order.size()-1)/2;
+				ids.push_back(bf_id(bs.shell_ids[i],m_id));
 			}
 			else
 			    opencap_throw("Something's gone wrong.");
@@ -312,7 +312,7 @@ std::vector<bf_id> get_molcas_ids(BasisSet bs,std::string rassi_filename)
 	return ids;
 }
 
-void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet bs,std::vector<bf_id> input_ids)
+void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet &bs,std::vector<bf_id> input_ids)
 {
 	std::vector<std::tuple<int,int>> swap_indices;
 	for(size_t i=0;i<input_ids.size();i++)

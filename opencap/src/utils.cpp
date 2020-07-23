@@ -1,7 +1,10 @@
 #include "Shell.h"
 #include <iostream>
 #include <vector>
+#include <map>
 #include <Eigen/Dense>
+
+static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
 double fact2(int n)
 {
     int res = 1;
@@ -78,15 +81,6 @@ std::vector<std::string> split(const std::string& s, char delimiter)
    return tokens;
 }
 
-bool same_atom(std::array<double,3> shell_origin,std::array<double,3> atom_coords)
-{
-	for(size_t i=0;i<3;i++)
-	{
-		if(shell_origin[i]!=atom_coords[i])
-			return false;
-	}
-	return true;
-}
 
 void fortran_dfloats_to_efloats(std::string& str)
 {
@@ -95,5 +89,17 @@ void fortran_dfloats_to_efloats(std::string& str)
 		if (ch == 'd') ch = 'e';
 		if (ch == 'D') ch = 'E';
 	}
+}
+
+int shell2angmom(std::string shell_label)
+{
+	return angmom_map[shell_label];
+}
+
+bool compare_strings(std::string s1, std::string s2)
+{
+	std::transform(s1.begin(), s1.end(), s1.begin(), ::tolower);
+	std::transform(s2.begin(), s2.end(), s2.begin(), ::tolower);
+	return s1==s2;
 }
 

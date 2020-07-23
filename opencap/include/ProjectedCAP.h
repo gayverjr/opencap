@@ -42,8 +42,9 @@ public:
 	std::map<std::string, std::string> parameters;
 	/** Constructs Projected %CAP object from %System object.
 	 *  \param my_sys: System object
+	 *  \param params: Map of parameters
 	 */
-	Projected_CAP(System my_sys,std::map<std::string, std::string> params);
+	Projected_CAP(System &my_sys,std::map<std::string, std::string> params);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
 	 */
 	void compute_ao_cap();
@@ -60,6 +61,7 @@ public:
 	 *\param my_sys: System object
 	 *\param num_states: number of states
 	 *\param gto_ordering: Name of electronic structure package
+	 *\param dict: Python dictionary containing parameters
 	 */
 	Projected_CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
 	/** Returns CAP matrix in AO basis.
@@ -76,14 +78,18 @@ public:
 	 * \param beta_density: TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
 	void add_tdms(Eigen::MatrixXd & alpha_density,
 			Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx,
 			std::string ordering, std::string basis_file="");
 	/** Adds spin traced transition density matrix from state row_idx --> col_idx.
-	 * \param alpha_density: Spin traced TDM in AO basis of dimension (NBasis,Nbasis)
+	 * \param tdm: Spin traced TDM in AO basis of dimension (NBasis,Nbasis)
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
 	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,
 			std::string ordering,std::string basis_file="");
@@ -91,7 +97,6 @@ public:
 	 * Valid keywords: method,qc_output,h0_file,rassi_h5,
 			fchk_file,molcas_output.
 	 * \param dict: Python dictionary containing keywords for reading in data from disk.
-	 * \param override: Set to true when overriding existing keywords
 	 */
 	void read_electronic_structure_data(py::dict dict);
 	/** Verifies that required electronic structure data is present to perform calculation.

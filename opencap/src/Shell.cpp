@@ -4,8 +4,6 @@
 #include "Atom.h"
 #include "Shell.h"
 #include "utils.h"
-# define M_PIl          3.141592653589793238462643383279502884
-# define euler 			2.718281828459045235360287471352662497
 using namespace std;
 
 Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,

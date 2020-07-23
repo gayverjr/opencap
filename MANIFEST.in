@@ -1,0 +1,8 @@
+include opencap/CMakeLists.txt
+include opencap/src/*
+include opencap/include/*
+include opencap/bindings/*
+include opencap/tests/*
+include opencap/tests/pyscf/*
+include opencap/tests/qchem/*
+include opencap/tests/openmolcas/*
