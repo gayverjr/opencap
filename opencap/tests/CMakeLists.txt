@@ -12,7 +12,3 @@ foreach(file ${files})
 	add_test(${file_without_ext} ${file_without_ext})
 endforeach()
 
-
-
-
-
