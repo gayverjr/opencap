@@ -219,8 +219,10 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	{
 		std::string line, rest;
 		std::getline(is,line);
-		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos)
+		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos && is.peek()!=EOF)
 			std::getline(is,line);
+		if (is.peek()==EOF)
+			opencap_throw("Error: Reached end of file before MULTI-STATE CASPT2 SECTION.");
 		//get diagonal shift
 		for (size_t i=1;i<=3;i++)
 			std::getline(is,line);

@@ -1,5 +1,5 @@
-
 # Welcome to OpenCAP!
+[![Build Status](https://travis-ci.com/gayverjr/opencap.svg?branch=master)](https://travis-ci.com/gayverjr/opencap)
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to 
