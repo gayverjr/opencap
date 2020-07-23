@@ -48,7 +48,6 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
 
 Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<double,3> cur_coords)
 {
-	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
     std::istringstream iss(line);
     std::string rest;
     std::string shell_label;
@@ -56,7 +55,7 @@ Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<doubl
     iss >> shell_label >> n_prims >> rest;
     //make shell label upper case
     transform(shell_label.begin(),shell_label.end(),shell_label.begin(),::toupper);
-    size_t angmom = shell2angmom[shell_label];
+    size_t angmom = shell2angmom(shell_label);
     Shell my_shell(angmom,cur_coords);
     for(size_t i=1;i<=n_prims;i++)
     {

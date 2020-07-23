@@ -17,7 +17,6 @@ namespace py = pybind11;
 /*! \brief Class which holds molecular geometry and basis set data.
  *
  */
-
 class System
 {
 public:

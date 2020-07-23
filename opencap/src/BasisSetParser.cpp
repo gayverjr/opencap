@@ -30,7 +30,6 @@ map<string,std::vector<Shell>> BasisSetParser::read_basis()
 
 map<string,std::vector<Shell>> BasisSetParser::read_basis_file()
 {
-	map<string, int> shell2angmom = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
     map<string,std::vector<Shell>> basis_set;
     std::ifstream is(basis_file);
     if (is.good())
@@ -86,7 +85,7 @@ map<string,std::vector<Shell>> BasisSetParser::read_basis_file()
 				  exps.push_back(exponent);
 				  coeffs.push_back(coefficient);
 				}
-				size_t angmom = shell2angmom[shell_label];
+				size_t angmom = shell2angmom(shell_label);
 				if (cart_bf.find(shell_label) != std::string::npos)
 					shells.push_back(Shell(angmom,false,exps,coeffs));
 				else

@@ -26,6 +26,8 @@ struct valid_key
 /** Checks whether a keyword is valid.
 */
 bool check_keyword(std::string my_key,std::string my_section);
+/** Collects parameters which apply to input field.
+ */
 std::map <std::string,std::string> get_params_for_field(std::map<std::string,std::string> params,
 		std::string field);
 
