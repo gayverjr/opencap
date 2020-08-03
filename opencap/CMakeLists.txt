@@ -18,6 +18,7 @@ include(FetchContent)
 FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
+    GIT_TAG f87fa2914a4b98b49cf4e0fe99cca749ac003760
 )
 FetchContent_GetProperties(h5pp)
 if(NOT h5pp_POPULATED)
