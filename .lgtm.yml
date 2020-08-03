@@ -10,7 +10,7 @@ extraction:
           - python3.8-venv
       configure:
         command:
-          - cd opencap; pwd; ls; mkdir build; cd build; CC=gcc-8 CXX=g++-8 cmake ../
+          - mkdir /opt/src/opencap/build; cd /opt/src/opencap/build; CC=gcc-8 CXX=g++-8 cmake ../
       index:
         build_command:
-          - pwd; ls; cd /opt/src/opencap/build; make -j2
+          - cd /opt/src/opencap/build; make -j2
