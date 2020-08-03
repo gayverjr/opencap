@@ -97,7 +97,7 @@ System::System(py::dict dict)
 		atoms = read_geometry_from_molden(parameters["basis_file"]);
 		bs = read_basis_from_molden(parameters["basis_file"],atoms);
 	}
-	else if(compare_strings(parameters["molecule"],"read"))
+	else if(compare_strings(parameters["molecule"],"inline"))
 	{
 		if(parameters.find("geometry")==parameters.end())
 			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");

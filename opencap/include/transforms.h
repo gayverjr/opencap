@@ -2,12 +2,16 @@
      \brief Functions for transforming between cartesian and solid harmonic GTOs, and for normalization
      of contracted GTOs.
  */
+#ifndef TRANSFORMS_H_
+#define TRANSFORMS_H_
 #include "BasisSet.h"
 #include <Eigen/Dense>
 
 /* Transforms matrix from cartesian to spherical harmonic representation.
  */
-void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints, BasisSet bs);
+void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints, BasisSet &bs);
 /* Sets all cartesian overlaps to 1.
  */
-void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet bs);
+void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs);
+
+#endif /* TRANSFORMS_H_ */

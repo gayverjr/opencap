@@ -41,14 +41,22 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 	for(auto num_bas:nbas_vec)
 		nbas+=num_bas;
 	if(nbas!=bs.Nbasis)
-		opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+		opencap_throw("Error: dimensions of RASSI basis set does not match specified basis set.");
 	auto nsym = file.readAttribute<long>("NSYM", "/");
 	//now lets load the densities
 	Eigen::Tensor<double,3> rass_data, spin_dens;
 	std::vector<std::vector<Eigen::MatrixXd>> alpha_opdms;
 	std::vector<std::vector<Eigen::MatrixXd>> beta_opdms;
-	file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
-	file.readDataset(spin_dens,"SFS_TRANSITION_SPIN_DENSITIES");
+	try
+	{
+		file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
+		file.readDataset(spin_dens,"SFS_TRANSITION_SPIN_DENSITIES");
+	}
+	catch(exception &e)
+	{
+		opencap_throw("Error: SFS_TRANSITION_DENSITIES dataset not found. Use the TRD1 keyword"
+				" in the RASSI module to activate transition densities.")
+	}
     const auto& d = rass_data.dimensions();
 
     if (nsym>1)

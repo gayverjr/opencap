@@ -33,7 +33,7 @@
 #include <Eigen/Dense>
 
 
-Projected_CAP::Projected_CAP(System my_sys,std::map<std::string, std::string> params)
+Projected_CAP::Projected_CAP(System &my_sys,std::map<std::string, std::string> params)
 {
 	system = my_sys;
 	try
@@ -169,21 +169,11 @@ void Projected_CAP::read_in_dms()
 {
 	if (compare_strings(parameters["package"],"qchem"))
 	{
-		std::string dmat_filename = parameters["qchem_fchk"];
 		try
 		{
-			if(compare_strings(parameters["method"],"eomee"))
-			{
-				auto parsed_dms = qchem_read_in_dms_closed_shell(dmat_filename,nstates,system.bs);
-				alpha_dms = parsed_dms[0];
-				beta_dms = parsed_dms[1];
-			}
-			else
-			{
-				auto parsed_dms = qchem_read_in_dms_open_shell(dmat_filename,nstates,system.bs);
-				alpha_dms = parsed_dms[0];
-				beta_dms = parsed_dms[1];
-			}
+			auto parsed_dms = qchem_read_dms(parameters["qchem_fchk"],system.bs);
+			alpha_dms = parsed_dms[0];
+			beta_dms = parsed_dms[1];
 			std::string message= "Successfully read in densities from file:" + parameters["qchem_fchk"];
 			if(python)
 				py::print(message);
@@ -220,6 +210,8 @@ void Projected_CAP::read_in_dms()
 
 void Projected_CAP::compute_projected_cap()
 {
+	if (AO_CAP_MAT.cols()==0)
+		compute_ao_cap();
 	verify_data();
 	Eigen::MatrixXd EOMCAP(nstates,nstates);
 	EOMCAP= Eigen::MatrixXd::Zero(nstates,nstates);
@@ -331,7 +323,8 @@ void Projected_CAP::verify_data()
 {
 	//check that number of states is correct
 	if(!(nstates == alpha_dms.size() && nstates == beta_dms.size()))
-		opencap_throw("Error: dimensions of H and density matrix container do not match number of states.")
+		opencap_throw("Error: number of states found:"+std::to_string(alpha_dms.size()) + " does not match the number of states "
+				"previously specified:"+std::to_string(nstates));
 	//check that dimensionality of density matrices is correct
 	//alpha
 	for(size_t i=0;i<nstates;i++)
@@ -368,8 +361,8 @@ Eigen::MatrixXd Projected_CAP::get_H()
 	return ZERO_ORDER_H;
 }
 
-void Projected_CAP::add_tdms(Eigen::MatrixXd & alpha_density,
-		Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx,
+void Projected_CAP::add_tdms(Eigen::MatrixXd &alpha_density,
+		Eigen::MatrixXd &beta_density,size_t row_idx, size_t col_idx,
 		std::string ordering,std::string basis_file)
 {
 	Eigen::MatrixXd alpha_dm = alpha_density;
@@ -460,6 +453,6 @@ void Projected_CAP::read_electronic_structure_data(py::dict dict)
 				parameters.erase(it1);
 			}
 		}
-		opencap_rethrow("Failed to read electronic structure data.");
+		opencap_rethrow("Error: Failed to read electronic structure data.");
 	}
 }

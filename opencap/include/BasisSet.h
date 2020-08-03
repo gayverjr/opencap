@@ -100,12 +100,12 @@ public:
      * \param atm: Atom of interest
      * \return Vector of smallest exponents belonging to a particular atom
       */
-	std::vector<double> alpha_min(Atom atm);
+	std::vector<double> alpha_min(Atom &atm);
     /** Returns largest exponent of all primitives in the basis set centered at a particular Atom.
      * \param atm: Atom of interest
      * \return Largest exponent in the basis set belonging to a particular atom
       */
-	double alpha_max(Atom atm);
+	double alpha_max(Atom &atm);
 	/** Adds a new shell to the basis set and updates the data structures.
 	 * \param new_shell: New Shell object to be added to the basis set.
 	 */
@@ -124,7 +124,7 @@ private:
      * \param atm: Atom of interest
      * \return Vector containing all Shell objects centered on the atom
       */
-	std::vector<Shell> shells_on_center(Atom atm);
+	std::vector<Shell> shells_on_center(Atom &atm);
     /** Populates basis class member with Shells read in from the ab initio basis set. The coordinates of the Shell
      * are updated to the Atom it belongs to before being stored in the basis vector.
      * \param geometry: molecular geometry

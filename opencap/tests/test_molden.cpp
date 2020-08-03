@@ -19,7 +19,6 @@
 #include "opencap_exception.h"
 #include "ProjectedCAP.h"
 #include "keywords.h"
-#include <filesystem>
 
 
 int main()

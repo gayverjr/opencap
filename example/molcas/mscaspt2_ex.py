@@ -1,4 +1,4 @@
-import pycap
+import pyopencap
 import numpy as np
 from pandas import DataFrame
 import h5py
@@ -27,9 +27,9 @@ arr2 = np.array(f["AO_OVERLAP_MATRIX"])
 arr2 = np.reshape(arr2,(119,119))
 
 #read data
-s = pycap.System(sys_dict)
+s = pyopencap.System(sys_dict)
 s.check_overlap_mat(arr2,"openmolcas","anion_ms.rassi.h5")
-pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
 pc.read_data(es_dict)
 pc.compute_ao_cap()
 pc.compute_projected_cap()
@@ -40,7 +40,7 @@ h0 = pc.get_H()
 
 
 # separate alpha beta
-pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = 0.5*np.reshape(arr[i][j],(119,119))
@@ -54,7 +54,7 @@ mat=pc.get_projected_cap()
 
 
 # spin traced
-pc = pycap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = np.reshape(arr[i][j],(119,119))

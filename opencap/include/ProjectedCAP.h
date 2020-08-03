@@ -44,7 +44,7 @@ public:
 	 *  \param my_sys: System object
 	 *  \param params: Map of parameters
 	 */
-	Projected_CAP(System my_sys,std::map<std::string, std::string> params);
+	Projected_CAP(System &my_sys,std::map<std::string, std::string> params);
 	/** Computes %CAP in AO basis, and then correlated basis, saves to respective class members
 	 */
 	void compute_ao_cap();

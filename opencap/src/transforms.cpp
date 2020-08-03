@@ -14,7 +14,7 @@
 #include "gto_ordering.h"
 #include <eigen3/Eigen/Dense>
 
-void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet bs)
+void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs)
 {
 	unsigned int bf_idx = 0;
 	for(auto&shell:bs.basis)
@@ -84,7 +84,7 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
       return result;
 }
 
-Eigen::MatrixXd get_trans_mat(Shell shell)
+Eigen::MatrixXd get_trans_mat(Shell &shell)
 {
 	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell);
 	std::vector<int> sph_order = opencap_harmonic_ordering(shell);
@@ -101,7 +101,7 @@ Eigen::MatrixXd get_trans_mat(Shell shell)
 	return trans_mat;
 }
 
-Eigen::MatrixXd transform_block(Shell shell1, Shell shell2, Eigen::MatrixXd cart_block)
+Eigen::MatrixXd transform_block(Shell &shell1, Shell &shell2, Eigen::MatrixXd cart_block)
 {
 
 	if(!shell1.pure && !shell2.pure)
@@ -114,7 +114,7 @@ Eigen::MatrixXd transform_block(Shell shell1, Shell shell2, Eigen::MatrixXd cart
 		return cart_block*get_trans_mat(shell2).transpose();
 }
 
-void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints, BasisSet bs)
+void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints, BasisSet &bs)
 {
 	//indices for first basis function for cart and spherical matrices
 	unsigned int cart_row_idx = 0;
