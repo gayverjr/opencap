@@ -148,7 +148,7 @@ int BasisSet::max_L()
 	return l_max;
 }
 
-double BasisSet::alpha_max(Atom atm)
+double BasisSet::alpha_max(Atom &atm)
 {
 	double max_val = 0;
 	std::vector<Shell> shells = shells_on_center(atm);
@@ -163,7 +163,7 @@ double BasisSet::alpha_max(Atom atm)
 	return max_val;
 }
 
-std::vector<double> BasisSet::alpha_min(Atom atm)
+std::vector<double> BasisSet::alpha_min(Atom &atm)
 {
 	std::vector<Shell> shells = shells_on_center(atm);
 	std::vector<double> min_alpha(max_L()+1,0.0);
@@ -178,7 +178,7 @@ std::vector<double> BasisSet::alpha_min(Atom atm)
 	return min_alpha;
 }
 
-std::vector<Shell> BasisSet::shells_on_center(Atom atm)
+std::vector<Shell> BasisSet::shells_on_center(Atom &atm)
 {
 	std::vector<Shell> shells;
 	for(const auto&shell:basis)

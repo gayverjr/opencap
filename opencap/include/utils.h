@@ -1,7 +1,9 @@
- /*! \file utils.h
+
+/*! \file utils.h
      \brief Helper functions used by various pieces of the software.
  */
-#pragma once
+#ifndef UTILS_H_
+#define UTILS_H_
 #include "Shell.h"
 #include <map>
 #include <Eigen/Dense>
@@ -49,3 +51,5 @@ void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
 void fortran_dfloats_to_efloats(std::string& str);
 int shell2angmom(std::string angmom);
 bool compare_strings(std::string s1, std::string s2);
+
+#endif /* UTILS_H_ */

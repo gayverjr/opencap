@@ -103,7 +103,7 @@ System get_System(std::string input_file, std::map<std::string,std::string> para
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
-	if(params["molecule"]=="read")
+	if(params["molecule"]=="inline")
 		return System(parse_geometry(input_file),params);
 	else
 		return System(params["basis_file"],params["molecule"]);

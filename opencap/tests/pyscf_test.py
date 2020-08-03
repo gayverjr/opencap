@@ -1,4 +1,4 @@
-import pycap
+import pyopencap as pycap
 from pyscf import gto, scf, fci
 import numpy as np
 import os
@@ -8,7 +8,7 @@ destDir=sys.path[0]+"/pyscf"
 sys_dict = {"geometry":'''H 0.0000000000 0.0000000000 0.3705000000
 H 0.0000000000 0.0000000000 -0.3705000000''',
             "basis_file":destDir+"/aug-cc-pvdz.bas",
-            "molecule": "read",
+            "molecule": "inline",
             "bohr_coordinates": "false",
             "cart_bf": ""}
 cap_dict = {

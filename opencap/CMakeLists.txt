@@ -48,8 +48,8 @@ endif()
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-pybind11_add_module(pycap ${SOURCES} ${BIND_SOURCES})
-target_link_libraries(pycap PRIVATE ${HDF5_LIBRARIES} numgrid-objects Eigen3::Eigen h5pp::h5pp)
+pybind11_add_module(pyopencap_cpp ${SOURCES} ${BIND_SOURCES})
+target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects Eigen3::Eigen h5pp::h5pp)
 
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})

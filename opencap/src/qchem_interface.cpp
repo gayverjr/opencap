@@ -27,33 +27,54 @@ size_t total_TDMs_to_read(size_t nstates)
 	return numTDMs;
 }
 
-size_t get_TDM_start(size_t nstates, size_t state_idx)
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet bs)
 {
-	size_t tdm_idx = 2*nstates;
-	for (size_t i=1;i<state_idx;i++)
+	std::ifstream is(fchk_filename);
+	size_t nstates = 0;
+	bool sep_alpha_beta;
+	std::string line, rest;
+	while(is.peek() != EOF )
 	{
-		for (size_t j=i;j<nstates;j++)
-			tdm_idx+=2;
+    	std::getline(is, line);
+    	if(line.find("Alpha  State Density")!= std::string::npos)
+    	{
+    		sep_alpha_beta=true;
+			int num_elements = stoi(split(line,' ').back());
+			if(sqrt(num_elements)!=bs.Nbasis)
+				opencap_throw("Error: dimensions of DMs do not match specified basis set.");
+    		break;
+    	}
+    	else if(line.find("State Density")!= std::string::npos)
+    	{
+    		sep_alpha_beta=false;
+			int num_elements = stoi(split(line,' ').back());
+			if(sqrt(num_elements)!=bs.Nbasis)
+				opencap_throw("Error: dimensions of state DMs do not match specified basis set.");
+    		break;
+    	}
 	}
-	return tdm_idx;
+	is.seekg (0, ios::beg);
+	while(is.peek()!=EOF)
+	{
+    	std::getline(is, line);
+    	if(line.find("Alpha  State Density")!= std::string::npos && sep_alpha_beta)
+    		nstates++;
+    	else if(line.find("State Density")!= std::string::npos && !sep_alpha_beta)
+    		nstates++;
+	}
+	if(nstates==0)
+		opencap_throw("Error:Unable to find any densities in:" +fchk_filename);
+	if(sep_alpha_beta)
+		return qchem_read_in_dms_open_shell(fchk_filename,nstates,bs);
+	else
+		return qchem_read_in_dms_closed_shell(fchk_filename,nstates,bs);
+
+
 }
 
-size_t get_TDM_start_closed_shell(size_t nstates, size_t state_idx)
-{
-	size_t tdm_idx = nstates;
-	for (size_t i=1;i<state_idx;i++)
-	{
-		for (size_t j=i;j<nstates;j++)
-			tdm_idx+=1;
-	}
-	return tdm_idx;
-}
-
-//currently this is written for open shell systems which separate have alpha and beta densities
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_shell(std::string dmat_filename,
 		size_t nstates, BasisSet bs)
 {
-	size_t num_bf = bs.Nbasis;
 	std::vector< std::vector<Eigen::MatrixXd>> alpha_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
 	std::vector< std::vector<Eigen::MatrixXd>> beta_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
 	//start with state density matrices, alpha and beta densities
@@ -68,7 +89,12 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
     			for(size_t spin=1;spin<=2;spin++)
     			{
 					while(line.find("State Density")== std::string::npos)
+					{
 						std::getline(is,line);
+	    	    		if (is.peek()==EOF)
+	    	    			opencap_throw("Error: Reached end of file before densities for "+
+	    	    					std::to_string(nstates) + " states were found.");
+					}
 					//last part of line should be number of elements to read
 					int num_elements = stoi(split(line,' ').back());
 					if(sqrt(num_elements)!=bs.Nbasis)
@@ -84,8 +110,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 							matrix_elements.push_back(std::stod(token));
 						}
 					}
-					Eigen::MatrixXd st_opdm(num_bf,num_bf);
-					st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
+					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					fill_mat(matrix_elements,st_opdm);
 					to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
 					if(spin==1)
@@ -103,7 +129,12 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
     			for (size_t spin=1;spin<=2;spin++)
     			{
 					while(line.find("Transition DM")== std::string::npos)
+					{
 						std::getline(is,line);
+	    	    		if (is.peek()==EOF)
+	    	    			opencap_throw("Error: Reached end of file before densities for "+
+	    	    					std::to_string(nstates) + " states were found.");
+					}
 					//last part of line should be number of elements to read
 					size_t num_elements = stoi(split(line,' ').back());
 					if(sqrt(num_elements)!=bs.Nbasis)
@@ -117,8 +148,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 						for (auto token:tokens)
 							matrix_elements.push_back(std::stod(token));
 					}
-					Eigen::MatrixXd st_opdm(num_bf,num_bf);
-					st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
+					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					fill_mat(matrix_elements,st_opdm);
 					to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
 					if(spin==1)
@@ -148,7 +179,11 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
     {
     	std::string line, rest;
     	while (line.find("Overlap Matrix")== std::string::npos)
+    	{
         	std::getline(is, line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Overlap Matrix was found.");
+    	}
     	size_t num_elements = stoi(split(line,' ').back());
 		size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 		std::vector<double> matrix_elements;
@@ -194,12 +229,9 @@ Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::strin
     return ZERO_ORDER_H;
 }
 
-
-//currently this is written for closed shell systems. We multiply matrices by 0.5 to "separate" alpha and beta
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed_shell(std::string dmat_filename,
 		size_t nstates, BasisSet bs)
 {
-	size_t num_bf = bs.Nbasis;
 	std::vector< std::vector<Eigen::MatrixXd>> opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
 	//start with state density matrices
 	std::ifstream is(dmat_filename);
@@ -210,7 +242,12 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
     	for (size_t i=0;i<nstates;i++)
     	{
 				while(line.find("State Density")== std::string::npos)
+				{
 					std::getline(is,line);
+    	    		if (is.peek()==EOF)
+    	    			opencap_throw("Error: Reached end of file before densities for "+
+    	    					std::to_string(nstates) + " states were found.");
+				}
 				//last part of line should be number of elements to read
 				size_t num_elements = stoi(split(line,' ').back());
 				size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
@@ -224,8 +261,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
 						matrix_elements.push_back(std::stod(token));
 					}
 				}
-				Eigen::MatrixXd st_opdm(num_bf,num_bf);
-				st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
+				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+				st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 				fill_mat(matrix_elements,st_opdm);
 				to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
 				opdms[i][i]=0.5*st_opdm;
@@ -236,7 +273,12 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
     		for (size_t j=i+1;j<nstates;j++)
     		{
 				while(line.find("Transition DM")== std::string::npos)
+				{
 					std::getline(is,line);
+    	    		if (is.peek()==EOF)
+    	    			opencap_throw("Error: Reached end of file before densities for "+
+    	    					std::to_string(nstates) + " states were found.");
+				}
 				//last part of line should be number of elements to read
 				size_t num_elements = stoi(split(line,' ').back());
 				size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
@@ -248,8 +290,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
 					for (auto token:tokens)
 						matrix_elements.push_back(std::stod(token));
 				}
-				Eigen::MatrixXd st_opdm(num_bf,num_bf);
-				st_opdm=Eigen::MatrixXd::Zero(num_bf,num_bf);
+				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+				st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 				fill_mat(matrix_elements,st_opdm);
 				to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
 				opdms[i][j]=0.5*st_opdm;
@@ -272,7 +314,11 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
     	std::string line, rest;
     	std::getline(is, line);
 		while(line.find("Atomic numbers")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before atomic numbers were found.");
+		}
 		size_t num_elements = stoi(split(line,' ').back());
 		size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -283,7 +329,11 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
 				atom_nums.push_back(std::stoi(token));
 		}
 		while(line.find("Current cartesian coordinates")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Current Cartesian Coordinates were found.");
+		}
 		num_elements = stoi(split(line,' ').back());
 		lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -322,7 +372,11 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
     	std::getline(is, line);
     	//shell types
 		while(line.find("Shell types")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before shell types were found.");
+		}
 		size_t num_elements = stoi(split(line,' ').back());
 		size_t lines_to_read = num_elements%6==0 ? (num_elements/6) : num_elements/6+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -336,7 +390,11 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		}
 		//prims per shell
 		while(line.find("Number of primitives per shell")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Number of primitives per shell were found.");
+		}
 		num_elements = stoi(split(line,' ').back());
 		lines_to_read = num_elements%6==0 ? (num_elements/6) : num_elements/6+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -348,7 +406,11 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		}
 		//atom ids
 		while(line.find("Shell to atom map")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Shell to atom map was found.");
+		}
 		num_elements = stoi(split(line,' ').back());
 		lines_to_read = num_elements%6==0 ? (num_elements/6) : num_elements/6+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -360,7 +422,11 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		}
 		//prims
 		while(line.find("Primitive exponents")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Primitive exponents were found.");
+		}
 		num_elements = stoi(split(line,' ').back());
 		lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 		for (size_t k=1;k<=lines_to_read;k++)
@@ -372,7 +438,11 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		}
 		//coeffs
 		while(line.find("Contraction coefficients")== std::string::npos)
+		{
 			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before Contraction coefficients were found.");
+		}
 		num_elements = stoi(split(line,' ').back());
 		lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
 		for (size_t k=1;k<=lines_to_read;k++)
