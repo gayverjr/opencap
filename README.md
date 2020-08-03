@@ -25,9 +25,6 @@ See the example below for a brief tutorial on how to use the software.
 Documentation (in progress): https://gayverjr.github.io/opencap/
 
 
-
-
-
 # Installation
 
 ## Dependencies
