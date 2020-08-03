@@ -14,6 +14,7 @@
 #include <tuple>
 #include "gto_ordering.h"
 #include "opencap_exception.h"
+#include <h5pp/h5pp.h>
 #include <iostream>
 #include <Eigen/Dense>
 
