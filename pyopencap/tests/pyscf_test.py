@@ -4,7 +4,7 @@ import numpy as np
 import os
 import sys
 
-destDir="./opencap/tests/pyscf"
+destDir="../opencap/tests/pyscf"
 sys_dict = {"geometry":'''H 0.0000000000 0.0000000000 0.3705000000
 H 0.0000000000 0.0000000000 -0.3705000000''',
             "basis_file":destDir+"/aug-cc-pvdz.bas",
