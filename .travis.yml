@@ -30,19 +30,21 @@ matrix:
         - python3.8-venv
         - doxygen
         - python3.8
+        - lcov
     env: CXX='g++-8' CC='gcc-8' BUILD_TYPE='release' PYTHON_VER=3.8
     
 before_install:
-- cd opencap; mkdir build
-- cd build
-- cmake ..
 - sudo apt-get update
 - sudo apt-get install python3 python3-pip python3-setuptools
 - pip3 install --upgrade pip
+- sudo pip3 install codecov
+- cd opencap; mkdir build
+- cd build
+- cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 
 install:
-- make
-- make test
+- cmake --build . --config Debug 
+- ctest --output-on-failure
 - cd ../../
 - pip3 install pytest
 - pip3 install h5py
@@ -55,7 +57,18 @@ script:
 - cd dox; doxygen Doxyfile.in; cd ..
 
 after_success:
-  - coveralls
+  # Create lcov report
+  # capture coverage info
+  - lcov --directory . --capture --output-file coverage.info
+  # filter out system and extra files.
+  # To also not include test code in coverage add them with full path to the patterns: '*/tests/*'
+  - lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+  # output coverage data for debugging (optional)
+  - lcov --list coverage.info
+  # Uploading to CodeCov
+  # '-f' specifies file(s) to use and disables manual coverage gathering and file search which has already been done above
+  - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+  - codecov -v --cov=pyopencap opencap/tests
 
 deploy:
   provider: pages

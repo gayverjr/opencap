@@ -4,7 +4,7 @@ import h5py
 import os
 import sys
 
-destDir=sys.path[0]+"/qchem"
+destDir="./opencap/tests/qchem"
 
 cap_dict = {
             "cap_type": "box",
