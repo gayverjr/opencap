@@ -27,7 +27,7 @@ size_t total_TDMs_to_read(size_t nstates)
 	return numTDMs;
 }
 
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet bs)
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs)
 {
 	std::ifstream is(fchk_filename);
 	size_t nstates = 0;
@@ -113,7 +113,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					fill_mat(matrix_elements,st_opdm);
-					to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
+					to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
 					if(spin==1)
 						alpha_opdms[i][i]=st_opdm;
 					else
@@ -151,7 +151,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					fill_mat(matrix_elements,st_opdm);
-					to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
+					to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
 					if(spin==1)
 					{
 						alpha_opdms[i][j]=st_opdm;
@@ -195,7 +195,7 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
 				matrix_elements.push_back(std::stod(token));
 		}
 		fill_LT(matrix_elements,smat);
-		to_opencap_ordering(smat,bs,get_molden_ids(bs));
+		to_opencap_ordering(smat,bs,get_qchem_ids(bs));
     }
     return smat;
 }
@@ -264,7 +264,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
 				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 				st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 				fill_mat(matrix_elements,st_opdm);
-				to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
+				to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
 				opdms[i][i]=0.5*st_opdm;
 		}
     	//now tdms
@@ -293,7 +293,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
 				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 				st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 				fill_mat(matrix_elements,st_opdm);
-				to_opencap_ordering(st_opdm,bs,get_molden_ids(bs));
+				to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
 				opdms[i][j]=0.5*st_opdm;
 				opdms[j][i]=0.5*st_opdm;
     		}

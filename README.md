@@ -5,7 +5,7 @@
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
 | **Documentation** | [![][docs-img]][docs-url] [![][rtd-img]][rtd-url] |
 | :------ | :------- |
-| **Build Status**  | [![][travis-img]][travis-url] [![][lgtm-img]][lgtm-url] |
+| **Build Status**  | [![][travis-img]][travis-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url]  |
 
 [docs-img]: https://img.shields.io/badge/doc-latest-blue.svg
 [docs-url]: https://gayverjr.github.io/opencap/
@@ -15,6 +15,8 @@
 [lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
 [rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
 [rtd-url]: https://gayverjropencap.readthedocs.io/en/latest/?badge=latest
+[cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/master/graph/badge.svg
+[cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/master
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to 

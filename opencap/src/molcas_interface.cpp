@@ -307,8 +307,7 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms)
 	{
 		long ctr = basis_ids(i,0);
 		long shell_num = basis_ids(i,1);
-		long l = basis_ids(i,2);
-		long m = basis_ids(i,3);
+		int l = basis_ids(i,2);
 		shell_id id(ctr,shell_num,l);
 		int bs_idx = bs.get_index_of_shell_id(id);
 		if (bs_idx==-1)
@@ -323,7 +322,7 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms)
 	for(size_t i=0;i<prim_ids.rows();i++)
 	{
 		long ctr = prim_ids(i,0);
-		long l = prim_ids(i,1);
+		int l = prim_ids(i,1);
 		long shell_num = prim_ids(i,2);
 		double exp = prims(i,0);
 		double coeff = prims(i,1);

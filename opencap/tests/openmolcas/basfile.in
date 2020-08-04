@@ -1,14 +1,12 @@
 $geometry
 N  0  0   1.039
 N  0  0   -1.039
-X  0  0   0.0
 $end
 
 $system
 molecule inline
 bohr_coordinates true
-!cart_bf spdf
-basis_file ../tests/openmolcas/bas.bas
+basis_file ../tests/openmolcas/aug-cc-pvdz.bas
 $end
 
 $projected_cap
@@ -26,7 +24,7 @@ Angular_points    110
 $end
 
 $job
-title n2
+title Custom basis set test
 jobtype projected_cap
 $end
 

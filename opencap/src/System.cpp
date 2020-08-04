@@ -28,7 +28,7 @@
 #include "molcas_interface.h"
 #include "qchem_interface.h"
 #include "molden_parser.h"
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -189,7 +189,31 @@ Eigen::MatrixXd System::get_overlap_mat()
 	return OVERLAP_MAT;
 }
 
-void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
+void System::renormalize_overlap(Eigen::MatrixXd smat)
+{
+	Eigen::MatrixXd overlap_copy = OVERLAP_MAT;
+	std::vector<double> scalars;
+	for (size_t i=0;i<smat.rows();i++)
+		scalars.push_back(sqrt(smat(i,i)));
+	for (size_t i=0;i<overlap_copy.rows();i++)
+	{
+		for(size_t j=0;j<overlap_copy.cols();j++)
+			overlap_copy(i,j)= OVERLAP_MAT(i,j)* scalars[i] * scalars[j];
+	}
+	for (size_t i=0;i<smat.rows();i++)
+	{
+		for(size_t j=0;j<smat.cols();j++)
+		{
+			if (abs(smat(i,j)-overlap_copy(i,j))>1E-5)
+				opencap_throw("Error: Could not verify overlap matrix after re-normalization."
+								"Verify that your basis is specified properly, or use a different type of input. If the "
+								"issue persists, please file a bug report.");
+		}
+	}
+
+}
+
+bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
 {
 	std::vector<bf_id> ids;
 	if(compare_strings(ordering,"pyscf"))
@@ -201,8 +225,8 @@ void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(bs,basis_file);
 	}
-	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
-		ids = get_molden_ids(bs);
+	else if(compare_strings(ordering,"qchem"))
+		ids = get_qchem_ids(bs);
 	else if(compare_strings(ordering,"opencap"))
 		ids = bs.bf_ids;
 	else
@@ -217,19 +241,40 @@ void System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 		{
 			if (abs(smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 			{
-				std::cout << "Conflict at:" << i << "," << j << std::endl;
-				std::cout << ordering + " says:" << smat(i,j) << std::endl;
-				std::cout << "OpenCAP says:" << OVERLAP_MAT(i,j) << std::endl;
 				conflicts = true;
+				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-10) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-10) )
+					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
+							"Verify that your basis is specified properly, or use a different type of input. If the "
+							"issue persists, please file a bug report.");
 			}
 		}
 	}
+	std::string message;
 	if (conflicts)
-		opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not.");
-	if(python)
-		py::print("Verified overlap matrix.");
+	{
+		message="Warning: the overlap matrices differ numerically, but there are no non-matching "
+				 "zeroes.\nIf you are using cartesian GTOs, this is expected.";
+		if(python)
+			message+="Re-normalization of the AO CAP is required before computing the projected CAP.";
+	}
 	else
-		std::cout << "Verified overlap matrix." << std::endl;
+	{
+		message = "Verified overlap matrix.";
+		return true;
+	}
+	if(python)
+	{
+		py::print(message);
+		return false;
+	}
+	else
+	{
+		std::cout << message << std::endl;
+		renormalize_overlap(smat);
+		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
+		return false;
+	}
+
 }
 
 

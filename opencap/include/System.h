@@ -49,7 +49,7 @@ public:
 	 */
 	std::vector<Atom> parse_geometry_string(std::string geometry_string);
 	Eigen::MatrixXd get_overlap_mat();
-	void check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	bool check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
 	bool python;
 
 
@@ -62,6 +62,7 @@ private:
 	 * \return Updated parameters map.
 	 */
 	void verify_system();
+	void renormalize_overlap(Eigen::MatrixXd smat);
 };
 
 

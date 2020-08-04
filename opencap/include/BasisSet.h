@@ -24,8 +24,8 @@ struct shell_id
 	size_t shell_num;
 	/** Positive if pure, negative if Cartesian
 	 */
-	size_t l;
-	shell_id(size_t center,size_t shell_n, size_t l_num)
+	int l;
+	shell_id(size_t center,size_t shell_n, int l_num)
 	{ctr=center;shell_num=shell_n;l=l_num;};
 	void print();
 	bool operator==(const shell_id& other);
@@ -42,7 +42,7 @@ struct bf_id
 	size_t shell_num;
 	/** Positive if pure, negative if Cartesian
 	 */
-	size_t l;
+	int l;
 	int m;
 	bf_id(shell_id id,int new_m)
 	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=new_m;};

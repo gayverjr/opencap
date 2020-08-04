@@ -10,18 +10,21 @@
  * \param shell: Shell object
  * \return ordering: The ordering of cartesian basis functions
  */
-std::vector<std::array<size_t,3>> opencap_carts_ordering(Shell &shell);
+std::vector<std::array<size_t,3>> opencap_carts_ordering(int l);
 /** Ordering of harmonic gaussians in opencap standard form.
  * \param shell: Shell object
  * \return ordering: The ordering of harmonic basis functions
  */
-std::vector<int> opencap_harmonic_ordering(Shell &shell);
+std::vector<int> opencap_harmonic_ordering(int l);
 /* Get list of basis function IDs in OpenMolcas ordering.
  */
 std::vector<bf_id> get_molcas_ids(BasisSet &bs,std::string rassi_filename);
 /* Get list of basis function IDs in Molden ordering.
  */
 std::vector<bf_id> get_molden_ids(BasisSet &bs);
+/* Get list of basis function IDs in Q-Chem ordering.
+ */
+std::vector<bf_id> get_qchem_ids(BasisSet &bs);
 /* Get list of basis function IDs in Pyscf ordering.
  */
 std::vector<bf_id> get_pyscf_ids(BasisSet &bs);
