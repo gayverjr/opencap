@@ -59,7 +59,8 @@ long BasisSet::get_index_of_shell_id(shell_id id)
 	for(size_t i=0;i<shell_ids.size();i++)
 	{
 		shell_id cur_id = shell_ids[i];
-		if(id.ctr==cur_id.ctr && id.shell_num==cur_id.shell_num && id.l==cur_id.l)
+		// we do absolute value here for l because you're not going to have the same shell defined twice
+		if(id.ctr==cur_id.ctr && id.shell_num==cur_id.shell_num && abs(id.l)== abs(cur_id.l))
 			return i;
 	}
 	return -1;
@@ -82,21 +83,15 @@ void BasisSet::add_shell(Shell new_shell)
 	shell_ids.push_back(id);
 	if(new_shell.pure)
 	{
-		std::vector<int> harmonic_order = opencap_harmonic_ordering(new_shell);
+		std::vector<int> harmonic_order = opencap_harmonic_ordering(new_shell.l);
 		for (auto m:harmonic_order)
 			bf_ids.push_back(bf_id(id,m));
 	}
 	else
 	{
-		std::vector<std::array<size_t,3>> carts_order = opencap_carts_ordering(new_shell);
-		size_t counter = 0;
-		int idx = -1*carts_order.size()/2;
-		while(counter<carts_order.size())
-		{
-			bf_ids.push_back(bf_id(id,idx));
-			counter++;
-			idx++;
-		}
+		size_t num_functions = opencap_carts_ordering(new_shell.l).size();
+		for(size_t i=0;i<num_functions;i++)
+			bf_ids.push_back(bf_id(id,i));
 	}
 }
 

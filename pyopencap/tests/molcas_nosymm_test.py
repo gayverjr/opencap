@@ -4,7 +4,7 @@ import h5py
 import os
 import sys
 
-destDir=sys.path[0]+"/openmolcas"
+destDir="../opencap/tests/openmolcas"
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": destDir+"/nosymm.h5"}
 molden_dict = {"molecule": "molden",
@@ -24,6 +24,7 @@ es_dict = {"method" : "ms-caspt2",
 s1 = pycap.System(sys_dict)
 s2 = pycap.System(molden_dict)
 f = h5py.File(destDir+"/nosymm.h5", 'r')
+nbasis = 46
 
 def test_rassi():
     pc = pycap.Projected_CAP(s1,cap_dict,10,"openmolcas")
@@ -43,7 +44,7 @@ def test_molden():
 
 def test_overlap():
     arr = np.array(f["AO_OVERLAP_MATRIX"])
-    arr = np.reshape(arr,(119,119))
+    arr = np.reshape(arr,(nbasis,nbasis))
     s1.check_overlap_mat(arr,"openmolcas",destDir+"/nosymm.h5")
 
 def test_tdms():
@@ -51,7 +52,7 @@ def test_tdms():
     pc = pycap.Projected_CAP(s1,cap_dict,10,"openmolcas")
     for i in range(0,10):
         for j in range(i,10):
-            arr1 = 0.5*np.reshape(arr[i][j],(119,119))
+            arr1 = 0.5*np.reshape(arr[i][j],(nbasis,nbasis))
             pc.add_tdms(arr1,arr1,i,j,"openmolcas",destDir+"/nosymm.h5")
             if i!=j:
                 pc.add_tdms(arr1,arr1,j,i,"openmolcas",destDir+"/nosymm.h5")
@@ -64,7 +65,7 @@ def test_tdm():
     pc = pycap.Projected_CAP(s1,cap_dict,10,"openmolcas")
     for i in range(0,10):
         for j in range(i,10):
-            arr1 = np.reshape(arr[i][j],(119,119))
+            arr1 = np.reshape(arr[i][j],(nbasis,nbasis))
             pc.add_tdm(arr1,i,j,"openmolcas",destDir+"/nosymm.h5")
             if i!=j:
                 pc.add_tdm(arr1,j,i,"openmolcas",destDir+"/nosymm.h5")

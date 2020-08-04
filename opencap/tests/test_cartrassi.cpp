@@ -23,7 +23,7 @@
 
 int main()
 {
-	std::string input_filename = "../tests/openmolcas/molden.in";
+	std::string input_filename = "../tests/openmolcas/cart_rassi.in";
 	try
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);

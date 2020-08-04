@@ -1,5 +1,5 @@
 /*
- * test_rassi.cpp
+ * test_molden.cpp
  *
  *  Created on: Jul 22, 2020
  *      Author: JG
@@ -23,7 +23,7 @@
 
 int main()
 {
-	std::string input_filename = "../tests/openmolcas/rassi.in";
+	std::string input_filename = "../tests/openmolcas/g_molden.in";
 	try
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
@@ -41,6 +41,10 @@ int main()
 	}
 	return 0;
 }
+
+
+
+
 
 
 

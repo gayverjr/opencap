@@ -77,8 +77,8 @@ double overlap_integral(Shell a, std::array<size_t,3> cart_a, Shell b,
 Eigen::MatrixXd shell_overlap(Shell shell_a, Shell shell_b)
 {
 	Eigen::MatrixXd block(shell_a.num_carts(),shell_b.num_carts());
-	std::vector<std::array<size_t,3>> order_a = opencap_carts_ordering(shell_a);
-	std::vector<std::array<size_t,3>> order_b = opencap_carts_ordering(shell_b);
+	std::vector<std::array<size_t,3>> order_a = opencap_carts_ordering(shell_a.l);
+	std::vector<std::array<size_t,3>> order_b = opencap_carts_ordering(shell_b.l);
 	for(size_t i=0;i<shell_a.num_carts();i++)
 	{
 		std::array<size_t,3> a_cart = order_a[i];
