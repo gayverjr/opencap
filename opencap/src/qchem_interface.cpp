@@ -27,7 +27,7 @@ size_t total_TDMs_to_read(size_t nstates)
 	return numTDMs;
 }
 
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet bs)
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs)
 {
 	std::ifstream is(fchk_filename);
 	size_t nstates = 0;
