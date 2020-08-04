@@ -39,6 +39,9 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install python3 python3-pip python3-setuptools
 - pip3 install --upgrade pip
+- pip3 install cpp-coveralls
+- pip3 install coverage
+
 
 install:
 - make
@@ -56,6 +59,7 @@ script:
 
 after_success:
   - coveralls
+  - codecov -v --cov=pyopencap opencap/tests
 
 deploy:
   provider: pages
