@@ -46,6 +46,13 @@ if(NOT numgrid_POPULATED)
   add_subdirectory(${numgrid_SOURCE_DIR} ${numgrid_BINARY_DIR})
 endif()
 
+# Code Coverage Configuration
+if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    MESSAGE("Code coverage activated.")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+	SET(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+endif(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
