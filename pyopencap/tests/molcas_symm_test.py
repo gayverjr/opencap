@@ -4,7 +4,7 @@ import h5py
 import os
 import sys
 
-destDir="./opencap/tests/openmolcas"
+destDir="../opencap/tests/openmolcas"
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": destDir+"/symm.h5"}
 molden_dict = {"molecule": "molden",
