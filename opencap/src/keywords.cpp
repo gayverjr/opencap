@@ -38,7 +38,8 @@ bool check_keyword(std::string my_key,std::string my_section)
 		{"cap_z","projected_cap"},
 		{"r_cut","projected_cap"},
 		{"radial_precision","projected_cap"},
-		{"angular_points","projected_cap"}
+		{"angular_points","projected_cap"},
+		{"ignore_overlap","projected_cap"}
 	};
 	for(auto key:valid_keys)
 	{

@@ -17,6 +17,7 @@
 class Projected_CAP
 {
 public:
+	Eigen::MatrixXd OVERLAP_MAT;
 	System system;
 	/** %CAP matrix in AO basis
 	 */
@@ -102,6 +103,8 @@ public:
 	/** Verifies that required electronic structure data is present to perform calculation.
 	 */
 	void verify_data();
+	void renormalize_cap(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	void renormalize();
 
 private:
 	/** Reads in TDMs from electronic structure package

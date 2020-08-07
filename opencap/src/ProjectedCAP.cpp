@@ -255,14 +255,34 @@ void Projected_CAP::compute_ao_cap()
 void Projected_CAP::check_overlap_matrix()
 {
 	//get overlap matrix
-	Eigen::MatrixXd smat;
 	if (compare_strings(parameters["package"],"qchem"))
-		smat = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
+		OVERLAP_MAT = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
 	else if (compare_strings(parameters["package"],"openmolcas"))
-		smat = read_rassi_overlap(parameters["rassi_h5"],system.bs);
-	system.check_overlap_mat(smat,"opencap");
+		OVERLAP_MAT = read_rassi_overlap(parameters["rassi_h5"],system.bs);
+	system.check_overlap_mat(OVERLAP_MAT,"opencap");
 }
 
+void Projected_CAP::renormalize_cap(Eigen::MatrixXd smat, std::string ordering,
+		std::string basis_file)
+{
+	std::vector<double> scalars;
+	for (size_t i=0;i<smat.rows();i++)
+		scalars.push_back(sqrt(smat(i,i)));
+	for (size_t i=0;i<AO_CAP_MAT.rows();i++)
+	{
+		for(size_t j=0;j<AO_CAP_MAT.cols();j++)
+			AO_CAP_MAT(i,j)= AO_CAP_MAT(i,j)* scalars[i] * scalars[j];
+	}
+}
+
+void Projected_CAP::renormalize()
+{
+	if(OVERLAP_MAT.cols()==0 && python)
+		py::print("Error: no overlap matrix to use for re-normalization. Use \"read_data\" first, or"
+				" use the \"renormalize_cap\" function instead.");
+	else
+		renormalize_cap(OVERLAP_MAT,"opencap");
+}
 
 void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 {
@@ -310,7 +330,11 @@ void Projected_CAP::run()
 	try
 	{
 		compute_ao_cap();
-		check_overlap_matrix();
+		if (parameters.find("ignore_overlap")==parameters.end()||parameters["ignore_overlap"]=="false")
+		{
+			check_overlap_matrix();
+			renormalize();
+		}
 		compute_projected_cap();
 	}
 	catch(exception &e)
@@ -381,8 +405,8 @@ void Projected_CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(system.bs,basis_file);
 	}
-	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
-		ids = get_molden_ids(system.bs);
+	else if(compare_strings(ordering,"qchem"))
+		ids = get_qchem_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(alpha_dm,system.bs,ids);
@@ -409,8 +433,8 @@ void Projected_CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,s
 					"specified with the basis_file optional argument.");
 		ids = get_molcas_ids(system.bs,basis_file);
 	}
-	else if(compare_strings(ordering,"qchem")||compare_strings(ordering,"molden"))
-		ids = get_molden_ids(system.bs);
+	else if(compare_strings(ordering,"qchem"))
+		ids = get_qchem_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(dmat,system.bs,ids);
@@ -439,6 +463,7 @@ void Projected_CAP::read_electronic_structure_data(py::dict dict)
 			parameters[item.first]=item.second;
 		read_in_zero_order_H();
 		read_in_dms();
+		check_overlap_matrix();
 	}
 	catch(exception &e)
 	{
