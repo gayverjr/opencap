@@ -259,10 +259,12 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	{
 		if(python)
 			py::print("Warning: the overlap matrices differ numerically, but there are no non-matching "
-				 "zeroes.\nIf you are using cartesian GTOs, this is expected.");
+				 "zeroes.\nIf you are using cartesian GTOs, this is expected."
+				 "\nTrying to re-normalize...");
 		else
 			std::cout << "Warning: the overlap matrices differ numerically, but there are no non-matching "
-			 "zeroes.\nIf you are using cartesian GTOs, this is expected." << std::endl;
+			 "zeroes.\nIf you are using cartesian GTOs, this is expected."
+			 "\nTrying to re-normalize..." << std::endl;
 	}
 	else
 	{
@@ -273,10 +275,12 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 			std::cout << message << std::endl;
 		return true;
 	}
+
 	renormalize_overlap(smat);
 	if(python)
-		py::print("Verified overlap matrix after re-normalization.\nPlease use the renormalize or"
-				"renormalize_cap functions before computing the projected CAP.");
+		py::print("Verified overlap matrix after re-normalization.\nCompute the CAP first in AO basis using "
+				"\'compute_ao_cap\', then re-normalize using \'renormalize\' or "
+				"\'renormalize_cap\' before calling \'compute_projected_cap\'.");
 	else
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
 	return false;
