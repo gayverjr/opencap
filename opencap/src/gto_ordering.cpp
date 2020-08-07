@@ -63,6 +63,7 @@ std::vector<int> opencap_harmonic_ordering(int l)
 		opencap_throw("Error: Only up to G type orbitals are supported.")
 }
 
+// From: pyscf tools/molden.py
 std::vector<std::array<size_t,3>> pyscf_carts_ordering(int l)
 {
 	//s
@@ -76,12 +77,12 @@ std::vector<std::array<size_t,3>> pyscf_carts_ordering(int l)
 		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
 	//f
 	else if (l==3)
-		return {{3,0,0},{2,1,0},{2,0,1},{1,0,2},{1,1,1},{1,2,0},{0,3,0},
+		return {{3,0,0},{2,1,0},{2,0,1},{1,2,0},{1,1,1},{1,0,2},{0,3,0},
 				{0,2,1},{0,1,2},{0,0,3}};
 	//g
 	else if(l==4)
-		return {{4,0,0},{0,4,0},{0,0,4},{3,1,0},{3,0,1},{1,3,0},{0,3,1},
-		        {1,0,3},{0,1,3},{2,2,0},{2,0,2},{0,2,2},{2,1,1},{1,2,1},{1,1,2}};
+		return {{4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},
+		        {1,2,1},{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
 	else
 		opencap_throw("Error: Only up to G type orbitals are supported.")
 }
