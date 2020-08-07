@@ -103,7 +103,7 @@ public:
 	/** Verifies that required electronic structure data is present to perform calculation.
 	 */
 	void verify_data();
-	void renormalize_from_overlap(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	void renormalize_cap(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
 	void renormalize();
 
 private:

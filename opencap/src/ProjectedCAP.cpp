@@ -262,7 +262,7 @@ void Projected_CAP::check_overlap_matrix()
 	system.check_overlap_mat(OVERLAP_MAT,"opencap");
 }
 
-void Projected_CAP::renormalize_from_overlap(Eigen::MatrixXd smat, std::string ordering,
+void Projected_CAP::renormalize_cap(Eigen::MatrixXd smat, std::string ordering,
 		std::string basis_file)
 {
 	std::vector<double> scalars;
@@ -279,9 +279,9 @@ void Projected_CAP::renormalize()
 {
 	if(OVERLAP_MAT.cols()==0 && python)
 		py::print("Error: no overlap matrix to use for re-normalization. Use \"read_data\" first, or"
-				" use the \"renormalize_from_overlap\" function instead.");
+				" use the \"renormalize_cap\" function instead.");
 	else
-		renormalize_from_overlap(OVERLAP_MAT,"opencap");
+		renormalize_cap(OVERLAP_MAT,"opencap");
 }
 
 void Projected_CAP::verify_method(std::map<std::string,std::string> params)

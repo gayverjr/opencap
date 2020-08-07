@@ -1,13 +1,13 @@
 $system
 molecule molcas_rassi
-basis_file ../tests/openmolcas/g_test.h5
+basis_file ../tests/openmolcas/gorb.h5
 $end
 
 $projected_cap
 method ms-caspt2
 package openmolcas
-rassi_h5 ../tests/openmolcas/g_test.h5
-molcas_output ../tests/openmolcas/g_test.out
+rassi_h5 ../tests/openmolcas/gorb.h5
+molcas_output ../tests/openmolcas/gorb.out
 nstates 10
 CAP_TYPE box
 CAP_X 2.76
@@ -18,6 +18,6 @@ Angular_points    110
 $end
 
 $job
-title G type orbital test
+title Cartesian GTO test, rassi
 jobtype projected_cap
 $end

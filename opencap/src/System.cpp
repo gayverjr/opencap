@@ -205,9 +205,11 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 		for(size_t j=0;j<smat.cols();j++)
 		{
 			if (abs(smat(i,j)-overlap_copy(i,j))>1E-5)
+			{
 				opencap_throw("Error: Could not verify overlap matrix after re-normalization."
 								"Verify that your basis is specified properly, or use a different type of input. If the "
 								"issue persists, please file a bug report.");
+			}
 		}
 	}
 
@@ -243,37 +245,41 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 			{
 				conflicts = true;
 				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-10) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-10) )
+				{
 					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
 							"Verify that your basis is specified properly, or use a different type of input. If the "
 							"issue persists, please file a bug report.");
+				}
+
 			}
 		}
 	}
 	std::string message;
 	if (conflicts)
 	{
-		message="Warning: the overlap matrices differ numerically, but there are no non-matching "
-				 "zeroes.\nIf you are using cartesian GTOs, this is expected.";
 		if(python)
-			message+="Re-normalization of the AO CAP is required before computing the projected CAP.";
+			py::print("Warning: the overlap matrices differ numerically, but there are no non-matching "
+				 "zeroes.\nIf you are using cartesian GTOs, this is expected.");
+		else
+			std::cout << "Warning: the overlap matrices differ numerically, but there are no non-matching "
+			 "zeroes.\nIf you are using cartesian GTOs, this is expected." << std::endl;
 	}
 	else
 	{
-		message = "Verified overlap matrix.";
+		message= "Verified overlap matrix.";
+		if(python)
+			py::print(message);
+		else
+			std::cout << message << std::endl;
 		return true;
 	}
+	renormalize_overlap(smat);
 	if(python)
-	{
-		py::print(message);
-		return false;
-	}
+		py::print("Verified overlap matrix after re-normalization.\nPlease use the renormalize or"
+				"renormalize_cap functions before computing the projected CAP.");
 	else
-	{
-		std::cout << message << std::endl;
-		renormalize_overlap(smat);
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
-		return false;
-	}
+	return false;
 
 }
 
