@@ -5,7 +5,7 @@ X  0  0   0.0
 $end
 
 $system
-molecule read
+molecule inline
 bohr_coordinates true
 !cart_bf spdf
 basis_file molcas_bas.bas

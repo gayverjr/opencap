@@ -1,0 +1,21 @@
+$system
+molecule molden
+basis_file ../tests/openmolcas/symm.molden
+$end
+
+$projected_cap
+method ms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/symm.h5
+molcas_output ../tests/openmolcas/symm.out
+nstates 10
+CAP_TYPE voronoi
+R_cut 3
+Radial_precision  14
+Angular_points    110
+$end
+
+$job
+title Molden test with symmetry turned on
+jobtype projected_cap
+$end

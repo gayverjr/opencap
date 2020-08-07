@@ -19,7 +19,7 @@ void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs)
 	unsigned int bf_idx = 0;
 	for(auto&shell:bs.basis)
 	{
-		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(shell);
+		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(shell.l);
 		for(unsigned int i=0;i<shell.num_carts();i++)
 		{
 			std::array<size_t,3> cart = order[i];
@@ -86,8 +86,8 @@ double get_coeff(int L, int m, int lx, int ly, int lz)
 
 Eigen::MatrixXd get_trans_mat(Shell &shell)
 {
-	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell);
-	std::vector<int> sph_order = opencap_harmonic_ordering(shell);
+	std::vector<std::array<size_t,3>> cart_order = opencap_carts_ordering(shell.l);
+	std::vector<int> sph_order = opencap_harmonic_ordering(shell.l);
 	Eigen::MatrixXd trans_mat(shell.num_bf(),shell.num_carts());
 	for(size_t i=0;i<shell.num_bf();i++)
 	{
