@@ -1,13 +1,13 @@
 $system
 molecule molden
-basis_file ../tests/openmolcas/g_test.molden
+basis_file ../tests/openmolcas/gorb.molden
 $end
 
 $projected_cap
 method ms-caspt2
 package openmolcas
-rassi_h5 ../tests/openmolcas/g_test.h5
-molcas_output ../tests/openmolcas/g_test.out
+rassi_h5 ../tests/openmolcas/gorb.h5
+molcas_output ../tests/openmolcas/gorb.out
 nstates 10
 CAP_TYPE box
 CAP_X 2.76

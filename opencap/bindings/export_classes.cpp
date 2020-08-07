@@ -38,6 +38,10 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.")
 		.def("read_data",&Projected_CAP::read_electronic_structure_data, py::arg("es_dict"), "Reads electronic structure data "
 				"specified in dictionary.")
+		.def("renormalize_cap",&Projected_CAP::renormalize_cap, py::arg("smat"),
+				py::arg("ordering"),py::arg("basis_file") = "","Re-normalizes CAP matrix using input overlap"
+						"matrix.")
+		.def("renormalize",&Projected_CAP::renormalize,"Re-normalizes CAP using electronic structure data.")
 	;
 }
 

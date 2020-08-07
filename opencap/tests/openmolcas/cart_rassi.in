@@ -1,13 +1,13 @@
 $system
 molecule molcas_rassi
-basis_file ../tests/openmolcas/cart_test.h5
+basis_file ../tests/openmolcas/cart.h5
 $end
 
 $projected_cap
 method ms-caspt2
 package openmolcas
-rassi_h5 ../tests/openmolcas/cart_test.h5
-molcas_output ../tests/openmolcas/cart_test.out
+rassi_h5 ../tests/openmolcas/cart.h5
+molcas_output ../tests/openmolcas/cart.out
 nstates 10
 CAP_TYPE box
 CAP_X 2.76
