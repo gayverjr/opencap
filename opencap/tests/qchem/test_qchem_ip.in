@@ -1,0 +1,24 @@
+$system
+molecule qchem_fchk
+basis_file ../tests/qchem/IP.fchk
+$end
+
+$projected_cap
+method EOMIP
+package qchem
+qchem_fchk ../tests/qchem/IP.fchk
+qchem_output ../tests/qchem/IP.out
+nstates 3
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+Radial_precision  14
+Angular_points    110
+$end
+
+$job
+title Q-Chem EOMIP specified with FCHK
+jobtype projected_cap
+$end
+

@@ -227,6 +227,13 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	{
 		std::string line, rest;
 		std::getline(is,line);
+		while (line.find("Number of CI roots used")== std::string::npos && is.peek()!=EOF)
+			std::getline(is,line);
+		size_t num_states = stoi(split(line,' ').back());
+		if (num_states!=nstates)
+			opencap_throw("Error: "+std::to_string(num_states)+ " roots were found in the OpenMolcas "
+					"output file, but " + std::to_string(nstates) +" states were specified in the input."
+							"Exiting...");
 		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos && is.peek()!=EOF)
 			std::getline(is,line);
 		if (is.peek()==EOF)
@@ -238,12 +245,14 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		double E_shift = std::stod(split_line[split_line.size()-1]);
 		for(size_t i=1;i<=2;i++)
 			std::getline(is,line);
-		for (size_t i=1;i<=(nstates + 5 - 1) / 5;i++)
+		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
+		for (size_t i=1;i<=num_groups;i++)
 		{
 			for (size_t j=1;j<=2;j++)
 				std::getline(is,line);
 			//now time to start reading in the matrix elements
-			for (size_t j=1;j<=nstates-((i-1)*5);j++)
+			size_t states_in_group = nstates - (i-1)*5;
+			for (size_t j=1;j<=states_in_group;j++)
 			{
 				std::getline(is,line);
 				std::vector<std::string> tokens = split(line,' ');

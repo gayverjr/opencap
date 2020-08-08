@@ -361,6 +361,8 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 	std::vector<int> atom_ids;
 	std::vector<double> exps;
 	std::vector<double> coeffs;
+	// needed for SP specification
+	std::vector<double> p_coeffs;
 	BasisSet bs;
 	for(auto atm:atoms)
 		bs.centers.push_back(atm.coords);
@@ -452,20 +454,53 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			for (auto token:tokens)
 				coeffs.push_back(std::stod(token));
 		}
+		while(line.find("P(S=P) Contraction coefficients")== std::string::npos)
+		{
+			std::getline(is,line);
+    		if (is.peek()==EOF)
+    			opencap_throw("Error: Reached end of file before P(S=P) Contraction coefficients were found.");
+		}
+		num_elements = stoi(split(line,' ').back());
+		lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+		for (size_t k=1;k<=lines_to_read;k++)
+		{
+			std::getline(is,line);
+			std::vector<std::string> tokens = split(line,' ');
+			for (auto token:tokens)
+				p_coeffs.push_back(std::stod(token));
+		}
     }
     size_t prim_idx=0;
     for(size_t i=0;i<shell_types.size();i++)
     {
-    	Shell new_shell(abs(shell_types[i]),atoms[atom_ids[i]-1].coords);
-    	if(shell_types[i]>0 && new_shell.l>1)
-    		new_shell.pure=false;
-    	int num_prims = prims_per_shell[i];
-    	for(int j=1;j<=num_prims;j++)
+    	//SP
+    	if(shell_types[i]==-1)
     	{
-    		new_shell.add_primitive(exps[prim_idx],coeffs[prim_idx]);
-    		prim_idx++;
+    		Shell s_shell(0,atoms[atom_ids[i]-1].coords);
+    		Shell p_shell(1,atoms[atom_ids[i]-1].coords);
+			int num_prims = prims_per_shell[i];
+			for(int j=1;j<=num_prims;j++)
+			{
+				s_shell.add_primitive(exps[prim_idx],coeffs[prim_idx]);
+				p_shell.add_primitive(exps[prim_idx],p_coeffs[prim_idx]);
+				prim_idx++;
+			}
+			bs.add_shell(s_shell);
+			bs.add_shell(p_shell);
     	}
-    	bs.add_shell(new_shell);
+    	else
+    	{
+			Shell new_shell(abs(shell_types[i]),atoms[atom_ids[i]-1].coords);
+			if(shell_types[i]>0 && new_shell.l>1)
+				new_shell.pure=false;
+			int num_prims = prims_per_shell[i];
+			for(int j=1;j<=num_prims;j++)
+			{
+				new_shell.add_primitive(exps[prim_idx],coeffs[prim_idx]);
+				prim_idx++;
+			}
+			bs.add_shell(new_shell);
+    	}
     }
     bs.normalize();
     return bs;
