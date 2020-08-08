@@ -18,7 +18,6 @@
 BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 {
 	cart_bf = parameters["cart_bf"];
-	//change cart_bf to upper case
     transform(cart_bf.begin(),cart_bf.end(),cart_bf.begin(),::toupper);
 	basis_file = parameters["basis_file"];
 }

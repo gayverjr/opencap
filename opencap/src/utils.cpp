@@ -4,7 +4,7 @@
 #include <map>
 #include <Eigen/Dense>
 
-static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
+static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4}};
 double fact2(int n)
 {
     int res = 1;
