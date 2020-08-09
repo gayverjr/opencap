@@ -204,9 +204,9 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 		{
 			if (abs(smat(i,j)-overlap_copy(i,j))>1E-5)
 			{
-				opencap_throw("Error: Could not verify overlap matrix after re-normalization."
+				opencap_throw("Error: Could not verify overlap matrix after re-normalization. "
 								"Verify that your basis is specified properly, or use a different type of input. If the "
-								"issue persists, please file a bug report.");
+								"issue persists, please open an issue on https://github.com/gayverjr/opencap.");
 			}
 		}
 	}
@@ -215,6 +215,8 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 
 bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
 {
+	if(OVERLAP_MAT.rows() != smat.rows() || OVERLAP_MAT.cols() != smat.cols())
+		opencap_throw("Error: Dimension of overlap matrix is incorrect.");
 	std::vector<bf_id> ids;
 	if(compare_strings(ordering,"pyscf"))
 		ids = get_pyscf_ids(bs);
@@ -232,8 +234,6 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	else
 		opencap_throw(ordering +" ordering is not supported.");
 	to_opencap_ordering(smat,bs,ids);
-	if(OVERLAP_MAT.rows() != smat.rows() || OVERLAP_MAT.cols() != smat.cols())
-		opencap_throw("Error: Dimension of overlap matrix is incorrect.");
 	bool conflicts = false;
 	for (size_t i=0;i<smat.rows();i++)
 	{
@@ -246,7 +246,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 				{
 					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
 							"Verify that your basis is specified properly, or use a different type of input. If the "
-							"issue persists, please file a bug report.");
+							"issue persists, please open an issue on https://github.com/gayverjr/opencap.");
 				}
 
 			}
@@ -283,6 +283,14 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
 	return false;
 
+}
+
+std::string System::get_basis_ids()
+{
+	std::string ids;
+	for (auto id:bs.bf_ids)
+		ids+=std::to_string(id.ctr)+ "," + std::to_string(id.shell_num) + "," + std::to_string(id.l) + "," + std::to_string(id.m) + "\n";
+	return ids;
 }
 
 

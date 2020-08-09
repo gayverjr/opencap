@@ -9,7 +9,8 @@ sys_dict = {"geometry":'''H        0.0     0.0     0.54981512
     H        0.0     0.0     -0.54981512
     X       0.0     0.0     0.0''',
         "basis_file":destDir+"/test_basis_for_pyscf.bas",
-        "molecule": "inline"
+        "molecule": "inline",
+        "cart_bf" : "dfg"
 }
 cap_dict = {
     "cap_type": "box",
@@ -27,11 +28,12 @@ mol = gto.M(
             atom = 'H        0.0     0.0     0.54981512;\
             H        0.0     0.0     -0.54981512;\
             X       0.0     0.0     0.0',
-            basis = {'H': H_bas, 'X':X_bas}
+            basis = {'H': H_bas, 'X':X_bas}, cart=True
             )
 mol.build()
 
 def test_overlap():
+    basis_id_str = s.get_basis_ids()
     pyscf_smat = scf.hf.get_ovlp(mol)
     s.check_overlap_mat(pyscf_smat,"pyscf")
 
@@ -47,5 +49,8 @@ def test_pyscf():
             dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao,i,j,"pyscf")
+    pc.compute_ao_cap()
+    pyscf_smat = scf.hf.get_ovlp(mol)
+    pc.renormalize_cap(pyscf_smat,"pyscf")
     pc.compute_projected_cap()
     mat=pc.get_projected_cap()
