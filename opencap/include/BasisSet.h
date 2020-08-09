@@ -109,7 +109,7 @@ public:
 	/** Adds a new shell to the basis set and updates the data structures.
 	 * \param new_shell: New Shell object to be added to the basis set.
 	 */
-	void add_shell(Shell new_shell);
+	void add_shell(Shell &new_shell);
 	/** Gets index in shell_ids list of given shell_id.
 	 */
 	long get_index_of_shell_id(shell_id id);

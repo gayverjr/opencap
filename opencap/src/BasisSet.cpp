@@ -66,7 +66,7 @@ long BasisSet::get_index_of_shell_id(shell_id id)
 	return -1;
 }
 
-void BasisSet::add_shell(Shell new_shell)
+void BasisSet::add_shell(Shell &new_shell)
 {
 	//first figure out which atom it belongs to
 	size_t atm_idx = 0;

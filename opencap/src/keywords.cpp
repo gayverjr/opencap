@@ -59,7 +59,7 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 			if(std::find(key.valid_options.begin(), key.valid_options.end(), val_copy) != key.valid_options.end())
 				return true;
 			else
-				opencap_throw("Invalid choice:"+ my_value + " for keyword: " + my_key);
+				opencap_throw("Invalid choice: \'"+ my_value + "\' for keyword: \'" + my_key + "\'");
 		}
 	}
 	return false;

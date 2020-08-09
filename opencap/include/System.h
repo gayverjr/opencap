@@ -51,6 +51,7 @@ public:
 	Eigen::MatrixXd get_overlap_mat();
 	bool check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
 	bool python;
+	std::string get_basis_ids();
 
 
 private:

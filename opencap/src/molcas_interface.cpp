@@ -232,7 +232,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		size_t num_states = stoi(split(line,' ').back());
 		if (num_states!=nstates)
 			opencap_throw("Error: "+std::to_string(num_states)+ " roots were found in the OpenMolcas "
-					"output file, but " + std::to_string(nstates) +" states were specified in the input."
+					"output file, but " + std::to_string(nstates) +" states were specified in the input. "
 							"Exiting...");
 		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos && is.peek()!=EOF)
 			std::getline(is,line);
@@ -259,8 +259,11 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 				size_t row_idx = std::stoul(tokens[0]);
 				for(size_t k=1;k<tokens.size();k++)
 				{
-					ZERO_ORDER_H(row_idx-1,k-1+(i-1)*5)=std::stod(tokens[k]);
-					ZERO_ORDER_H(k-1+(i-1)*5,row_idx-1)=std::stod(tokens[k]);
+					size_t col_idx = k-1+(i-1)*5;
+					if(col_idx>=ZERO_ORDER_H.cols() || row_idx-1 >= ZERO_ORDER_H.rows())
+						opencap_throw("Error: State index of out bounds. There is a problem with the OpenMolcas output file. Exiting...");
+					ZERO_ORDER_H(row_idx-1,col_idx)=std::stod(tokens[k]);
+					ZERO_ORDER_H(col_idx,row_idx-1)=std::stod(tokens[k]);
 				}
 			}
 		}

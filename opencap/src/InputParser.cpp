@@ -87,7 +87,7 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 					if (check_keyword(field,section_name,param))
 						parameters[field] = param;
 					else
-						opencap_throw("Invalid keyword in " + section_name +" section:" + field );
+						opencap_throw("Invalid keyword in " + section_name +" section: \'" + field + "\'" );
 				}
 			}
 			}
@@ -127,7 +127,7 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 			parse_section(input_file,parameters,"projected_cap");
 		}
 		else
-			opencap_throw("Invalid jobtype: " + parameters["jobtype"]);
+			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
 	}
 	catch (exception &e)
