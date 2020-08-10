@@ -51,5 +51,7 @@ void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
 void fortran_dfloats_to_efloats(std::string& str);
 int shell2angmom(std::string angmom);
 bool compare_strings(std::string s1, std::string s2);
+bool is_number(const std::string &s);
+bool is_letter(const std::string &s);
 
 #endif /* UTILS_H_ */

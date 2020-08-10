@@ -303,9 +303,9 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 	std::transform(method.begin(), method.end(), method.begin(), ::tolower);
 	if (compare_strings(package_name,"qchem"))
 	{
-		std::vector<std::string> supported = {"eomea","eomee","eomip"};
+		std::vector<std::string> supported = {"eomea","eomee","eomip","eomsf"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
-			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eomea','eomee','eomip'.");
+			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eomea','eomee','eomip','eomsf'.");
 		if (params.find("qchem_fchk")==params.end())
 			opencap_throw("Error: missing keyword: qchem_fchk.");
 		if (params.find("qchem_output")==params.end() && params.find("h0_file")==params.end())
@@ -313,7 +313,7 @@ void Projected_CAP::verify_method(std::map<std::string,std::string> params)
 	}
 	else if(compare_strings(package_name,"openmolcas"))
 	{
-		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
+		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 			opencap_throw("Error: unsupported OpenMolcas method. OpenCAP currently supports: 'ms-caspt2','xms-caspt2'");
 		if (params.find("rassi_h5")==params.end())

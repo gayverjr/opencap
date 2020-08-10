@@ -16,6 +16,9 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		.def("check_overlap_mat",&System::check_overlap_mat,py::arg("smat"),
 				py::arg("ordering"),py::arg("basis_file") = "","Compares input overlap matrix to "
 						"internal overlap to check basis set ordering.")
+		.def("get_basis_ids",&System::get_basis_ids,"Returns a string of the basis function ids. "
+				"Each ID has the following format:"
+				"atom index,shell number,l,m")
 		;
     py::class_<Projected_CAP>(m, "Projected_CAP")
 		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs Projected_CAP object.")

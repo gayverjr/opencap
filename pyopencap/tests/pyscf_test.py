@@ -1,49 +1,54 @@
-import pyopencap as pycap
-from pyscf import gto, scf, fci
+import pyopencap
+from pyscf import gto, scf, fci, tools
 import numpy as np
 import os
 import sys
 
-destDir="../opencap/tests/pyscf"
-sys_dict = {"geometry":'''H 0.0000000000 0.0000000000 0.3705000000
-H 0.0000000000 0.0000000000 -0.3705000000''',
-            "basis_file":destDir+"/aug-cc-pvdz.bas",
-            "molecule": "inline",
-            "bohr_coordinates": "false",
-            "cart_bf": ""}
+destDir="../opencap/tests/data"
+sys_dict = {"geometry":'''H        0.0     0.0     0.54981512
+    H        0.0     0.0     -0.54981512
+    X       0.0     0.0     0.0''',
+        "basis_file":destDir+"/test_basis_for_pyscf.bas",
+        "molecule": "inline"
+}
 cap_dict = {
-            "cap_type": "box",
-            "cap_x":"6.00",
+    "cap_type": "box",
+        "cap_x":"6.00",
             "cap_y":"6.00",
             "cap_z":"6.7",
             "Radial_precision": "14",
             "angular_points": "110"
 }
+sys_dict2 = { "molecule": "molden", "basis_file": destDir+"/molden_file.molden"}
 
-s = pycap.System(sys_dict)
-H_bas = gto.basis.load(destDir+'/pyscf.bas', 'H')
+s = pyopencap.System(sys_dict)
+H_bas = gto.basis.load(destDir+'/pyscf_test_basis.bas', 'H')
+X_bas = gto.basis.load(destDir+'/pyscf_test_basis.bas', 'O')
 mol = gto.M(
-            atom = 'H 0.0000000000 0.0000000000 0.3705000000;           \
-            H 0.0000000000 0.0000000000 -0.3705000000',
-            basis = {'H': H_bas},
-            symmetry=True
+            atom = 'H        0.0     0.0     0.54981512;\
+            H        0.0     0.0     -0.54981512;\
+            X       0.0     0.0     0.0',
+            basis = {'H': H_bas, 'X':X_bas}
             )
 mol.build()
-s = pycap.System(sys_dict)
+myhf = scf.RHF(mol)
+myhf.kernel()
 
 def test_overlap():
     pyscf_smat = scf.hf.get_ovlp(mol)
     s.check_overlap_mat(pyscf_smat,"pyscf")
 
+def test_from_molden():
+    tools.molden.from_scf(myhf,destDir+"/molden_file.molden")
+    s2 = pyopencap.System(sys_dict2)
+    pyscf_smat = scf.hf.get_ovlp(mol)
+    s2.check_overlap_mat(pyscf_smat,"pyscf")
+    os.remove(destDir+"/molden_file.molden")
+
 def test_pyscf():
-    pc = pycap.Projected_CAP(s,cap_dict,5,"pyscf")
-    myhf = scf.RHF(mol)
-    myhf.kernel()
+    pc = pyopencap.Projected_CAP(s,cap_dict,3,"pyscf")
     fs = fci.FCI(mol, myhf.mo_coeff)
-    fs.wfnsym = 'A1g'
-    fs.nroots = 5
-    fs.spin = 0
-    fs.davidson_only = True
+    fs.nroots = 3
     e, c = fs.kernel()
     for i in range(0,len(fs.ci)):
         for j in range(0,len(fs.ci)):

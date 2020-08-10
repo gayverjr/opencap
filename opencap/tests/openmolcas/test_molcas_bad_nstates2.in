@@ -1,0 +1,23 @@
+$system
+molecule molcas_rassi
+basis_file ../tests/openmolcas/xms_cart.rassi.h5
+$end
+
+$projected_cap
+method xms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/xms_cart.rassi.h5
+molcas_output ../tests/openmolcas/xms_cart.out
+nstates 2
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+Radial_precision  14
+Angular_points    110
+$end
+
+$job
+title Molcas bad nstates, should crash
+jobtype projected_cap
+$end

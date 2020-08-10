@@ -13,7 +13,7 @@
  *
  *
  */
-struct valid_key
+struct open_key
 {
 	/** Name of keyword
 	  */
@@ -23,9 +23,16 @@ struct valid_key
 	std::string input_section;
 };
 
+struct closed_key
+{
+	std::string name;
+	std::string input_section;
+	std::vector<std::string> valid_options;
+};
+
 /** Checks whether a keyword is valid.
 */
-bool check_keyword(std::string my_key,std::string my_section);
+bool check_keyword(std::string my_key,std::string my_section,std::string my_value);
 /** Collects parameters which apply to input field.
  */
 std::map <std::string,std::string> get_params_for_field(std::map<std::string,std::string> params,
