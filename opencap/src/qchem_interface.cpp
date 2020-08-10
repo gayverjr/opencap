@@ -16,16 +16,6 @@
 #include "BasisSet.h"
 #include <eigen3/Eigen/Dense>
 
-size_t total_TDMs_to_read(size_t nstates)
-{
-	size_t numTDMs = 0;
-	for (size_t i=1;i<nstates;i++)
-	{
-		for (size_t j=i;j<nstates;j++)
-			numTDMs++;
-	}
-	return numTDMs;
-}
 
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs)
 {

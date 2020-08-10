@@ -103,3 +103,13 @@ bool compare_strings(std::string s1, std::string s2)
 	return s1==s2;
 }
 
+bool is_number(const std::string &s)
+{
+  return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
+}
+
+bool is_letter(const std::string &s)
+{
+  return !s.empty() && std::all_of(s.begin(), s.end(), ::isalpha);
+}
+

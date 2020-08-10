@@ -27,7 +27,6 @@ struct shell_id
 	int l;
 	shell_id(size_t center,size_t shell_n, int l_num)
 	{ctr=center;shell_num=shell_n;l=l_num;};
-	void print();
 	bool operator==(const shell_id& other);
 };
 
@@ -46,7 +45,6 @@ struct bf_id
 	int m;
 	bf_id(shell_id id,int new_m)
 	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=new_m;};
-	void print();
 	bool operator==(const bf_id& other);
 };
 
@@ -74,9 +72,6 @@ public:
 	/* List of centers in basis set.
 	 */
 	std::vector<std::array<double,3>> centers;
-	/* Prints order of basis functions in the basis set.
-	 */
-	void print_basis();
 
 public:
     /** Default constructor.
