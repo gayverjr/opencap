@@ -4,7 +4,7 @@
 #include <map>
 #include <Eigen/Dense>
 
-static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4},{"H",5}};
+static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4}};
 double fact2(int n)
 {
     int res = 1;
@@ -101,5 +101,15 @@ bool compare_strings(std::string s1, std::string s2)
 	std::transform(s1.begin(), s1.end(), s1.begin(), ::tolower);
 	std::transform(s2.begin(), s2.end(), s2.begin(), ::tolower);
 	return s1==s2;
+}
+
+bool is_number(const std::string &s)
+{
+  return !s.empty() && std::all_of(s.begin(), s.end(), ::isdigit);
+}
+
+bool is_letter(const std::string &s)
+{
+  return !s.empty() && std::all_of(s.begin(), s.end(), ::isalpha);
 }
 

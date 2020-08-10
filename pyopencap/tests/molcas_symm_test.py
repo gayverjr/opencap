@@ -6,7 +6,7 @@ import sys
 
 destDir="../opencap/tests/openmolcas"
 sys_dict = {"molecule": "molcas_rassi",
-"basis_file": destDir+"/symm.h5"}
+"basis_file": destDir+"/symm.rassi.h5"}
 molden_dict = {"molecule": "molden",
 "basis_file": destDir+"/symm.molden"}
 cap_dict = {
@@ -19,14 +19,14 @@ cap_dict = {
 }
 es_dict = {"method" : "ms-caspt2",
            "molcas_output":destDir+"/symm.out",
-           "rassi_h5":destDir+"/symm.h5",
+           "rassi_h5":destDir+"/symm.rassi.h5",
 }
 s1 = pycap.System(sys_dict)
 s2 = pycap.System(molden_dict)
-f = h5py.File(destDir+"/symm.h5", 'r')
+f = h5py.File(destDir+"/symm.rassi.h5", 'r')
 
 def test_rassi():
-    pc = pycap.Projected_CAP(s1,cap_dict,10,"openmolcas")
+    pc = pycap.Projected_CAP(s1,cap_dict,3,"openmolcas")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.compute_projected_cap()
@@ -34,7 +34,7 @@ def test_rassi():
     h0 = pc.get_H()
 
 def test_molden():
-    pc = pycap.Projected_CAP(s2,cap_dict,10,"openmolcas")
+    pc = pycap.Projected_CAP(s2,cap_dict,3,"openmolcas")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.compute_projected_cap()

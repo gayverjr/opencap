@@ -26,16 +26,6 @@ bool bf_id::operator==(const bf_id& other)
 	return l == other.l && shell_num == other.shell_num && ctr==other.ctr && m==other.m;
 }
 
-void shell_id::print()
-{
-	std::cout << ctr << "," << shell_num << "," << l << std::endl;
-}
-
-void bf_id::print()
-{
-	std::cout << ctr << "," << shell_num << "," << l << "," << m << std::endl;
-}
-
 BasisSet::BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters)
 {
 	std::string basis_name = parameters["basis_file"];
@@ -66,7 +56,7 @@ long BasisSet::get_index_of_shell_id(shell_id id)
 	return -1;
 }
 
-void BasisSet::add_shell(Shell new_shell)
+void BasisSet::add_shell(Shell &new_shell)
 {
 	//first figure out which atom it belongs to
 	size_t atm_idx = 0;
@@ -191,11 +181,4 @@ void BasisSet::normalize()
 	for(size_t i=0;i<basis.size();i++)
 		basis[i].normalize();
 }
-
-void BasisSet::print_basis()
-{
-	for(auto id:bf_ids)
-		id.print();
-}
-
 

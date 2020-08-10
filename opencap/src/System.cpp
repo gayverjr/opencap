@@ -37,21 +37,19 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		python = false;
 		parameters=params;
 		atoms = geometry;
-		//set defaults for cart_bf and bohr_coordinates
-		std::map<std::string, std::string> defaults = {{"cart_bf", ""}, {"bohr_coordinates", "true"}};
+		std::map<std::string, std::string> defaults = {{"cart_bf", ""}, {"bohr_coordinates", "false"}};
 		for (const auto &pair:defaults)
 		{
 			if(parameters.find(pair.first)==parameters.end())
 				parameters[pair.first]=pair.second;
 		}
-		if(parameters.find("bohr_coordinates")!=parameters.end() && parameters["bohr_coordinates"]=="false")
+		if(compare_strings(parameters["bohr_coordinates"],"false"))
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
 		}
 		bs = BasisSet(atoms,parameters);
 		verify_system();
-		std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 		//now construct overlap matrix
 		Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 		compute_analytical_overlap(bs,Smat);
@@ -59,6 +57,7 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 		cart2spherical(Smat,spherical_ints,bs);
 		OVERLAP_MAT = spherical_ints;
+		std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 	}
 	catch (exception &e)
 	{
@@ -75,7 +74,7 @@ System::System(py::dict dict)
     	std::string key = py::str(item.first).cast<std::string>();
     	std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
-		if(check_keyword(key,"system")||key=="geometry")
+		if(check_keyword(key,"system",value)||compare_strings(key,"geometry"))
 			parameters[key]=value;
 		else
 			opencap_throw("Invalid key:" +key);
@@ -102,7 +101,7 @@ System::System(py::dict dict)
 		if(parameters.find("geometry")==parameters.end())
 			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");
 		atoms = parse_geometry_string(parameters["geometry"]);
-		if(parameters.find("bohr_coordinates")!=parameters.end() && parameters["bohr_coordinates"]=="false")
+		if(parameters.find("bohr_coordinates")== parameters.end() || compare_strings(parameters["bohr_coordinates"],"false"))
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
@@ -110,14 +109,13 @@ System::System(py::dict dict)
 		bs = BasisSet(atoms,parameters);
 	}
     verify_system();
-	py::print("Number of basis functions:"+std::to_string(bs.Nbasis));
-	//now construct overlap matrix
 	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 	compute_analytical_overlap(bs,Smat);
 	uniform_cart_norm(Smat,bs);
 	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
 	OVERLAP_MAT = spherical_ints;
+	py::print("Number of basis functions:"+std::to_string(bs.Nbasis));
 }
 
 System::System(std::string filename,std::string file_type)
@@ -143,13 +141,13 @@ System::System(std::string filename,std::string file_type)
 	else
 		opencap_throw("That file type isn't supported, sorry.");
 	verify_system();
-	std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 	Eigen::MatrixXd Smat(bs.num_carts(),bs.num_carts());
 	compute_analytical_overlap(bs,Smat);
 	uniform_cart_norm(Smat,bs);
 	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
 	OVERLAP_MAT = spherical_ints;
+	std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 }
 
 std::vector<Atom> System::parse_geometry_string(std::string geometry_string)
@@ -206,9 +204,9 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 		{
 			if (abs(smat(i,j)-overlap_copy(i,j))>1E-5)
 			{
-				opencap_throw("Error: Could not verify overlap matrix after re-normalization."
+				opencap_throw("Error: Could not verify overlap matrix after re-normalization. "
 								"Verify that your basis is specified properly, or use a different type of input. If the "
-								"issue persists, please file a bug report.");
+								"issue persists, please open an issue on https://github.com/gayverjr/opencap.");
 			}
 		}
 	}
@@ -217,6 +215,8 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 
 bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
 {
+	if(OVERLAP_MAT.rows() != smat.rows() || OVERLAP_MAT.cols() != smat.cols())
+		opencap_throw("Error: Dimension of overlap matrix is incorrect.");
 	std::vector<bf_id> ids;
 	if(compare_strings(ordering,"pyscf"))
 		ids = get_pyscf_ids(bs);
@@ -234,8 +234,6 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	else
 		opencap_throw(ordering +" ordering is not supported.");
 	to_opencap_ordering(smat,bs,ids);
-	if(OVERLAP_MAT.rows() != smat.rows() || OVERLAP_MAT.cols() != smat.cols())
-		opencap_throw("Error: Dimension of overlap matrix is incorrect.");
 	bool conflicts = false;
 	for (size_t i=0;i<smat.rows();i++)
 	{
@@ -248,7 +246,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 				{
 					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
 							"Verify that your basis is specified properly, or use a different type of input. If the "
-							"issue persists, please file a bug report.");
+							"issue persists, please open an issue on https://github.com/gayverjr/opencap.");
 				}
 
 			}
@@ -285,6 +283,14 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
 	return false;
 
+}
+
+std::string System::get_basis_ids()
+{
+	std::string ids;
+	for (auto id:bs.bf_ids)
+		ids+=std::to_string(id.ctr)+ "," + std::to_string(id.shell_num) + "," + std::to_string(id.l) + "," + std::to_string(id.m) + "\n";
+	return ids;
 }
 
 

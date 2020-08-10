@@ -34,7 +34,7 @@ std::vector<Atom> parse_geometry(std::string input_file)
 		while (std::getline(is, line))
 		{
 			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-			if(line=="$geometry")
+			if(compare_strings(line,"$geometry"))
 				break;
 		}
 		while (!is.eof())
@@ -42,7 +42,7 @@ std::vector<Atom> parse_geometry(std::string input_file)
 			std::getline(is, line);
 			std::string copied_line = line;
 			std::transform(copied_line.begin(), copied_line.end(), copied_line.begin(), ::tolower);
-			if (copied_line=="$end")
+			if (compare_strings(copied_line,"$end"))
 				break;
 			else
 			{
@@ -84,10 +84,10 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 					std::string field,param;
 					iss >> field >> param;
 					std::transform(field.begin(), field.end(), field.begin(), ::tolower);
-					if (check_keyword(field,section_name))
+					if (check_keyword(field,section_name,param))
 						parameters[field] = param;
 					else
-						opencap_throw("Invalid keyword in " + section_name +" section:" + field );
+						opencap_throw("Invalid keyword in " + section_name +" section: \'" + field + "\'" );
 				}
 			}
 			}
@@ -103,7 +103,7 @@ System get_System(std::string input_file, std::map<std::string,std::string> para
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
-	if(params["molecule"]=="inline")
+	if(compare_strings(params["molecule"],"inline"))
 		return System(parse_geometry(input_file),params);
 	else
 		return System(params["basis_file"],params["molecule"]);
@@ -121,13 +121,13 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 		parse_section(input_file,parameters,"job");
 		//parse system
 		parse_section(input_file,parameters,"system");
-		if(parameters["jobtype"]=="projected_cap")
+		if(compare_strings(parameters["jobtype"],"projected_cap"))
 		{
 			//parse cap_parameters
 			parse_section(input_file,parameters,"projected_cap");
 		}
 		else
-			opencap_throw("Invalid jobtype: " + parameters["jobtype"]);
+			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
 	}
 	catch (exception &e)

@@ -1,6 +1,6 @@
 file(COPY qchem DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY openmolcas DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY pyscf DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "building tests")
 
 file(GLOB files "test_*.cpp")
