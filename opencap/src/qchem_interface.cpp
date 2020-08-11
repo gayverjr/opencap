@@ -353,6 +353,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 	std::vector<double> coeffs;
 	// needed for SP specification
 	std::vector<double> p_coeffs;
+	bool SP_basis_function = true;
 	BasisSet bs;
 	for(auto atm:atoms)
 		bs.centers.push_back(atm.coords);
@@ -362,6 +363,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
     {
     	std::string line, rest;
     	std::getline(is, line);
+    	//First lets figure out if there are SP functions
     	//shell types
 		while(line.find("Shell types")== std::string::npos)
 		{
@@ -448,16 +450,22 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		{
 			std::getline(is,line);
     		if (is.peek()==EOF)
-    			opencap_throw("Error: Reached end of file before P(S=P) Contraction coefficients were found.");
+    		{
+    			SP_basis_function = false;
+    			break;
+    		}
 		}
-		num_elements = stoi(split(line,' ').back());
-		lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
-		for (size_t k=1;k<=lines_to_read;k++)
+		if (SP_basis_function)
 		{
-			std::getline(is,line);
-			std::vector<std::string> tokens = split(line,' ');
-			for (auto token:tokens)
-				p_coeffs.push_back(std::stod(token));
+			num_elements = stoi(split(line,' ').back());
+			lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+			for (size_t k=1;k<=lines_to_read;k++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				for (auto token:tokens)
+					p_coeffs.push_back(std::stod(token));
+			}
 		}
     }
     size_t prim_idx=0;
@@ -466,6 +474,8 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
     	//SP
     	if(shell_types[i]==-1)
     	{
+    		if(p_coeffs.size()==0)
+    			opencap_throw("Error: missing section P(S=P) Contraction coefficients.");
     		Shell s_shell(0,atoms[atom_ids[i]-1].coords);
     		Shell p_shell(1,atoms[atom_ids[i]-1].coords);
 			int num_prims = prims_per_shell[i];
