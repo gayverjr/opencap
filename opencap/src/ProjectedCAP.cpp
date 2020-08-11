@@ -265,6 +265,25 @@ void Projected_CAP::check_overlap_matrix()
 void Projected_CAP::renormalize_cap(Eigen::MatrixXd smat, std::string ordering,
 		std::string basis_file)
 {
+	if(system.OVERLAP_MAT.rows() != smat.rows() || system.OVERLAP_MAT.cols() != smat.cols())
+		opencap_throw("Error: Dimension of supplied overlap matrix is incorrect.");
+	std::vector<bf_id> ids;
+	if(compare_strings(ordering,"pyscf"))
+		ids = get_pyscf_ids(system.bs);
+	else if(compare_strings(ordering,"openmolcas"))
+	{
+		if(basis_file=="")
+			opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+					"specified with the basis_file optional argument.");
+		ids = get_molcas_ids(system.bs,basis_file);
+	}
+	else if(compare_strings(ordering,"qchem"))
+		ids = get_qchem_ids(system.bs);
+	else if(compare_strings(ordering,"opencap"))
+		ids = system.bs.bf_ids;
+	else
+		opencap_throw(ordering +" ordering is not supported.");
+	to_opencap_ordering(smat,system.bs,ids);
 	std::vector<double> scalars;
 	for (size_t i=0;i<smat.rows();i++)
 		scalars.push_back(sqrt(smat(i,i)));
