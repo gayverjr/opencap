@@ -71,12 +71,12 @@
  Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
  http://arma.sourceforge.net/
 
- Q-Chem begins on Sat Aug  8 10:47:52 2020  
+ Q-Chem begins on Mon Aug 10 17:34:49 2020  
 
-Host: node12
+Host: node10
 0
 
-     Scratch files written to /scratch/gayverjr/EA.3281799116.saved//
+     Scratch files written to /scratch/gayverjr/EA.2270099970.saved//
 Processing $rem in /home/gayverjr/qchem_james/qc53/config/preferences:
 Processing $rem in /home/gayverjr/.qchemrc:
 Core orbitals will be frozen
@@ -113,11 +113,16 @@ S   6   1.00
       0.4033670000D+02       0.2285739890D+00
       0.1302670000D+02       0.4661619776D+00
       0.4470030000D+01       0.3656719825D+00
-SP   2   1.00
-      0.5425220000D+01      -0.4133000774D+00       0.2379720162D+00
-      0.1149150000D+01       0.1224417267D+01       0.8589530586D+00
-SP   1   1.00
-      0.2832050000D+00       0.1000000000D+01       0.1000000000D+01
+S   2   1.00
+      0.5425220000D+01      -0.4133000774D+00
+      0.1149150000D+01       0.1224417267D+01      
+S   1   1.00
+      0.2832050000D+00       0.1000000000D+01       
+P   2   1.00
+      0.5425220000D+01      0.2379720162D+00
+      0.1149150000D+01      0.8589530586D+00
+P   1   1.00
+      0.2832050000D+00      0.1000000000D+01
 ****
 Gh      0
 S   6   1.00
@@ -151,7 +156,7 @@ $end
  Nuclear Repulsion Energy =          23.58036574 hartrees
  There are        7 alpha and        7 beta electrons
  Requested basis set is non-standard
- There are 11 shells and 43 basis functions
+ There are 15 shells and 43 basis functions
  Total memory of 2000 MB is distributed as follows: 
    MEM_STATIC is set to 192 MB
    QALLOC/CCMAN JOB total memory use is  1808 MB
@@ -166,8 +171,8 @@ $end
    N (  2)  2.078000
    GH(  3)  1.039000  1.039000
 
- A cutoff of  1.0D-14 yielded     66 shell pairs
- There are      1040 function pairs (      1623 Cartesian)
+ A cutoff of  1.0D-14 yielded    120 shell pairs
+ There are      1028 function pairs (      1611 Cartesian)
  Smallest overlap matrix eigenvalue = 4.23E-03
 
  Scale SEOQF with 1.000000e+00/1.000000e+00/1.000000e+00
@@ -195,9 +200,9 @@ $end
  ---------------------------------------
   Cycle       Energy         DIIS error
  ---------------------------------------
-    1     -99.0128357605      1.67e-01  
-    2    -105.6552047250      1.03e-01  
-    3    -108.7613887943      1.36e-02  
+    1     -99.0128356849      1.67e-01  
+    2    -105.6552046755      1.03e-01  
+    3    -108.7613887949      1.36e-02  
     4    -108.8086421323      2.95e-03  
     5    -108.8114179116      3.08e-04  
     6    -108.8114426186      5.07e-05  
@@ -206,7 +211,7 @@ $end
     9    -108.8114431937      3.08e-08  
    10    -108.8114431937      2.25e-09  Convergence criterion met
  ---------------------------------------
- SCF time:   CPU 2.99s  wall 2.00s 
+ SCF time:   CPU 2.81s  wall 1.00s 
  SCF   energy in the final basis set =     -108.8114431937
  Total energy in the final basis set =     -108.8114431937
 
@@ -300,9 +305,9 @@ $end
 
  Import integrals:   CPU 0.00 s  wall 0.00 s
 
- Import integrals:   CPU 1.26 s  wall 0.19 s
+ Import integrals:   CPU 1.28 s  wall 0.19 s
 
- MP2 amplitudes:   CPU 1.08 s  wall 0.93 s
+ MP2 amplitudes:   CPU 1.06 s  wall 0.92 s
 
 Running a double precision version
            CCSD T amplitudes will be solved using DIIS.
@@ -333,9 +338,9 @@ End of double precision
  CCSD  T1^2 = 0.0023  T2^2 = 0.1004  Leading amplitudes:
 
  Amplitude    Orbitals with energies
-  0.0196       1 (B3u) A                 ->    2 (B3u) A                  
+ -0.0196       1 (B3u) A                 ->    2 (B3u) A                  
               -0.6072                          1.1041                     
-  0.0196       1 (B3u) B                 ->    2 (B3u) B                  
+ -0.0196       1 (B3u) B                 ->    2 (B3u) B                  
               -0.6072                          1.1041                     
   0.0196       1 (B2u) A                 ->    2 (B2u) A                  
               -0.6072                          1.1041                     
@@ -382,7 +387,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
                                    CCSD Lambda converged.
 
- CCSD calculation:   CPU 53.70 s  wall 7.96 s
+ CCSD calculation:   CPU 51.32 s  wall 7.93 s
 
         Solving for EOMEA-CCSD/MP2 B2g transitions.
 
@@ -425,8 +430,8 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
- -0.9857       infty       ->    1 (B2g) B                  
-  0.0195       infty       ->    2 (B2g) B                  
+  0.9857       infty       ->    1 (B2g) B                  
+ -0.0195       infty       ->    2 (B2g) B                  
  -0.0115       infty       ->    3 (B2g) B                  
 
               Summary of significant orbitals:
@@ -443,9 +448,9 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
-  0.9863       infty       ->    2 (B2g) B                  
+ -0.9863       infty       ->    2 (B2g) B                  
  -0.0303       infty       ->    3 (B2g) B                  
-  0.0294       infty       ->    1 (B2g) B                  
+ -0.0294       infty       ->    1 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -534,11 +539,11 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -1.000000
    Number of electrons:                   15.000000
-     Center of electronic charge [Ang]: [  0.000000,  -0.000000,  -0.000000]
+     Center of electronic charge [Ang]: [ -0.000000,  -0.000000,   0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:          [  0.000000,   0.000000,  -0.000000]
    RMS size of the density [Ang]:         0.921877
      Cartesian components [Ang]:        [  0.432229,   0.403874,   0.707050]
  
@@ -579,11 +584,11 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -1.000000
    Number of electrons:                   15.000000
-     Center of electronic charge [Ang]: [ -0.000000,  -0.000000,  -0.000000]
+     Center of electronic charge [Ang]: [  0.000000,  -0.000000,   0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [  0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:          [ -0.000000,   0.000000,   0.000000]
    RMS size of the density [Ang]:         0.977867
      Cartesian components [Ang]:        [  0.497894,   0.424839,   0.726524]
  
@@ -624,16 +629,16 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -1.000000
    Number of electrons:                   15.000000
-     Center of electronic charge [Ang]: [  0.000000,  -0.000000,   0.000000]
+     Center of electronic charge [Ang]: [  0.000000,  -0.000000,  -0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [ -0.000000,   0.000000,  -0.000000]
+     Cartesian components [D]:          [ -0.000000,   0.000000,   0.000000]
    RMS size of the density [Ang]:         0.956536
      Cartesian components [Ang]:        [  0.481611,   0.474100,   0.676936]
  
 
- EOMEA-CCSD calculation:   CPU 34.04 s  wall 6.49 s
+ EOMEA-CCSD calculation:   CPU 36.87 s  wall 6.77 s
 
 
  Start computing the transition properties
@@ -661,9 +666,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Exciton analysis of the transition density matrix
  Total:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,   0.000000,   0.000000]
-   <r_h> [Ang]:                        [  0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,  -0.000000,  -0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
+   <r_h> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
+   <r_e> [Ang]:                        [  0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.226683
      Cartesian components [Ang]:       [  0.761286,   0.441738,   0.854437]
@@ -678,9 +683,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Alpha spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,   0.000000,   0.000000]
-   <r_h> [Ang]:                        [  0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [  0.000000,  -0.000000,  -0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
+   <r_h> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
+   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.128997
      Cartesian components [Ang]:       [  0.524650,   0.491624,   0.870450]
@@ -695,9 +700,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Beta spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,   0.000000,   0.000000]
-   <r_h> [Ang]:                        [  0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
+   <r_h> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
+   <r_e> [Ang]:                        [  0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.227628
      Cartesian components [Ang]:       [  0.763297,   0.441207,   0.854274]
@@ -733,9 +738,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Exciton analysis of the transition density matrix
  Total:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
-   <r_h> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.139979
      Cartesian components [Ang]:       [  0.395348,   0.401878,   0.990831]
@@ -750,9 +755,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Alpha spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
-   <r_h> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.140014
      Cartesian components [Ang]:       [  0.395360,   0.401898,   0.990859]
@@ -767,9 +772,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Beta spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,  -0.000000,   0.000000]
-   <r_h> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.139943
      Cartesian components [Ang]:       [  0.395336,   0.401858,   0.990803]
@@ -788,7 +793,7 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- Oscillator strength (a.u.): 0.000000
+ Oscillator strength (a.u.): -0.000000
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -805,9 +810,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Exciton analysis of the transition density matrix
  Total:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [  0.000000,  -0.000000,  -0.000000]
-   <r_h> [Ang]:                        [ -0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [  0.000000,   0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.358275
      Cartesian components [Ang]:       [  0.568756,   0.539405,   1.109266]
@@ -822,9 +827,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Alpha spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [  0.000000,  -0.000000,  -0.000000]
-   <r_h> [Ang]:                        [ -0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [  0.000000,   0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.358478
      Cartesian components [Ang]:       [  0.568871,   0.539471,   1.109423]
@@ -839,9 +844,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Beta spin:
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [  0.000000,  -0.000000,  -0.000000]
-   <r_h> [Ang]:                        [ -0.000000,  -0.000000,  -0.000000]
-   <r_e> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+     Cartesian components [D]:         [  0.000000,   0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,  -0.000000,   0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.358072
      Cartesian components [Ang]:       [  0.568641,   0.539338,   1.109108]
@@ -857,9 +862,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
 
  All requested transition properties have been computed
 
- Transition Properties:   CPU 2.23 s  wall 0.55 s
+ Transition Properties:   CPU 2.34 s  wall 0.57 s
 
- Total ccman2 time:   CPU 94.08 s  wall 16.61 s
+ Total ccman2 time:   CPU 94.78 s  wall 16.91 s
 
 
  --------------------------------------------------------------
@@ -915,28 +920,28 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
     Charge (ESU x 10^10)
                 -0.0000
     Dipole Moment (Debye)
-         X       0.0000      Y       0.0000      Z       0.0000
+         X      -0.0000      Y      -0.0000      Z       0.0000
        Tot       0.0000
     Quadrupole Moments (Debye-Ang)
-        XX     -10.2323     XY       0.0000     YY     -10.2323
+        XX     -10.2323     XY      -0.0000     YY     -10.2323
         XZ       0.0000     YZ      -0.0000     ZZ     -11.3181
     Octopole Moments (Debye-Ang^2)
-       XXX       0.0000    XXY       0.0000    XYY      -0.0000
-       YYY       0.0000    XXZ       0.0000    XYZ      -0.0000
-       YYZ       0.0000    XZZ       0.0000    YZZ      -0.0000
-       ZZZ       0.0000
+       XXX      -0.0000    XXY       0.0000    XYY      -0.0000
+       YYY       0.0000    XXZ      -0.0000    XYZ       0.0000
+       YYZ      -0.0000    XZZ      -0.0000    YZZ      -0.0000
+       ZZZ      -0.0000
     Hexadecapole Moments (Debye-Ang^3)
-      XXXX      -7.8784   XXXY       0.0000   XXYY      -2.6261
-      XYYY       0.0000   YYYY      -7.8784   XXXZ      -0.0000
-      XXYZ      -0.0000   XYYZ       0.0000   YYYZ      -0.0000
+      XXXX      -7.8784   XXXY      -0.0000   XXYY      -2.6261
+      XYYY      -0.0000   YYYY      -7.8784   XXXZ       0.0000
+      XXYZ      -0.0000   XYYZ      -0.0000   YYYZ      -0.0000
       XXZZ      -5.4469   XYZZ       0.0000   YYZZ      -5.4469
       XZZZ       0.0000   YZZZ      -0.0000   ZZZZ     -27.6742
  -----------------------------------------------------------------
 Archival summary:
-1\1\node12\SP\ProcedureUnspecified\BasisUnspecified\2h1\gayverjr\SatAug810:48:112020SatAug810:48:112020\0\\#,ProcedureUnspecified,BasisUnspecified,\\0,1\N\Gh,1,1.039\N,2,1.039,1,180\\HF=-108.811443\\@
+1\1\node10\SP\ProcedureUnspecified\BasisUnspecified\2h1\gayverjr\MonAug1017:35:092020MonAug1017:35:092020\0\\#,ProcedureUnspecified,BasisUnspecified,\\0,1\N\Gh,1,1.039\N,2,1.039,1,180\\HF=-108.811443\\@
 
- Total job time:  19.64s(wall), 101.97s(cpu) 
- Sat Aug  8 10:48:11 2020
+ Total job time:  19.46s(wall), 102.59s(cpu) 
+ Mon Aug 10 17:35:09 2020
 
         *************************************************************
         *                                                           *
