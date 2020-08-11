@@ -13,6 +13,7 @@
 #include <ctime>
 #include <thread>
 #include <vector>
+#include <iostream>
 #include "opencap_exception.h"
 #include <Eigen/Dense>
 
@@ -97,9 +98,9 @@ double CAP::eval_box_cap(double x, double y, double z)
 
 double CAP::eval_pot(double x, double y, double z)
 {
-	if(cap_type == "box")
+	if(compare_strings(cap_type, "box"))
 		return eval_box_cap(x,y,z);
-	else if (cap_type=="voronoi")
+	else if (compare_strings(cap_type,"voronoi"))
 		return eval_voronoi_cap(x,y,z);
 	return 0;
 }
@@ -196,7 +197,7 @@ void CAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 	std::vector<std::string> missing_keys;
 	if(parameters.find("cap_type")==parameters.end())
 		opencap_throw("Error: Missing cap_type keyword.");
-	if(parameters["cap_type"]=="box")
+	if(compare_strings(parameters["cap_type"],"box"))
 	{
 		if(parameters.find("cap_x")==parameters.end())
 			missing_keys.push_back("cap_x");
@@ -205,7 +206,7 @@ void CAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 		if (parameters.find("cap_z")==parameters.end())
 			missing_keys.push_back("cap_z");
 	}
-	else if (parameters["cap_type"]=="voronoi")
+	else if (compare_strings(parameters["cap_type"],"voronoi"))
 	{
 		if(parameters.find("r_cut")==parameters.end())
 			missing_keys.push_back("r_cut");
