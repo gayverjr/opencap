@@ -85,8 +85,8 @@ jobs:
     - stage: deploy
       name: Build and deploy Linux wheels
       env:
+        - CIBW_BEFORE_BUILD: "pip install cmake && yum install -y libhdf5-dev eigen3-devel"
         - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
-        - CIBW_BEFORE_BUILD_LINUX: "pip install cmake && yum install -y libhdf5-dev && yum install -y eigen3-devel"
       services: docker
       install: skip
       script: 
@@ -102,7 +102,7 @@ jobs:
       install: skip
       script: 
         - ls
-        - CC=gcc-9
-        - CXX=g++-9
+        - CC=gcc-10
+        - CXX=g++-10
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
