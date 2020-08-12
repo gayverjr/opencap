@@ -35,9 +35,6 @@ install:
 - py.test --cov-report=xml --cov=pyopencap tests
 - cd ..
 
-script:
-- cd dox; doxygen Doxyfile.in; cd ..
-
 after_success:
   # Create lcov report
   # capture coverage info
@@ -60,13 +57,19 @@ after_success:
 stages:
   - name: deploy
 
+script:
+- cd dox; doxygen Doxyfile.in; cd ..
+
 jobs:
   include:
     # Deploy source distribution
     - stage: deploy
       name: Deploy source distribution
       install: skip
-      script: python3 setup.py sdist --formats=gztar
+      script:
+        - cd ../../
+        - ls
+        - python3 setup.py sdist --formats=gztar
     # Deploy on linux
     - stage: deploy
       name: Build and deploy Linux wheels
@@ -82,11 +85,16 @@ jobs:
       language: shell
       install: python3 -m pip install cibuildwheel==1.5.5
       script: 
+        - cd ../../
+        - ls
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # deploy doxygen documentation
     - stage: deploy
       name: Build and deploy Dox documentation
+      install: script
+      script:
+        - ls; cd ../../dox; doxygen Doxyfile.in; cd ..
       provider: pages
       skip_cleanup: true
       local_dir: doxygen_docs
