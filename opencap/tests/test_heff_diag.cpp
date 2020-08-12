@@ -1,5 +1,5 @@
 /*
- * test_qchem_ea.cpp
+ * test_heff_diag.cpp
  *
  *  Created on: Jul 21, 2020
  *      Author: JG
@@ -23,7 +23,7 @@
 
 int main()
 {
-	std::string input_filename = "../tests/qchem/test_qchem_ea.in";
+	std::string input_filename = "../tests/qchem/test_heff_diag.in";
 	try
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);

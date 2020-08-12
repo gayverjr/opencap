@@ -1,0 +1,25 @@
+$system
+molecule qchem_fchk
+basis_file ../tests/qchem/EA.fchk
+$end
+
+$perturb_cap
+method EOMEA
+package qchem
+qchem_fchk ../tests/qchem/EA.fchk
+!qchem_output ../tests/qchem/EA.out
+h0_file ../tests/qchem/heff.in
+nstates 3
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+Radial_precision  14
+Angular_points    110
+$end
+
+$job
+title Q-Chem EOMEA specified with molden basis
+jobtype perturb_cap
+$end
+
