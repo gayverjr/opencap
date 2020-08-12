@@ -17,6 +17,7 @@ addons:
     - doxygen
 
 before_install:
+- echo $TRAVIS_PYTHON_VERSION
 - ./.travis/before_install.sh
 - pip3 install --upgrade pip
 - pip3 install codecov
