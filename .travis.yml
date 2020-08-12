@@ -1,24 +1,4 @@
-language: python
-matrix:
-    include:
-        - python: 3.6
-          dist: xenial
-        - python: 3.7
-          dist: xenial
-        - python: 3.8
-          dist: xenial
-        - python: 3.6
-          os: osx
-          env:
-            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
-        - python: 3.7
-          os: osx
-          env:
-            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
-        - python: 3.8
-          os: osx
-          env:
-            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
+language: generic
 
 branches:
   only:
@@ -70,12 +50,37 @@ after_success:
   - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage C++ reports"
   - cd ../../pyopencap
   - bash <(curl -s https://codecov.io/bash) -f coverage.xml || echo "Codecov did not collect coverage Python reports"
+  - cd ../../
 
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: doxygen_docs
-  github_token: $GH_REPO_TOKEN
-  on:
-    branch: master
-    
+stages:
+  - name: deploy
+
+jobs:
+  include:
+    # Deploy source distribution
+    - stage: deploy
+      name: Deploy source distribution
+      install: skip
+      script: python3 setup.py sdist --formats=gztar
+    # Deploy on linux
+    - stage: deploy
+      name: Build and deploy Linux wheels
+      services: docker
+      install: python3 -m pip install cibuildwheel==1.5.5
+      script: python3 -m cibuildwheel --output-dir wheelhouse
+    # Deploy on mac
+    - stage: deploy
+      name: Build and deploy macOS wheels
+      os: osx
+      language: shell
+      install: python3 -m pip install cibuildwheel==1.5.5
+      script: python3 -m cibuildwheel --output-dir wheelhouse
+    # deploy doxygen documentation
+    - stage: deploy
+      name: Build and deploy Dox documentation
+      provider: pages
+      skip_cleanup: true
+      local_dir: doxygen_docs
+      github_token: $GH_REPO_TOKEN
+      on:
+       branch: master
