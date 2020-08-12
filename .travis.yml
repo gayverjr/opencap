@@ -9,10 +9,16 @@ matrix:
           dist: xenial
         - python: 3.6
           os: osx
+          env:
+            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
         - python: 3.7
           os: osx
+          env:
+            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
         - python: 3.8
           os: osx
+          env:
+            - MATRIX_EVAL="brew install gcc8 && CC=gcc-8 && CXX=g++-8"
 
 branches:
   only:
@@ -23,26 +29,8 @@ addons:
     packages:
     - doxygen
 
-matrix:
-  include:
-  - os: linux
-    language: generic
-    compiler: gcc
-    dist: bionic
-    addons:
-      apt:
-        update: true
-        sources:
-        - ubuntu-toolchain-r-test
-        - deadsnakes
-        packages:
-        - libhdf5-dev
-        - libeigen3-dev
-        - doxygen
-        - lcov
-    env: BUILD_TYPE='release'
-    
 before_install:
+- ./.travis/before_install.sh
 - pip3 install --upgrade pip
 - sudo pip3 install codecov
 - cd opencap; mkdir build
