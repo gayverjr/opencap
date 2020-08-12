@@ -20,15 +20,16 @@ addons:
     - doxygen
 
 before_install:
-- echo $TRAVIS_PYTHON_VERSION
 - ./.travis/before_install.sh
-- pip3 install --upgrade pip
 - pip3 install codecov
 
 install:
+- which python
+- python --version
 - cd opencap; mkdir build
 - cd build
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then CC=gcc-9 && CXX=g++-9  ; fi
+- python --version
 - cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 - cmake --build . --config Debug 
 - ctest --output-on-failure
