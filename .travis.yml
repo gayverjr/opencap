@@ -67,34 +67,12 @@ jobs:
       script:
         - ls
         - python3 setup.py sdist --formats=gztar
-    # Deploy on linux
-    - stage: deploy
-      name: Build and deploy Linux wheels
-      services: docker
-      install: skip
-      script: 
-        - ls
-        - python3 setup.py install
-        - python3 -m pip install cibuildwheel==1.5.5
-        - python3 -m cibuildwheel --output-dir wheelhouse
-        - ls wheelhouse
-    # Deploy on mac
-    - stage: deploy
-      name: Build and deploy macOS wheels
-      os: osx
-      language: shell
-      install: skip
-      script: 
-        - ls
-        - python3 setup.py install
-        - python3 -m cibuildwheel --output-dir wheelhouse
-        - ls wheelhouse
     # deploy doxygen documentation
     - stage: deploy
       name: Build and deploy Dox documentation
       install: skip
       script:
-        - cd ../../dox; ls; doxygen Doxyfile.in; cd ..
+        - cd dox; ls; doxygen Doxyfile.in; cd ..
       provider: pages
       skip_cleanup: true
       local_dir: doxygen_docs
