@@ -22,11 +22,10 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		;
     py::class_<Projected_CAP>(m, "Projected_CAP")
 		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs Projected_CAP object.")
-    	.def("run",&Projected_CAP::run, "Runs projected CAP calculation.")
     	.def("get_ao_cap",&Projected_CAP::get_ao_cap, "Returns CAP matrix in AO basis.")
-    	.def("get_projected_cap",&Projected_CAP::get_projected_cap, "Returns CAP matrix in correlated basis.")
+    	.def("get_projected_cap",&Projected_CAP::get_projected_cap, "Returns CAP matrix in state basis.")
     	.def("compute_ao_cap",&Projected_CAP::compute_ao_cap, "Computes CAP matrix in AO basis.")
-    	.def("compute_projected_cap",&Projected_CAP::compute_projected_cap, "Computes CAP matrix in correlated basis using"
+    	.def("compute_projected_cap",&Projected_CAP::compute_projected_cap, "Computes CAP matrix in state basis using"
     			" transition density matrices.")
 		.def("get_H",&Projected_CAP::get_H, "Returns zeroth order Hamiltonian read from file.")
 		.def("add_tdm",  &Projected_CAP::add_tdm,py::arg("tdm"),

@@ -19,12 +19,20 @@
 [cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/master
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
-We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) package to 
+We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
-See the example below for a brief tutorial on how to use the software.
 
+Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory 
+to help get you started on using the software.
 
-Documentation (in progress): https://gayverjr.github.io/opencap/
+# Documentation
+Our documentation is currently under construction. We have separate documentation for the 
+command line version (which is aimed more at developers) and the Python API (which is aimed 
+more at users).
+
+* Doxygen Documentation for C++ code: https://gayverjr.github.io/opencap/
+
+* Readthedocs Documentation for Python API: https://gayverjropencap.readthedocs.io/en/latest/
 
 
 # Installation
@@ -41,9 +49,13 @@ OpenCAP requires the following:
 
 * [Eigen](http://eigen.tuxfamily.org/dox/) linear algebra library
 
+The following packages are automatically built by OpenCAP at the CMake step:
+
 * [Numgrid](https://github.com/dftlibs/numgrid) numerical integration library
 
+* [h5pp](https://github.com/DavidAce/h5pp) C++17 wrapper for HDF5
 
+* [pybind11](https://github.com/pybind/pybind11) C++ Python bindings
 
 ## Install the executable with CMake
 
@@ -96,7 +108,6 @@ cd opencap
 Then pip install
 
 ```
-
 pip install .
 
 ```
@@ -105,7 +116,6 @@ The module is now importable within a python shell as "pyopencap".
 
 ```
 import pyopencap
-
 ```
 
 # Acknowledgements

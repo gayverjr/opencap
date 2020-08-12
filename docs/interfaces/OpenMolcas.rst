@@ -4,18 +4,18 @@ OpenMolcas
 OpenMolcas is an open-source quantum chemistry package which specializes 
 in multiconfigurational approaches to electronic structure. OpenMolcas can be used in tandem 
 with PyOpenCAP to perform complex absorbing potential (extended)multi-state complete active 
-space second order perturbation theory (CAP/(X)MS-CASPT2) calculations, which have been 
+space second order perturbation theory [**CAP/(X)MS-CASPT2**] calculations, which have been 
 shown to yield accurate energies and lifetimes for metastable electronic states. 
-Here, we outline the steps of performing these calculations with our software. We 
-assume that the reader is familiar with how to perform multi-reference calculations with OpenMolcas, 
-and is familiar with the theory of CAP/(X)MS-CASPT2. Some suggested readings are provided
-at the bottom of the page.
+Here, we outline the steps of performing these calculations using OpenMolcas and PyOpenCAP. 
+Some suggested readings are provided at the bottom of the page.
 
 Preliminary: Prepare input orbitals
 -----------------------------------
-As with any multi-reference calculation, the choice of active space is crucial for CAP-(X)MS-CASPT2, 
+As with any multi-reference calculation, the choice of active space is crucial for CAP/(X)MS-CASPT2, 
 and is most often guided by chemical intuition. We refer the reader to the OpenMolcas 
-manual for how to prepare input orbitals for a state-averaged RASSCF calculation. 
+manual_ for how to prepare input orbitals for a state-averaged RASSCF calculation. 
+
+.. _manual: https://molcas.gitlab.io/OpenMolcas/sphinx/
 
 Step 1: Running the OpenMolcas calculation
 ------------------------------------------
@@ -47,9 +47,7 @@ density matrices for each state to a file titled $Jobname.rassi.h5.
 
 To generate the zeroth order Hamiltonian, we strongly suggest using the MS-CASPT2 or XMS-CASPT2
 approaches. These approaches generate a second-order effective Hamiltonian which describes 
-interactions between the different RASSCF states. When the CAP is applied as a perturbation to 
-this effective Hamiltonian, we essentially allow the RASSCF states to simultaneously mix under the influence 
-of both dynamic correlation and the CAP. In our experience, this approach yields much more accurate 
+interactions between the different RASSCF states. In our experience, this approach yields much more accurate 
 results for resonances than single-state CASPT2, for which the zeroth order Hamiltonian would
 be diagonal. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
 module.
@@ -64,10 +62,7 @@ module.
 **Ground state energy**
 
 To define the excitation energy of the resonance state, we must know the ground
-state energy of the system at the same level of theory. Sometimes the energy of the ground 
-and resonance state can be obtained in a single calculation, other times
-two separate calculations must be run with the same set of input orbitals 
-(e.g. one for the anionic resonance, the other for the neutral ground state). Ensure that 
+state energy of the system at the same level of theory. Ensure that 
 your ground state energy is defined properly when analyzing the results.
 
 
@@ -76,10 +71,10 @@ Step 2: Importing the data to PyOpenCAP
 
 **System object**
 
-To run a PyOpenCAP calculation, the geometry and basis set must be imported into a System 
-object. The constructor exposed to Python takes in a Python dictionary as an argument, with 
+To run a PyOpenCAP calculation, the geometry and basis set must be imported into a :class:`~pyopencap.System` 
+object. The constructor takes in a Python dictionary as an argument, with 
 key/value pairs which mimic the input file format of the command line version. The relevant
-keywords are discussed here, and more information is provided in the keywords page.
+keywords are discussed here, and more information is provided in the :ref:`keywords <keywords>` page.
 
 *Rassi.h5*
 
@@ -104,14 +99,15 @@ path to the file must be set as the value to the key "basis_file". Here is an ex
 	sys_dict = {"molecule": "molden","basis_file": "path/to/file.molden"}
 	my_system = pycap.System(sys_dict)
 
-*Manually(not recommended)*
+*Inline(not recommended)*
 
 The molecule and basis set can also be specified manually. The "molecule" keyword must 
 be set to "read", and then an additional keyword "geometry:" must
 be specified, with a string that contains the geometry in xyz format. The "basis_file" keyword 
 must be set to a path to a basis set file formatted in Psi4 style, which can be downloaded from
-the basis set exchange. Other optional keyword for this section include "bohr_coordinates" and
-cart_bf. Please see the keywords section for more details. 
+the MolSSI BSE_. Other optional keyword for this section include "bohr_coordinates" and
+cart_bf. Please see the :ref:`keywords <keywords>`. section for more details. Up to G-type 
+functions are supported.
 
 .. code-block:: python
 
@@ -124,10 +120,12 @@ cart_bf. Please see the keywords section for more details.
             		"bohr_coordinates:": "true"}
     my_system = pycap.System(sys_dict)	
 
+.. _BSE: https://www.basissetexchange.org/
+
 **One particle densities/zeroth order Hamiltonian**
 
-The CAP matrix is computed by the "Projected_CAP" object. The constructor for the Projected_CAP 
-object requires a System object, a dictionary containing the CAP parameters, the number of states,
+The CAP matrix is computed by the :class:`~pyopencap.Projected_CAP` object. The constructor 
+requires a :class:`~pyopencap.System`, a dictionary containing the CAP parameters, the number of states,
 and finally the string "openmolcas", which denotes the ordering of the atomic orbital basis
 set. An example is provided below. Please see the keywords section for more information on
 the CAP parameters.
@@ -143,12 +141,12 @@ the CAP parameters.
     pc = pycap.Projected_CAP(my_system,cap_dict,10,"openmolcas")
 
 Before we can compute the CAP matrix in the state basis, we must load in the density matrices.
-There are two ways of doing this. The first is to use the "read_data" function of the Projected_CAP
-object. As shown below, we define a dictionary which contains the following keys: "method" 
+There are two ways of doing this. The first is to use the :func:`~pyopencap.Projected_CAP.read_data` function. 
+As shown below, we define a dictionary which contains the following keys: "method" 
 (electronic structure method chosen), "rassi_h5"(density matrices), and "molcas_output"(output file containing effective Hamiltonian).
-The effective Hamiltonian can be retrieved using the "get_H" function of the Projected_CAP object. Currently, only the
+The effective Hamiltonian can be retrieved using the "get_H" function of the :class:`~pyopencap.Projected_CAP` object. Currently, only the
 effective Hamiltonians from (X)MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
-We note that when the read_data function is used, our code symmetrizes the the final result when computing the 
+We note that when :func:`~pyopencap.Projected_CAP.read_data` is used, our code symmetrizes the 
 CAP matrix in the state basis.
 
 .. code-block:: python
@@ -160,9 +158,9 @@ CAP matrix in the state basis.
     # save the effective Hamiltonian for later use
     h0 = pc.get_H()
 
-Alternatively, one can load in the densities one at a time using the "add_tdm(s)" functions.
+Alternatively, one can load in the densities one at a time using :func:`~pyopencap.Projected_CAP.add_tdm`.
 In our examples below, we load in the matrices from rassi.h5 using the h5py package, and then
-pass them as numpy arrays to the Projected_CAP object. This can be particularly useful 
+pass them as numpy arrays to the :class:`~pyopencap.Projected_CAP` object. This can be particularly useful 
 if one wishes to exclude some of the states from the Projected CAP calculation.
 
 .. code-block:: python
@@ -185,21 +183,34 @@ if one wishes to exclude some of the states from the Projected CAP calculation.
 Step 3: Computing the CAP matrix
 --------------------------------
 Once all of the densities are loaded, the CAP matrix is computed 
-using the "compute_projected_cap" function. The matrix can be retrieved using the
-"get_projected_cap" function.
+using :func:`~pyopencap.Projected_CAP.compute_projected_cap`. The matrix can be retrieved using :func:`~pyopencap.Projected_CAP.get_projected_cap`.
 
 .. code-block:: python
 
     pc.compute_projected_cap()
     W_mat=pc.get_projected_cap()
+    
+*Note:*
+
+When using cartesian d, f, or g-type basis functions, special care must be taken to ensure that the normalization 
+conventions match what is used by OpenMolcas. In these cases, :func:`~pyopencap.Projected_CAP.compute_ao_cap` 
+and then :func:`~pyopencap.Projected_CAP.renormalize` or :func:`~pyopencap.Projected_CAP.renormalize_cap` 
+should be invoked before calling :func:`~pyopencap.Projected_CAP.compute_projected_cap`.
+
+.. code-block:: python
+
+    pc.compute_ao_cap()
+    pc.renormalize()
+    pc.compute_projected_cap()
 
 
 Step 4: Generate eigenvalue trajectories
 ----------------------------------------
-Eigenvalue trajectories by diagonalizing H0-inW over a range of eta values, and then 
-analyzing the results. A template (cap_trajectory.py) script is provided in the 
-examples/molcas directory of our repository. Automated tools for trajectory analysis
-is a subject of future work.
+Extracting resonance position and width requires analysis of the eigenvalue trajectories. 
+Template scripts are provided in the repository_. Development of automated tools 
+for trajectory analysis is a subject of future work.
+
+.. _repository: https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/openmolcas/example.py
 
 
 Officially supported methods

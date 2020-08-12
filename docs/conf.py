@@ -21,7 +21,7 @@
 
 project = 'pyopencap'
 copyright = ("2020, James Gayvert, Ksenia Bravaya.")
-author = 'James Gayvert, Ruslan Tazhigulov, Ksenia Bravaya'
+author = 'James Gayvert, Ksenia Bravaya'
 
 # The short X.Y version
 version = ''

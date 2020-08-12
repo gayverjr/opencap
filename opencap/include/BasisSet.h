@@ -10,7 +10,7 @@
 using namespace std;
 
 
-/*! \brief ID of Shell
+/*! \brief Struct for ID of %Shell
  *
  * Contains center (atom) index, principal quantum number n, angular momentum quantum number l. Angular momentum
  * quantum number l is negative when the shell is cartesian.
@@ -21,8 +21,10 @@ struct shell_id
 	/* Index of atom this shell belongs to
 	 */
 	size_t ctr;
+	/* Shell number
+	 */
 	size_t shell_num;
-	/** Positive if pure, negative if Cartesian
+	/** Angular momentum quantum number. Positive if pure, negative if Cartesian
 	 */
 	int l;
 	shell_id(size_t center,size_t shell_n, int l_num)
@@ -30,18 +32,24 @@ struct shell_id
 	bool operator==(const shell_id& other);
 };
 
-/*! \brief ID of basis function
+/*! \brief Struct for ID of basis function
  *
  * Contains center (atom) index, principal quantum number n, angular momentum quantum number l, magnetic quantum number m.
  * Angular momentum quantum number l is negative when the shell is cartesian.
  */
 struct bf_id
 {
+	/* Index of atom this shell belongs to
+	 */
 	size_t ctr;
+	/* Shell number
+	 */
 	size_t shell_num;
-	/** Positive if pure, negative if Cartesian
+	/** Angular momentum quantum number. Positive if pure, negative if Cartesian
 	 */
 	int l;
+	/** Magnetic quantum number. For cartesian basis functions, it goes 0 to (l + 1) * (l + 2) / 2
+	 */
 	int m;
 	bf_id(shell_id id,int new_m)
 	{ctr=id.ctr;shell_num=id.shell_num;l=id.l;m=new_m;};
@@ -85,9 +93,11 @@ public:
       */
 	BasisSet(std::vector<Atom> geometry,std::map<std::string, std::string> parameters);
     /** Returns number of Cartesian basis functions in basis set.
+     * \return num_carts: Number of basis functions in cartesian representation
       */
 	size_t num_carts();
     /** Returns largest angular momentum of basis functions in the basis set.
+     * \return max_L: largest angular momentum in the basis set
       */
 	int max_L();
     /** Returns smallest exponent of all primitives in the basis set centered at a particular Atom
@@ -106,6 +116,8 @@ public:
 	 */
 	void add_shell(Shell &new_shell);
 	/** Gets index in shell_ids list of given shell_id.
+	 * \param id: Shell id
+	 * \return  Index of shell in the basis set
 	 */
 	long get_index_of_shell_id(shell_id id);
 	/** Normalizes all of the shells in the basis set.

@@ -1,55 +1,70 @@
-# OpenCAP input structure #
+Input {#input}
+==============
 
-An OpenCAP input file has four sections; $system, $projected_cap, and $job, and optionally, $geometry.  
+Input sections
+==============
+
+An OpenCAP input file has four sections: 
+
+$system, $projected_cap, $job, and optionally, $geometry
+  
 Within each section, the user inserts keyword/value pairs which define the calculation.  
 All four sections have their own unique keywords, and all four must be specified to run a calculation. 
 The general format is:
 
-$section_name
+    $section_name
 
-keyword  value
+    keyword  value
 
-keyword  value
+    keyword  value
 
-$end
+    $end
 
 In each section, the parser will read lines until it sees the $end keyword.  Only the first two arguments per line are read, so all remaining text can be used as comments. Additionally, lines beginning with an exclamation mark '!' are ignored. All input sections are case-insensitive.
 
-##  Job ##
-This section specifies what type of job is to be executed by the software. We currently only support Projected %CAP calculations, but there's more to come!
+Job 
+====
 
-#### Required ####
+This section specifies what type of job is to be executed by the software. 
+
+__Required__
 | Keyword | Type | Description | Valid options |
 |:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | title | string | Title of job | N/A |
 | jobtype | string | Type of job to be executed | Projected_cap |
 
-## System ##
-The system section specifies information about the molecular system and the ab initio basis set.
+System
+=======
 
-#### Required ####
+The system section specifies information about the molecular system and the ab initio basis set. Basis sets can be downloaded from the [MolSSI](https://www.basissetexchange.org/) and modified to suit your purposes.
+
+__Required__
 | Keyword    | Valid options                     | Description                                                                                                                                                                                                                                                                                      |
 |------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | molecule   | molden,qchem_fchk,rassi_h5,inline | Specifies which format to read the molecular geometry. If "inline" is chosen, the "$geometry" section is also required.                                                                                                                                                                          |
 | basis_file | path to basis file                | Specifies the path to the basis file. When "molecule" is set to "molden","rassi_h5", or "qchem_fchk", this keyword should be set to a path to a file of the specified type. When "molecule" is set to  "inline", this keyword should be set to a path to a basis set file formatted in "Psi4" style. |
 
-#### Optional ####
+__Optional__
 | Keyword          | default                | Description                                                                                                                                                                                                                                                                                                                                                                                |
 |------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | cart_bf          | ""(all functions pure) | Controls the use of pure or Cartesian angular forms of GTOs. The letters corresponding to the angular momenta listed in this field will be expanded in cartesians, those not listed will be expanded in pure GTOs. For example, "df" means d and f-type functions will be cartesian, and all others will be pure harmonic. This keyword is only active when "molecule" is set to "inline". |
 | bohr_coordinates | false                  | Set to true when coordinates specified in "geometry" keyword are in bohr units.  This keyword is only active when "molecule" is set to "inline".                                                                                                                                                                                                                                           |
 
-## Geometry ##
+__Geometry__
 
 When specifying the geometry inline, use the following format:
 
-atom1 x-coordinate y-coordinate z-coordinate 
+    atom1 x-coordinate y-coordinate z-coordinate 
 
-atom2 x-coordinate y-coordinate z-coordinate ...
+    atom2 x-coordinate y-coordinate z-coordinate ...
 
 Ghost centers with zero nuclear charge can be specified using the symbol "X".
 
-## Projected_CAP ##
+By default, units are assumed to be Angstroms.
+
+Projected_CAP
+=============
+
 This section allows one to specify the parameters used to define the complex absorbing potential, 
 the data read in from the electronic structure calculation, and the grid used for numerical integration.
 
@@ -63,11 +78,11 @@ the electronic structure package, but in other cases it may be easier to just sp
 zeroth order hamiltonian manually (due to its small dimensionality). For the latter 
 option, the 'h0_file' keyword must be used, and the value must point to a properly formatted file. 
 
-A properly formatted zeroth order hamiltonian file can have one of two forms. The first is the diagonal form (where the zeroth order hamiltonian just consists of total energies on the diagonal, as is the case for EOM-CCSD), the word "Diagonal" must appear on the first line, followed by the energies, each on their own line. The second is the full form, in which the entire zeroth order hamiltonian is specified. The word "Full" must appear on the first line, followed by the matrix. The matrix is read in row-major order. See [examples/heff.in](https://github.com/gayverjr/opencap/blob/master/example/heff.in) for an example.
+A properly formatted zeroth order hamiltonian file can have one of two forms. The first is the diagonal form (where the zeroth order hamiltonian just consists of total energies on the diagonal, as is the case for EOM-CCSD), the word "Diagonal" must appear on the first line, followed by the energies, each on their own line. The second is the full form, in which the entire zeroth order hamiltonian is specified. The word "Full" must appear on the first line, followed by the matrix. The matrix is read in row-major order. See the [repository](https://github.com/gayverjr/opencap/blob/master/examples/opencap/heff.in) for an example.
 
 We currently support two types of complex absorbing potentials; quadratic box-type potentials, and a quadratic "Voronoi isosurface" potential. Both types of %CAP have their own set of parameters which must be defined. Numerical integration is performed with the aid of the [numgrid](https://github.com/dftlibs/numgrid) package, which allocates the grid based on the molecular geometry and basis set. By default, a radial grid with precision 1e-14 is used, with an angular grid of 590 points. Both can optionally be adjusted to increase or decrease the size of the grid as needed.
 
-#### Required ####
+__Required__
 | Keyword | Type | Description | Valid options |
 |:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | cap_type | string | Type of absorbing potential| 'Box' or 'Voronoi'|
@@ -75,26 +90,26 @@ We currently support two types of complex absorbing potentials; quadratic box-ty
 | Package | string | Name of electronic structure package | OpenMolcas |
 | Nstates | int | Number of electronic states | 2 or greater |
 
-#### OpenMolcas Interface ####
+__OpenMolcas Interface__
 | Keyword | Type | Description |
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 | rassi_h5 | string | Relative or absolute path to rassi.h5 file containing TDMs.  |
 | molcas_output | string | Relative or absolute path to OpenMolcas output file.  Required when h0_file keyword is unspecified.  |
 
-#### Box CAP ####
+__Box %CAP__
 | Keyword | Type | Description |
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 | CAP_X | float | Onset of %CAP in x-direction. Specify in bohr units.|
 | CAP_Y | float | Onset of %CAP in y-direction. Specify in bohr units.|
 | CAP_Z | float | Onset of %CAP in z-direction. Specify in bohr units.|
 
-#### Voronoi CAP ####
+__Voronoi %CAP__
 | Keyword | Type | Description |
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 |r_cut | float | Cutoff radius for Voronoi %CAP. Specify in bohr units.|
 
 
-#### Optional ####
+__Optional__
 | Keyword | Type | Description | Default |
 |------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | radial_precision| int | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used.  | 14  |

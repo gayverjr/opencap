@@ -9,7 +9,7 @@
 #ifndef INCLUDE_KEYWORDS_H_
 #define INCLUDE_KEYWORDS_H_
 
-/*! \brief Struct denoting a valid keyword
+/*! \brief Struct denoting a keyword which can have many different values
  *
  *
  */
@@ -23,6 +23,10 @@ struct open_key
 	std::string input_section;
 };
 
+/*! \brief Struct denoting a keyword which can only have certain values
+ *
+ *
+ */
 struct closed_key
 {
 	std::string name;

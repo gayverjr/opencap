@@ -7,13 +7,9 @@
 #include <Eigen/Dense>
 
 /** Ordering of cartesian gaussians in opencap standard form.
- * \param shell: Shell object
- * \return ordering: The ordering of cartesian basis functions
- */
+*/
 std::vector<std::array<size_t,3>> opencap_carts_ordering(int l);
 /** Ordering of harmonic gaussians in opencap standard form.
- * \param shell: Shell object
- * \return ordering: The ordering of harmonic basis functions
  */
 std::vector<int> opencap_harmonic_ordering(int l);
 /* Get list of basis function IDs in OpenMolcas ordering.
@@ -32,7 +28,6 @@ std::vector<bf_id> get_pyscf_ids(BasisSet &bs);
  * which describe the ordering of the original basis set.
  */
 void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet &bs,std::vector<bf_id> input_ids);
-
 
 
 #endif /* GTO_ORDERING_H_ */

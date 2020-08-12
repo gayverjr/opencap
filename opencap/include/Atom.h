@@ -31,6 +31,7 @@ struct element
     element(int new_Z, std::string new_name, std::string new_symbol)
     {Z=new_Z; name = new_name; symbol=new_symbol;};
     /* Returns element name
+     * \return name: Element name
      */
     std::string &getName() {return name;};
 };
@@ -74,10 +75,14 @@ public:
      * \param z: z coordinate
       */
 	Atom(int atom_num,double x,double y, double z);
-    /** Returns element struct corresponding to atomic symbol.
+    /** Returns element struct corresponding to atomic symbol
+     * \param symbol: atomic symbol
+     * \return element: Element struct corresponding to atomic symbol
       */
 	element get_element_info(std::string symbol);
-    /** Returns element struct corresponding to atomic number.
+    /** Returns element struct corresponding to atomic number
+     * \param Z: atomic number
+     * \return element: Element struct corresponding to atomic number
       */
 	element get_element_info(int Z);
 };

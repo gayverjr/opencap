@@ -1,16 +1,17 @@
+.. _keywords:
+
 Keywords
-=======================
-PyOpenCAP heavily relies on the use of Python dictionaries which contain key/value pairs
-which mimic the input file format of the command line version. Here, we outline the valid 
-key/value combinations. Importantly, **all key value pairs should be specified as strings**.
+========
+PyOpenCAP uses Python dictionaries which contain key/value pairs to specify the parameters of the calculation. 
+Here, we outline the valid key/value combinations. Importantly, **all key value pairs should be specified as strings**.
 
 **System keywords**
 
-The System object contains the basis set and geometry information, which can be obtained
+The :class:`~pyopencap.System` object contains the basis set and geometry information, which can be obtained
 in a few different ways.
 
 +------------------+----------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Keyword          | Required | Default/valid values | Description                                                                                                                                                         |
+| Keyword          | Required | Valid values         | Description                                                                                                                                                         |
 +------------------+----------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | molecule         | yes      | molden,qchem_fchk    | Specifies which format to read the molecular geometry. If "inline" is chosen,                                                                                       |
 |                  |          | rassi_h5,inline      | the "geometry" keyword is also required.                                                                                                                            |
@@ -22,21 +23,25 @@ in a few different ways.
 |                  |          |                      | this field should be set to a path to a file of the specified type. When "molecule" is set to                                                                       |
 |                  |          |                      | "inline", this field should be set to a path to a basis set file formatted in "Psi4" style.                                                                         |
 +------------------+----------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| cart_bf          | no       | ""                   | Controls the use of pure or Cartesian angular forms of GTOs. The letters corresponding to the angular momenta listed in this field will be expanded in cartesians,  |
-|                  |          |                      | those not listed will be expanded in pure GTOs. For example, "df" means d and f-type                                                                                |
+| cart_bf          | no       | 'd', 'df', 'dfg'     | Controls the use of pure or Cartesian angular forms of GTOs. The letters corresponding to the angular momenta listed in this field will be expanded in cartesians,  |
+|                  |          | 'dg', 'f', 'g', 'fg' | those not listed will be expanded in pure GTOs. For example, "df" means d and f-type                                                                                |
 |                  |          |                      | functions will be cartesian, and all others will be pure harmonic. This keyword is only active                                                                      |
 |                  |          |                      | when "molecule" is set to "inline".                                                                                                                                 |
 +------------------+----------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| bohr_coordinates | no       | "false"              | Set to true when coordinates specified in "geometry" keyword are in bohr units. This keyword is only active when "molecule" is set to "inline".                     |
+| bohr_coordinates | no       | "True" or "False"    | Set this keyword to true when the coordinates specified in "geometry" keyword are in bohr units. This keyword is only active when "molecule" is set to "inline".    |
 +------------------+----------+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 When specifying the geometry inline, use the following format:
 
-atom1 x-coordinate y-coordinate z-coordinate 
+.. code-block:: bash
 
-atom2 x-coordinate y-coordinate z-coordinate ...
+    atom1 x-coordinate y-coordinate z-coordinate 
+
+    atom2 x-coordinate y-coordinate z-coordinate ...
 
 Ghost centers with zero nuclear charge can be specified using the symbol "X".
+
+Units are assumed to be Angstroms unless the bohr_coordinates keyword is set to True.
 
 Example:
 
@@ -69,9 +74,9 @@ more details on the radial_precision and angular_points keywords.
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | r_cut            | no       | N/A                  | Cutoff radius for Voronoi CAP. Specify in bohr units. Only active when "cap_type' is set to "voronoi".             |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
-| radial_precision | no       | 14                   | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used. |
+| radial_precision | no       | "14"                 | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used. |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
-| angular_points   | no       | 590                  | Number of angular points used for the grid. See https://github.com/dftlibs/numgrid for allowed numbers of points.  |
+| angular_points   | no       | "590"                | Number of angular points used for the grid. See https://github.com/dftlibs/numgrid for allowed numbers of points.  |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 
 Example:
@@ -87,7 +92,7 @@ Example:
 
 **Electronic structure keywords**
 
-The "read_data" function of the Projected_CAP class is able to parse the zeroth order Hamiltonian
+The :func:`~pyopencap.Projected_CAP.read_data` function is able to parse the zeroth order Hamiltonian
 and load the densities when supplied with an appropriate formatted dictionary. All keywords
 must be specified to use this function. Currently, this is only supported for calculations
 using the OpenMolcas interface.

@@ -12,4 +12,5 @@ the ordering of the atomic orbital basis set.
    .. automethod:: __init__
    .. automethod:: get_overlap_mat
    .. automethod:: check_overlap_mat
+   .. automethod:: get_basis_ids
 

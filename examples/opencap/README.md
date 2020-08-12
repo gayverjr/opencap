@@ -20,6 +20,6 @@ All of these examples are for N2-.
 - basis.bas: Basis set file in Psi4 format
 
 ## Viewing the trajectory
-Use the supplied script cap_trajectory.py as template for generating the eigenvalue trajectories and extracting the optimal value of the CAP strength parameter.
+You can use the supplied script cap_trajectory.py as a template for generating the eigenvalue trajectories and extracting the optimal value of the CAP strength parameter.
 
-    cap_trajectory.py ms-caspt2.out
+    python cap_trajectory.py ms-caspt2.out
