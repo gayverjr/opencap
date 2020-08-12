@@ -6,9 +6,6 @@ python:
 
 dist: bionic
 
-# install your project and dependencies before building
-CIBW_BEFORE_BUILD_LINUX: pip install cmake && yum install -y libhdf5-dev && yum install -y eigen3-devel
-
 branches:
   only:
   - master
@@ -87,6 +84,9 @@ jobs:
     # Deploy on linux
     - stage: deploy
       name: Build and deploy Linux wheels
+      env:
+        - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
+        - CIBW_BEFORE_BUILD_LINUX: "pip install cmake && yum install -y libhdf5-dev && yum install -y eigen3-devel"
       services: docker
       install: skip
       script: 
