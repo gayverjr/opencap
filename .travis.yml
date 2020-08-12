@@ -15,8 +15,8 @@ addons:
 
 before_install:
 - ./.travis/before_install.sh
-- pip3 install --upgrade pip
-- sudo pip3 install codecov
+- pip install --upgrade pip
+- sudo pip install codecov
 - cd opencap; mkdir build
 - cd build
 - cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
@@ -25,10 +25,10 @@ install:
 - cmake --build . --config Debug 
 - ctest --output-on-failure
 - cd ../../
-- pip3 install pytest-cov
-- pip3 install h5py
-- pip3 install numpy
-- pip3 install pyscf
+- pip install pytest-cov
+- pip install h5py
+- pip install numpy
+- pip install pyscf
 - pip install .
 - cd pyopencap
 - py.test --cov-report=xml --cov=pyopencap tests
