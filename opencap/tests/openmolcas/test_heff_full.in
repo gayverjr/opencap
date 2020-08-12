@@ -1,0 +1,22 @@
+$system
+molecule molden
+basis_file ../tests/openmolcas/ms_spherical.molden
+$end
+
+$perturb_cap
+method ms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/ms_spherical.rassi.h5
+!molcas_output ../tests/openmolcas/ms_spherical.out
+h0_file heff.in
+nstates 16
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+$end
+
+$job
+title Molcas Full Heff test
+jobtype perturb_cap
+$end

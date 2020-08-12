@@ -1,7 +1,7 @@
 /*
- * test_qchem_ea.cpp
+ * test_heff_full.cpp
  *
- *  Created on: Jul 21, 2020
+ *  Created on: Aug 8, 2020
  *      Author: JG
  */
 #include <iostream>
@@ -20,10 +20,9 @@
 #include "CAP.h"
 #include "keywords.h"
 
-
 int main()
 {
-	std::string input_filename = "../tests/qchem/test_qchem_ea.in";
+	std::string input_filename = "../tests/openmolcas/test_heff_full.in";
 	try
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
