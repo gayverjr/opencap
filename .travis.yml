@@ -3,6 +3,8 @@ python:
   - 3.6
   - 3.7
   - 3.8
+
+
 dist: bionic
 
 branches:
@@ -56,6 +58,7 @@ after_success:
   - cd ../../
 
 stages:
+  - test
   - name: deploy
 
 jobs:
