@@ -85,7 +85,7 @@ jobs:
     - stage: deploy
       name: Build and deploy Linux wheels
       env:
-        - CIBW_BEFORE_BUILD: "pip install cmake && yum install -y libhdf5-dev eigen3-devel"
+        - CIBW_BEFORE_BUILD:"pip install cmake && yum install -y libhdf5-dev eigen3-devel"
         - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
       services: docker
       install: skip
