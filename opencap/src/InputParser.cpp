@@ -121,10 +121,10 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 		parse_section(input_file,parameters,"job");
 		//parse system
 		parse_section(input_file,parameters,"system");
-		if(compare_strings(parameters["jobtype"],"projected_cap"))
+		if(compare_strings(parameters["jobtype"],"perturb_cap"))
 		{
 			//parse cap_parameters
-			parse_section(input_file,parameters,"projected_cap");
+			parse_section(input_file,parameters,"perturb_cap");
 		}
 		else
 			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);

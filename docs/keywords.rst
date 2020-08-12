@@ -92,7 +92,7 @@ Example:
 
 **Electronic structure keywords**
 
-The :func:`~pyopencap.Projected_CAP.read_data` function is able to parse the zeroth order Hamiltonian
+The :func:`~pyopencap.CAP.read_data` function is able to parse the zeroth order Hamiltonian
 and load the densities when supplied with an appropriate formatted dictionary. All keywords
 must be specified to use this function. Currently, this is only supported for calculations
 using the OpenMolcas interface.

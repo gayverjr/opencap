@@ -1,69 +1,135 @@
  /*! \file CAP.h
-     \brief Class for numerically integrating the %CAP matrix in AO basis.
+     \brief Class which handles computing the %CAP matrix.
  */
-#include <cstdlib>
-#include <string>
-#include <map>
-#include <vector>
-#include "Atom.h"
-#include "BasisSet.h"
-#include <Eigen/Dense>
-#pragma once
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include "opencap_exception.h"
+#include "System.h"
+#include "AOCAP.h"
+#include <pybind11/eigen.h>
+#include <eigen3/Eigen/Dense>
 
-/*! \brief Class for numerically integrating the %CAP matrix in AO basis.
+#ifndef INCLUDE_CAP_H_
+#define INCLUDE_CAP_H_
+
+/*! \brief Class which handles computing the %CAP matrix.
  *
  */
-
 class CAP
 {
 public:
-	/** Radial precision of numerical grid. Default is 1.0e-14
+	/** Overlap matrix parsed from file, can be empty when constructed from python
 	 */
-	double radial_precision;
-	/** Number of angular points on grid. Default is 590. See https://github.com/dftlibs/numgrid
-	 *  for allowed number of points.
+	Eigen::MatrixXd OVERLAP_MAT;
+	/** Geometry and basis set
 	 */
-	size_t angular_points;
-	/** Constructs %CAP object from geometry and CAP parameters.
+	System system;
+	/** %CAP matrix in AO basis
 	 */
-	CAP(std::vector<Atom> geometry,std::map<std::string, std::string> params);
-	/** Type of %CAP. Can be Voronoi or Box CAP.
+	Eigen::MatrixXd AO_CAP_MAT;
+	/** %CAP matrix in correlated many electron basis
 	 */
-	std::string cap_type;
-	/** Onset of box %CAP in X direction. Specify in bohr units.
+	Eigen::MatrixXd CAP_MAT;
+	/** Set to true when constructed from the python interpreter, important for printing
 	 */
-	double cap_x;
-	/** Onset of box %CAP in Y direction. Specify in bohr units.
+	bool python;
+	/** Zeroth order Hamiltonian. Dimension is (nstates,nstates)
 	 */
-	double cap_y;
-	/** Onset of box %CAP in Z direction. Specify in bohr units.
+	Eigen::MatrixXd ZERO_ORDER_H;
+	/** Transition density matrices in AO basis, alpha densities
 	 */
-	double cap_z;
-	/** Cutoff radius of Voronoi %CAP. Specify in bohr units.
+	std::vector<std::vector<Eigen::MatrixXd>> alpha_dms;
+	/** Transition density matrices in AO basis, beta densities
 	 */
-	double r_cut;
-	/** Geometry of molecular system.
+	std::vector<std::vector<Eigen::MatrixXd>> beta_dms;
+	/** Number of states
 	 */
-	std::vector<Atom> atoms;
-	/** Computes %CAP matrix in AO basis via numerical integration.
+	size_t nstates;
+	/** Map containing the parameters defined in the input
 	 */
-	void compute_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
+	std::map<std::string, std::string> parameters;
+	/** Constructs %CAP object from %System object.
+	 *  \param my_sys: System object
+	 *  \param params: Map of parameters
+	 */
+	CAP(System &my_sys,std::map<std::string, std::string> params);
+	/** Computes %CAP in AO basis
+	 */
+	void compute_ao_cap();
+	/** Computes %CAP in state basis
+	 */
+	void compute_perturb_cap();
+	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
+	 */
+	void verify_method(std::map<std::string,std::string> params);
+	/** Executes Perturbative CAP method.
+	 */
+	void run();
+	/** Constructor for Python.
+	 *\param my_sys: System object
+	 *\param num_states: number of states
+	 *\param gto_ordering: Name of electronic structure package
+	 *\param dict: Python dictionary containing parameters
+	 */
+	CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
+	/** Returns CAP matrix in AO basis.
+	 */
+	Eigen::MatrixXd get_ao_cap();
+	/** Returns CAP matrix in wave function basis.
+	 */
+	Eigen::MatrixXd get_perturb_cap();
+	/** Returns zeroth order Hamiltonian.
+	 */
+	Eigen::MatrixXd get_H();
+	/** Adds transition density matrices (alpha and beta) from state row_idx --> col_idx.
+	 * \param alpha_density: TDM in AO basis of dimension (NBasis,Nbasis)
+	 * \param beta_density: TDM in AO basis of dimension (NBasis,Nbasis)
+	 * \param row_idx: initial state index
+	 * \param col_idx: final state index
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
+	 */
+	void add_tdms(Eigen::MatrixXd & alpha_density,
+			Eigen::MatrixXd & beta_density,size_t row_idx, size_t col_idx,
+			std::string ordering, std::string basis_file="");
+	/** Adds spin traced transition density matrix from state row_idx --> col_idx.
+	 * \param tdm: Spin traced TDM in AO basis of dimension (NBasis,Nbasis)
+	 * \param row_idx: initial state index
+	 * \param col_idx: final state index
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
+	 */
+	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,
+			std::string ordering,std::string basis_file="");
+	/** Reads in electronic structure data from file, from python.
+	 * Valid keywords: method,qc_output,h0_file,rassi_h5,
+			fchk_file,molcas_output.
+	 * \param dict: Python dictionary containing keywords for reading in data from disk.
+	 */
+	void read_electronic_structure_data(py::dict dict);
+	/** Verifies that required electronic structure data is present to perform calculation.
+	 */
+	void verify_data();
+	/** Renormalizes the AO %CAP matrix using the supplied overlap matrix.
+	 */
+	void renormalize_cap(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	/** Renormalizes the AO %CAP matrix using the previously parsed overlap matrix.
+	 */
+	void renormalize();
 
 private:
-	/** Evaluate potential at grid point.
+	/** Reads in TDMs from electronic structure package
 	 */
-	double eval_pot(double x, double y, double z);
-	/** Evaluate box %CAP at grid point.
+	void read_in_dms();
+	/** Reads in zeroth order Hamiltonian from electronic structure package
 	 */
-	double eval_box_cap(double x, double y, double z);
-	/** Evaluate Voronoi %CAP at grid point.
+	void read_in_zero_order_H();
+	/** Reads in zeroth order Hamiltonian from file
 	 */
-	double eval_voronoi_cap(double x, double y, double z);
-	/** Evaluate all points on grid for a given atom.
+	Eigen::MatrixXd read_h0_file();
+	/** Compares computed overlap matrix to that read in from the electronic structure package
 	 */
-	void evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
-			double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
-	/** Checks whether specified CAP is valid.
-	 */
-	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
+	void check_overlap_matrix();
 };
+
+#endif /* INCLUDE_CAP_H_ */

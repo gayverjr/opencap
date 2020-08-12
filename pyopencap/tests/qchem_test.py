@@ -1,4 +1,4 @@
-import pyopencap as pycap
+import pyopencap
 import numpy as np
 import h5py
 import os
@@ -22,12 +22,12 @@ def test_EE():
         "qchem_output":destDir+"/EE.out",
             "qchem_fchk":destDir+"/EE.fchk",
 }
-    s = pycap.System(sys_dict)
-    pc = pycap.Projected_CAP(s,cap_dict,3,"qchem")
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 def test_EA():
@@ -37,12 +37,12 @@ def test_EA():
         "qchem_output":destDir+"/EA.out",
             "qchem_fchk":destDir+"/EA.fchk",
 }
-    s = pycap.System(sys_dict)
-    pc = pycap.Projected_CAP(s,cap_dict,3,"qchem")
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 def test_IP():
@@ -52,12 +52,12 @@ def test_IP():
         "qchem_output":destDir+"/IP.out",
             "qchem_fchk":destDir+"/IP.fchk",
 }
-    s = pycap.System(sys_dict)
-    pc = pycap.Projected_CAP(s,cap_dict,3,"qchem")
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 def test_EE_cart():
@@ -67,13 +67,13 @@ def test_EE_cart():
         "qchem_output":destDir+"/EE_cart.out",
             "qchem_fchk":destDir+"/EE_cart.fchk",
 }
-    s = pycap.System(sys_dict)
-    pc = pycap.Projected_CAP(s,cap_dict,3,"qchem")
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.renormalize()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 

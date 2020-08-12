@@ -25,15 +25,15 @@ e.g: (1,1,3,-2)
 These IDs are used to create the mapping between OpenCAP ordering of GTOs and the quantum 
 chemistry package's ordering.
 
-__Projected %CAP__
+__%CAP__
 
-The Projected_CAP class handles post-processing of densities and the zeroth order Hamiltonian.
+The CAP class handles computing the %CAP matrix and post-processing of densities and the zeroth order Hamiltonian.
 The densities are stored in two 2D vectors, one for alpha and the other for beta densities.
 It ultimately computes and stores the %CAP matrices in atomic orbital and state basis.
 
-__%CAP__
+__%AOCAP__
 
-The CAP class handles numerical integration of the %CAP matrix. It uses the 
+The AOCAP class handles numerical integration of the %CAP matrix. It uses the 
 [Numgrid](https://github.com/dftlibs/numgrid) library to allocate the grid for each atom.
 
 
@@ -61,7 +61,7 @@ Use the IDs described in the Basis Set section to create this mapping.
 __One-particle densities__
 
 One particle densities should be represented in AO basis, and then transformed to OpenCAP 
-ordering using "to_opencap_ordering", for use by the Projected_CAP class. In principle, one can read them in in MO basis, 
+ordering using "to_opencap_ordering", for use by the CAP class. In principle, one can read them in in MO basis, 
 and then transform to AO basis, but this requires knowledge of the MO coefficients. When 
 adding support for a new package, a new file 'package_interface.cpp' should be added.
 
@@ -72,5 +72,5 @@ files. These functions should be added to the 'package_interface.cpp' file.
 
 __Keywords__
 
-keywords.cpp must be edited to allow new for new keywords. There are two types of keywords: "open", which can have many different values, and "closed", which can only have certain values. Additionally, the verify_method, read_in_dms, and  read_in_zero_order_H methods of Projected_CAP must be modified, as well as anywhere else where GTO ordering is required to include the new interface.
+keywords.cpp must be edited to allow new for new keywords. There are two types of keywords: "open", which can have many different values, and "closed", which can only have certain values. Additionally, the verify_method, read_in_dms, and  read_in_zero_order_H methods of CAP must be modified, as well as anywhere else where GTO ordering is required to include the new interface.
 

@@ -46,7 +46,7 @@ def test_from_molden():
     os.remove(destDir+"/molden_file.molden")
 
 def test_pyscf():
-    pc = pyopencap.Projected_CAP(s,cap_dict,3,"pyscf")
+    pc = pyopencap.CAP(s,cap_dict,3,"pyscf")
     fs = fci.FCI(mol, myhf.mo_coeff)
     fs.nroots = 3
     e, c = fs.kernel()
@@ -55,5 +55,5 @@ def test_pyscf():
             dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao,i,j,"pyscf")
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()

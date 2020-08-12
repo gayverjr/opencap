@@ -31,9 +31,9 @@ explicit. Here, we'll use the rassi_h5 file.
     Number of basis functions:119
     (119, 119)
 
-**Constructing the Projected_CAP object**
+**Constructing the CAP object**
 
-The CAP matrix is computed by the :class:`~pyopencap.Projected_CAP` object. The constructor 
+The CAP matrix is computed by the :class:`~pyopencap.CAP` object. The constructor 
 requires a :class:`~pyopencap.System` object, a dictionary containing the CAP parameters, 
 the number of states (10 in this case), and finally the string "openmolcas", which
 denotes the ordering of the atomic orbital basis set. 
@@ -44,7 +44,7 @@ denotes the ordering of the atomic orbital basis set.
             "cap_z":"4.88",
             "Radial_precision": "14",
             "angular_points": "110"}
-    >>> pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+    >>> pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
     
 **Parsing electronic structure data from file**
 
@@ -60,17 +60,17 @@ we'll retrieve the effective Hamiltonian and store it as h0 for later use.
 
 **Passing densities in RAM**
 
-Alternatively, one can load in the densities one at a time using the :func:`~pyopencap.Projected_CAP.add_tdms` 
-or :func:`~pyopencap.Projected_CAP.add_tdm` functions. We load in the matrices from rassi.h5 
-using the h5py package, and then pass them as numpy arrays to the :class:`~pyopencap.Projected_CAP` object. 
-This can be particularly useful if we want to exclude some of the states from the Projected CAP calculation. In this 
+Alternatively, one can load in the densities one at a time using the :func:`~pyopencap.CAP.add_tdms` 
+or :func:`~pyopencap.CAP.add_tdm` functions. We load in the matrices from rassi.h5 
+using the h5py package, and then pass them as numpy arrays to the :class:`~pyopencap.CAP` object. 
+This can be particularly useful if we want to exclude some of the states from the Perturbative CAP calculation. In this 
 example, the CAP matrix is made to be symmetric.
 
 
     >>> import h5py
     >>> f = h5py.File('anion_ms.rassi.h5', 'r')
     >>> dms = f["SFS_TRANSITION_DENSITIES"]
-    >>> pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+    >>> pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
     >>> for i in range(0,10):
     >>>     for j in range(i,10):
     >>>         dm1 = np.reshape(dms[i][j],(119,119))
@@ -80,11 +80,11 @@ example, the CAP matrix is made to be symmetric.
     
 
 Once all of the densities are loaded, the CAP matrix is computed 
-using the :func:`~pyopencap.Projected_CAP.compute_projected_cap` function. The matrix can be retrieved using the
-:func:`~pyopencap.Projected_CAP.get_projected_cap` function.
+using the :func:`~pyopencap.CAP.compute_perturb_cap` function. The matrix can be retrieved using the
+:func:`~pyopencap.CAP.get_perturb_cap` function.
 
-    >>> pc.compute_projected_cap()
-    >>> W_mat=pc.get_projected_cap()
+    >>> pc.compute_perturb_cap()
+    >>> W_mat=pc.get_perturb_cap()
 
 We now have our zeroth order Hamiltonian (stored in h0) and our CAP matrix(W_mat) in
 the state basis. Extracting resonance position and width requires analysis of the 

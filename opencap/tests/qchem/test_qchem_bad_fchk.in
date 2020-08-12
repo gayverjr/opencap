@@ -3,7 +3,7 @@ molecule qchem_fchk
 basis_file ../tests/qchem/EE.fchk
 $end
 
-$projected_cap
+$perturb_cap
 method EOMEE
 package qchem
 qchem_fchk ../tests/qchem/bad_EE.fchk
@@ -15,6 +15,6 @@ $end
 
 $job
 title Q-Chem EOMEE specified with fchk and Voronoi CAP
-jobtype projected_cap
+jobtype perturb_cap
 $end
 

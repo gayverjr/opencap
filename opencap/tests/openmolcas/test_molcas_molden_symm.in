@@ -3,7 +3,7 @@ molecule molden
 basis_file ../tests/openmolcas/symm.molden
 $end
 
-$projected_cap
+$perturb_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 ../tests/openmolcas/symm.rassi.h5
@@ -19,5 +19,5 @@ $end
 
 $job
 title Molcas symmetry test, using molden as input
-jobtype projected_cap
+jobtype perturb_cap
 $end

@@ -19,7 +19,7 @@ __Relevant keywords__
 | molecule   | molden,rassi_h5,inline            | Specifies which format to read the molecular geometry. If "inline" is chosen, the "$geometry" section is also required.                                                                                                                                                                          |
 | basis_file | path to basis file                | Specifies the path to the basis file. When "molecule" is set to "molden","rassi_h5", or "qchem_fchk", this keyword should be set to a path to a file of the specified type. When "molecule" is set to  "inline", this keyword should be set to a path to a basis set file formatted in "Psi4" style. |
 
-Projected_CAP
+CAP
 =============
 
 The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated
@@ -34,7 +34,7 @@ titled $JOBNAME.rassi.h5.
 	 TRD1
 
 OpenCAP uses these densities to compute the 
-%CAP matrix elements in state basis, which is required to perform projected %CAP 
+%CAP matrix elements in state basis, which is required to perform perturbative %CAP 
 calculations.
 
 In addition to the one particle densities, OpenCAP also requires a zeroth order Hamiltonian.
@@ -58,7 +58,7 @@ __Example input__
     basis_file nosymm.rasscf.molden
     $end
 
-    $projected_cap
+    $perturb_cap
     method ms-caspt2
     package openmolcas
     rassi_h5 nosymm.rassi.h5
@@ -75,7 +75,7 @@ __Example input__
 
     $job
     title MS-CASPT2(5,10) with 10 states for N2-, symmetry turned off
-    jobtype projected_cap
+    jobtype perturb_cap
     $end
     
 More inputs are available in our [repository](https://github.com/gayverjr/opencap/tree/master/examples/opencap).

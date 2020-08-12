@@ -1,4 +1,4 @@
-import pyopencap as pycap
+import pyopencap
 import numpy as np
 import h5py
 import os
@@ -21,25 +21,25 @@ es_dict = {"method" : "ms-caspt2",
            "molcas_output":destDir+"/ms_spherical.out",
            "rassi_h5":destDir+"/ms_spherical.rassi.h5",
 }
-s1 = pycap.System(sys_dict)
-s2 = pycap.System(molden_dict)
+s1 = pyopencap.System(sys_dict)
+s2 = pyopencap.System(molden_dict)
 f = h5py.File(destDir+"/ms_spherical.rassi.h5", 'r')
 nbasis = 43
 
 def test_rassi():
-    pc = pycap.Projected_CAP(s1,cap_dict,16,"openmolcas")
+    pc = pyopencap.CAP(s1,cap_dict,16,"openmolcas")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 def test_molden():
-    pc = pycap.Projected_CAP(s2,cap_dict,16,"openmolcas")
+    pc = pyopencap.CAP(s2,cap_dict,16,"openmolcas")
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
     h0 = pc.get_H()
 
 def test_overlap():
@@ -49,7 +49,7 @@ def test_overlap():
 
 def test_tdms():
     arr = f["SFS_TRANSITION_DENSITIES"]
-    pc = pycap.Projected_CAP(s1,cap_dict,16,"openmolcas")
+    pc = pyopencap.CAP(s1,cap_dict,16,"openmolcas")
     for i in range(0,16):
         for j in range(i,16):
             arr1 = 0.5*np.reshape(arr[i][j],(nbasis,nbasis))
@@ -57,12 +57,12 @@ def test_tdms():
             if i!=j:
                 pc.add_tdms(arr1,arr1,j,i,"openmolcas",destDir+"/ms_spherical.rassi.h5")
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
 
 def test_tdm():
     arr = f["SFS_TRANSITION_DENSITIES"]
-    pc = pycap.Projected_CAP(s1,cap_dict,16,"openmolcas")
+    pc = pyopencap.CAP(s1,cap_dict,16,"openmolcas")
     for i in range(0,16):
         for j in range(i,16):
             arr1 = np.reshape(arr[i][j],(nbasis,nbasis))
@@ -70,8 +70,8 @@ def test_tdm():
             if i!=j:
                 pc.add_tdm(arr1,j,i,"openmolcas",destDir+"/ms_spherical.rassi.h5")
     pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    mat=pc.get_perturb_cap()
 
 
 
