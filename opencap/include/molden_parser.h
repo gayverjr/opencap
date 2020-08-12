@@ -1,5 +1,6 @@
  /*! \file molden_parser.h
-     \brief Functions pertaining to the OpenMolcas interface.
+     \brief Functions pertaining to reading the geometry and basis set from Molden.
+     The format is detailed here: http://cheminf.cmbi.ru.nl/molden/molden_format.html
  */
 #include "Atom.h"
 #include "BasisSet.h"

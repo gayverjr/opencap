@@ -1,28 +1,37 @@
 PyOpenCAP Documentation
 =======================
+PyOpenCAP is the Python API for OpenCAP_, an open-source software aimed at extending the functionality
+of quantum chemistry packages to describe resonances. PyOpenCAP uses the pybind11_ library
+to expose C++ classes and methods, allowing calculations to be driven within a Python interpreter. 
 
-PyOpenCAP is the Python API for OpenCAP, an open-source software aimed at extending the functionality
-of modern quantum chemistry packages to describe resonances. PyOpenCAP uses the pybind11 library
-to expose OpenCAP classes and methods, allowing calculations to be driven within a Python interpreter. 
-
-PyOpenCAP is currently capable of generating the matrices required to 
-perform projected complex absorbing potential calculations on metastable electronic states. 
+PyOpenCAP is currently capable of processing quantum chemistry data in order to
+perform 'perturbative' complex absorbing potential calculations on metastable electronic states. 
 These calculations are able to extract resonance position and width at the 
-cost of a single bound-state electronic structure calculation. We currently support interfaces with 
-the OpenMolcas and Pyscf quantum chemistry packages. 
+cost of a single bound-state electronic structure calculation.
 
-To get started, please see our tutorial. For more detailed information on theory, supported
-interfaces, and the python API, please see those respective sections.
+To get started, please see our :ref:`tutorial <tutorial>`.
 
-*Current features*
+Supported Packages
+===================
 
-*Upcoming features*
+* OpenMolcas_
+* Pyscf_
 
-* automated python-based trajectory analysis tools
-* interface to Psi4 quantum chemistry package
+Upcoming features
+==================
+
+* automated trajectory analysis tools
+* interface to Psi4_
+
+.. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
+.. _Pyscf: http://pyscf.org/
+.. _Psi4: http://www.psicode.org/
+.. _OpenCAP: https://github.com/gayverjr/opencap
+.. _pybind11: https://github.com/pybind/pybind11
 
 
-Contents:
+Contents
+========
 
 .. toctree::
    :maxdepth: 1
@@ -34,9 +43,9 @@ Contents:
    keywords.rst
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. Indices and tables
+.. ==================
+..
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

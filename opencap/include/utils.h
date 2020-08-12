@@ -1,4 +1,3 @@
-
 /*! \file utils.h
      \brief Helper functions used by various pieces of the software.
  */
@@ -48,10 +47,18 @@ void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
 void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
 /*! Converts fortran-style d floats to e c-style floats.
  */
-void fortran_dfloats_to_efloats(std::string& str);
+void fortran_dfloats_to_efloats(std::string &str);
+/*! Converts angular momentum letter(s,p,d etc.) to quantum number l
+ */
 int shell2angmom(std::string angmom);
+/*! Case insensitive comparison of two strings
+ */
 bool compare_strings(std::string s1, std::string s2);
+/*! Checks if the string is an integer
+ */
 bool is_number(const std::string &s);
+/*! Checks if the string is a letter
+ */
 bool is_letter(const std::string &s);
 
 #endif /* UTILS_H_ */
