@@ -17,7 +17,7 @@ addons:
 before_install:
 - ./.travis/before_install.sh
 - pip3 install --upgrade pip
-- sudo pip3 install codecov
+- pip3 install codecov
 - cd opencap; mkdir build
 - cd build
 - cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
