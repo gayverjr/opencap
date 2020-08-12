@@ -7,8 +7,7 @@ python:
 dist: bionic
 
 # install your project and dependencies before building
-CIBW_BEFORE_BUILD_LINUX: ./.travis/linux_deps.sh
-CIBW_BEFORE_BUILD_MACOS: ./.travis/osx_deps.sh
+CIBW_BEFORE_BUILD_LINUX: pip install cmake && yum install -y libhdf5-dev && yum install -y eigen3-devel
 
 branches:
   only:
@@ -24,8 +23,6 @@ before_install:
 - pip3 install codecov
 
 install:
-- which python
-- python --version
 - cd opencap; mkdir build
 - cd build
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then CC=gcc-9 && CXX=g++-9  ; fi
@@ -64,7 +61,6 @@ after_success:
   - cd ../../
 
 stages:
-  - test
   - name: deploy
 
 jobs:
@@ -88,3 +84,25 @@ jobs:
       github_token: $GH_REPO_TOKEN
       on:
        branch: master
+    # Deploy on linux
+    - stage: deploy
+      name: Build and deploy Linux wheels
+      services: docker
+      install: skip
+      script: 
+        - ls
+        - python3 -m pip install cibuildwheel==1.5.5
+        - python3 -m cibuildwheel --output-dir wheelhouse
+        - ls wheelhouse
+    # Deploy on mac
+    - stage: deploy
+      name: Build and deploy macOS wheels
+      os: osx
+      language: shell
+      install: skip
+      script: 
+        - ls
+        - CC=gcc-9
+        - CXX=g++-9
+        - python3 -m cibuildwheel --output-dir wheelhouse
+        - ls wheelhouse
