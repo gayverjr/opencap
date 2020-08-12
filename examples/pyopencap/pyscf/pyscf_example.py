@@ -55,8 +55,8 @@ fs.spin = 0
 e, c = fs.kernel()
 print("Ground state energy:" + str(e[0]))
 
-# create projected cap object
-pc = pyopencap.Projected_CAP(s,cap_dict,nstates,"pyscf")
+# create perturb cap object
+pc = pyopencap.CAP(s,cap_dict,nstates,"pyscf")
 pc.compute_ao_cap()
 
 # fill density matrices
@@ -70,8 +70,8 @@ for i in range(0,len(fs.ci)):
         pc.add_tdm(dm1_ao,i,j,"pyscf")
 
 
-pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat=pc.get_perturb_cap()
 
 # select the states we want
 save_indices = [2,5,6,8,10,12,14,16,18,20,22]
@@ -81,7 +81,7 @@ for i in range(22,-1,-1):
         h0 = np.delete(h0,i,axis=1)
         mat = np.delete(mat,i,axis=0)
         mat = np.delete(mat,i,axis=1)
-print("Printing out matrices required for Projected CAP calculation.")
+print("Printing out matrices required for Perturbative CAP calculation.")
 print("Number of states: 10")
 print("Zeroth order Hamiltonian")
 print(DataFrame(h0).to_string(index=False, header=False))

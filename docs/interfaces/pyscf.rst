@@ -53,10 +53,10 @@ overlap matrix to ensure that the ordering matches. Up to G-type functions are s
     
 .. _BSE: https://www.basissetexchange.org/
 
-Step 1: Defining the Projected_CAP object
+Step 1: Defining the CAP object
 -----------------------------------------
 
-The CAP matrix is computed by the :class:`~pyopencap.Projected_CAP` object. The constructor 
+The CAP matrix is computed by the :class:`~pyopencap.CAP` object. The constructor 
 requires a :class:`~pyopencap.System` object, a dictionary containing the CAP parameters, the number of states,
 and finally the string "pyscf", which denotes the ordering of the atomic orbital basis
 set. An example is provided below. Please see the keywords section for more information on
@@ -70,7 +70,7 @@ the CAP parameters.
             	"cap_z":"4.88",
             	"Radial_precision": "14",
             	"angular_points": "110"}
-    pc = pycap.Projected_CAP(my_system,cap_dict,10,"pyscf")
+    pc = pycap.CAP(my_system,cap_dict,10,"pyscf")
     
 Step 2: Passing the density matrices
 ------------------------------------
@@ -93,7 +93,7 @@ PyOpenCAP, it **must be transformed into AO basis**:
 
     dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
     
-Densities are loaded in one at a time using :func:`~pyopencap.Projected_CAP.add_tdm`. 
+Densities are loaded in one at a time using :func:`~pyopencap.CAP.add_tdm`. 
 Ensure that the indices of each state match those of the zeroth order Hamiltonian.
 
 .. code-block:: python
@@ -108,26 +108,26 @@ Ensure that the indices of each state match those of the zeroth order Hamiltonia
 Step 3: Computing the CAP matrix
 --------------------------------
 Once all of the densities are loaded, the CAP matrix is computed 
-using the :func:`~pyopencap.Projected_CAP.compute_projected_cap` function. The matrix can be retrieved using the
-:func:`~pyopencap.Projected_CAP.get_projected_cap` function.
+using the :func:`~pyopencap.CAP.compute_perturb_cap` function. The matrix can be retrieved using the
+:func:`~pyopencap.CAP.get_perturb_cap` function.
 
 .. code-block:: python
 
-    pc.compute_projected_cap()
-    W_mat=pc.get_projected_cap()
+    pc.compute_perturb_cap()
+    W_mat=pc.get_perturb_cap()
     
 *Note:*
 
 When using cartesian d, f, or g-type basis functions, special care must be taken to ensure that the normalization 
-conventions match what is used by OpenMolcas. In these cases, :func:`~pyopencap.Projected_CAP.compute_ao_cap` 
-and then :func:`~pyopencap.Projected_CAP.renormalize` or :func:`~pyopencap.Projected_CAP.renormalize_cap` 
-should be invoked before calling :func:`~pyopencap.Projected_CAP.compute_projected_cap`.
+conventions match what is used by OpenMolcas. In these cases, :func:`~pyopencap.CAP.compute_ao_cap` 
+and then :func:`~pyopencap.CAP.renormalize` or :func:`~pyopencap.CAP.renormalize_cap` 
+should be invoked before calling :func:`~pyopencap.CAP.compute_perturb_cap`.
 
 .. code-block:: python
 
     pc.compute_ao_cap()
     pc.renormalize_cap(pyscf_smat,"pyscf")
-    pc.compute_projected_cap()
+    pc.compute_perturb_cap()
 
 Step 4: Generate eigenvalue trajectories
 ----------------------------------------

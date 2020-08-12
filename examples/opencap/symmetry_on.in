@@ -3,7 +3,7 @@ molecule molcas_rassi
 basis_file symm.rassi.h5
 $end
 
-$projected_cap
+$perturb_cap
 method xms-caspt2
 package openmolcas
 rassi_h5 symm.rassi.h5
@@ -17,5 +17,5 @@ $end
 
 $job
 title XMS-CASPT2(5,10) with 10 states for N2-, D2H symmetry
-jobtype projected_cap
+jobtype perturb_cap
 $end

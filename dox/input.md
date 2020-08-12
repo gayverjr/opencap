@@ -6,7 +6,7 @@ Input sections
 
 An OpenCAP input file has four sections: 
 
-$system, $projected_cap, $job, and optionally, $geometry
+$system, $perturb_cap, $job, and optionally, $geometry
   
 Within each section, the user inserts keyword/value pairs which define the calculation.  
 All four sections have their own unique keywords, and all four must be specified to run a calculation. 
@@ -31,7 +31,7 @@ __Required__
 | Keyword | Type | Description | Valid options |
 |:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | title | string | Title of job | N/A |
-| jobtype | string | Type of job to be executed | Projected_cap |
+| jobtype | string | Type of job to be executed | perturb_cap |
 
 System
 =======
@@ -62,8 +62,8 @@ Ghost centers with zero nuclear charge can be specified using the symbol "X".
 
 By default, units are assumed to be Angstroms.
 
-Projected_CAP
-=============
+Perturb_CAP
+====
 
 This section allows one to specify the parameters used to define the complex absorbing potential, 
 the data read in from the electronic structure calculation, and the grid used for numerical integration.

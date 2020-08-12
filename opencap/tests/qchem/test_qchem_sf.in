@@ -3,7 +3,7 @@ molecule qchem_fchk
 basis_file ../tests/qchem/SF.fchk
 $end
 
-$projected_cap
+$perturb_cap
 method EOMSF
 package qchem
 qchem_fchk ../tests/qchem/SF.fchk
@@ -19,6 +19,6 @@ $end
 
 $job
 title Q-Chem EOMSF specified with fchk
-jobtype projected_cap
+jobtype perturb_cap
 $end
 

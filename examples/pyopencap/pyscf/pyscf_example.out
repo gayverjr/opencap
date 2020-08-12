@@ -6,7 +6,7 @@ Verified overlap matrix.
 Ground state energy:-1.1738730219803575
 Calculating CAP matrix in AO basis...
 Integration time:2.685592
-Printing out matrices required for Projected CAP calculation.
+Printing out matrices required for Perturbative CAP calculation.
 Number of states: 10
 Zeroth order Hamiltonian
 -0.691837  0.000000  0.00000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000

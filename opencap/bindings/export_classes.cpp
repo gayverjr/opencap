@@ -2,7 +2,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 #include "System.h"
-#include "ProjectedCAP.h"
+#include "CAP.h"
 #include <pybind11/eigen.h>
 #include <eigen3/Eigen/Dense>
 
@@ -20,30 +20,30 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				"Each ID has the following format:"
 				"atom index,shell number,l,m")
 		;
-    py::class_<Projected_CAP>(m, "Projected_CAP")
-		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs Projected_CAP object.")
-    	.def("get_ao_cap",&Projected_CAP::get_ao_cap, "Returns CAP matrix in AO basis.")
-    	.def("get_projected_cap",&Projected_CAP::get_projected_cap, "Returns CAP matrix in state basis.")
-    	.def("compute_ao_cap",&Projected_CAP::compute_ao_cap, "Computes CAP matrix in AO basis.")
-    	.def("compute_projected_cap",&Projected_CAP::compute_projected_cap, "Computes CAP matrix in state basis using"
+    py::class_<CAP>(m, "CAP")
+		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs CAP object.")
+    	.def("get_ao_cap",&CAP::get_ao_cap, "Returns CAP matrix in AO basis.")
+    	.def("get_perturb_cap",&CAP::get_perturb_cap, "Returns CAP matrix in state basis.")
+    	.def("compute_ao_cap",&CAP::compute_ao_cap, "Computes CAP matrix in AO basis.")
+    	.def("compute_perturb_cap",&CAP::compute_perturb_cap, "Computes CAP matrix in state basis using"
     			" transition density matrices.")
-		.def("get_H",&Projected_CAP::get_H, "Returns zeroth order Hamiltonian read from file.")
-		.def("add_tdm",  &Projected_CAP::add_tdm,py::arg("tdm"),
+		.def("get_H",&CAP::get_H, "Returns zeroth order Hamiltonian read from file.")
+		.def("add_tdm",  &CAP::add_tdm,py::arg("tdm"),
 				py::arg("initial_idx"),py::arg("final_idx"),
 				py::arg("ordering"),py::arg("basis_file") = "",
-				"Adds spin-traced tdm to Projected CAP object at specified indices. The optional argument basis_file"
+				"Adds spin-traced tdm to CAP object at specified indices. The optional argument basis_file"
 				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.")
-		.def("add_tdms", &Projected_CAP::add_tdms,py::arg("alpha_density"),
+		.def("add_tdms", &CAP::add_tdms,py::arg("alpha_density"),
 				py::arg("beta_density"),py::arg("initial_idx"),py::arg("final_idx"),
 				py::arg("ordering"),py::arg("basis_file") = "",
-				"Adds alpha/beta tdms to Projected CAP object at specified indices. The optional argument basis_file"
+				"Adds alpha/beta tdms to CAP object at specified indices. The optional argument basis_file"
 				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.")
-		.def("read_data",&Projected_CAP::read_electronic_structure_data, py::arg("es_dict"), "Reads electronic structure data "
+		.def("read_data",&CAP::read_electronic_structure_data, py::arg("es_dict"), "Reads electronic structure data "
 				"specified in dictionary.")
-		.def("renormalize_cap",&Projected_CAP::renormalize_cap, py::arg("smat"),
-				py::arg("ordering"),py::arg("basis_file") = "","Re-normalizes CAP matrix using input overlap"
+		.def("renormalize_cap",&CAP::renormalize_cap, py::arg("smat"),
+				py::arg("ordering"),py::arg("basis_file") = "","Re-normalizes AO CAP matrix using input overlap"
 						"matrix.")
-		.def("renormalize",&Projected_CAP::renormalize,"Re-normalizes CAP using electronic structure data.")
+		.def("renormalize",&CAP::renormalize,"Re-normalizes AO CAP using electronic structure data.")
 	;
 }
 

@@ -3,7 +3,7 @@ molecule molden
 basis_file ../tests/openmolcas/ms_spherical.molden
 $end
 
-$projected_cap
+$perturb_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 ../tests/openmolcas/ms_spherical.rassi.h5
@@ -17,5 +17,5 @@ $end
 
 $job
 title Molcas molden test
-jobtype projected_cap
+jobtype perturb_cap
 $end

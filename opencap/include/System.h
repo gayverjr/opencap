@@ -4,11 +4,10 @@
 #include <pybind11/pybind11.h>
 #include "Atom.h"
 #include "BasisSet.h"
-#include "CAP.h"
 #include <map>
 #include <iostream>
 #include <pybind11/numpy.h>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
@@ -48,9 +47,18 @@ public:
 	/** Sets geometry from python
 	 */
 	std::vector<Atom> parse_geometry_string(std::string geometry_string);
+	/** Returns overlap matrix
+	 */
 	Eigen::MatrixXd get_overlap_mat();
+	/** Compares computed overlap matrix with supplied overlap matrix
+	 *  We also try to re-normalize, see renormalize_overlap
+	 */
 	bool check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file="");
+	/** Set to true when constructed from the python interpreter, important for printing
+	 */
 	bool python;
+	/** Returns ordered string rep of basis function IDs
+	 */
 	std::string get_basis_ids();
 
 

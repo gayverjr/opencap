@@ -61,7 +61,7 @@ with open(args.pos_arg, 'r') as file :
 idx=-1
 for i in range(0,len(filedata)):
     line = filedata[i]
-    if "Printing out matrices required for Projected CAP calculation." in line:
+    if "Printing out matrices required for Perturbative CAP calculation." in line:
         idx=i
 num_roots=int(filedata[idx+1].split()[-1])
 start=idx+3

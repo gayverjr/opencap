@@ -5,7 +5,7 @@ Successfully read in densities from file:symm.rassi.h5
 Calculating CAP matrix in AO basis...
 Integration time:11.135381
 Verified overlap matrix.
-Printing out matrices required for Projected CAP calculation.
+Printing out matrices required for Perturbative CAP calculation.
 Number of states: 10
 Zeroth order Hamiltonian
 -109.3057148700    0.0020565300   -0.0037937500    0.0024100200    0.0002373000    0.0001747700    0.0085267900    0.0000805000   -0.0003370400   -0.0003558500

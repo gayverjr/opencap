@@ -3,7 +3,7 @@ molecule molden
 basis_file ../tests/openmolcas/symm.molden
 $end
 
-$projected_cap
+$perturb_cap
 method xms-caspt2
 package openmolcas
 rassi_h5 ../tests/openmolcas/xms_cart.rassi.h5
@@ -17,5 +17,5 @@ $end
 
 $job
 title Molcas bad basis set, should fail
-jobtype projected_cap
+jobtype perturb_cap
 $end

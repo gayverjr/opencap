@@ -32,17 +32,17 @@ overlap_mat= np.reshape(overlap_mat,(140,140))
 # Method 1: Use renormalize function after reading in data
 s = pyopencap.System(sys_dict)
 s.check_overlap_mat(overlap_mat,"openmolcas",RASSI_FILE)
-pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 pc.read_data(es_dict)
 pc.compute_ao_cap()
 pc.renormalize()
-pc.compute_projected_cap()
-mat= pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat= pc.get_perturb_cap()
 h0 = pc.get_H()
 
 
 # Method 2: Use renormalize_cap to renormalize after reading in DMs separately
-pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         dm1 = 0.5*np.reshape(dms[i][j],(140,140))
@@ -51,8 +51,8 @@ for i in range(0,10):
             pc.add_tdms(dm1,dm1,j,i,"openmolcas",RASSI_FILE)
 pc.compute_ao_cap()
 pc.renormalize_cap(overlap_mat,"openmolcas",RASSI_FILE)
-pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat=pc.get_perturb_cap()
 
 
 

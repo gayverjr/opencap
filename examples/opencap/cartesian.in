@@ -11,7 +11,7 @@ cart_bf dfg
 basis_file basis.bas
 $end
 
-$projected_cap
+$perturb_cap
 method xms-caspt2
 package openmolcas
 rassi_h5 cart.rassi.h5
@@ -27,5 +27,5 @@ $end
 
 $job
 title MS-CASPT2(5,10) with 10 states for N2-, Cartesian basis functions
-jobtype projected_cap
+jobtype perturb_cap
 $end

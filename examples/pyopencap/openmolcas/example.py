@@ -31,16 +31,16 @@ arr2 = np.reshape(arr2,(119,119))
 # Method 1: Read data from output
 s = pyopencap.System(sys_dict)
 s.check_overlap_mat(arr2,"openmolcas",RASSI_FILE)
-pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 pc.read_data(es_dict)
 pc.compute_ao_cap()
-pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat=pc.get_perturb_cap()
 h0 = pc.get_H()
 
 
 # Method 2: Separate alpha and beta densities
-pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = 0.5*np.reshape(arr[i][j],(119,119))
@@ -48,12 +48,12 @@ for i in range(0,10):
         if i!=j:
             pc.add_tdms(arr1,arr1,j,i,"openmolcas",RASSI_FILE)
 pc.compute_ao_cap()
-pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat=pc.get_perturb_cap()
 
 
 # Method 3: Spin traced densities
-pc = pyopencap.Projected_CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
         arr1 = np.reshape(arr[i][j],(119,119))
@@ -61,8 +61,8 @@ for i in range(0,10):
         if i!=j:
             pc.add_tdm(arr1,j,i,"openmolcas",RASSI_FILE)
 pc.compute_ao_cap()
-pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+pc.compute_perturb_cap()
+mat=pc.get_perturb_cap()
 print(DataFrame(h0).to_string(index=False, header=False))
 
 

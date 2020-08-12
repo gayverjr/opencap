@@ -3,7 +3,7 @@ molecule molden
 basis_file nosymm.rasscf.molden
 $end
 
-$projected_cap
+$perturb_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 nosymm.rassi.h5
@@ -20,5 +20,5 @@ $end
 
 $job
 title MS-CASPT2(5,10) with 10 states for N2-, symmetry turned off
-jobtype projected_cap
+jobtype perturb_cap
 $end

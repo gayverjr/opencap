@@ -3,7 +3,7 @@ molecule qchem_fchk
 basis_file ../tests/qchem/IP.fchk
 $end
 
-$projected_cap
+$perturb_cap
 method EOMIP
 package qchem
 qchem_fchk ../tests/qchem/IP.fchk
@@ -19,6 +19,6 @@ $end
 
 $job
 title Q-Chem EOMIP specified with FCHK
-jobtype projected_cap
+jobtype perturb_cap
 $end
 
