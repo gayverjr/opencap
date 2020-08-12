@@ -6,6 +6,10 @@ python:
 
 dist: bionic
 
+# install your project and dependencies before building
+CIBW_BEFORE_BUILD_LINUX: ./.travis/linux_deps.sh
+CIBW_BEFORE_BUILD_MACOS: ./.travis/osx_deps.sh
+
 branches:
   only:
   - master
