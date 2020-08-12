@@ -8,16 +8,19 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 else
     if [ "$TRAVIS_PYTHON_VERSION" = "3.6" ]
     then
-    	sudo apt-get --force-yes install python3.8-venv
-    	sudo apt-get --force-yes install python3.8-dev
-    	sudo apt-get --force-yes install python3.8-dev
+        sudo apt-get --force-yes install python3.6
+    	sudo apt-get --force-yes install python3.6-venv
+    	sudo apt-get --force-yes install python3.6-dev
+    	sudo apt-get --force-yes install python3.6-dev
     elif [ "$TRAVIS_PYTHON_VERSION" = "3.7" ]
     then
+    	sudo apt-get --force-yes install python3.7
     	sudo apt-get --force-yes install python3.7-venv
     	sudo apt-get --force-yes install python3.7-dev
     	sudo apt-get --force-yes install python3.7-dev
     elif [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]
     then
+    	sudo apt-get --force-yes install python3.8
     	sudo apt-get --force-yes install python3.8-venv
     	sudo apt-get --force-yes install python3.8-dev
     	sudo apt-get --force-yes install python3.8-dev

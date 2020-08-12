@@ -36,12 +36,13 @@ install:
 - pip3 install .
 - cd pyopencap
 - py.test --cov-report=xml --cov=pyopencap tests
-- cd ..
+
+script:
+  - cd ../opencap/build
 
 after_success:
   # Create lcov report
   # capture coverage info
-  - cd opencap/build
   - lcov   --directory . --capture --output-file coverage.info 
   # Remove everything not OpenCAP'
   - lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info 
