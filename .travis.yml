@@ -18,11 +18,12 @@ before_install:
 - ./.travis/before_install.sh
 - pip3 install --upgrade pip
 - pip3 install codecov
-- cd opencap; mkdir build
-- cd build
-- cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 
 install:
+- cd opencap; mkdir build
+- cd build
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then CC=gcc-9 && CXX=g++-9  ; fi
+- cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 - cmake --build . --config Debug 
 - ctest --output-on-failure
 - cd ../../
@@ -57,9 +58,6 @@ after_success:
 stages:
   - name: deploy
 
-script:
-- cd dox; doxygen Doxyfile.in; cd ..
-
 jobs:
   include:
     # Deploy source distribution
@@ -67,15 +65,17 @@ jobs:
       name: Deploy source distribution
       install: skip
       script:
-        - cd ../../
         - ls
         - python3 setup.py sdist --formats=gztar
     # Deploy on linux
     - stage: deploy
       name: Build and deploy Linux wheels
       services: docker
-      install: python3 -m pip install cibuildwheel==1.5.5
+      install: skip
       script: 
+        - ls
+        - python3 setup.py install
+        - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # Deploy on mac
@@ -83,18 +83,18 @@ jobs:
       name: Build and deploy macOS wheels
       os: osx
       language: shell
-      install: python3 -m pip install cibuildwheel==1.5.5
+      install: skip
       script: 
-        - cd ../../
         - ls
+        - python3 setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # deploy doxygen documentation
     - stage: deploy
       name: Build and deploy Dox documentation
-      install: script
+      install: skip
       script:
-        - ls; cd ../../dox; doxygen Doxyfile.in; cd ..
+        - cd ../../dox; ls; doxygen Doxyfile.in; cd ..
       provider: pages
       skip_cleanup: true
       local_dir: doxygen_docs
