@@ -18,7 +18,7 @@ include(FetchContent)
 FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
-    GIT_TAG 72eaf489a6a46f8c2d1aa1af213a44704f0fcbf1
+    GIT_TAG v1.7.3
 )
 FetchContent_GetProperties(h5pp)
 if(NOT h5pp_POPULATED)
@@ -29,7 +29,7 @@ endif()
 FetchContent_Declare(
     pybind11
     GIT_REPOSITORY https://github.com/pybind/pybind11
-    GIT_TAG b8047245bbcc36c56d0be2103ca575b79c5e6a34
+    GIT_TAG v2.5.0
 )
 FetchContent_GetProperties(pybind11)
 if(NOT pybind11_POPULATED)
@@ -40,7 +40,7 @@ endif()
 FetchContent_Declare(
   numgrid
   GIT_REPOSITORY https://github.com/dftlibs/numgrid.git
-  GIT_TAG 466ddf64e90dbe4673fc84ffafd55d17d85f3f59
+  GIT_TAG v1.1.1
 )
 FetchContent_GetProperties(numgrid)
 if(NOT numgrid_POPULATED)
