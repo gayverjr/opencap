@@ -11,4 +11,7 @@ else
 	sudo apt-get --force-yes install libeigen3-dev
 	sudo apt-get --force-yes install doxygen
 	sudo apt-get --force-yes install lcov
+	sudo apt-get --force-yes install python3.8-venv
+    sudo apt-get --force-yes install python3.8-dev
+    sudo apt-get --force-yes install python3.8-dev
 fi
