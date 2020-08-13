@@ -8,8 +8,7 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y libhdf5-dev && bash .travis/install_eigen.sh"
-  - CIBW_BEFORE_BUILD_MACOS="brew install gcc@9 && CC=gcc-9 && CXX=g++-9 && brew install hdf5 && brew install eigen"
+  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5-devel && bash .travis/install_eigen.sh"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
 
 branches:
@@ -29,7 +28,6 @@ before_install:
 install:
 - cd opencap; mkdir build
 - cd build
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then CC=gcc-9 && CXX=g++-9  ; fi
 - python --version
 - cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 - cmake --build . --config Debug 
@@ -95,7 +93,6 @@ jobs:
       install: skip
       script: 
         - ls
-        - python setup.py install
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
@@ -107,7 +104,7 @@ jobs:
       install: skip
       script: 
         - ls
-        - python setup.py install
+        - brew install gcc@9 && CC=gcc-9 && CXX=g++-9 && brew install hdf5 && brew install eigen
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
