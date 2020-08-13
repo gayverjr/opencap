@@ -92,9 +92,11 @@ jobs:
     - stage: deploy
       name: Build and deploy Linux wheels
       services: docker
-      install: python3 -m pip install cibuildwheel==1.5.5
+      install: script
       script: 
         - ls
+        - python3 -m pip install cibuildwheel==1.5.5
+        - python setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # Deploy on mac
@@ -102,9 +104,10 @@ jobs:
       name: Build and deploy macOS wheels
       os: osx
       language: shell
-      install: python3 -m pip install cibuildwheel==1.5.5
+      install: script
       script: 
         - ls
+        - python3 -m pip install cibuildwheel==1.5.5
         - brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen
         - python setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
