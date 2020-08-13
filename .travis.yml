@@ -33,7 +33,7 @@ install:
 - cd opencap; mkdir build
 - cd build
 - python --version
-- cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+- cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python3) -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
 - cmake --build . --config Debug 
 - ctest --output-on-failure
 - cd ../../
