@@ -8,7 +8,7 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5 && bash .travis/install_eigen.sh"
+  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5 hdf5-devel && bash .travis/install_eigen.sh"
   - CIBW_BEFORE_BUILD_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
 
@@ -105,5 +105,7 @@ jobs:
       install: python3 -m pip install cibuildwheel==1.5.5
       script: 
         - ls
+        - brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen
+        - python setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
