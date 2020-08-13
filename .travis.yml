@@ -9,6 +9,7 @@ dist: bionic
 env:
   global:
   - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5-devel && bash .travis/install_eigen.sh"
+  - CIBW_BEFORE_BUILD_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
 
 branches:
@@ -40,9 +41,10 @@ install:
 - pip3 install .
 - cd pyopencap
 - py.test --cov-report=xml --cov=pyopencap tests
+- cd..
 
 script:
-  - cd ../opencap/build
+  - cd opencap/build
 
 after_success:
   # Create lcov report
@@ -90,10 +92,9 @@ jobs:
     - stage: deploy
       name: Build and deploy Linux wheels
       services: docker
-      install: skip
+      install: python3 -m pip install cibuildwheel==1.5.5
       script: 
         - ls
-        - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # Deploy on mac
@@ -101,10 +102,8 @@ jobs:
       name: Build and deploy macOS wheels
       os: osx
       language: shell
-      install: skip
+      install: python3 -m pip install cibuildwheel==1.5.5
       script: 
         - ls
-        - brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen
-        - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
