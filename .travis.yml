@@ -43,7 +43,7 @@ install:
 - pip3 install .
 - cd pyopencap
 - py.test --cov-report=xml --cov=pyopencap tests
-- cd..
+- cd ..
 
 script:
   - cd opencap/build
