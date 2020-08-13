@@ -16,8 +16,8 @@
 #include <h5pp/h5pp.h>
 #include "gto_ordering.h"
 #include "BasisSet.h"
-#include <eigen3/unsupported/Eigen/CXX11/Tensor>
-#include <eigen3/Eigen/Dense>
+#include <unsupported/Eigen/CXX11/Tensor>
+#include <Eigen/Dense>
 
 template<typename T>
 using  MatrixType = Eigen::Matrix<T,Eigen::Dynamic, Eigen::Dynamic>;

@@ -27,7 +27,7 @@
 #include "molcas_interface.h"
 #include "qchem_interface.h"
 #include "molden_parser.h"
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 System::System(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
