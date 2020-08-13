@@ -36,7 +36,6 @@ install:
 - cmake --build . --config Debug 
 - ctest --output-on-failure
 - cd ../../
-- python3 -m pip install cibuildwheel==1.5.5
 - pip3 install codecov
 - pip3 install pytest-cov
 - pip3 install h5py
@@ -100,6 +99,7 @@ jobs:
       services: docker
       install: skip
       script: 
+        - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
       after_success: skip
@@ -111,5 +111,6 @@ jobs:
       language: shell
       after_success: skip
       script: 
+        - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
