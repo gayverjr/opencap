@@ -8,8 +8,8 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5 hdf5-devel libeigen3-dev "
-  - CIBW_BEFORE_BUILD_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
+  - CIBW_BEFORE_ALL_LINUX="pip install cmake && yum install -y hdf5 hdf5-devel libeigen3-dev "
+  - CIBW_BEFORE_ALL_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux2014 cp37-manylinux2014 cp38-manylinux2014"
   - CIBW_SKIP: "cp27-manylinux*"
 
@@ -23,10 +23,10 @@ addons:
     - doxygen
 
 before_install:
-- echo $TRAVIS_OS_NAME
 - ./.travis/before_install.sh
 
 install:
+- if [ $TRAVIS_OS_NAME = 'osx' ]; then CC=gcc-10 && CXX=g++-10
 - cd opencap; mkdir build
 - cd build
 - python --version
