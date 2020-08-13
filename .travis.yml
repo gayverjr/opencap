@@ -8,7 +8,8 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD="pip install cmake && yum install -y libhdf5-dev eigen3-devel"
+  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y libhdf5-dev && bash .travis/install_eigen.sh"
+  - CIBW_BEFORE_BUILD_MACOS="brew install gcc@9 && CC=gcc-9 && CXX=g++-9 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
 
 branches:
@@ -21,6 +22,7 @@ addons:
     - doxygen
 
 before_install:
+- echo $TRAVIS_OS_NAME
 - ./.travis/before_install.sh
 - pip3 install codecov
 
@@ -89,13 +91,11 @@ jobs:
     # Deploy on linux
     - stage: deploy
       name: Build and deploy Linux wheels
-      env:
-        - CIBW_BEFORE_ALL:"pip install cmake && yum install -y libhdf5-dev eigen3-devel"
-        - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
       services: docker
       install: skip
       script: 
         - ls
+        - python setup.py install
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
@@ -107,8 +107,7 @@ jobs:
       install: skip
       script: 
         - ls
-        - CC=gcc-9
-        - CXX=g++-9
+        - python setup.py install
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
