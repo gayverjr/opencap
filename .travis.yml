@@ -26,7 +26,7 @@ before_install:
 - ./.travis/before_install.sh
 
 install:
-- if [ $TRAVIS_OS_NAME = 'osx' ]; then CC=gcc-10 && CXX=g++-10
+- if [ $TRAVIS_OS_NAME = 'osx' ]; then CC=gcc-10 && CXX=g++-10 ; fi
 - cd opencap; mkdir build
 - cd build
 - python --version
