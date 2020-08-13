@@ -11,6 +11,7 @@ env:
   - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5 hdf5-devel libeigen3-dev "
   - CIBW_BEFORE_BUILD_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux2014 cp37-manylinux2014 cp38-manylinux2014"
+  - CIBW_SKIP: "cp27-manylinux*"
 
 branches:
   only:
@@ -24,7 +25,6 @@ addons:
 before_install:
 - echo $TRAVIS_OS_NAME
 - ./.travis/before_install.sh
-- pip3 install codecov
 
 install:
 - cd opencap; mkdir build
@@ -34,6 +34,8 @@ install:
 - cmake --build . --config Debug 
 - ctest --output-on-failure
 - cd ../../
+- python3 -m pip install cibuildwheel==1.5.5
+- pip3 install codecov
 - pip3 install pytest-cov
 - pip3 install h5py
 - pip3 install numpy
@@ -76,12 +78,14 @@ jobs:
       script:
         - ls
         - python3 setup.py sdist --formats=gztar
+      after_success: skip
     # deploy doxygen documentation
     - stage: deploy
       name: Build and deploy Dox documentation
       install: skip
       script:
         - cd dox; ls; doxygen Doxyfile.in; cd ..
+      after_success: skip
       provider: pages
       skip_cleanup: true
       local_dir: doxygen_docs
@@ -92,11 +96,7 @@ jobs:
     - stage: deploy
       name: Build and deploy Linux wheels
       services: docker
-      install: script
       script: 
-        - ls
-        - python3 -m pip install cibuildwheel==1.5.5
-        - python setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
     # Deploy on mac
@@ -104,11 +104,6 @@ jobs:
       name: Build and deploy macOS wheels
       os: osx
       language: shell
-      install: script
       script: 
-        - ls
-        - python3 -m pip install cibuildwheel==1.5.5
-        - brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen
-        - python setup.py install
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
