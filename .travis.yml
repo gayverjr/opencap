@@ -111,7 +111,7 @@ jobs:
       after_success: skip
       script: 
         - export CC=gcc-9
-        - export CC=g++-9
+        - export CXX=g++-9
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
