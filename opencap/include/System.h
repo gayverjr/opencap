@@ -7,7 +7,7 @@
 #include <map>
 #include <iostream>
 #include <pybind11/numpy.h>
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 #ifndef SYSTEM_H_
 #define SYSTEM_H_

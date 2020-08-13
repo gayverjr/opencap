@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <math.h>
 #include "gto_ordering.h"
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs)
 {
