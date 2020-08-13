@@ -4,7 +4,7 @@
 #include "System.h"
 #include "CAP.h"
 #include <pybind11/eigen.h>
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 namespace py = pybind11;
 

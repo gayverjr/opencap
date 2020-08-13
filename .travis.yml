@@ -92,16 +92,6 @@ jobs:
       github_token: $GH_REPO_TOKEN
       on:
        branch: master
-    # Deploy on linux
-    - stage: deploy
-      name: Build and deploy Linux wheels
-      services: docker
-      install: skip
-      script: 
-        - python3 -m pip install cibuildwheel==1.5.5
-        - python3 -m cibuildwheel --output-dir wheelhouse
-        - ls wheelhouse
-      after_success: skip
     # Deploy on mac
     - stage: deploy
       name: Build and deploy macOS wheels
