@@ -5,6 +5,6 @@ cd eigen
 git checkout tags/3.3.7
 mkdir build
 cd build
-cmake .
+cmake ..
 make install
 cd ../../
