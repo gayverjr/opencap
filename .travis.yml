@@ -8,7 +8,7 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD_LINUX="pip3 install cmake && yum install -y eigen3-devel && bash .travis/install_hdf5.sh"
+  - CIBW_BEFORE_BUILD_LINUX="pip3 install cmake && yum install -y eigen3-devel wget && bash .travis/install_hdf5.sh"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux* cp36-macosx_x86_64 cp37-macosx_x86_64 cp38-macosx_x86_64"
   - CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   - CIBW_MANYLINUX_I686_IMAGE: manylinux2014
