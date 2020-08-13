@@ -14,7 +14,7 @@
 #include "gto_ordering.h"
 #include "utils.h"
 #include "BasisSet.h"
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs)

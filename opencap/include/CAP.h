@@ -7,7 +7,7 @@
 #include "System.h"
 #include "AOCAP.h"
 #include <pybind11/eigen.h>
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 #ifndef INCLUDE_CAP_H_
 #define INCLUDE_CAP_H_
