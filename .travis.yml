@@ -104,7 +104,7 @@ jobs:
       install: skip
       script: 
         - ls
-        - brew install gcc@9 && CC=gcc-9 && CXX=g++-9 && brew install hdf5 && brew install eigen
+        - brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen
         - python3 -m pip install cibuildwheel==1.5.5
         - python3 -m cibuildwheel --output-dir wheelhouse
         - ls wheelhouse
