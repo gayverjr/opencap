@@ -8,7 +8,7 @@ dist: bionic
 
 env:
   global:
-  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5-devel && bash .travis/install_eigen.sh"
+  - CIBW_BEFORE_BUILD_LINUX="pip install cmake && yum install -y hdf5 && bash .travis/install_eigen.sh"
   - CIBW_BEFORE_BUILD_MACOS="brew install gcc && CC=gcc-10 && CXX=g++-10 && brew install hdf5 && brew install eigen"
   - CIBW_BUILD="cp36-manylinux* cp37-manylinux* cp38-manylinux*"
 
