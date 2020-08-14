@@ -215,7 +215,7 @@ for trajectory analysis is a subject of future work.
 
 Officially supported methods
 ----------------------------
-The following methods have been benchmarked, and the read_data function is capable of parsing 
+The following methods have been benchmarked, and the :func:`~pyopencap.CAP.read_data` function is capable of parsing 
 output files to obtain the zeroth order Hamiltonian.
 
 * MS-CASPT2
@@ -225,7 +225,7 @@ Untested (use at your own risk!)
 --------------------------------
 The following methods are capable of dumping densities using the TRD1 keyword of the RASSI module, 
 but have not been benchmarked for any systems, and the zeroth order Hamiltonian cannot be parsed
-from the output file using the read_data function. Use at your own caution, and please contact us if you
+from the output file using the :func:`~pyopencap.CAP.read_data` function. Use at your own caution, and please contact us if you
 find success using any of these methods so we can add official support!
 
 * (QD/SS)DMRG-(PC/SC)NEVPT2

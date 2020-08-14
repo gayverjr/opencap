@@ -1,6 +1,106 @@
 Theory
-=======================
-Under construction...
+=======
+Resonances and Non-Hermitian Quantum Mechanics
+----------------------------------------------
+Electronic resonances are metastable electronic states with finite lifetimes embedded in the
+ionization/detachment continuum. Common examples include temporary anions formed by
+electron attachment, and core-excited and core-ionized states which can undergo Auger decay or similar 
+relaxation pathways. These states are not part of the usual :math:`L^2` Hilbert space of
+square integrable functions, and instead belong to the continuous spectrum of the electronic Hamiltonian. 
+Theoretical description of resonances is generally not possible by means of conventional 
+bound-state quantum chemistry methods, and special techniques are required to obtain accurate 
+energies and lifetimes.
+
+Non-Hermitian quantum mechanics (NHQM) techniques provide an attractive approach
+that enables adaptation of existing quantum chemistry methodologies to treat metastable electronic
+states. In NHQM formalisms, a resonance appears as a single square-integrable
+eigenstate of a non-Hermitian Hamiltonian, associated with a with a complex eigenvalue: 
+
+.. centered:: :math:`E=E_{res}-i\Gamma/2`.
+ 
+The real part of the energy :math:`(E_{res})` is the resonance position. The imaginary part :math:`(-i\Gamma/2)` 
+is the half-width, which is inversely proportional to the lifetime of the state.
+
+Complex Absorbing Potential
+---------------------------
+Complex absorbing potentials (CAPs) are imaginary potentials added to the Hamiltonian, and
+they are routinely used for evaluation of resonance parameters. In this context, CAPs 
+transform a resonance into a single square integrable state, rendering it accessible by 
+means of standard bound-state techniques. To this end, the electronic Hamiltonian is 
+augmented with an imaginary potential:
+
+.. centered:: :math:`H^{CAP}=H-i\eta W`
+
+where :math:`\eta` is the CAP strength parameter, and W is a real potential which vanishes in the
+vicinity of the molecular system and grows with distance.
+
+Since the CAP-augmented Hamiltonian depends on the strength of the CAP, a choice
+has to be made on the optimal value of :math:`\eta` that provides best estimates of the resonance
+position and width. In a complete one-electron basis, the exact resonance position and
+width are obtained in the limit of an infinitesimally weak CAP :math:`(\eta \rightarrow 0^+)`. In practice
+when finite bases are used, an optimal CAP strength :math:`\eta_{opt}` is found by locating a stationary
+point on the eigenvalue trajectory E(:math:`\eta`). A commonly used criterion is 
+the minimum of the logarithmic velocity (:math:`|\eta\frac{dE}{d\eta}|\rightarrow min`).
 
 
+Perturbative or "Projected" CAP
+----------------------------------------
+There are multiple strategies for how to incorporate CAPs into an electronic structure calculation. 
+The most straightforward application is to engage the one-electron CAP term starting at the 
+lowest level of theory (e.g. Hartree-Fock). While conceptually simple, this requires 
+modification of electronic structure routines to handle the complex integrals. 
+Additionally, this approach requires a unique calculation for each :math:`\eta` along the 
+eigenvalue trajectory, which can become prohibitively expensive for larger systems or 
+dynamical simulation. 
 
+An efficient alternative is to apply the CAP as perturbation to a small subset of the eigenstates 
+of the real Hamiltonian. The CAP matrix can be represented in this reduced basis using the equation:
+
+.. centered:: :math:`W_{uv}=\langle u | W | v \rangle`
+
+where :math:`u` and :math: `v` are eigenstates of the real Hamiltonian. Since the CAP is a 
+one-particle operator, these expressions can easily be evaluated using the one-electron 
+reduced density matrices (:math:`\rho`) for each state, and the set of transition density 
+matrices (:math:`\gamma`) between each pair of states:
+
+.. math::
+
+    W_{uv}=
+    \begin{Bmatrix}
+    Tr\left[W^{AO}\gamma^{uv} \right ] ,& u \neq v \\ 
+    Tr\left[W^{AO}\rho^{u} \right ] ,&  u=v
+    \end{Bmatrix}
+ 
+The CAP can be applied as a perturbation to the subset of eigenstates by diagonalizing the
+non-Hermitian CAP-augmented Hamiltonian:
+
+.. centered:: :math:`H^{CAP}=H_0-i\eta W`
+
+which results in the complex :math:`\eta`-depdendent eigenvalues. While this perturbative 
+or "projected" approach introduces another parameter (number of eigenstates), 
+each :math:`\eta` value along the eigenvalue trajectory is obtained by a trivial 
+diagonalization of the Hamiltonian in the reduced subspace, effectively reducing the 
+overall cost to that of a single electronic structure calculation. 
+
+OpenCAP 
+--------
+OpenCAP is aimed at extending the CAP methodology to a variety of electronic structure 
+packages and methods using the perturbative CAP approach. OpenCAP does not require 
+modification of existing electronic structure codes, it works directly with outputs and data 
+generated by conventional electronic structure calculations. 
+
+The basic idea is to first run a multi-state electronic structure calculation which generates 
+a suitable zeroth order Hamiltonian, the reduced one-particle density matrix for each state, 
+and the set of one-particle transition density matrices between each pair states. OpenCAP 
+will then compute the CAP matrix, first in atomic orbital basis via numerical integration, 
+then in the state basis using the transition density matrices and the trace expressions above. 
+With the zeroth order Hamiltonian and the CAP matrix, we now have all the information we 
+need to apply the perturbative CAP method, and eigenvalue trajectories can be generated 
+by means of simple scripts. 
+
+
+References
+----------
+#. Reinhardt, W. P. Complex Coordinates in the Theory of Atomic and Molecular Structure and Dynamics. Annu. Rev. Phys. Chem. 1982, 33 (1), 223–255.
+#. Riss, U. V.; Meyer, H. D. Calculation of Resonance Energies and Widths Using the Complex Absorbing Potential Method. J. Phys. B At. Mol. Opt. Phys. 1993, 26 (23), 4503–4535.
+#. Sommerfeld, T.; Santra, R. Efficient Method to Perform CAP/CI Calculations for Temporary Anions. Int. J. Quantum Chem. 2001, 82 (5), 218–226.
