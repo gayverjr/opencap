@@ -17,6 +17,14 @@ Supported Packages
 * OpenMolcas_
 * Pyscf_
 
+Supported Potentials
+====================
+
+* Box
+* Smooth Voronoi
+
+Please see the :ref:`keywords <keywords>` section for more details.
+
 Upcoming features
 ==================
 

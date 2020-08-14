@@ -48,7 +48,7 @@ denotes the ordering of the atomic orbital basis set.
     
 **Parsing electronic structure data from file**
 
-The "read_data" function can read in the effective Hamiltonian
+The :func:`~pyopencap.CAP.read_data` function can read in the effective Hamiltonian
 and densities in one-shot when passed a Python dictionary with the right keywords. For now,
 we'll retrieve the effective Hamiltonian and store it as h0 for later use.
 
