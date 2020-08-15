@@ -34,30 +34,33 @@ more at users).
 
 * Readthedocs Documentation for Python API: https://gayverjropencap.readthedocs.io/en/latest/
 
-
 # Installation
 
 ## Dependencies
 
 OpenCAP requires the following:
 
-*  C++ compiler with C++17 support
+* C++ compiler with C++17 support (MacOS users, please see [troubleshooting](#Troubleshooting))
 
-* [CMake](https://cmake.org/)  verison >= 3.12
+* Python3 version >= 3.4
 
-* [HDF5](https://www.hdfgroup.org/solutions/hdf5/) hierarchical data format, version >= 1.8
+* [CMake](https://cmake.org/):  verison >= 3.12
 
-* [Eigen](http://eigen.tuxfamily.org/dox/) linear algebra library
+* [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.8
+
+* [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
+
 
 The following packages are automatically built by OpenCAP at the CMake step:
 
-* [Numgrid](https://github.com/dftlibs/numgrid) numerical integration library
+* [Numgrid](https://github.com/dftlibs/numgrid): numerical integration library
 
-* [h5pp](https://github.com/DavidAce/h5pp) C++17 wrapper for HDF5
+* [h5pp](https://github.com/DavidAce/h5pp): C++17 wrapper for HDF5
 
-* [pybind11](https://github.com/pybind/pybind11) C++ Python bindings
+* [pybind11](https://github.com/pybind/pybind11): C++ Python bindings
 
-## Install the executable with CMake
+
+## OpenCAP (command line version)
 
 First clone the git repo
 
@@ -65,15 +68,13 @@ First clone the git repo
 
 git clone https://github.com/gayverjr/opencap.git
 
-cd opencap
+cd opencap/opencap
 
 ```
 
 Generate the Makefile using CMake
 
 ```
-
-cd opencap
 
 mkdir build
 
@@ -93,7 +94,7 @@ make install
 
 ```
 
-## Installing the python package (experimental)
+## PyOpenCAP (Python module)
 
 First clone the git repo
 
@@ -118,6 +119,32 @@ The module is now importable within a python shell as "pyopencap".
 import pyopencap
 ```
 
+# Troubleshooting
+
+MacOS users on High Sierra and Mojave may run into issues compiling with the default 
+Apple Clang which is shipped with XCode, as these compilers do not have full C++17 support. 
+
+## Option 1: Install GCC (recommended)
+The latest GCC can be downloaded using [Homebrew](https://formulae.brew.sh/formula/gcc).
+One should set the following environment variables before attempting to build the command 
+line version or attempting to pip install the Python version:
+
+````
+brew install gcc
+export CC=gcc-10
+export CXX=g++-10
+````
+
+## Option 2: Set CMake flags (Mojave only)
+On MacOS Mojave, the missing std::filesystem can be fetched using the CMake flag
+"H5PP_DOWNLOAD_METHOD". Unfortunately, there is no easy way to pass this flag to pip for 
+installing the Python module, so we suggest Option 1 if you want to install PyOpenCAP.
+
+```
+cmake -DH5PP_DOWNLOAD_METHOD=fetch ..
+```
+
+ 
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
 
