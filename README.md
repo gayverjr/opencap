@@ -51,8 +51,8 @@ Compiling PyOpenCAP from source requires first installing all of our [dependenci
 See our [documentation](https://gayverjropencap.readthedocs.io/en/latest/) for more details. 
 
 If your operating system/Python environment is not covered by any of our pre-built wheels,
-the command `<pip install pyopencap>` will download the tarball and try to compile from source.
-You can also clone the repository and do the same thing yourself with pip:
+the command `pip install pyopencap` will download the tarball and try to compile from source.
+You can also clone the repository and pip install a local version:
 
 ```
 git clone https://github.com/gayverjr/opencap.git
