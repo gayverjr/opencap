@@ -6,3 +6,5 @@ include opencap/tests/*
 include opencap/tests/data/*
 include opencap/tests/qchem/*
 include opencap/tests/openmolcas/*
+include LICENSE
+include MANIFEST.in

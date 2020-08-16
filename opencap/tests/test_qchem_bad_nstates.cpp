@@ -1,8 +1,5 @@
 /*
  * test_qchem_bad_nstates.cpp
- *
- *  Created on: Aug 8, 2020
- *      Author: JG
  */
 #include <iostream>
 #include <vector>
