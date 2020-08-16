@@ -22,8 +22,7 @@ OpenCAP is an open-source application aimed at extending the capabilities of ele
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
-Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory 
-to help get you started on using the software.
+Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory to help get you started on using the software.
 
 # Documentation
 Our documentation is currently under construction. We have separate documentation for the 
@@ -36,31 +35,58 @@ more at users).
 
 # Installation
 
-## Dependencies
+## PyOpenCAP (Python module) 
 
-OpenCAP requires the following:
+### Installing with pip (coming soon...)
 
-* C++ compiler with C++17 support (MacOS users, please see [troubleshooting](#Troubleshooting))
+    pip install pyopencap
 
-* Python3 version >= 3.4
+Precompiled Python wheels will soon be available on Pypi for almost all Linux systems, and 
+most MacOS systems, for Python versions 3.4 and later. This will be the recommended way of 
+installing PyOpenCAP. 
 
-* [CMake](https://cmake.org/):  verison >= 3.12
+### Compiling from source
 
-* [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.8
+Compiling PyOpenCAP from source requires the [dependencies](#Dependencies) listed below. 
+See our [documentation](https://gayverjropencap.readthedocs.io/en/latest/) for more details. 
 
-* [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
+If your operating system/Python environment is not covered by any of our pre-built wheels,
+pip will then try to compile from source. Clone the repository and install with pip:
 
+```
+git clone https://github.com/gayverjr/opencap.git
 
-The following packages are automatically built by OpenCAP at the CMake step:
+cd opencap
 
-* [Numgrid](https://github.com/dftlibs/numgrid): numerical integration library
+pip install .
+```
 
-* [h5pp](https://github.com/DavidAce/h5pp): C++17 wrapper for HDF5
+To ensure that the installation was successful, start a Python shell, and type:
 
-* [pybind11](https://github.com/pybind/pybind11): C++ Python bindings
+    import pyopencap
 
+For Linux users, any compiler which fully supports the C++17 standard should work 
+(e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
+compiler.
+
+For Mac users, the Apple Clang provided by XCode will not work due to missing standard 
+library features. We suggest installing the latest version of GCC (currently 10.2) 
+from [Homebrew](https://formulae.brew.sh/formula/gcc), and then setting the following 
+environment variables before attempting to pip install:
+
+```
+# for GCC 10 installed by brew
+
+export CC=gcc-10
+
+export CXX=g++-10
+```
 
 ## OpenCAP (command line version)
+
+Compiling OpenCAP requires the [dependencies](##Dependencies) listed below. See our 
+[documentation](https://gayverjr.github.io/opencap/) for more details. Assuming these 
+are all installed in locations visible to CMake, installation can proceed as follows:
 
 First clone the git repo
 
@@ -72,7 +98,7 @@ cd opencap/opencap
 
 ```
 
-Generate the Makefile using CMake
+Then generate the Makefile using CMake
 
 ```
 
@@ -80,70 +106,59 @@ mkdir build
 
 cd build
 
-cmake ../
+cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 ```
 
-Finally, make and install
+For Mac users on MacOS 10.14 Mojave or MacOS 10.15 Catalina, the Apple Clang provided by 
+XCode is missing some C++17 standard library features, causing the CMake step to fail. A drop-in
+replacement for the missing std::filesystem can be automatically downloaded and installed by 
+passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
+
+
+    cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
+
+For Mac users on MacOS 10.13 High Sierra or earlier, the Apple Clang provided by XCode 
+will not work. We suggest installing the latest version of GCC (currently 10.2) 
+from [Homebrew](https://formulae.brew.sh/formula/gcc), and then setting proper environment 
+variables for CMake:
+
+    CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir .
+
+
+Once the Makefile is generated, build, test, and install the executable.
 
 ```
-
 make
+
+make test
 
 make install
 
 ```
 
-## PyOpenCAP (Python module)
+# Dependencies
 
-First clone the git repo
+Building OpenCAP/PyOpenCAP from source requires the following:
 
-```
+* C++ compiler with full C++17 language support and standard libraries (Warning: MacOS Clang is not supported)
 
-git clone https://github.com/gayverjr/opencap.git
+* Python3 version >= 3.4
 
-cd opencap
+* [CMake](https://cmake.org/):  verison >= 3.12
 
-```
+* [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.8
 
-Then pip install
+* [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
 
-```
-pip install .
 
-```
+The following packages are automatically built by OpenCAP at the CMake step (no action required):
 
-The module is now importable within a python shell as "pyopencap".
+* [Numgrid](https://github.com/dftlibs/numgrid): numerical integration library
 
-```
-import pyopencap
-```
+* [h5pp](https://github.com/DavidAce/h5pp): C++17 wrapper for HDF5
 
-# Troubleshooting
-
-MacOS users on High Sierra and Mojave may run into issues compiling with the default 
-Apple Clang which is shipped with XCode, as these compilers do not have full C++17 support. 
-
-## Option 1: Install GCC (recommended)
-The latest GCC can be downloaded using [Homebrew](https://formulae.brew.sh/formula/gcc).
-One should set the following environment variables before attempting to build the command 
-line version or attempting to pip install the Python version:
-
-````
-brew install gcc
-export CC=gcc-10
-export CXX=g++-10
-````
-
-## Option 2: Set CMake flags (Mojave only)
-On MacOS Mojave, the missing std::filesystem can be fetched using the CMake flag
-"H5PP_DOWNLOAD_METHOD". Unfortunately, there is no easy way to pass this flag to pip for 
-installing the Python module, so we suggest Option 1 if you want to install PyOpenCAP.
-
-```
-cmake -DH5PP_DOWNLOAD_METHOD=fetch ..
-```
-
+* [pybind11](https://github.com/pybind/pybind11): C++ Python bindings
  
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
