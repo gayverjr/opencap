@@ -51,7 +51,8 @@ Compiling PyOpenCAP from source requires the [dependencies](#Dependencies) liste
 See our [documentation](https://gayverjropencap.readthedocs.io/en/latest/) for more details. 
 
 If your operating system/Python environment is not covered by any of our pre-built wheels,
-pip will then try to compile from source. Clone the repository and install with pip:
+pip will then try to compile from source. You can also clone the repository and install 
+yourself with pip:
 
 ```
 git clone https://github.com/gayverjr/opencap.git
