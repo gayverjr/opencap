@@ -1,8 +1,6 @@
 /*
  * test_qchem_cart_inline.cpp
  *
- *  Created on: Jul 21, 2020
- *      Author: JG
  */
 #include <iostream>
 #include <vector>

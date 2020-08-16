@@ -1,8 +1,6 @@
 /*
  * test_qchem_bad_basis.cpp
  *
- *  Created on: Jul 22, 2020
- *      Author: JG
  */
 #include <iostream>
 #include <vector>
