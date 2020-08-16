@@ -78,7 +78,7 @@ Once CAP matrix is evaluated the CAP-augmented Hamiltonian is constructed as fol
 
 .. centered:: :math:`H^{CAP}=H_0-i\eta W`
 
-where :math:`H_0` is an appropriate zeroth order Hamiltonian obtained from obtained from 
+where :math:`H_0` is an appropriate zeroth order Hamiltonian obtained from 
 the electronic structure calculation, and :math:`W` is the CAP represented in the subspace. 
 Diagonalization of this CAP-augmented Hamiltonian
 yields :math:`\eta`-depdendent eigenvalues that are used to extract 
