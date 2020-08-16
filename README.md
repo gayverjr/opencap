@@ -124,7 +124,7 @@ will not work. We suggest installing the latest version of GCC (currently 10.2)
 from [Homebrew](https://formulae.brew.sh/formula/gcc), and then setting proper environment 
 variables for CMake:
 
-    CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir .
+    CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 
 Once the Makefile is generated, build, test, and install the executable.
