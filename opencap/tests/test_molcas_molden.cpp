@@ -1,8 +1,6 @@
 /*
  * test_molcas_molden.cpp
  *
- *  Created on: Aug 8, 2020
- *      Author: JG
  */
 #include <iostream>
 #include <vector>

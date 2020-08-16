@@ -62,17 +62,13 @@ cd opencap
 pip install .
 ```
 
-To ensure that the installation was successful, start a Python shell, and type:
-
-    import pyopencap
-
 For Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
 compiler.
 
 For Mac users, the Apple Clang provided by XCode will not work due to missing standard 
 library features. We suggest installing the latest version of GCC (currently 10.2) 
-from [Homebrew](https://formulae.brew.sh/formula/gcc), and then setting the following 
+from [Homebrew](https://brew.sh/), and then setting the following 
 environment variables before attempting to pip install:
 
 ```
@@ -83,9 +79,16 @@ export CC=gcc-10
 export CXX=g++-10
 ```
 
+To ensure that the installation was successful, start a Python shell, and type:
+
+    import pyopencap
+
+See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/pyopencap) directory 
+and our [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started.
+
 ## OpenCAP (command line version)
 
-Compiling OpenCAP requires the [dependencies](##Dependencies) listed below. See our 
+Compiling OpenCAP requires the [dependencies](#Dependencies) listed below. See our 
 [documentation](https://gayverjr.github.io/opencap/) for more details. Assuming these 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
@@ -111,23 +114,31 @@ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 ```
 
+### MacOS 
+
 For Mac users on MacOS 10.14 Mojave or MacOS 10.15 Catalina, the Apple Clang provided by 
-XCode is missing some C++17 standard library features, causing the CMake step to fail. A drop-in
+XCode is missing some C++17 standard library features, which will cause CMake to fail. A drop-in
 replacement for the missing std::filesystem can be automatically downloaded and installed by 
 passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
-
 
     cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 For Mac users on MacOS 10.13 High Sierra or earlier, the Apple Clang provided by XCode 
 will not work. We suggest installing the latest version of GCC (currently 10.2) 
-from [Homebrew](https://formulae.brew.sh/formula/gcc), and then setting proper environment 
+from [Homebrew](https://brew.sh/), and then setting proper environment 
 variables for CMake:
 
     CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 
-Once the Makefile is generated, build, test, and install the executable.
+### Linux
+
+For Linux users, any compiler which fully supports the C++17 standard should work 
+(e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
+compiler.
+
+
+Once the Makefile is generated, build install the executable.
 
 ```
 make
@@ -138,11 +149,23 @@ make install
 
 ```
 
+To verify your installation, run the tests in the build directory
+
+    make test
+
+To run OpenCAP, specify an input file from the command line
+
+    /path/to/opencap input_file.in 
+
+See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/opencap) directory 
+and our [documentation](https://gayverjr.github.io/opencap/input.html) to help get you started.
+
+
 # Dependencies
 
 Building OpenCAP/PyOpenCAP from source requires the following:
 
-* C++ compiler with full C++17 language support and standard libraries (Warning: MacOS Clang is not supported)
+* C++ compiler with full C++17 language support and standard libraries (*Warning: Apple Clang on MacOS is not supported*)
 
 * Python3 version >= 3.4
 
@@ -153,7 +176,7 @@ Building OpenCAP/PyOpenCAP from source requires the following:
 * [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
 
 
-The following packages are automatically built by OpenCAP at the CMake step (no action required):
+The following packages are automatically built at the CMake step (no action required):
 
 * [Numgrid](https://github.com/dftlibs/numgrid): numerical integration library
 
@@ -163,6 +186,5 @@ The following packages are automatically built by OpenCAP at the CMake step (no 
  
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
-
 
 ![MolSSI logo](https://github.com/gayverjr/OpenCAP/blob/master/images/molssi_logo.png)
