@@ -37,7 +37,7 @@ more at users).
 
 ## PyOpenCAP (Python module) 
 
-### Installing with pip (coming soon...)
+### Installation with pip (coming soon...)
 
     pip install pyopencap
 
@@ -45,14 +45,14 @@ Precompiled Python wheels will soon be available on Pypi for almost all Linux sy
 most MacOS systems, for Python versions 3.4 and later. This will be the recommended way of 
 installing PyOpenCAP. 
 
-### Compiling from source
+### Build from source
 
-Compiling PyOpenCAP from source requires the [dependencies](#Dependencies) listed below. 
+Compiling PyOpenCAP from source requires first installing all of our [dependencies](#Dependencies). 
 See our [documentation](https://gayverjropencap.readthedocs.io/en/latest/) for more details. 
 
 If your operating system/Python environment is not covered by any of our pre-built wheels,
-pip will then try to compile from source. You can also clone the repository and install 
-yourself with pip:
+the command `<pip install pyopencap>` will download the tarball and try to compile from source.
+You can also clone the repository and do the same thing yourself with pip:
 
 ```
 git clone https://github.com/gayverjr/opencap.git
@@ -88,9 +88,11 @@ and our [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.htm
 
 ## OpenCAP (command line version)
 
-Compiling OpenCAP requires the [dependencies](#Dependencies) listed below. See our 
+Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). See our 
 [documentation](https://gayverjr.github.io/opencap/) for more details. Assuming these 
 are all installed in locations visible to CMake, installation can proceed as follows:
+
+### Basic steps
 
 First clone the git repo
 
@@ -114,10 +116,21 @@ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 ```
 
+Once the Makefile is generated, build install the executable.
+
+```
+make
+
+make test
+
+make install
+
+```
+
 ### MacOS 
 
 For Mac users on MacOS 10.14 Mojave or MacOS 10.15 Catalina, the Apple Clang provided by 
-XCode is missing some C++17 standard library features, which will cause CMake to fail. A drop-in
+XCode is missing some C++17 standard library features, which will cause the CMake step to fail. A drop-in
 replacement for the missing std::filesystem can be automatically downloaded and installed by 
 passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
 
@@ -130,24 +143,13 @@ variables for CMake:
 
     CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
-
 ### Linux
 
 For Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
 compiler.
 
-
-Once the Makefile is generated, build install the executable.
-
-```
-make
-
-make test
-
-make install
-
-```
+### Verify installation
 
 To verify your installation, run the tests in the build directory
 
@@ -163,15 +165,15 @@ and our [documentation](https://gayverjr.github.io/opencap/input.html) to help g
 
 # Dependencies
 
-Building OpenCAP/PyOpenCAP from source requires the following:
+Building OpenCAP/PyOpenCAP from source requires working installations of the following:
 
-* C++ compiler with full C++17 language support and standard libraries (*Warning: Apple Clang on MacOS is not supported*)
+* C++ compiler with full C++17 language support and standard libraries (**Warning: Apple Clang on MacOS is not fully supported**)
 
 * Python3 version >= 3.4
 
 * [CMake](https://cmake.org/):  verison >= 3.12
 
-* [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.8
+* [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.10
 
 * [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
 
