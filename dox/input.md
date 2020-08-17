@@ -63,7 +63,7 @@ Ghost centers with zero nuclear charge can be specified using the symbol "X".
 By default, units are assumed to be Angstroms.
 
 Perturb_CAP
-====
+===========
 
 This section allows one to specify the parameters used to define the complex absorbing potential, 
 the data read in from the electronic structure calculation, and the grid used for numerical integration.
