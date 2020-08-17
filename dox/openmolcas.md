@@ -1,7 +1,7 @@
 OpenMolcas Interface {#molcas}
 =============================
 
-OpenMolcas is a widely used quantum chemistry package which specializes in multiconfigurational approaches.
+[OpenMolcas](https://molcas.gitlab.io/OpenMolcas/sphinx/) is a widely used quantum chemistry package which specializes in multiconfigurational approaches.
 Here, we focus on how to use the software in tandem with OpenCAP to perform calculations on resonances. 
 
 System

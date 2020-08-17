@@ -11,6 +11,10 @@ cost of a single bound-state electronic structure calculation.
 
 To get started, please see our :ref:`tutorial <tutorial>`.
 
+PyOpenCAP is released under the MIT license_.
+
+.. _license: https://github.com/gayverjr/opencap/blob/master/LICENSE
+
 Supported Packages
 ===================
 
@@ -44,6 +48,7 @@ Contents
 .. toctree::
    :maxdepth: 1
 
+   install.rst
    tutorial.rst
    theory.rst
    interfaces.rst
