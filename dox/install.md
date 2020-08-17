@@ -2,7 +2,8 @@ Installation {#install}
 =======================
 
 Installing the dependencies
----------------------------------
+============================
+
 Building OpenCAP requires the following:
 
 * C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS requires special care**)
@@ -30,7 +31,8 @@ The following packages are automatically built at the CMake step (no action requ
 
 
 Basic steps
------------
+============
+
 These steps have been tested on MacOS 10.13-10.15, and on Centos7.
 
 First clone the git repo 
@@ -49,7 +51,7 @@ Once the Makefile is generated, build and install the executable.
     make
     make install
 
-### MacOS 
+__MacOS__ 
 
 For Mac users on **MacOS 10.14 Mojave** or **MacOS 10.15 Catalina**, the Apple Clang provided by 
 XCode is missing some C++17 standard library features, which will cause the CMake step to fail. A drop-in
@@ -65,13 +67,14 @@ variables for CMake:
 
     CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
-### Linux
+__Linux__
 
 For Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
 compiler.
 
-### Verify installation
+Verify installation
+====================
 
 To verify your installation, run the tests in the build directory
 
