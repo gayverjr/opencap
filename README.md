@@ -37,7 +37,7 @@ more at users).
 
 ## PyOpenCAP (Python module) 
 
-### Installation with pip (coming soon...)
+### Install with pip (coming soon...)
 
     pip install pyopencap
 
@@ -48,11 +48,27 @@ installing PyOpenCAP.
 ### Build from source
 
 Compiling PyOpenCAP from source requires first installing all of our [dependencies](#Dependencies). 
-See our [documentation](https://gayverjropencap.readthedocs.io/en/latest/) for more details. 
+
+For Linux users, any compiler which fully supports the C++17 standard should work 
+(e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
+compiler.
+
+For Mac users, as of MacOS 10.15 Catalina, the Apple Clang provided by XCode will not work due to missing standard 
+library features. We suggest installing the latest version of GCC (currently 10.2) 
+from [Homebrew](https://brew.sh/), and then setting the following 
+environment variables before attempting to build from source:
+
+```
+# for GCC 10 installed by Homebrew
+
+export CC=gcc-10
+
+export CXX=g++-10
+```
 
 If your operating system/Python environment is not covered by any of our pre-built wheels,
-the command `pip install pyopencap` will download the tarball and try to compile from source.
-You can also clone the repository and pip install a local version:
+the command `pip install pyopencap` will download the tarball from Pypi and try to compile from source.
+You can also clone the repository and install a local version:
 
 ```
 git clone https://github.com/gayverjr/opencap.git
@@ -62,22 +78,8 @@ cd opencap
 pip install .
 ```
 
-For Linux users, any compiler which fully supports the C++17 standard should work 
-(e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
-compiler.
-
-For Mac users, the Apple Clang provided by XCode will not work due to missing standard 
-library features. We suggest installing the latest version of GCC (currently 10.2) 
-from [Homebrew](https://brew.sh/), and then setting the following 
-environment variables before attempting to pip install:
-
-```
-# for GCC 10 installed by brew
-
-export CC=gcc-10
-
-export CXX=g++-10
-```
+Compiling from source will take several minutes. To monitor your progress, you can run pip 
+with the `--verbose` flag.
 
 To ensure that the installation was successful, start a Python shell, and type:
 
@@ -87,12 +89,11 @@ See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/pyop
 and our [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started.
 
 ## OpenCAP (command line version)
-
-Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). See our 
-[documentation](https://gayverjr.github.io/opencap/) for more details. Assuming these 
+Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). Assuming these 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
 ### Basic steps
+These steps have been tested on MacOS 10.13-10.15, and on Centos7.
 
 First clone the git repo
 
@@ -116,12 +117,10 @@ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 ```
 
-Once the Makefile is generated, build install the executable.
+Once the Makefile is generated, build and install the executable.
 
 ```
 make
-
-make test
 
 make install
 
@@ -129,18 +128,19 @@ make install
 
 ### MacOS 
 
-For Mac users on MacOS 10.14 Mojave or MacOS 10.15 Catalina, the Apple Clang provided by 
+For Mac users on **MacOS 10.14 Mojave** or **MacOS 10.15 Catalina**, the Apple Clang provided by 
 XCode is missing some C++17 standard library features, which will cause the CMake step to fail. A drop-in
 replacement for the missing std::filesystem can be automatically downloaded and installed by 
 passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
 
     cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
-For Mac users on MacOS 10.13 High Sierra or earlier, the Apple Clang provided by XCode 
-will not work. We suggest installing the latest version of GCC (currently 10.2) 
+For Mac users on **MacOS 10.13 High Sierra** or earlier, the Apple Clang provided by XCode 
+**will not work**. We suggest installing the latest version of GCC (currently 10.2) 
 from [Homebrew](https://brew.sh/), and then setting proper environment 
 variables for CMake:
 
+    # for GCC10 installed by Homebrew
     CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 ### Linux
@@ -167,16 +167,20 @@ and our [documentation](https://gayverjr.github.io/opencap/input.html) to help g
 
 Building OpenCAP/PyOpenCAP from source requires working installations of the following:
 
-* C++ compiler with full C++17 language support and standard libraries (**Warning: Apple Clang on MacOS is not fully supported**)
+* C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS is not fully supported**)
 
 * Python3 version >= 3.4
 
-* [CMake](https://cmake.org/):  verison >= 3.12
+* [CMake](https://cmake.org/):  version >= 3.12
 
 * [HDF5](https://www.hdfgroup.org/solutions/hdf5/): hierarchical data format, version >= 1.10
 
 * [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
 
+All of these dependencies are available through standard package managers such as 
+[Homebrew](https://brew.sh/), [Conda](https://docs.conda.io/en/latest/), and yum/apt-get 
+on Linux. Please consult their respective websites for more information, and ensure that you 
+have recent enough versions installed on your machine.
 
 The following packages are automatically built at the CMake step (no action required):
 
