@@ -97,6 +97,15 @@ __OpenMolcas Interface__
 | molcas_output | string | Relative or absolute path to OpenMolcas output file.  Required when h0_file keyword is unspecified.  |
 
 __Box %CAP__
+
+A quadratic potential which encloses the system in a 3D rectangular box. Functional form:
+
+\f$    W= W_x + W_y +W_z  \f$ 
+
+\f$ W_{\alpha} = 0\f$, \f$ \left|r_{\alpha}\right| < R_{\alpha}^0 \f$
+
+\f$ W_{\alpha} = \left(r_{\alpha} - R_{\alpha}^0 \right)^2,\f$  \f$ \left|r_{\alpha}\right| > R_{\alpha}^0 \f$
+
 | Keyword | Type | Description |
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 | CAP_X | float | Onset of %CAP in x-direction. Specify in bohr units.|
@@ -104,6 +113,21 @@ __Box %CAP__
 | CAP_Z | float | Onset of %CAP in z-direction. Specify in bohr units.|
 
 __Voronoi %CAP__
+
+A quadratic potential which uniformly wraps around the system at a specified cutoff radius. 
+The edges between between Voronoi cells are smoothed out to make the potential more 
+amenable to numerical integration. Functional form:
+
+\f$ W(\vec{r}) = 0,\f$  \f$r_{WA} \leq r_{cut} \f$ 
+
+\f$ W(\vec{r}) = (r_{WA} - r_{cut} )^2,\f$   \f$r_{WA} > r_{cut} \f$
+
+\f$ r_{WA}(\vec{r}) = \sqrt{\frac{\sum_{i} w_{i}|\vec{r}-\vec{R}_i|^2}{\sum_{i} w_{i}}} \f$
+    
+\f$ w_{i} = \frac{1}{(|\vec{r}-\vec{R}_i|^2-r_{min}^2+1 a.u.)^2} \f$
+	
+\f$ r_{min} = \min\limits_{i}{|\vec{r}-\vec{R}_i|} \f$
+
 | Keyword | Type | Description |
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 |r_cut | float | Cutoff radius for Voronoi %CAP. Specify in bohr units.|
