@@ -22,7 +22,7 @@ OpenCAP is an open-source application aimed at extending the capabilities of ele
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
-Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory to help get you started on using the software.
+Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory or the [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started on using the software.
 
 # Documentation
 Our documentation is currently under construction. We have separate documentation for the 
