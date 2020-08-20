@@ -393,7 +393,7 @@ void CAP::verify_data()
 		for(size_t j=0;j<nstates;j++)
 			if(!(alpha_dms[i][j].cols() == alpha_dms[i][j].rows() && alpha_dms[i][j].rows() == system.bs.Nbasis))
 				opencap_throw("Error: Dimensionality of the density matrices do not match"
-						"the basis set specified in the system object.")
+						" the basis set specified in the system object.")
 	}
 	//beta
 	for(size_t i=0;i<nstates;i++)
