@@ -42,6 +42,6 @@ The following examples are for running CAP/(X)MS-CASPT2 calculations on the ${}^
 ## Viewing the trajectories
 You can use the supplied script cap_trajectory.py as a template for generating the eigenvalue trajectories and extracting the optimal value of the CAP strength parameter.
 
-    python cap_trajectory.py ms-caspt2.out
+    python cap_trajectory.py xms-caspt2.out
 
-![trajectory](https://github.com/gayverjr/opencap/blob/master/examples/opencap/trajectory.png)
+![trajectory](https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/openmolcas/Images/Res_trajectory.png)
