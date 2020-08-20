@@ -19,7 +19,7 @@ Supported Packages
 ===================
 
 * OpenMolcas_
-* Pyscf_
+* PySCF_
 
 Supported Potentials
 ====================
@@ -36,7 +36,7 @@ Upcoming features
 * interface to Psi4_
 
 .. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
-.. _Pyscf: http://pyscf.org/
+.. _PySCF: http://pyscf.org/
 .. _Psi4: http://www.psicode.org/
 .. _OpenCAP: https://github.com/gayverjr/opencap
 .. _pybind11: https://github.com/pybind/pybind11

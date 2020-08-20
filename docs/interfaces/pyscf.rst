@@ -1,19 +1,22 @@
 PySCF
 =======================
 
-PySCF is an ab initio computational chemistry program natively implemented in Python. The major
+PySCF_ is an ab initio computational chemistry program natively implemented in Python. The major
 advantage of using Pyscf in tandem with OpenCAP is that calculations can be performed in 
 one-shot within the same python script. Since PySCF allows direct control over data structures such as density matrices, the interface between 
 PySCF and OpenCAP is seamless. Currently, only FCI has been benchmarked, and here we 
 outline how to perform a calculation using this module.
 
+.. _PySCF: http://pyscf.org/
+
 Preliminary: Running the PySCF calculation
 ------------------------------------------
-Please consult the PySCF documentation for how run calculations with PySCF. An example 
+Please consult the PySCF documentation_ for how run calculations with PySCF. An example 
 script_ using FCI is provided in our repository. For FCI, the 
 zeroth order Hamiltonian is a diagonal matrix whose entries are the energies of the FCI states.
 
 .. _script: https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/pyscf/pyscf_example.py
+.. _documentation: https://sunqm.github.io/pyscf/
 
 Step 1: Defining the System object
 ----------------------------------
@@ -32,12 +35,12 @@ and basis set from molden.
 **Inline**
 
 The molecule and basis set can also be specified inline. The "molecule" keyword must 
-be set to "read", and then an additional keyword "geometry:" must
+be set to "read", and then an additional keyword "geometry" must
 be specified, with a string that contains the geometry in xyz format. The "basis_file" keyword 
 must be set to a path to a basis set file formatted in Psi4 style, which can be downloaded from
 the MolSSI BSE_. Other optional keyword for this section include "bohr_coordinates" and
 "cart_bf". Please see the :ref:`keywords <keywords>` section for more details. It is recommended to check the
-overlap matrix to ensure that the ordering matches. Up to G-type functions are supported.
+overlap matrix to ensure that the ordering and normalization matches. Up to G-type functions are supported.
 
 .. code-block:: python
 	

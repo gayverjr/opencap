@@ -5,7 +5,7 @@ This example runs CAP/FCI on a Feshbach resonance of H2.  The aug-cc-pvqz was au
 
 - pyscf_example.py: A CAP/FCI calculation for H2.  Generates zeroth order Hamiltonian (diagonal) and CAP matrix for later processing by cap_trajectory.py. 
 
-- cap_trajectory.py: - cap_trajectory.py: A script which generates eigenvalue trajectories from a properly formatted output file. This file can be easily modified to other systems by changing the guess, the reference energy, and the eta_list defined at the top of the file.
+- cap_trajectory.py: A script which generates eigenvalue trajectories from a properly formatted output file. This file can be easily adapted to other systems by changing the guess, the reference energy, and the eta_list defined at the top of the file.
 
 ## Outputs
 - pyscf_example.out: Output of pyscf_example.py script.

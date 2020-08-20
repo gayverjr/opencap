@@ -2,8 +2,16 @@ import pyopencap
 import numpy as np
 from pandas import DataFrame
 
+#Change these lines to suit your system
+##########################################
+guess=3
+eta_list = np.linspace(0,500,101)
+eta_list = eta_list * 1E-5
+ref_energy= -109.35498051
+au2eV= 27.2113961
 RASSI_FILE = "../../opencap/symm.rassi.h5"
 OUTPUT_FILE = "../../opencap/symm.out"
+##########################################
 
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
@@ -36,9 +44,6 @@ import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-xms_caspt2_energy= -109.35498051
-E_0 = xms_caspt2_energy
-au2eV= 27.2113961
 @functools.total_ordering
 class root():
     def __init__(self, energy, eta):
@@ -83,9 +88,6 @@ class trajectory():
 
 H_0 = h0
 cap_mat = mat
-guess=3
-eta_list = np.linspace(0,500,101)
-eta_list = eta_list * 1E-5
 all_roots=[]
 for i in range(0,len(eta_list)):
     eta=eta_list[i]
@@ -93,7 +95,7 @@ for i in range(0,len(eta_list)):
     fullH = H_0 +1.0j * eta * cap_mat
     eigv,eigvc=LA.eig(fullH)
     for eig in eigv:
-        E = (eig - E_0) * au2eV
+        E = (eig -ref_energy) * au2eV
         roots.append(root(E,eta))
         all_roots.append(root(E,eta))
     if i==0:

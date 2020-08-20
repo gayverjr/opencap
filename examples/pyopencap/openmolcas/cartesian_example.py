@@ -4,8 +4,17 @@ from pandas import DataFrame
 import h5py
 from pyscf import gto, scf, ci, ao2mo
 
+#Change these lines to suit your system
+##########################################
+ref_energy = -109.35814085
+au2eV= 27.2113961
+guess = 2.2
+eta_list = np.linspace(0,500,101)
+eta_list = eta_list * 1E-5
 RASSI_FILE = "../../opencap/cart.rassi.h5"
 OUTPUT_FILE = "../../opencap/cart.out"
+nbasis=140
+##########################################
 
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
@@ -27,7 +36,7 @@ es_dict = {"method" : "ms-caspt2",
 f = h5py.File(RASSI_FILE, 'r')
 dms = f["SFS_TRANSITION_DENSITIES"]
 overlap_mat = np.array(f["AO_OVERLAP_MATRIX"])
-overlap_mat= np.reshape(overlap_mat,(140,140))
+overlap_mat= np.reshape(overlap_mat,(nbasis,nbasis))
 
 # Method 1: Use renormalize function after reading in data
 s = pyopencap.System(sys_dict)
@@ -45,7 +54,7 @@ h0 = pc.get_H()
 pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
-        dm1 = 0.5*np.reshape(dms[i][j],(140,140))
+        dm1 = 0.5*np.reshape(dms[i][j],(nbasis,nbasis))
         pc.add_tdms(dm1,dm1,i,j,"openmolcas",RASSI_FILE)
         if i!=j:
             pc.add_tdms(dm1,dm1,j,i,"openmolcas",RASSI_FILE)
@@ -61,8 +70,7 @@ import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-ref_energy = -109.35814085
-au2eV= 27.2113961
+
 
 # a root is a single eigenvalue of the cap hamiltonian at a particular value of eta
 @functools.total_ordering
@@ -113,10 +121,6 @@ class trajectory():
 H_0 = h0
 cap_mat = mat
 # A previous run through of this script showed the resonance trajectory starting near 2.2eV, so that'll be our initial guess
-guess = 2.2
-# range of eta values
-eta_list = np.linspace(0,1000,201)
-eta_list = eta_list * 1E-5
 all_roots=[]
 # diagonalize over range of eta values and generate trajectories
 for i in range(0,len(eta_list)):
