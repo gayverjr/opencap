@@ -5,6 +5,8 @@ project(opencap
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
+option(BUILD_PYOPENCAP    "Builds Python module"          OFF)
+option(BUILD_OPENCAP      "Builds command line version"   ON)
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB BIND_SOURCES "bindings/*.cpp")
@@ -59,17 +61,22 @@ endif(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+if(BUILD_PYOPENCAP)
+message("Building PyOpenCAP python module.")
 pybind11_add_module(pyopencap_cpp ${SOURCES} ${BIND_SOURCES})
 target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects Eigen3::Eigen h5pp::h5pp)
+endif()
 
+if (BUILD_OPENCAP)
+message("Building OpenCAP executable.")
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})
-target_link_libraries(opencap ${HDF5_LIBRARIES} ${PYTHON_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
-target_link_libraries(opencap-shared ${HDF5_LIBRARIES} ${PYTHON_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
+target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
+target_link_libraries(opencap-shared ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
 
 install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
-
 enable_testing()
 add_subdirectory(tests)
+endif()
