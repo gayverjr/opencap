@@ -9,7 +9,7 @@ import argparse
 # Alter these values to suit your purposes
 ref_energy = -109.36009153
 guess = 2.2
-eta_list = np.linspace(0,400,101)
+eta_list = np.linspace(0,500,101)
 ###########################
 au2eV= 27.2113961
 eta_list = eta_list * 1E-5

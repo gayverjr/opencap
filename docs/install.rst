@@ -77,7 +77,7 @@ You can also clone the repository and install a local version:
 Compiling from source will take several minutes. To monitor your progress, you can run pip 
 with the `--verbose` flag.
 
-To ensure that the installation was successful, start a Python shell, and type:
+To ensure that the installation was successful, return to your home directory, start a Python shell, and type:
 
 .. code:: python
    
