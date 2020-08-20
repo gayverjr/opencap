@@ -104,7 +104,7 @@ be set to "read", and then an additional keyword "geometry:" must
 be specified, with a string that contains the geometry in xyz format. The "basis_file" keyword 
 must be set to a path to a basis set file formatted in Psi4 style, which can be downloaded from
 the MolSSI BSE_. Other optional keyword for this section include "bohr_coordinates" and
-cart_bf. Please see the :ref:`keywords <keywords>`. section for more details. Up to G-type 
+cart_bf. Please see the :ref:`keywords <keywords>` section for more details. Up to G-type 
 functions are supported.
 
 .. code-block:: python
