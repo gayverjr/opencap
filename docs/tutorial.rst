@@ -115,9 +115,9 @@ The resonance trajectory will vary slowest with the changing CAP strength. Zoomi
 trajectory near 2.2eV, we also plot the "corrected" trajectory, which is obtained by applying the
 first-order correction: 
 
-.. image:: images/res_trajectory.png
-
 :math:`U(\eta)=E(\eta)-\eta\frac{\partial E(\eta) }{\partial \eta}`.
+
+.. image:: images/res_trajectory.png
 
 Finally, the best estimate of resonance position and width are obtained at the stationary point 
 

@@ -83,7 +83,7 @@ with the `--verbose` flag.
 
 ### Verify installation
 
-To ensure that the installation was successful, start a Python shell, and type:
+To ensure that the installation was successful, return to your home directory, start a Python shell, and type:
 
     import pyopencap
 
