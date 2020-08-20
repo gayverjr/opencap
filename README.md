@@ -1,5 +1,5 @@
 <div align="left">
-  <img src="https://github.com/gayverjr/opencap/blob/master/images/opencap_logo.png">
+  <img src="https://github.com/gayverjr/opencap/blob/master/images/opencap_logo.png" height="400px">
 </div>
 
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
