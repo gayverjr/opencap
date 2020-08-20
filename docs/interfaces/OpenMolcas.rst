@@ -1,7 +1,7 @@
 OpenMolcas
 ===========
 
-OpenMolcas is an open-source quantum chemistry package which specializes 
+OpenMolcas_ is an open-source quantum chemistry package which specializes 
 in multiconfigurational approaches to electronic structure. OpenMolcas can be used in tandem 
 with PyOpenCAP to perform complex absorbing potential (extended)multi-state complete active 
 space second order perturbation theory [**CAP/(X)MS-CASPT2**] calculations, which have been 
@@ -16,6 +16,7 @@ and is most often guided by chemical intuition. We refer the reader to the OpenM
 manual_ for how to prepare input orbitals for a state-averaged RASSCF calculation. 
 
 .. _manual: https://molcas.gitlab.io/OpenMolcas/sphinx/
+.. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
 
 Step 1: Running the OpenMolcas calculation
 ------------------------------------------
@@ -141,7 +142,7 @@ Before we can compute the CAP matrix in the state basis, we must load in the den
 There are two ways of doing this. The first is to use the :func:`~pyopencap.CAP.read_data` function. 
 As shown below, we define a dictionary which contains the following keys: "method" 
 (electronic structure method chosen), "rassi_h5"(density matrices), and "molcas_output"(output file containing effective Hamiltonian).
-The effective Hamiltonian can be retrieved using the "get_H" function of the :class:`~pyopencap.CAP` object. Currently, only the
+The effective Hamiltonian can be retrieved using the :func:`~pyopencap.CAP.get_H` function of the :class:`~pyopencap.CAP` object. Currently, only the
 effective Hamiltonians from (X)MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
 We note that when :func:`~pyopencap.CAP.read_data` is used, our code symmetrizes the 
 CAP matrix in the state basis.
@@ -157,8 +158,7 @@ CAP matrix in the state basis.
 
 Alternatively, one can load in the densities one at a time using :func:`~pyopencap.CAP.add_tdm`.
 In our examples below, we load in the matrices from rassi.h5 using the h5py package, and then
-pass them as numpy arrays to the :class:`~pyopencap.CAP` object. This can be particularly useful 
-if one wishes to exclude some of the states from the Perturbative CAP calculation.
+pass them as numpy arrays to the :class:`~pyopencap.CAP` object.
 
 .. code-block:: python
 	

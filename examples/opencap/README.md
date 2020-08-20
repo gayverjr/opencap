@@ -37,7 +37,7 @@ The following examples are for running CAP/(X)MS-CASPT2 calculations on the pi* 
 - basis.bas: Basis set file in Psi4 format
 
 ## Scripts
-- cap_trajectory.py: A script which generates eigenvalue trajectories from an OpenCAP output file. This file can be easily modified to other systems by changing the guess, the reference energy, and the eta_list defined at the top of the file.
+- cap_trajectory.py: A script which generates eigenvalue trajectories from an OpenCAP output file. This file can be easily adapted to other systems by changing the guess, the reference energy, and the eta_list defined at the top of the file.
 
 ## Viewing the trajectories
 You can use the supplied script cap_trajectory.py as a template for generating the eigenvalue trajectories and extracting the optimal value of the CAP strength parameter.

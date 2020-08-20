@@ -3,8 +3,16 @@ import numpy as np
 from pandas import DataFrame
 import h5py
 
+#Change these lines to suit your system
+##########################################
+ref_energy = -109.36009153
+guess = 2.2
+eta_list = np.linspace(0,500,101)
+eta_list = eta_list * 1E-5
 RASSI_FILE = "../../opencap/nosymm.rassi.h5"
 OUTPUT_FILE = "../../opencap/nosymm.out"
+nbasis = 119
+##########################################
 
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
@@ -26,7 +34,7 @@ es_dict = {"method" : "ms-caspt2",
 f = h5py.File(RASSI_FILE, 'r')
 arr = f["SFS_TRANSITION_DENSITIES"]
 arr2 = np.array(f["AO_OVERLAP_MATRIX"])
-arr2 = np.reshape(arr2,(119,119))
+arr2 = np.reshape(arr2,(nbasis,nbasis))
 
 # Method 1: Read data from output
 s = pyopencap.System(sys_dict)
@@ -43,7 +51,7 @@ h0 = pc.get_H()
 pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
-        arr1 = 0.5*np.reshape(arr[i][j],(119,119))
+        arr1 = 0.5*np.reshape(arr[i][j],(nbasis,nbasis))
         pc.add_tdms(arr1,arr1,i,j,"openmolcas",RASSI_FILE)
         if i!=j:
             pc.add_tdms(arr1,arr1,j,i,"openmolcas",RASSI_FILE)
@@ -56,7 +64,7 @@ mat=pc.get_perturb_cap()
 pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
     for j in range(i,10):
-        arr1 = np.reshape(arr[i][j],(119,119))
+        arr1 = np.reshape(arr[i][j],(nbasis,nbasis))
         pc.add_tdm(arr1,i,j,"openmolcas",RASSI_FILE)
         if i!=j:
             pc.add_tdm(arr1,j,i,"openmolcas",RASSI_FILE)
@@ -71,7 +79,7 @@ import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-ref_energy = -109.36009153
+
 au2eV= 27.2113961
 
 # a root is a single eigenvalue of the cap hamiltonian at a particular value of eta
@@ -122,11 +130,6 @@ class trajectory():
 
 H_0 = h0
 cap_mat = mat
-# A previous run through of this script showed the resonance trajectory starting near 2.2eV, so that'll be our initial guess
-guess = 2.2
-# range of eta values
-eta_list = np.linspace(0,500,101)
-eta_list = eta_list * 1E-5
 all_roots=[]
 # diagonalize over range of eta values and generate trajectories
 for i in range(0,len(eta_list)):
