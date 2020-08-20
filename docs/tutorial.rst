@@ -90,7 +90,7 @@ In this example, the CAP matrix is made to be symmetric.
     >>>         dm1 = np.reshape(dms[i][j],(119,119))
     >>>         pc.add_tdm(dm1,i,j,"openmolcas",RASSI_FILE)
     >>>     if i!=j:
-    >>>         pc.add_tdms(dm1,j,i,"openmolcas",RASSI_FILE)
+    >>>         pc.add_tdm(dm1,j,i,"openmolcas",RASSI_FILE)
     
 
 Once all of the densities are loaded, the CAP matrix is computed 
