@@ -1,6 +1,6 @@
 # OpenCAP examples
 
-The following examples are for running CAP/(X)MS-CASPT2 calculations on the ${}^2\Pi_g$ shape resonance of $N_2^-$. The basis set is aug-cc-pvtz + a set of even tempered 3s3p3d diffuse basis functions placed on a ghost atom in the center of the molecule.
+The following examples are for running CAP/(X)MS-CASPT2 calculations on the pi* shape resonance of N2-. The basis set is aug-cc-pvtz + a set of even tempered 3s3p3d diffuse basis functions placed on a ghost atom in the center of the molecule.
 
 ## Input files
 
@@ -44,4 +44,4 @@ You can use the supplied script cap_trajectory.py as a template for generating t
 
     python cap_trajectory.py xms-caspt2.out
 
-![trajectory](https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/openmolcas/Images/Res_trajectory.png)
+![trajectory](https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/openmolcas/Images/res_trajectory.png)

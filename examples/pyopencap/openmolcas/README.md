@@ -1,5 +1,5 @@
 # PyOpenCAP Molcas examples
-The following examples run CAP/(X)MS-CASPT2 calculations on the ${}^2\Pi_g$ shape resonance of $N_2^-$. The basis set is aug-cc-pvtz + a set of even tempered 3s3p3d diffuse basis functions placed on a ghost atom in the center of the molecule.
+The following examples run CAP/(X)MS-CASPT2 calculations on the pi* shape resonance of N2-. The basis set is aug-cc-pvtz + a set of even tempered 3s3p3d diffuse basis functions placed on a ghost atom in the center of the molecule.
 
 ## Scripts
 
