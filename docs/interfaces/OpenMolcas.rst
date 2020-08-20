@@ -22,9 +22,7 @@ Step 1: Running the OpenMolcas calculation
 **State-averaged RASSCF**
 
 In order to utilize the Perturbative CAP approach, a multi-state excited state calculation must be performed.
-In the RASSCF module, the keyword 'CIROOT' is used to activate state-averaged RASSCF calculations. The number of 
-states required for the averaging varies based on the system and the active space. Setting
-the number of states equal to the number of orbitals in the active space is a good starting point. 
+In the RASSCF module, the keyword 'CIROOT' is used to activate state-averaged RASSCF calculations. 
 
 .. code-block:: bash
 
@@ -33,7 +31,7 @@ the number of states equal to the number of orbitals in the active space is a go
 
 **Export transition densities with RASSI**
 
-The generate the one-particle densities required to construct the CAP matrix, the RASSI 
+To generate the one-particle densities required to construct the CAP matrix, the RASSI 
 module must be executed with the TRD1 keyword activated. This keyword saves one-particle 
 transition density matrices between each pair of RASSCF states as well as the one-particle 
 density matrices for each state to a file titled $Jobname.rassi.h5.
@@ -45,11 +43,8 @@ density matrices for each state to a file titled $Jobname.rassi.h5.
 
 **Generate effective Hamiltonian with (X)MS-CASPT2**
 
-To generate the zeroth order Hamiltonian, we strongly suggest using the MS-CASPT2 or XMS-CASPT2
-approaches. These approaches generate a second-order effective Hamiltonian which describes 
-interactions between the different RASSCF states. In our experience, this approach yields much more accurate 
-results for resonances than single-state CASPT2, for which the zeroth order Hamiltonian would
-be diagonal. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
+The (X)MS-CASPT2 approach is required to generate an appropriate zeroth Hamiltonian for the 
+perturbative CAP method. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
 module.
 
 .. code-block:: bash
@@ -59,11 +54,14 @@ module.
 	# or
 	Xmultistate = all
 	
-**Ground state energy**
+**Reference energy**
 
-To define the excitation energy of the resonance state, we must know the ground
-state energy of the system at the same level of theory. Ensure that 
-your ground state energy is defined properly when analyzing the results.
+There are multiple strategies for obtaining the reference energy used to define the resonance 
+position. For anionic resonances, one such strategy is to add an additional diffuse orbital to the active space in order to
+mimic ionization, which obtains the resonance and the ground state of the neutral molecule 
+in a single calculation [Kunitsa2017]_. Another strategy (which was used in the :ref:`tutorial <tutorial>`) 
+is to calculate the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 
+anionic state.  
 
 
 Step 2: Importing the data to PyOpenCAP
@@ -72,8 +70,7 @@ Step 2: Importing the data to PyOpenCAP
 **System object**
 
 To run a PyOpenCAP calculation, the geometry and basis set must be imported into a :class:`~pyopencap.System` 
-object. The constructor takes in a Python dictionary as an argument, with 
-key/value pairs which mimic the input file format of the command line version. The relevant
+object. The constructor takes in a Python dictionary as an argument. The relevant
 keywords are discussed here, and more information is provided in the :ref:`keywords <keywords>` page.
 
 *Rassi.h5*
@@ -235,8 +232,8 @@ find success using any of these methods so we can add official support!
 Suggested reading
 -----------------
 
-#. Phung, Q. M.; Komori, Y.; Yanai, T.; Sommerfeld, T.; Ehara, M. Combination of a Voronoi-Type Complex Absorbing Potential with the XMS-CASPT2 Method and Pilot Applications. *J. Chem. Theory Comput.* **2020**, 16 (4), 2606–2616.
+.. [Phung2020] Phung, Q. M.; Komori, Y.; Yanai, T.; Sommerfeld, T.; Ehara, M. Combination of a Voronoi-Type Complex Absorbing Potential with the XMS-CASPT2 Method and Pilot Applications. *J. Chem. Theory Comput.* **2020**, 16 (4), 2606–2616.
 
-#. Kunitsa, A. A.; Granovsky, A. A.; Bravaya, K. B. CAP-XMCQDPT2 Method for Molecular Electronic Resonances. *J. Chem. Phys.* **2017**, 146 (18), 184107.
+.. [Kunitsa2017] Kunitsa, A. A.; Granovsky, A. A.; Bravaya, K. B. CAP-XMCQDPT2 Method for Molecular Electronic Resonances. *J. Chem. Phys.* **2017**, 146 (18), 184107.
 
-#. Al-Saadon, R.; Shiozaki, T.; Knizia, G. Visualizing Complex-Valued Molecular Orbitals. *J. Phys. Chem. A* **2019**, 123 (14), 3223–3228.
+.. [Al-Saadon2019] Al-Saadon, R.; Shiozaki, T.; Knizia, G. Visualizing Complex-Valued Molecular Orbitals. *J. Phys. Chem. A* **2019**, 123 (14), 3223–3228.

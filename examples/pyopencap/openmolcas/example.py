@@ -71,9 +71,10 @@ import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
-xms_caspt2_energy = -109.35714881
-E_0 = xms_caspt2_energy
+ref_energy = -109.36009153
 au2eV= 27.2113961
+
+# a root is a single eigenvalue of the cap hamiltonian at a particular value of eta
 @functools.total_ordering
 class root():
     def __init__(self, energy, eta):
@@ -86,6 +87,7 @@ class root():
     def __eq__(self, other):
         return self.eta == other.eta and self.eta == other.eta
 
+# a trajectory is a group of eigenvalues over a range of eta values, grouped by proximity to an initial guess
 class trajectory():
     def __init__(self,states,guess):
         min=500
@@ -97,15 +99,17 @@ class trajectory():
         self.last=cur
         self.states=[cur]
     
+    # picks out the state from the list of states whose energy is closest to the previous entry in the trajectory
     def add_state(self,states):
         min=500
         cur=-1
         for st in states:
-            if np.absolute(st.energy-guess)<min:
+            if np.absolute(st.energy-self.last.energy)<min:
                 cur=st
                 min=np.absolute(st.energy-self.last.energy)
+        self.last = cur
         self.states.append(cur)
-    
+    # applies first order correciton
     def get_corrections(self):
         energies=[]
         etas=[]
@@ -118,23 +122,28 @@ class trajectory():
 
 H_0 = h0
 cap_mat = mat
-guess=3
-eta_list = np.linspace(0,2000,201)
+# A previous run through of this script showed the resonance trajectory starting near 2.2eV, so that'll be our initial guess
+guess = 2.2
+# range of eta values
+eta_list = np.linspace(0,500,101)
 eta_list = eta_list * 1E-5
 all_roots=[]
+# diagonalize over range of eta values and generate trajectories
 for i in range(0,len(eta_list)):
     eta=eta_list[i]
     roots=[]
     fullH = H_0 +1.0j * eta * cap_mat
     eigv,eigvc=LA.eig(fullH)
     for eig in eigv:
-        E = (eig - E_0) * au2eV
+        E = (eig - ref_energy) * au2eV
         roots.append(root(E,eta))
         all_roots.append(root(E,eta))
     if i==0:
         traj=trajectory(roots,guess)
     else:
         traj.add_state(roots)
+
+# first lets plot everything
 re_traj = []
 im_traj = []
 energies=[]
@@ -142,10 +151,13 @@ for root in all_roots:
     re_traj.append(np.real(root.energy))
     im_traj.append(np.imag(root.energy))
     energies.append(root.energy)
+plt.title("Eigenvalue trajectories")
+plt.xlabel("Re(E)[eV]")
+plt.ylabel("Im(E)[eV]")
 plt.plot(re_traj,im_traj,'ro')
 plt.show()
 
-
+# lets get the corrected trajectory
 traj.get_corrections()
 re_traj = []
 im_traj = []
@@ -160,13 +172,19 @@ for root in traj.states:
     corr_re.append(np.real(root.corr_energy))
     corr_im.append(np.imag(root.corr_energy))
     corr_energies.append(root.corr_energy)
-plt.plot(re_traj,im_traj,'-ro')
-plt.plot(corr_re,corr_im,'-bo')
+# plot uncorrected and corrected trajectory
+plt.title("Resonance trajectory")
+plt.plot(re_traj,im_traj,'-ro',label="Uncorrected trajectory")
+plt.plot(corr_re,corr_im,'-bo',label="Corrected trajectory")
+plt.xlabel("Re(E)[eV]")
+plt.ylabel("Im(E)[eV]")
+plt.legend()
 plt.show()
 
+# plot derivative, find stationary point on uncorrected trajectory
 derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
-plt.title("UC deriv")
+plt.title("Uncorrected derivative")
 plt.show()
 sorted_derivs = sorted(derivs)
 points = []
@@ -179,10 +197,10 @@ print(points)
 print(sorted_derivs[:5])
 print(etas)
 
-
+# plot derivative, find stationary point on corrected trajectory
 derivs=list(np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
-plt.title("Corr deriv")
+plt.title("Corrected derivative")
 plt.show()
 sorted_derivs = sorted(derivs)
 points = []
@@ -190,48 +208,7 @@ etas = []
 for i in range(0,5):
     points.append(corr_energies[derivs.index(sorted_derivs[i])])
     etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Corrected together:")
+print("Corrected:")
 print(points)
 print(sorted_derivs[:5])
 print(etas)
-
-
-plt.plot(eta_list,corr_re)
-plt.title("Real part")
-plt.show()
-derivs=list(np.absolute(np.gradient(corr_re)/np.gradient(eta_list)))
-plt.plot(eta_list,derivs)
-plt.title("Real deriv")
-plt.show()
-sorted_derivs = sorted(derivs)
-points = []
-etas = []
-for i in range(0,5):
-    points.append(corr_re[derivs.index(sorted_derivs[i])])
-    etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Real part:")
-print(points)
-print(sorted_derivs[:5])
-print(etas)
-
-
-plt.plot(eta_list,corr_im)
-plt.title("Imag part")
-plt.show()
-derivs=list(np.absolute(np.gradient(corr_im)/np.gradient(eta_list)))
-plt.plot(eta_list,derivs)
-plt.title("Imag deriv")
-plt.show()
-sorted_derivs = sorted(derivs)
-points = []
-etas = []
-for i in range(0,5):
-    points.append(corr_im[derivs.index(sorted_derivs[i])])
-    etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Imaginary part:")
-print(points)
-print(sorted_derivs[:5])
-print(etas)
-
-
-
