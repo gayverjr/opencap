@@ -207,7 +207,7 @@ void CAP::read_in_dms()
 	{
 		try
 		{
-			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"],system.bs);
+			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"],system.bs,nstates);
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
 			std::string message = "Successfully read in densities from file:" + parameters["rassi_h5"];
