@@ -31,10 +31,11 @@ SOFTWARE.
 /*! Read in TDMs from OpenMolcas rassi.h5 file.
     \param dmat_filename: file location of the rassi.h5 file.
     \param bs: BasisSet of the system
+    \param nstates: Number of states
     \return An array of size 2, each entry holding a 2D vector corresponding to the transition densities in AO basis.
      The first entry is the alpha densities, the second the beta densities.
 */
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string dmat_filename, BasisSet bs);
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string dmat_filename, BasisSet bs,size_t nstates);
 /*! Read in overlap matrix from OpenMolcas rassi.h5 file.
     \param filename: String file location of the rassi.h5 file.
     \param bs: BasisSet of the system

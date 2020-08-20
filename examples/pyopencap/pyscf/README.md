@@ -1,5 +1,5 @@
 # PyOpenCAP Pyscf examples
-This example runs CAP/FCI on a Feshbach resonance of H2.  The aug-cc-pvqz was augmented with a set of 4s4p diffuse functions placed on two ghost atoms. 
+This example runs CAP/FCI on a Feshbach resonance of H2.  The aug-cc-pvqz basis set was augmented with a set of even-tempered 4s4p diffuse functions placed on two ghost atoms. 
 
 ## Scripts
 

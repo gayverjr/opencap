@@ -50,7 +50,7 @@ Eigen::Map<const Eigen::MatrixXd> reshape (const Eigen::VectorXd& b, const uint 
     return Eigen::Map<const Eigen::MatrixXd>(b.data(), n, m);
 }
 
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string filename,BasisSet bs)
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string filename,BasisSet bs,size_t nstates)
 {
 	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	//first lets check if the dimensions are correct
@@ -184,6 +184,9 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
     		beta_opdms[i][j]= beta_opdms[j][i];
     	}
     }
+    if(alpha_opdms.size()!=nstates)
+    	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
+    			+ std::to_string(nstates) + " states were specified.");
     return {alpha_opdms,beta_opdms};
 }
 
