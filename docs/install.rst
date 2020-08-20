@@ -1,16 +1,15 @@
 Installation
 =============
 
-Install with pip (coming soon...)
+Install with pip (recommended)
 ---------------------------------
 
 .. code:: bash
    
     pip install pyopencap
 
-Precompiled Python wheels will soon be available on Pypi for almost all Linux systems and 
-most MacOS systems, for Python versions 3.4 and later. This will be the recommended way of 
-installing PyOpenCAP. 
+Precompiled Python wheels are available on Pypi for almost all Linux systems and 
+most MacOS systems, for Python versions 3.5 and later.
 
 Build from source
 -----------------
