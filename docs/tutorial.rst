@@ -82,7 +82,7 @@ using the h5py package, and then pass them as numpy arrays to the :class:`~pyope
 In this example, the CAP matrix is made to be symmetric.
 
     >>> import h5py
-    >>> f = h5py.File('anion_ms.rassi.h5', 'r')
+    >>> f = h5py.File(RASSI_FILE, 'r')
     >>> dms = f["SFS_TRANSITION_DENSITIES"]
     >>> pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
     >>> for i in range(0,10):
