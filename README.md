@@ -40,9 +40,11 @@ more at users).
 ### Install with pip (recommended)
 
     pip install pyopencap
+    # or
+    pip3 install pyopencap
 
 Precompiled Python wheels are available on Pypi for almost all Linux systems, and 
-most MacOS systems, for Python versions 3.5 and later. 
+most MacOS systems, for Python versions 3.6 and later. 
 
 ### Build from source
 
@@ -148,7 +150,8 @@ variables for CMake:
 
 For Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
-compiler.
+compiler. Depending on your distribution, you may also need to install 
+Python3 development libraries e.g. `sudo apt-get install python3.x-dev`.
 
 ### Verify installation
 
@@ -170,7 +173,7 @@ Building OpenCAP/PyOpenCAP from source requires working installations of the fol
 
 * C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS is not fully supported**)
 
-* Python3 version >= 3.4
+* Python3 interpreter and development libraries: version >= 3.6
 
 * [CMake](https://cmake.org/):  version >= 3.12
 
@@ -179,9 +182,7 @@ Building OpenCAP/PyOpenCAP from source requires working installations of the fol
 * [Eigen](http://eigen.tuxfamily.org/dox/): linear algebra library, version >= 3.3
 
 All of these dependencies are available through standard package managers such as 
-[Homebrew](https://brew.sh/), [Conda](https://docs.conda.io/en/latest/), and yum/apt-get 
-on Linux. Please consult their respective websites for more information, and ensure that you 
-have recent enough versions installed on your machine.
+[Homebrew](https://brew.sh/), [Conda](https://docs.conda.io/en/latest/), and yum/apt-get on Linux. 
 
 The following packages are automatically built at the CMake step (no action required):
 
