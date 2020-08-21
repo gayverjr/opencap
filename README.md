@@ -199,6 +199,12 @@ The following packages are automatically built at the CMake step (no action requ
 
 * [pybind11](https://github.com/pybind/pybind11): C++ Python bindings
  
+# License
+OpenCAP and PyOpenCAP are distributed under the [MIT](https://github.com/gayverjr/opencap/blob/master/LICENSE) license. 
+
+[Numgrid](https://github.com/dftlibs/numgrid) is distributed under the Mozilla Public License 2.0. The 
+source code is available on [GitHub](https://github.com/dftlibs/numgrid).
+
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
 
