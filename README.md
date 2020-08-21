@@ -29,6 +29,8 @@ compute resonance positions and widths using the complex absorbing potential met
 
 Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory or the [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started on using the software.
 
+For questions or support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.
+
 # Documentation
 Our documentation is currently under construction. We have separate documentation for the 
 command line version (which is aimed more at developers) and the Python API (which is aimed 
