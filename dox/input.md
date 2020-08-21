@@ -116,7 +116,7 @@ __Voronoi %CAP__
 
 A quadratic potential which uniformly wraps around the system at a specified cutoff radius. 
 The edges between between Voronoi cells are smoothed out to make the potential more 
-amenable to numerical integration. Functional form:
+amenable to numerical integration[1]. Functional form:
 
 \f$ W(\vec{r}) = 0,\f$  \f$r_{WA} \leq r_{cut} \f$ 
 
@@ -140,4 +140,6 @@ __Optional__
 | angular_points | int | Number of angular ponts used for the grid. See  https://github.com/dftlibs/numgrid for allowed numbers of points. | 590 |
 | h0_file | string | Relative or absolute path to formatted zeroth order Hamiltonian file.  Required when output from electronic structure package (e.g. molcas_output) is unspecified. | "" |
 
-
+References
+==========
+[1] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.

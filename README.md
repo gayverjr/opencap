@@ -5,7 +5,8 @@
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
 | **Documentation** | [![][docs-img]][docs-url] [![][rtd-img]][rtd-url] |
 | :------ | :------- |
-| **Build Status**  | [![][travis-img]][travis-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url] [![][pypi-img]][pypi-url] |
+| **Build Status**  | [![][travis-img]][travis-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url] |
+| **Releases** | [![][pypi-img]][pypi-url] [![][ghrel-img]][ghrel-url] |
 
 [docs-img]: https://img.shields.io/badge/doc-latest-blue.svg
 [docs-url]: https://gayverjr.github.io/opencap/
@@ -19,6 +20,8 @@
 [cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/master
 [pypi-img]: https://badge.fury.io/py/pyopencap.svg
 [pypi-url]: https://pypi.org/project/pyopencap/
+[ghrel-img]: https://img.shields.io/github/v/release/gayverjr/opencap.svg
+[ghrel-url]: https://github.com/gayverjr/opencap
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 

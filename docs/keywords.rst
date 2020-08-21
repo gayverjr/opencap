@@ -105,7 +105,7 @@ A quadratic potential which encloses the system in a 3D rectangular box.
 
 A quadratic potential which uniformly wraps around the system at a specified cutoff radius.
 The edges between between Voronoi cells are smoothed out to make the potential more amenable 
-to numerical integration.
+to numerical integration [Sommerfeld2015]_.
 
 .. math::
 
@@ -169,5 +169,7 @@ Example:
            "rassi_h5":"path/to/rassi.h5"}
     pc.read_data(es_dict)
 
-
+References
+==========
+.. [Sommerfeld2015] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.
 
