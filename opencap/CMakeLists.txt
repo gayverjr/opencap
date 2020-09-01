@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(opencap
         LANGUAGES CXX C 
         )
@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(HDF5 REQUIRED)
-find_package(Python3 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
 include(FetchContent)
 
@@ -69,6 +68,7 @@ endif()
 
 if (BUILD_OPENCAP)
 message("Building OpenCAP executable.")
+find_package(PythonLibs 3 REQUIRED)
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})
 target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
