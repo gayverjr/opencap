@@ -35,4 +35,6 @@ void cart2spherical(Eigen::MatrixXd &cart_ints, Eigen::MatrixXd &spherical_ints,
  */
 void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs);
 
+Eigen::MatrixXd get_trans_mat(Shell &shell);
+
 #endif /* TRANSFORMS_H_ */

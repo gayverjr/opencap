@@ -44,6 +44,7 @@ SOFTWARE.
 #include "qchem_interface.h"
 #include "molcas_interface.h"
 #include "AOCAP.h"
+#include "isodensity.h"
 #include "overlap.h"
 #include <cmath>
 #include <limits>
@@ -88,7 +89,7 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
     }
     try
     {
-    	AOCAP cap_integrator(system.atoms,params);
+    	AOCAP cap_integrator(system,params);
 		for (auto item: params)
 			parameters[item.first]=item.second;
 		system = my_sys;
@@ -253,11 +254,11 @@ void CAP::compute_ao_cap()
 		py::print("Calculating CAP matrix in AO basis...");
 	else
 		std::cout << "Calculating CAP matrix in AO basis..." << std::endl;
-	AOCAP cap_integrator(system.atoms,parameters);
+	AOCAP cap_integrator(system,parameters);
 	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
 	cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
 	auto start = std::chrono::high_resolution_clock::now();
-	cap_integrator.compute_ao_cap_mat(cap_mat,system.bs);
+	cap_integrator.compute_ao_cap_mat(cap_mat);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto total_time = std::chrono::duration<double>(stop-start).count();
 	if(python)

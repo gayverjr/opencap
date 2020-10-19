@@ -68,4 +68,6 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename);
  */
 BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms);
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs);
+
+Eigen::MatrixXd qchem_read_scf_density(std::string fchk_filename, BasisSet bs);
 #endif /* QCHEM_INTERFACE_H_*/

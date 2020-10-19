@@ -25,17 +25,20 @@ SOFTWARE.
 #include "BasisSet.h"
 #include <numgrid.h>
 #include "utils.h"
+#include <iostream>
 #include "gto_ordering.h"
 #include "AOCAP.h"
 #include <chrono>
 #include <ctime>
 #include <thread>
+#include "isodensity.h"
 #include <vector>
 #include <iostream>
 #include "opencap_exception.h"
+#include "qchem_interface.h"
 #include <Eigen/Dense>
 
-AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
+AOCAP::AOCAP(System my_sys,std::map<std::string, std::string> params)
 {
 	verify_cap_parameters(params);
 	double capx,capy,capz,rcut,radial,angpts;
@@ -59,11 +62,31 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	r_cut = rcut;
 	radial_precision = pow(10,-1.0*radial);
 	angular_points = angpts;
-	atoms = geometry;
+	sys = my_sys;
+	rho = qchem_read_scf_density("plot_test.fchk",sys.bs);
 }
+
+double AOCAP::eval_isodensity_cap(double x, double y, double z)
+{
+	double isovalue = 0.002;
+	isodensity icap(sys,0.002,rho);
+	double pot_val;
+	double rho_value = icap.eval_rho({x,y,z});
+	if(rho_value>=isovalue-isovalue*0.1)
+		pot_val = 0;
+	else
+	{
+		double dist = icap.compute_distance_from_surface({x,y,z});
+		pot_val = dist*dist;
+	}
+	std::cout << "Integration point:" << " x:" << x << " y:" << y << " z:" << z << " pot:" << pot_val << std::endl;
+	return pot_val;
+}
+
 
 double AOCAP::eval_voronoi_cap(double x, double y, double z)
 {
+	auto atoms = sys.atoms;
     double atom_distances[atoms.size()];
     double r_closest=1000.0;
     //find r closest and fill up our distances array
@@ -96,10 +119,13 @@ double AOCAP::eval_voronoi_cap(double x, double y, double z)
   	  denominator+=weights[j];
     }
     double r=sqrt(numerator/denominator);
+    double pot_val;
     if(r<r_cut)
-  	  return 0;
+  	  pot_val = 0;
     else
-  	  return (r-r_cut)*(r-r_cut);
+  	  pot_val = (r-r_cut)*(r-r_cut);
+    std::cout << "Integration point:" << " x:" << x << " y:" << y << " z:" << z << " pot:" << pot_val << std::endl;
+    return pot_val;
 }
 
 double AOCAP::eval_box_cap(double x, double y, double z)
@@ -120,11 +146,15 @@ double AOCAP::eval_pot(double x, double y, double z)
 		return eval_box_cap(x,y,z);
 	else if (compare_strings(cap_type,"voronoi"))
 		return eval_voronoi_cap(x,y,z);
+	else if(compare_strings(cap_type,"isodensity"))
+		return eval_isodensity_cap(x,y,z);
 	return 0;
 }
 
-void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
+void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat)
 {
+	auto bs = sys.bs;
+	auto atoms = sys.atoms;
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
 	double z_coords_bohr[atoms.size()];
@@ -176,9 +206,14 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 {
 	//pre-calculate cap matrix on grid
 	std::vector<float> cap_values (num_points);
+	std::cout << "Number of points:" << num_points << std::endl;
+	isodensity icap(sys,0.002,rho);
 	#pragma omp parallel for
 	for (int i=0;i<num_points;i++)
+	{
 		cap_values[i]= eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]);
+		//std::cout << "x:" << grid_x_bohr[i] << " y:" << grid_y_bohr[i] << " z:" << grid_z_bohr[i] << " rho:" << icap.eval_rho({grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]}) << std::endl;
+	}
 	std::vector<std::vector<float>> bf_values;
 	//pre-calculate basis functions on grid
 	for(size_t i=0;i<bs.basis.size();i++)
@@ -228,6 +263,10 @@ void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 	{
 		if(parameters.find("r_cut")==parameters.end())
 			missing_keys.push_back("r_cut");
+	}
+	else if (compare_strings(parameters["cap_type"],"isodensity"))
+	{
+		return;
 	}
 	else
 		opencap_throw("Error: only box and voronoi CAPs supported.");

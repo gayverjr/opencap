@@ -29,6 +29,7 @@ SOFTWARE.
 #include <string>
 #include <cmath>
 #include <limits>
+#include "utils.h"
 #include "InputParser.h"
 #include "Atom.h"
 #include "opencap_exception.h"
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
 		{
 			std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 			std::map<std::string,std::string> params = std::get<1>(inp_data);
-			if(params["jobtype"] == "perturb_cap")
+			if(compare_strings(params["jobtype"],"perturb_cap"))
 			{
 				auto t_start = std::chrono::high_resolution_clock::now();
 				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));

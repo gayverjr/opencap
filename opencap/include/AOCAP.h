@@ -27,6 +27,7 @@ SOFTWARE.
 #include <map>
 #include <vector>
 #include "Atom.h"
+#include "System.h"
 #include "BasisSet.h"
 #include <Eigen/Dense>
 #pragma once
@@ -47,10 +48,11 @@ public:
 	size_t angular_points;
 	/** Constructs %CAP object from geometry and CAP parameters.
 	 */
-	AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params);
+	AOCAP(System my_sys,std::map<std::string, std::string> params);
 	/** Type of %CAP. Can be Voronoi or Box CAP.
 	 */
 	std::string cap_type;
+	Eigen::MatrixXd rho;
 	/** Onset of box %CAP in X direction. Specify in bohr units.
 	 */
 	double cap_x;
@@ -65,10 +67,10 @@ public:
 	double r_cut;
 	/** Geometry of molecular system.
 	 */
-	std::vector<Atom> atoms;
+	System sys;
 	/** Computes %CAP matrix in AO basis via numerical integration.
 	 */
-	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
+	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat);
 
 private:
 	/** Evaluate potential at grid point.
@@ -87,4 +89,5 @@ private:
 	/** Checks whether specified CAP is valid.
 	 */
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
+	double eval_isodensity_cap(double x, double y, double z);
 };

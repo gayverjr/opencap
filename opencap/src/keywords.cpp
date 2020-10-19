@@ -53,14 +53,19 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"r_cut","perturb_cap"},
 		{"radial_precision","perturb_cap"},
 		{"angular_points","perturb_cap"},
+		{"isovalue","perturb_cap"},
+		{"isodensity_file","perturb_cap"},
+		{"isodensity_state","perturb_cap"},
 	};
 	std::vector<closed_key> closed_keys
 	{
 		{"package","perturb_cap",{"openmolcas","qchem"}},
-		{"cap_type","perturb_cap",{"box","voronoi"}},
+		{"cap_type","perturb_cap",{"box","voronoi","isodensity"}},
 		{"molecule","system",{"inline","molden","qchem_fchk","molcas_rassi"}},
 		{"bohr_coordinates","system",{"true","false"}},
 		{"cart_bf","system",{"d","df","dfg","f","fg","g"}},
+		{"isodensity_type","perturb_cap",{"scf","eom"}},
+		{"isodensity_package","perturb_cap",{"qchem","openmolcas"}},
 	};
 
 	for(auto key:open_keys)

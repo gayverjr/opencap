@@ -208,6 +208,37 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
     return smat;
 }
 
+Eigen::MatrixXd qchem_read_scf_density(std::string fchk_filename, BasisSet bs)
+{
+		size_t num_bf = bs.Nbasis;
+	    std::ifstream is(fchk_filename);
+		Eigen::MatrixXd rho(num_bf,num_bf);
+		rho = Eigen::MatrixXd::Zero(num_bf,num_bf);
+	    if (is.good())
+	    {
+	    	std::string line, rest;
+	    	while (line.find("Total SCF Density")== std::string::npos)
+	    	{
+	        	std::getline(is, line);
+	    		if (is.peek()==EOF)
+	    			opencap_throw("Error: Reached end of file before Total SCF Density was found.");
+	    	}
+	    	size_t num_elements = stoi(split(line,' ').back());
+			size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+			std::vector<double> matrix_elements;
+			for (size_t k=1;k<=lines_to_read;k++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				for (auto token:tokens)
+					matrix_elements.push_back(std::stod(token));
+			}
+			fill_LT(matrix_elements,rho);
+			to_opencap_ordering(rho,bs,get_qchem_ids(bs));
+	    }
+	    return rho;
+}
+
 Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::string output_file)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
