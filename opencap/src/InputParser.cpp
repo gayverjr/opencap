@@ -147,6 +147,7 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 		else
 			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
+        
 	}
 	catch (exception &e)
 	{

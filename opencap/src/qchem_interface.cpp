@@ -328,7 +328,7 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
     			opencap_throw("Error: Reached end of file before atomic numbers were found.");
 		}
 		size_t num_elements = stoi(split(line,' ').back());
-		size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+		size_t lines_to_read = num_elements%6==0 ? (num_elements/6) : num_elements/6+1;
 		for (size_t k=1;k<=lines_to_read;k++)
 		{
 			std::getline(is,line);
