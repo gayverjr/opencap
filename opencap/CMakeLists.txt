@@ -75,7 +75,7 @@ target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module
 target_link_libraries(opencap-shared ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp)
 
 install(TARGETS opencap
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     )
 enable_testing()
 add_subdirectory(tests)
