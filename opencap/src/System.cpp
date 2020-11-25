@@ -75,7 +75,6 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 		cart2spherical(Smat,spherical_ints,bs);
 		OVERLAP_MAT = spherical_ints;
-		std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 	}
 	catch (exception &e)
 	{
@@ -133,7 +132,6 @@ System::System(py::dict dict)
 	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
 	OVERLAP_MAT = spherical_ints;
-	py::print("Number of basis functions:"+std::to_string(bs.Nbasis));
 }
 
 System::System(std::string filename,std::string file_type)
@@ -165,7 +163,6 @@ System::System(std::string filename,std::string file_type)
 	Eigen::MatrixXd spherical_ints(bs.Nbasis,bs.Nbasis);
 	cart2spherical(Smat,spherical_ints,bs);
 	OVERLAP_MAT = spherical_ints;
-	std::cout << "Number of basis functions:" << bs.Nbasis << std::endl;
 }
 
 std::vector<Atom> System::parse_geometry_string(std::string geometry_string)

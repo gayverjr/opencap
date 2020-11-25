@@ -56,6 +56,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	system = my_sys;
 	try
 	{
+		std::cout << "Number of basis functions:" << my_sys.bs.Nbasis << std::endl;
 		python = false;
 		verify_method(params);
 		parameters=params;
