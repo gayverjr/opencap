@@ -1,10 +1,15 @@
-Welcome to OpenCAP!
+Welcome to OpenCAP: An open-source program for studying resonances in molecules.
+Version 1.0.1
+Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license.
+For questions and support, please visit: https://github.com/gayverjr/opencap
+
+Starting perturbative CAP calculation.
 Number of basis functions:119
 Reading in Hamiltonian from:heff.in
 Successfully read in zeroth order Hamiltonian from file:heff.in
 Successfully read in densities from file:nosymm.rassi.h5
 Calculating CAP matrix in AO basis...
-Integration time:2.043993
+Integration time:2.070104
 Verified overlap matrix.
 Printing out matrices required for Perturbative CAP calculation.
 Number of states: 10
@@ -30,4 +35,7 @@ CAP matrix
 -1.46145768e-01  4.93005004e+00  7.51310495e-02 -1.02163509e+01  3.25580627e-02 -1.16779608e+01  2.36409666e-12 -1.15451059e+01 -1.03713486e-09 -9.29374294e-12
  1.03295589e-11 -1.38005779e-10 -9.37017717e-12  2.70949175e-10 -3.31515233e-11  4.01349599e-10 -1.00623498e-10 -1.03713486e-09 -4.48627543e+01 -1.00960351e-11
 -1.37673377e-10 -4.61347715e-12  2.56684692e-10  9.09070599e-12  4.07914468e-10 -3.74258529e-12  1.02148877e-09 -9.29374294e-12 -1.00960351e-11 -4.48627543e+01
-Wall time:2.79768200e+00
+Wall time:2.80577300e+00
+
+Job finished: Tue Nov 24 20:18:14 2020
+Thank you for using OpenCAP!
