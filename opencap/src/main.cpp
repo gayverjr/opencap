@@ -35,10 +35,15 @@ SOFTWARE.
 #include "CAP.h"
 #include "keywords.h"
 #include "molcas_interface.h"
+#include <ctime>
 
 int main(int argc, char **argv)
 {
-	std::cout << "Welcome to OpenCAP!" << std::endl;
+	std::cout<< "Welcome to OpenCAP: An open-source program for studying resonances in molecules." << std::endl
+			 << "Version 1.0.1" << std::endl
+			 << "Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license." << std::endl
+			 << "For questions and support, please visit: https://github.com/gayverjr/opencap"
+			 <<  std::endl;
 	if (argc == 2)
 	{
 		std::string input_filename = argv[1];
@@ -48,6 +53,7 @@ int main(int argc, char **argv)
 			std::map<std::string,std::string> params = std::get<1>(inp_data);
 			if(params["jobtype"] == "perturb_cap")
 			{
+				std::cout << std::endl << "Starting perturbative CAP calculation." << std::endl;
 				auto t_start = std::chrono::high_resolution_clock::now();
 				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));
 				pc.run();
@@ -59,6 +65,11 @@ int main(int argc, char **argv)
 				std::cout << std::setprecision(8) << std::scientific << pc.CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
 				std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
+				time_t now = time(0);
+				// convert now to string form
+				char* dt = ctime(&now);
+				std::cout << std::endl << "Job finished: " << dt;
+				std::cout << "Thank you for using OpenCAP!" << std::endl;
 			}
 		}
 		catch (exception& e)
@@ -67,7 +78,8 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-		std::cout << "Error: please specify one input file!" << std::endl;
+
+		std::cout << "Usage: opencap infile" << std::endl;
 	return 0;
 }
 
