@@ -185,11 +185,11 @@ plt.legend()
 plt.show()
 
 # plot derivative, find stationary point on uncorrected trajectory
-derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Uncorrected derivative")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
@@ -201,11 +201,11 @@ print(sorted_derivs[:5])
 print(etas)
 
 # plot derivative, find stationary point on corrected trajectory
-derivs=list(np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Corrected derivative")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
