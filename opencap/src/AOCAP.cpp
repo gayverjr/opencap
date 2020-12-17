@@ -62,6 +62,9 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	atoms = geometry;
 }
 
+// Smooth Voronoi CAP
+// Thommas Sommerfeld and Masahiro Ehara
+// DOI: 10.1021/acs.jctc.5b00465
 double AOCAP::eval_voronoi_cap(double x, double y, double z)
 {
     double atom_distances[atoms.size()];
