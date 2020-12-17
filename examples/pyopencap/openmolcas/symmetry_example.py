@@ -138,11 +138,11 @@ plt.xlabel("Re(E)[eV]")
 plt.ylabel("Im(E)[eV]")
 plt.show()
 
-derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Uncorrected derivatives")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
@@ -154,55 +154,17 @@ print(sorted_derivs[:5])
 print(etas)
 
 
-derivs=list(np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Corrected derivatives")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
     points.append(corr_energies[derivs.index(sorted_derivs[i])])
     etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Corrected together:")
-print(points)
-print(sorted_derivs[:5])
-print(etas)
-
-
-plt.plot(eta_list,corr_re)
-plt.title("Real part")
-plt.show()
-derivs=list(np.absolute(np.gradient(corr_re)/np.gradient(eta_list)))
-plt.plot(eta_list,derivs)
-plt.title("Real deriv")
-plt.show()
-sorted_derivs = sorted(derivs)
-points = []
-etas = []
-for i in range(0,5):
-    points.append(corr_re[derivs.index(sorted_derivs[i])])
-    etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Real part:")
-print(points)
-print(sorted_derivs[:5])
-print(etas)
-
-
-plt.plot(eta_list,corr_im)
-plt.title("Imag part")
-plt.show()
-derivs=list(np.absolute(np.gradient(corr_im)/np.gradient(eta_list)))
-plt.plot(eta_list,derivs)
-plt.title("Imag deriv")
-plt.show()
-sorted_derivs = sorted(derivs)
-points = []
-etas = []
-for i in range(0,5):
-    points.append(corr_im[derivs.index(sorted_derivs[i])])
-    etas.append(eta_list[derivs.index(sorted_derivs[i])])
-print("Imaginary part:")
+print("Corrected:")
 print(points)
 print(sorted_derivs[:5])
 print(etas)

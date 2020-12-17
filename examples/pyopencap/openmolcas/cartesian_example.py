@@ -9,7 +9,7 @@ from pyscf import gto, scf, ci, ao2mo
 ref_energy = -109.35814085
 au2eV= 27.2113961
 guess = 2.2
-eta_list = np.linspace(0,500,101)
+eta_list = np.linspace(0,500,51)
 eta_list = eta_list * 1E-5
 RASSI_FILE = "../../opencap/cart.rassi.h5"
 OUTPUT_FILE = "../../opencap/cart.out"
@@ -176,11 +176,11 @@ plt.legend()
 plt.show()
 
 # plot derivative, find stationary point on uncorrected trajectory
-derivs=list(np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Uncorrected derivative")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
@@ -192,11 +192,11 @@ print(sorted_derivs[:5])
 print(etas)
 
 # plot derivative, find stationary point on corrected trajectory
-derivs=list(np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
 plt.title("Corrected derivative")
 plt.show()
-sorted_derivs = sorted(derivs)
+sorted_derivs = sorted(derivs[5:])
 points = []
 etas = []
 for i in range(0,5):
