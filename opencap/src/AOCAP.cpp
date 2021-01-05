@@ -172,25 +172,34 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_w);
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
+
+	//symmetrize
+	for (size_t i=0;i<cap_mat.rows();i++)
+	{
+		for(size_t j=i+1;j<cap_mat.cols();j++)
+			cap_mat(j,i) = cap_mat(i,j);
+	}
 }
 
 void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
-	//pre-calculate cap matrix on grid
-	std::vector<float> cap_values (num_points);
+	std::vector<std::vector<double>> bf_values;
+	std::vector<double> cap_values (num_points);
+
+	//pre-compute values of cap
 	#pragma omp parallel for
 	for (int i=0;i<num_points;i++)
 		cap_values[i]= eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]);
-	std::vector<std::vector<float>> bf_values;
-	//pre-calculate basis functions on grid
+
+	//pre-compute values of basis functions
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
 		Shell my_shell = bs.basis[i];
 		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(my_shell.l);
 		for(size_t j=0;j<my_shell.num_carts();j++)
 		{
-			std::vector<float> vec(num_points);
+			std::vector<double> vec(num_points);
 			std::array<size_t,3> cart = order[j];
 			#pragma omp parallel for
 			for (int k=0;k<num_points;k++)
@@ -198,17 +207,15 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 			bf_values.push_back(vec);
 		}
 	}
-    //now lets evaluate
+
+    //Evaluating matrix elements
+	#pragma omp parallel for
 	for (size_t i=0;i<bs.num_carts();i++)
 	{
 		for(size_t j=i;j<bs.num_carts();j++)
 		{
 			for(int k=0;k<num_points;k++)
-			{
 				cap_mat(i,j)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
-				if (j!=i)
-					cap_mat(j,i)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
-			}
 		}
 	}
 }

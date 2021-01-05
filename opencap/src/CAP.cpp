@@ -45,6 +45,7 @@ SOFTWARE.
 #include "molcas_interface.h"
 #include "AOCAP.h"
 #include "overlap.h"
+#include <omp.h>
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
@@ -67,7 +68,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	}
 	catch(exception &e)
 	{
-		opencap_rethrow("Failed to initialize Perturbative CAP calculation.");
+		opencap_rethrow("Failed to initialize Projected CAP calculation.");
 	}
 }
 
@@ -250,10 +251,11 @@ void CAP::compute_perturb_cap()
 
 void CAP::compute_ao_cap()
 {
+	std::string message = "Calculating CAP matrix in AO basis using " + std::to_string(omp_get_max_threads()) + " threads.";
 	if(python)
-		py::print("Calculating CAP matrix in AO basis...");
+		py::print(message);
 	else
-		std::cout << "Calculating CAP matrix in AO basis..." << std::endl;
+		std::cout << message << std::endl;
 	AOCAP cap_integrator(system.atoms,parameters);
 	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
 	cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
@@ -367,12 +369,12 @@ void CAP::run()
 {
 	try
 	{
-		compute_ao_cap();
 		if (parameters.find("ignore_overlap")==parameters.end()||parameters["ignore_overlap"]=="false")
 		{
 			check_overlap_matrix();
 			renormalize();
 		}
+		compute_ao_cap();
 		compute_perturb_cap();
 	}
 	catch(exception &e)
