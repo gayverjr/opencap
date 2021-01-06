@@ -28,21 +28,19 @@ jobs:
           conda install -c conda-forge lcov
           conda install -c dlr-sc doxygen
     
-      - name: Build and test OpenCAP
-        run: |
-          cd opencap; mkdir build
-          cd build
-          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
-          cmake --build . --config Debug 
-          ctest --output-on-failure
-    
       - name: Build and test PyOpenCAP
         run: |
-          cd ../../
           pip install pytest-cov
           pip install h5py
           pip install numpy
           pip install pyscf
           pip install .
           py.test --cov-report=xml --cov=pyopencap tests
+    
+      - name: Build and test OpenCAP
+        run: |
+          cd opencap; mkdir build
+          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+          cmake --build . --config Debug 
+          ctest --output-on-failure
           
