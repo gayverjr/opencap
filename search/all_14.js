@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['valid_5foptions',['valid_options',['../structclosed__key.html#acd0c5aeace37f8c120db502f212e77dc',1,'closed_key']]],
-  ['verify_5fdata',['verify_data',['../class_c_a_p.html#acced63005ebbc1cb85c885cd172fc279',1,'CAP']]],
-  ['verify_5fmethod',['verify_method',['../class_c_a_p.html#a6be7bd9d33b029cbb55f7868ee96e5f3',1,'CAP']]]
+  ['undocumented',['undocumented',['../structdate_1_1detail_1_1undocumented.html',1,'date::detail::undocumented'],['../structdate_1_1detail_1_1undocumented.html#ac8435ba183f37a6ede05606695e6febd',1,'date::detail::undocumented::undocumented()']]],
+  ['uniform_5fcart_5fnorm',['uniform_cart_norm',['../transforms_8h.html#a2aff35135ea746cd42c2e0cd3978b7a8',1,'transforms.h']]],
+  ['unspecified_5fmonth_5fdisambiguator',['unspecified_month_disambiguator',['../structdate_1_1detail_1_1unspecified__month__disambiguator.html',1,'date::detail']]],
+  ['update_5fcoords',['update_coords',['../class_shell.html#a7e1a5e446cc244d736b61f23c76679e5',1,'Shell']]],
+  ['utils_2eh',['utils.h',['../utils_8h.html',1,'']]]
 ];

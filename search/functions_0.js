@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['abs',['abs',['../namespacedate.html#ad15b8066673c9f9e74eaceb7f3d8a977',1,'date::abs()'],['../namespacedate_1_1detail.html#a16721f884c348136e5fa12ff687140ef',1,'date::detail::abs(std::chrono::duration&lt; Rep, Period &gt; d)'],['../namespacedate_1_1detail.html#aa61b1967e725f0705ca780e858ef2970',1,'date::detail::abs(std::chrono::duration&lt; Rep, Period &gt; d)']]],
   ['add_5fprimitive',['add_primitive',['../class_shell.html#a9eeb28aec7bd50ad1be3b54cb3e82337',1,'Shell']]],
   ['add_5fshell',['add_shell',['../class_basis_set.html#a8b2102c0f6bcae4369a9cf0bf3f30911',1,'BasisSet']]],
   ['add_5ftdm',['add_tdm',['../class_c_a_p.html#a41743bd6dda9d497efd8f415f4a7a780',1,'CAP']]],
