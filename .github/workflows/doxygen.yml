@@ -1,0 +1,48 @@
+name: doxygen
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          persist-credentials: false
+      
+      - name: Install dependencies and pyemap
+        run: |
+          conda install cmake
+          conda install hdf5
+          conda install -c conda-forge codecov
+          conda install -c conda-forge eigen
+          conda install -c conda-forge lcov
+          conda install -c dlr-sc doxygen
+          
+      - name: Build doxygen
+        run: |
+           cd dox
+           doxygen Doxyfile.in
+           cd ..
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages 
+          FOLDER: doxygen_docs
+          CLEAN: true 
+      
