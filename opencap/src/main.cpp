@@ -35,7 +35,7 @@ SOFTWARE.
 #include "CAP.h"
 #include "keywords.h"
 #include "molcas_interface.h"
-#include <ctime>
+#include "date.h"
 
 int main(int argc, char **argv)
 {
@@ -65,10 +65,15 @@ int main(int argc, char **argv)
 				std::cout << std::setprecision(8) << std::scientific << pc.CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
 				std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
-				time_t now = time(0);
-				// convert now to string form
-				char* dt = ctime(&now);
-				std::cout << std::endl << "Job finished: " << dt;
+				// print time
+			    using namespace date;
+			    using namespace std::chrono;
+				auto tp = system_clock::now();
+				const auto tpm = floor<minutes>(tp);
+				const auto dp = floor<days>(tpm);
+				const auto ymd = year_month_day{dp};
+				auto time = make_time(tpm-dp);
+				std::cout << "Job finished: " << ymd << ' ' << time << std::endl;
 				std::cout << "Thank you for using OpenCAP!" << std::endl;
 			}
 		}

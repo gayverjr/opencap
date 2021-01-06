@@ -198,6 +198,10 @@ The following packages are automatically built at the CMake step (no action requ
 * [h5pp](https://github.com/DavidAce/h5pp): C++17 wrapper for HDF5
 
 * [pybind11](https://github.com/pybind/pybind11): C++ Python bindings
+
+The following is included as part of the source distribution (no action required):
+
+* [Date](https://github.com/HowardHinnant/date): Howard Hinnant's date and time library based on the C++11/14/17 <chrono> header
  
 # License
 OpenCAP and PyOpenCAP are distributed under the [MIT](https://github.com/gayverjr/opencap/blob/master/LICENSE) license. 
