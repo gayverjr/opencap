@@ -5,13 +5,13 @@
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
 | **Documentation** | [![][docs-img]][docs-url] [![][rtd-img]][rtd-url] |
 | :------ | :------- |
-| **Build Status**  | [![][travis-img]][travis-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url] |
+| **Build Status**  | [![][gh-actions-img]][gh-actions-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url] |
 | **Releases** | [![][pypi-img]][pypi-url] [![][ghrel-img]][ghrel-url] |
 
 [docs-img]: https://img.shields.io/badge/doc-latest-blue.svg
 [docs-url]: https://gayverjr.github.io/opencap/
-[travis-img]: https://travis-ci.com/gayverjr/opencap.svg?branch=master
-[travis-url]: https://travis-ci.com/gayverjr/opencap
+[gh-actions-img]: https://github.com/gayverjr/opencap/workflows/ubuntu/badge.svg
+[gh-actions-url]: https://github.com/gayverjr/opencap/actions
 [lgtm-img]: https://img.shields.io/lgtm/grade/cpp/g/gayverjr/opencap.svg?logo=lgtm&logoWidth=18
 [lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
 [rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
