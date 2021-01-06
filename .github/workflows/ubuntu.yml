@@ -18,6 +18,7 @@ jobs:
         with:
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
+          persist-credentials: false
       
       - name: Install dependencies and pyemap
         run: |
@@ -56,4 +57,23 @@ jobs:
            doxygen Doxyfile.in
            cd ..
          
-          
+      - name: Upload reports
+        run: |
+          cd opencap/build
+          lcov   --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*eigen*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*_deps*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*tests*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --list coverage.info
+          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage C++ reports"
+          cd ../../pyopencap
+          bash <(curl -s https://codecov.io/bash) -f coverage.xml || echo "Codecov did not collect coverage Python reports"
+   
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages 
+          FOLDER: build 
+          CLEAN: true 
