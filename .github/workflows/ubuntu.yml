@@ -49,8 +49,22 @@ jobs:
           cmake --build . --config Debug 
           ctest --output-on-failure
           cd ../../
-          
-         
+      
+      - name: Build doxygen
+        run: |
+           pwd
+           cd dox
+           doxygen Doxyfile.in
+           cd ..
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages 
+          FOLDER: doxygen_docs
+          CLEAN: true 
+      
       - name: Upload reports
         run: |
           cd opencap/build
