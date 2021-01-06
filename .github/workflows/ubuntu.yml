@@ -30,12 +30,13 @@ jobs:
     
       - name: Build and test PyOpenCAP
         run: |
+          pip install pytest
           pip install pytest-cov
           pip install h5py
           pip install numpy
           pip install pyscf
           pip install .
-          py.test --cov-report=xml --cov=pyopencap tests
+          pytest --cov-report=xml --cov=pyopencap
     
       - name: Build and test OpenCAP
         run: |
