@@ -26,6 +26,7 @@ SOFTWARE.
 #include <array>
 #pragma once
 #include "Atom.h"
+#include <Eigen/Dense>
 using namespace std;
 
 /*! \brief Class for a group of atomic orbitals with the same angular momentum and
@@ -77,6 +78,7 @@ public:
 	 */
 	void update_coords(std::array<double,3> center);
 	double evaluate(double x, double y, double z,size_t lx,size_t ly, size_t lz);
+	void evaluate_on_grid(double* x, double* y, double* z, int num_points,size_t lx,size_t ly, size_t lz,Eigen::Ref<Eigen::VectorXd> v);
 	/** Returns smallest exponent in %Shell
 	 */
 	std::vector<double> alpha_min();

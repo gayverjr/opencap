@@ -25,6 +25,7 @@ SOFTWARE.
 #include "Atom.h"
 #include "Shell.h"
 #include "utils.h"
+#include <Eigen/Dense>
 using namespace std;
 
 Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,
@@ -106,6 +107,22 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 		result+=coeffs[i]*pow(x-origin[0],lx)*pow(y-origin[1],ly)*pow(z-origin[2],lz)*pow(euler,-1.0*r_squared*exps[i]);
 	}
 	return result;
+
+}
+
+void Shell::evaluate_on_grid(double* x, double* y, double* z, int num_points,size_t lx,size_t ly, size_t lz, Eigen::Ref<Eigen::VectorXd> v)
+{
+	#pragma omp parallel for
+	for (size_t i=0;i<num_points;i++)
+	{
+		double result = 0;
+		for(size_t j=0;j<num_prims;j++)
+		{
+			double r_squared = pow(x[i]-origin[0],2) + pow(y[i]-origin[1],2) + pow(z[i]-origin[2],2);
+			result+=coeffs[j]*pow(x[i]-origin[0],lx)*pow(y[i]-origin[1],ly)*pow(z[i]-origin[2],lz)*pow(euler,-1.0*r_squared*exps[j]);
+		}
+		v(i) = result;
+	}
 
 }
 
