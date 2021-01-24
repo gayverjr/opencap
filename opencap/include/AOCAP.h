@@ -73,13 +73,13 @@ public:
 private:
 	/** Evaluate potential at grid point.
 	 */
-	double eval_pot(double x, double y, double z);
+	void eval_pot(double* x, double* y, double* z, double *grid_w, int num_points, Eigen::VectorXd &cap_values);
 	/** Evaluate box %CAP at grid point.
 	 */
-	double eval_box_cap(double x, double y, double z);
+	void eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values);
 	/** Evaluate Voronoi %CAP at grid point.
 	 */
-	double eval_voronoi_cap(double x, double y, double z);
+	void eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values);
 	/** Evaluate all points on grid for a given atom.
 	 */
 	void evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
