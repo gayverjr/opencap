@@ -137,6 +137,7 @@ void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_po
 
 void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
+	
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
 	double z_coords_bohr[atoms.size()];
@@ -179,21 +180,14 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
+    	std::cout << "Grid for atom " + std::to_string(i+1) + " has:" << num_points << " points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
-	}
-
-	//symmetrize
-	for (size_t i=0;i<cap_mat.rows();i++)
-	{
-		for(size_t j=i+1;j<cap_mat.cols();j++)
-			cap_mat(j,i) = cap_mat(i,j);
 	}
 }
 
 void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
-	std::cout << "Atom grid has:" << num_points << " points." << std::endl;
 	Eigen::VectorXd cap_values; Eigen::MatrixXd bf_values;
 	cap_values = Eigen::VectorXd::Zero(num_points);
 	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
@@ -212,7 +206,6 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 	}
 	Eigen::MatrixXd bf_prime;
 	bf_prime =  Eigen::MatrixXd::Zero(num_points,bs.num_carts());
-	#pragma omp parallel for
 	for(size_t i=0;i<bf_prime.cols();i++)
 		bf_prime.col(i) = bf_values.col(i).array()*cap_values.array();
 	cap_mat+=bf_prime.transpose()*bf_values;
