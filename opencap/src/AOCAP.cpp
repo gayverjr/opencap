@@ -180,7 +180,9 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
-    	std::cout << "Grid for atom " + std::to_string(i+1) + " has:" << num_points << " points." << std::endl;
+        int num_radial_points = numgrid_get_num_radial_grid_points(context);
+    	std::cout << "Grid for atom " + std::to_string(i+1) + " has: " << num_radial_points << " radial points, "
+                  << angular_points << " angular points, " << num_points << " total points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
 }
