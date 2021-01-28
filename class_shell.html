@@ -98,6 +98,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7e1a5e446cc244d736b61f23c76679e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af53eca4ca8eff44ce2c032f8d7cd5d8b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shell.html#af53eca4ca8eff44ce2c032f8d7cd5d8b">evaluate</a> (double x, double y, double z, size_t lx, size_t ly, size_t lz)</td></tr>
 <tr class="separator:af53eca4ca8eff44ce2c032f8d7cd5d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ab8e8391807586eb3c52bdc12cb6324"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shell.html#a4ab8e8391807586eb3c52bdc12cb6324">evaluate_on_grid</a> (double *x, double *y, double *z, int num_points, size_t lx, size_t ly, size_t lz, Eigen::Ref&lt; Eigen::VectorXd &gt; v)</td></tr>
+<tr class="separator:a4ab8e8391807586eb3c52bdc12cb6324"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a201934294b56e6af1d452f6891c59854"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shell.html#a201934294b56e6af1d452f6891c59854">alpha_min</a> ()</td></tr>
 <tr class="separator:a201934294b56e6af1d452f6891c59854"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dc157e9d712fe78b6c3eb6681ca32f3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shell.html#a8dc157e9d712fe78b6c3eb6681ca32f3">alpha_max</a> ()</td></tr>
@@ -352,6 +354,70 @@ Public Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>lz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ab8e8391807586eb3c52bdc12cb6324"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ab8e8391807586eb3c52bdc12cb6324">&#9670;&nbsp;</a></span>evaluate_on_grid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Shell::evaluate_on_grid </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>lx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>ly</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>lz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Ref&lt; Eigen::VectorXd &gt;&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
