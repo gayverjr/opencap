@@ -191,10 +191,15 @@ void CAP::read_in_dms()
 	{
 		try
 		{
+			std::string message= "Reading densities from file:" + parameters["qchem_fchk"];
+			if(python)
+				py::print(message);
+			else
+				std::cout << message << std::endl;
 			auto parsed_dms = qchem_read_dms(parameters["qchem_fchk"],system.bs);
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
-			std::string message= "Successfully read in densities from file:" + parameters["qchem_fchk"];
+			message= "Done.";
 			if(python)
 				py::print(message);
 			else
@@ -209,10 +214,15 @@ void CAP::read_in_dms()
 	{
 		try
 		{
+			std::string message = "Reading densities from file:" + parameters["rassi_h5"];
+			if(python)
+				py::print(message);
+			else
+				std::cout << message << std::endl;
 			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"],system.bs,nstates);
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
-			std::string message = "Successfully read in densities from file:" + parameters["rassi_h5"];
+			message = "Done.";
 			if(python)
 				py::print(message);
 			else
@@ -251,7 +261,9 @@ void CAP::compute_perturb_cap()
 
 void CAP::compute_ao_cap()
 {
-	std::string message = "Calculating CAP matrix in AO basis using " + std::to_string(omp_get_max_threads()) + " threads.";
+	std::string message = "Calculating CAP matrix in AO basis using " + std::to_string(omp_get_max_threads()) + " threads.\n"
+			            + "Radial precision: 1e-" + parameters["radial_precision"] 
+						+ " Angular points: " + parameters["angular_points"];
 	if(python)
 		py::print(message);
 	else
