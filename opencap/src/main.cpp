@@ -40,7 +40,7 @@ SOFTWARE.
 int main(int argc, char **argv)
 {
 	std::cout<< "Welcome to OpenCAP: An open-source program for studying resonances in molecules." << std::endl
-			 << "Version 1.0.1" << std::endl
+			 << "Version 1.0.3" << std::endl
 			 << "Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license." << std::endl
 			 << "For questions and support, please visit: https://github.com/gayverjr/opencap"
 			 <<  std::endl;
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 				std::cout << "CAP matrix" << std::endl;
 				std::cout << std::setprecision(8) << std::scientific << pc.CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
-				std::cout << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
+				std::cout << std::fixed << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
 				// print time
 			    using namespace date;
 			    using namespace std::chrono;

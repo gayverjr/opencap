@@ -65,69 +65,79 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 // Smooth Voronoi CAP
 // Thommas Sommerfeld and Masahiro Ehara
 // DOI: 10.1021/acs.jctc.5b00465
-double AOCAP::eval_voronoi_cap(double x, double y, double z)
+void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-    double atom_distances[atoms.size()];
-    double r_closest=1000.0;
-    //find r closest and fill up our distances array
-    for(size_t j=0;j<atoms.size();j++)
-    {
-        if(atoms[j].Z!=0)
-        {
-			  double dist_x= (x-atoms[j].coords[0]) * (x-atoms[j].coords[0]);
-			  double dist_y= (y-atoms[j].coords[1]) * (y-atoms[j].coords[1]);
-			  double dist_z= (z-atoms[j].coords[2]) * (z-atoms[j].coords[2]);
-			  double dist=sqrt(dist_x+dist_y+dist_z);
-			  if(dist<r_closest)
-				 r_closest=dist;
-			  atom_distances[j]=dist;
-        }
-    }
-    double weights[atoms.size()];
-    for(size_t j=0;j<atoms.size();j++)
-    {
-  	  if(atoms[j].Z!=0)
-  		  weights[j]=1/pow((pow(atom_distances[j],2.0)-pow(r_closest,2.0) +1),2.0);
-  	  else
-  		  weights[j]=0;
-    }
-    double numerator=0.0;
-    double denominator=0.0;
-    for(size_t j=0;j<atoms.size();j++)
-    {
-  	  numerator+=atom_distances[j]*atom_distances[j]*weights[j];
-  	  denominator+=weights[j];
-    }
-    double r=sqrt(numerator/denominator);
-    if(r<r_cut)
-  	  return 0;
-    else
-  	  return (r-r_cut)*(r-r_cut);
+	#pragma omp parallel for
+	for(size_t i=0;i<num_points;i++)
+	{
+		double atom_distances[atoms.size()];
+		double r_closest;
+		//find r closest and fill up our distances array
+		for(size_t j=0;j<atoms.size();j++)
+		{
+			if(atoms[j].Z!=0)
+			{
+				  double dist_x= (x[i]-atoms[j].coords[0]) * (x[i]-atoms[j].coords[0]);
+				  double dist_y= (y[i]-atoms[j].coords[1]) * (y[i]-atoms[j].coords[1]);
+				  double dist_z= (z[i]-atoms[j].coords[2]) * (z[i]-atoms[j].coords[2]);
+				  double dist=sqrt(dist_x+dist_y+dist_z);
+				  if(dist<r_closest || j==0)
+					 r_closest=dist;
+				  atom_distances[j]=dist;
+			}
+		}
+		double weights[atoms.size()];
+		for(size_t j=0;j<atoms.size();j++)
+		{
+		  if(atoms[j].Z!=0)
+			  weights[j]=1/pow((pow(atom_distances[j],2.0)-pow(r_closest,2.0) +1),2.0);
+		  else
+			  weights[j]=0;
+		}
+		double numerator=0.0;
+		double denominator=0.0;
+		for(size_t j=0;j<atoms.size();j++)
+		{
+		  numerator+=atom_distances[j]*atom_distances[j]*weights[j];
+		  denominator+=weights[j];
+		}
+		double r=sqrt(numerator/denominator);
+		double result;
+		if(r<r_cut)
+		  result = 0;
+		else
+		  result = (r-r_cut)*(r-r_cut);
+		cap_values(i) = result * grid_w[i];
+	}
 }
 
-double AOCAP::eval_box_cap(double x, double y, double z)
+void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-    double result = 0;
-    if(abs(x)>cap_x)
-   	 result += (abs(x)-cap_x) * (abs(x)-cap_x);
-    if(abs(y)>cap_y)
-   	 result += (abs(y)-cap_y) * (abs(y)-cap_y);
-    if(abs(z)>cap_z)
-   	 result += (abs(z)-cap_z) * (abs(z)-cap_z);
-    return result;
+	#pragma omp parallel for
+	for(size_t i=0;i<num_points;i++)
+	{
+		double result = 0;
+		if(abs(x[i])>cap_x)
+		 result += (abs(x[i])-cap_x) * (abs(x[i])-cap_x);
+		if(abs(y[i])>cap_y)
+		 result += (abs(y[i])-cap_y) * (abs(y[i])-cap_y);
+		if(abs(z[i])>cap_z)
+		 result += (abs(z[i])-cap_z) * (abs(z[i])-cap_z);
+		cap_values(i) = result * grid_w[i];
+	}
 }
 
-double AOCAP::eval_pot(double x, double y, double z)
+void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
 	if(compare_strings(cap_type, "box"))
-		return eval_box_cap(x,y,z);
+		 eval_box_cap(x,y,z,grid_w,num_points,cap_values);
 	else if (compare_strings(cap_type,"voronoi"))
-		return eval_voronoi_cap(x,y,z);
-	return 0;
+		 eval_voronoi_cap(x,y,z,grid_w,num_points,cap_values);;
 }
 
 void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
+	
 	double x_coords_bohr[atoms.size()];
 	double y_coords_bohr[atoms.size()];
 	double z_coords_bohr[atoms.size()];
@@ -170,54 +180,37 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_y_bohr,
                            grid_z_bohr,
                            grid_w);
+        int num_radial_points = numgrid_get_num_radial_grid_points(context);
+    	std::cout << "Grid for atom " + std::to_string(i+1) + " has: " << num_radial_points << " radial points, "
+                  << angular_points << " angular points, " << num_points << " total points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
-	}
-
-	//symmetrize
-	for (size_t i=0;i<cap_mat.rows();i++)
-	{
-		for(size_t j=i+1;j<cap_mat.cols();j++)
-			cap_mat(j,i) = cap_mat(i,j);
 	}
 }
 
 void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
 		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
 {
-	std::vector<std::vector<double>> bf_values;
-	std::vector<double> cap_values (num_points);
-
-	//pre-compute values of cap
-	#pragma omp parallel for
-	for (int i=0;i<num_points;i++)
-		cap_values[i]= eval_pot(grid_x_bohr[i],grid_y_bohr[i],grid_z_bohr[i]);
-
-	//pre-compute values of basis functions
+	Eigen::VectorXd cap_values; Eigen::MatrixXd bf_values;
+	cap_values = Eigen::VectorXd::Zero(num_points);
+	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
+	eval_pot(grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points,cap_values);
+	size_t bf_idx = 0;
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
 		Shell my_shell = bs.basis[i];
 		std::vector<std::array<size_t,3>> order = opencap_carts_ordering(my_shell.l);
 		for(size_t j=0;j<my_shell.num_carts();j++)
 		{
-			std::vector<double> vec(num_points);
 			std::array<size_t,3> cart = order[j];
-			#pragma omp parallel for
-			for (int k=0;k<num_points;k++)
-				vec[k]= my_shell.evaluate(grid_x_bohr[k],grid_y_bohr[k],grid_z_bohr[k],cart[0],cart[1],cart[2]);
-			bf_values.push_back(vec);
+			my_shell.evaluate_on_grid(grid_x_bohr,grid_y_bohr,grid_z_bohr,num_points,cart[0],cart[1],cart[2],bf_values.col(bf_idx));
+			bf_idx++;
 		}
 	}
-
-    //Evaluating matrix elements
-	#pragma omp parallel for
-	for (size_t i=0;i<bs.num_carts();i++)
-	{
-		for(size_t j=i;j<bs.num_carts();j++)
-		{
-			for(int k=0;k<num_points;k++)
-				cap_mat(i,j)+=grid_w[k]*cap_values[k]*bf_values[i][k]*bf_values[j][k];
-		}
-	}
+	Eigen::MatrixXd bf_prime;
+	bf_prime =  Eigen::MatrixXd::Zero(num_points,bs.num_carts());
+	for(size_t i=0;i<bf_prime.cols();i++)
+		bf_prime.col(i) = bf_values.col(i).array()*cap_values.array();
+	cap_mat+=bf_prime.transpose()*bf_values;
 }
 
 void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
