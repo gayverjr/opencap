@@ -68,6 +68,7 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 // DOI: 10.1021/acs.jctc.5b00465
 void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
+    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double atom_distances[num_atoms];
@@ -114,6 +115,7 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 
 void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
+    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double result = 0;
@@ -195,7 +197,6 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
 	eval_pot(grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points,cap_values);
 	size_t bf_idx = 0;
-    #pragma omp parallel for
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
 		Shell my_shell = bs.basis[i];
