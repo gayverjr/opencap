@@ -69,6 +69,7 @@ public:
 	/** Computes %CAP matrix in AO basis via numerical integration.
 	 */
 	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
+    size_t num_atoms;
 
 private:
 	/** Evaluate potential at grid point.

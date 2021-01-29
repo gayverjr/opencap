@@ -60,6 +60,7 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	radial_precision = pow(10,-1.0*radial);
 	angular_points = angpts;
 	atoms = geometry;
+    num_atoms = atoms.size();
 }
 
 // Smooth Voronoi CAP
@@ -67,13 +68,12 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 // DOI: 10.1021/acs.jctc.5b00465
 void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-	#pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
-		double atom_distances[atoms.size()];
-		double r_closest;
+		double atom_distances[num_atoms];
+        double r_closest=1000;
 		//find r closest and fill up our distances array
-		for(size_t j=0;j<atoms.size();j++)
+		for(size_t j=0;j<num_atoms;j++)
 		{
 			if(atoms[j].Z!=0)
 			{
@@ -86,26 +86,27 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 				  atom_distances[j]=dist;
 			}
 		}
-		double weights[atoms.size()];
-		for(size_t j=0;j<atoms.size();j++)
+		double weights[num_atoms];
+		for(size_t q=0;q<num_atoms;q++)
 		{
-		  if(atoms[j].Z!=0)
-			  weights[j]=1/pow((pow(atom_distances[j],2.0)-pow(r_closest,2.0) +1),2.0);
+		  if(atoms[q].Z!=0)
+          {
+              double weight = atom_distances[q]*atom_distances[q]-r_closest*r_closest+1;
+              weights[q] = 1/(weight*weight);
+          }
 		  else
-			  weights[j]=0;
+			  weights[q]=0;
 		}
 		double numerator=0.0;
 		double denominator=0.0;
-		for(size_t j=0;j<atoms.size();j++)
+		for(size_t k=0;k<num_atoms;k++)
 		{
-		  numerator+=atom_distances[j]*atom_distances[j]*weights[j];
-		  denominator+=weights[j];
+		  numerator+=atom_distances[k]*atom_distances[k]*weights[k];
+		  denominator+=weights[k];
 		}
 		double r=sqrt(numerator/denominator);
-		double result;
-		if(r<r_cut)
-		  result = 0;
-		else
+		double result=0;
+		if(r>r_cut)
 		  result = (r-r_cut)*(r-r_cut);
 		cap_values(i) = result * grid_w[i];
 	}
@@ -113,7 +114,6 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 
 void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-	#pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double result = 0;
@@ -138,11 +138,11 @@ void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_po
 void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
 	
-	double x_coords_bohr[atoms.size()];
-	double y_coords_bohr[atoms.size()];
-	double z_coords_bohr[atoms.size()];
-	int nuc_charges[atoms.size()];
-	for(size_t i=0;i<atoms.size();i++)
+	double x_coords_bohr[num_atoms];
+	double y_coords_bohr[num_atoms];
+	double z_coords_bohr[num_atoms];
+	int nuc_charges[num_atoms];
+	for(size_t i=0;i<num_atoms;i++)
 	{
 		x_coords_bohr[i]=atoms[i].coords[0];
 		y_coords_bohr[i]=atoms[i].coords[1];
@@ -154,7 +154,7 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
     //double radial_precision = radial_precision;
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
-	for(size_t i=0;i<atoms.size();i++)
+	for(size_t i=0;i<num_atoms;i++)
 	{
 		//allocate and create grid
 		context_t *context = numgrid_new_atom_grid(radial_precision,
@@ -170,7 +170,7 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
         double *grid_z_bohr = new double[num_points];
         double *grid_w = new double[num_points];
         numgrid_get_grid(  context,
-                           atoms.size(),
+                           num_atoms,
                            i,
                            x_coords_bohr,
                            y_coords_bohr,
@@ -195,6 +195,7 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
 	eval_pot(grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points,cap_values);
 	size_t bf_idx = 0;
+    #pragma omp parallel for
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
 		Shell my_shell = bs.basis[i];
