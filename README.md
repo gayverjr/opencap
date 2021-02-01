@@ -1,5 +1,5 @@
 <div align="left">
-  <img src="https://github.com/gayverjr/opencap/blob/master/images/opencap_logo.png" height="400px">
+  <img src="https://github.com/gayverjr/opencap/blob/main/images/opencap_logo.png" height="400px">
 </div>
 
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
@@ -103,7 +103,7 @@ Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
 ### Basic steps
-These steps have been tested on MacOS 10.13-10.15, and on Centos7.
+These steps have been tested on MacOS 10.14-10.15, and on Centos7.
 
 First clone the git repo
 
@@ -145,9 +145,7 @@ passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
 
     cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
-For Mac users on **MacOS 10.13 High Sierra** or earlier, the Apple Clang provided by XCode 
-**will not work**. We suggest installing the latest version of GCC (currently 10.2) 
-from [Homebrew](https://brew.sh/), and then setting proper environment 
+Alternatively, one can install the latest version of GCC from [Homebrew](https://brew.sh/), and then set proper environment 
 variables for CMake:
 
     # for GCC10 installed by Homebrew
