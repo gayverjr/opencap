@@ -16,13 +16,17 @@ jobs:
     
       - name: Install system dependencies
         run: |
-          sudo apt-get -y install hdf5
+          sudo apt-get install -y libhdf5-serial-dev
           sudo apt-get -y install eigen
           sudo apt-get -y install lcov
           sudo apt-get -y install codecov
           sudo apt-get -y install doxygen
           sudo apt-get -y install cmake
-    
+      
+      - name: whereami
+          pwd
+          ls
+          
       - name: Build and test PyOpenCAP
         run: |
           pip install pytest
@@ -30,6 +34,7 @@ jobs:
           pip install h5py
           pip install numpy
           pip install pyscf
+          pip install codecov
           pip install .
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
