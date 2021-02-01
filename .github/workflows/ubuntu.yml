@@ -11,7 +11,9 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-      
+    
+    steps:
+    
       - name: Install system dependencies
         run: |
           sudo apt-get -y install hdf5
