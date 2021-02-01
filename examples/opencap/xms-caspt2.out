@@ -10,12 +10,12 @@ Successfully read in zeroth order Hamiltonian from file:heff.in
 Reading densities from file:nosymm.rassi.h5
 Done.
 Verified overlap matrix.
-Calculating CAP matrix in AO basis using 4
+Calculating CAP matrix in AO basis using 4 threads.
 Radial precision: 1.00e-14 Angular points: 110
 Grid for atom 1 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 2 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 3 has: 98 radial points, 110 angular points, 10780 total points.
-Integration time:0.601527
+Integration time:0.560667
 Printing out matrices required for Perturbative CAP calculation.
 Number of states: 10
 Zeroth order Hamiltonian
@@ -40,6 +40,6 @@ CAP matrix
 -1.46145786e-01  4.93005066e+00  7.51310457e-02 -1.02163504e+01  3.25580631e-02 -1.16779609e+01  2.37213228e-12 -1.15451066e+01 -1.03713486e-09 -9.29420961e-12
  1.03297104e-11 -1.38005794e-10 -9.36933616e-12  2.70949165e-10 -3.31520075e-11  4.01349597e-10 -1.00623811e-10 -1.03713486e-09 -4.48627549e+01 -1.00950359e-11
 -1.37673393e-10 -4.61348724e-12  2.56684682e-10  9.09065625e-12  4.07914461e-10 -3.74160833e-12  1.02148876e-09 -9.29420961e-12 -1.00950359e-11 -4.48627549e+01
-Wall time:1.44832800
-Job finished: 2021-02-01 22:18:00
+Wall time:1.45111500
+Job finished: 2021-02-01 22:52:00
 Thank you for using OpenCAP!

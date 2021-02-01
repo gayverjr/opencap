@@ -12,12 +12,12 @@ Warning: the overlap matrices differ numerically, but there are no non-matching 
 If you are using cartesian GTOs, this is expected.
 Trying to re-normalize...
 Verified overlap matrix after re-normalization.
-Calculating CAP matrix in AO basis using 4
+Calculating CAP matrix in AO basis using 4 threads.
 Radial precision: 1.00e-14 Angular points: 110
 Grid for atom 1 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 2 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 3 has: 98 radial points, 110 angular points, 10780 total points.
-Integration time:0.574807
+Integration time:0.538437
 Printing out matrices required for Perturbative CAP calculation.
 Number of states: 10
 Zeroth order Hamiltonian
@@ -42,6 +42,6 @@ CAP matrix
  4.31782476e+00  7.06856446e-01 -7.22412468e-01 -1.02281831e+01 -9.46710928e+00 -7.45079137e+00 -5.91246496e-11 -1.19598516e+01  1.24624479e-09 -2.01852921e-10
  7.11801029e-11 -9.67988063e-12 -7.44871448e-14  4.63286200e-11 -7.21898877e-10 -3.43882317e-10  2.71506049e-10  1.24624479e-09 -4.51809050e+01 -1.34686928e-10
  3.71539911e-12 -8.80543664e-11 -5.18462876e-11 -4.48439176e-12 -4.93796954e-10  8.16438673e-10  1.44531528e-09 -2.01852921e-10 -1.34686928e-10 -4.51809050e+01
-Wall time:1.72655300
-Job finished: 2021-02-01 22:18:00
+Wall time:1.84190400
+Job finished: 2021-02-01 22:52:00
 Thank you for using OpenCAP!
