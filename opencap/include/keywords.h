@@ -50,8 +50,14 @@ struct open_key
  */
 struct closed_key
 {
-	std::string name;
-	std::string input_section;
+    /** Name of keyword
+     */
+    std::string name;
+    /** Input section keyword belongs to
+     */
+    std::string input_section;
+    /** Valid choices for keyword
+     */
 	std::vector<std::string> valid_options;
 };
 
