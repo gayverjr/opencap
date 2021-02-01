@@ -45,7 +45,6 @@ SOFTWARE.
 #include "molcas_interface.h"
 #include "AOCAP.h"
 #include "overlap.h"
-#include <omp.h>
 #include <cmath>
 #include <limits>
 #include "opencap_exception.h"
@@ -262,13 +261,6 @@ void CAP::compute_perturb_cap()
 void CAP::compute_ao_cap()
 {
     AOCAP cap_integrator(system.atoms,parameters);
-	std::string message = "Calculating CAP matrix in AO basis using " + std::to_string(omp_get_max_threads()) + " threads.\n"
-			            + "Radial precision: 1e-" + parameters["radial_precision"] 
-						+ " Angular points: " + parameters["angular_points"];
-	if(python)
-		py::print(message);
-	else
-		std::cout << message << std::endl;
 	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
 	cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
 	auto start = std::chrono::high_resolution_clock::now();
@@ -382,11 +374,9 @@ void CAP::run()
 	try
 	{
 		if (parameters.find("ignore_overlap")==parameters.end()||parameters["ignore_overlap"]=="false")
-		{
 			check_overlap_matrix();
-			renormalize();
-		}
 		compute_ao_cap();
+        renormalize();
 		compute_perturb_cap();
 	}
 	catch(exception &e)
