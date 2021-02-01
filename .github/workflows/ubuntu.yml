@@ -24,6 +24,7 @@ jobs:
           sudo apt-get -y install cmake
       
       - name: whereami
+        run: |
           pwd
           ls
           
