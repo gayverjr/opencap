@@ -11,16 +11,28 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-      
+    
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
+    
       - name: Install system dependencies
         run: |
-          sudo apt-get -y install hdf5
-          sudo apt-get -y install eigen
+          sudo apt-get -y install libhdf5-serial-dev
+          sudo apt-get -y install libeigen3-dev
           sudo apt-get -y install lcov
-          sudo apt-get -y install codecov
           sudo apt-get -y install doxygen
           sudo apt-get -y install cmake
-    
+       
+      - name: Build and test OpenCAP
+        run: |
+          cd opencap; mkdir build; 
+          cd build
+          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+          make 
+          ctest --output-on-failure
+          cd ../../
+          
       - name: Build and test PyOpenCAP
         run: |
           pip install pytest
@@ -28,19 +40,11 @@ jobs:
           pip install h5py
           pip install numpy
           pip install pyscf
+          pip install codecov
           pip install .
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
           cd ..
-    
-      - name: Build and test OpenCAP
-        run: |
-          cd opencap; mkdir build; 
-          cd build
-          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
-          cmake --build . --config Debug 
-          ctest --output-on-failure
-          cd ../../
             
       - name: Upload reports
         run: |
