@@ -42,7 +42,7 @@ jobs:
           cd opencap; mkdir build; 
           cd build
           cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
-          cmake --build . --config Debug 
+          make 
           ctest --output-on-failure
           cd ../../
             
