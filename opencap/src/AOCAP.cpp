@@ -141,7 +141,7 @@ void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_po
 
 void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
-    std::cout << "Calculating CAP matrix in AO basis using " + std::to_string(omp_get_max_threads()) << std::endl;
+    std::cout << "Calculating CAP matrix in AO basis using " << std::to_string(omp_get_max_threads()) << " threads." << std::endl;
     std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
               << " Angular points: " << angular_points << std::endl;
 	double x_coords_bohr[num_atoms];
