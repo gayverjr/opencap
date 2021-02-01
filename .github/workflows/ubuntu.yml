@@ -18,10 +18,9 @@ jobs:
     
       - name: Install system dependencies
         run: |
-          sudo apt-get install -y libhdf5-serial-dev
-          sudo apt-get -y install eigen
+          sudo apt-get -y install libhdf5-serial-dev
+          sudo apt-get -y install libeigen3-dev
           sudo apt-get -y install lcov
-          sudo apt-get -y install codecov
           sudo apt-get -y install doxygen
           sudo apt-get -y install cmake
                 
