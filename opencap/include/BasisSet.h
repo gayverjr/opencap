@@ -39,7 +39,7 @@ using namespace std;
  */
 struct shell_id
 {
-	/* Index of atom this shell belongs to
+	/** Index of atom this shell belongs to
 	 */
 	size_t ctr;
 	/* Shell number
@@ -60,10 +60,10 @@ struct shell_id
  */
 struct bf_id
 {
-	/* Index of atom this shell belongs to
+	/** Index of atom this shell belongs to
 	 */
 	size_t ctr;
-	/* Shell number
+	/** Shell number
 	 */
 	size_t shell_num;
 	/** Angular momentum quantum number. Positive if pure, negative if Cartesian

@@ -77,7 +77,11 @@ public:
 	/** Updates center of %Shell
 	 */
 	void update_coords(std::array<double,3> center);
+    /** Evaluate basis function (with a given lx ly lz) at point x,y,z
+     */
 	double evaluate(double x, double y, double z,size_t lx,size_t ly, size_t lz);
+    /** Evaluate basis function (with a given lx ly lz) on grid
+     */
 	void evaluate_on_grid(double* x, double* y, double* z, int num_points,size_t lx,size_t ly, size_t lz,Eigen::Ref<Eigen::VectorXd> v);
 	/** Returns smallest exponent in %Shell
 	 */
