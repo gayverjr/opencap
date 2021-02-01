@@ -13,6 +13,8 @@ jobs:
         python-version: [3.8]
     
     steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
     
       - name: Install system dependencies
         run: |
@@ -22,12 +24,7 @@ jobs:
           sudo apt-get -y install codecov
           sudo apt-get -y install doxygen
           sudo apt-get -y install cmake
-      
-      - name: whereami
-        run: |
-          pwd
-          ls
-          
+                
       - name: Build and test PyOpenCAP
         run: |
           pip install pytest
