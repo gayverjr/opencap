@@ -52,7 +52,7 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"cap_z","perturb_cap"},
 		{"r_cut","perturb_cap"},
 		{"radial_precision","perturb_cap"},
-		{"angular_points","perturb_cap"},
+		{"angular_points","perturb_cap"}
 	};
 	std::vector<closed_key> closed_keys
 	{
