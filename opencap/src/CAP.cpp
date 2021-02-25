@@ -244,7 +244,7 @@ void CAP::compute_perturb_cap()
 	verify_data();
 	Eigen::MatrixXd CAP_matrix(nstates,nstates);
 	CAP_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
-    std::cout << std::fixed << std::setprecision(10);
+    std::cout << std::scientific  << std::setprecision(10);
 	for (size_t row_idx=0;row_idx<CAP_matrix.rows();row_idx++)
 	{
 		for (size_t col_idx=0;col_idx<CAP_matrix.cols();col_idx++)

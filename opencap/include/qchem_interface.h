@@ -30,20 +30,24 @@ SOFTWARE.
     \param dmat_filename: file location of the Q-Chem .fchk file
     \param nstates: number of states
     \param bs: BasisSet of system
+    \param symmetric_rdm: True if state density matrices are symmetric and should be read as lower triangular matrices
+    \param symmetric_tdm: True if TDMs are symmetric and should be read as lower triangular matrices
     \return An array of size 2, each entry holding a 2D vector corresponding to the state densities.
      The first entry is the alpha densities, the second the beta densities.
 */
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_shell(std::string dmat_filename,size_t nstates,
-		BasisSet bs);
+		BasisSet bs, bool symmetric_rdm,  bool symmetric_tdm);
 /*! Read in TDMs from Q-Chem .fchk file for open-shell system (no distinction between alpha/beta densities)
     \param dmat_filename: file location of the Q-Chem .fchk file
     \param nstates: number of states
     \param bs: BasisSet of system
+    \param symmetric_rdm: True if state density matrices are symmetric and should be read as lower triangular matrices
+    \param symmetric_tdm: True if TDMs are symmetric and should be read as lower triangular matrices
     \return An array of size 2, each entry holding a 2D vector corresponding to the state densities.
      The first entry is the alpha densities, the second the beta densities.
 */
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed_shell(std::string dmat_filename,size_t nstates,
-		BasisSet bs);
+		BasisSet bs, bool symmetric_rdm,  bool symmetric_tdm);
 /*! Reads in overlap matrix from Q-Chem fchk file.
     \param dmat_filename: file location of the Q-Chem .fchk file
     \param bs: BasisSet of system

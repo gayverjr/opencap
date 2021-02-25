@@ -133,4 +133,3 @@ bool is_letter(const std::string &s)
 {
   return !s.empty() && std::all_of(s.begin(), s.end(), ::isalpha);
 }
-
