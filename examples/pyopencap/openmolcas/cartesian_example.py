@@ -11,8 +11,8 @@ au2eV= 27.2113961
 guess = 2.2
 eta_list = np.linspace(0,500,51)
 eta_list = eta_list * 1E-5
-RASSI_FILE = "../../opencap/cart.rassi.h5"
-OUTPUT_FILE = "../../opencap/cart.out"
+RASSI_FILE = "../../opencap/openmolcas/cart.rassi.h5"
+OUTPUT_FILE = "../../opencap/openmolcas/cart.out"
 nbasis=140
 ##########################################
 

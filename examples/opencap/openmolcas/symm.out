@@ -118,15 +118,17 @@ x y z
 &SEWARD
 
 &SCF
+title = scf orbitals
 
 &MBPT2
+title = mp2 orbitals
 PRPT
 
 >>> COPY /home/gayverjr/OpenCAP/molcas_example/$Project.MP2Orb INPORB
 
 &RASSCF
 LUMORB
-Title = cas 5,13 test
+Title = Optimize MP2 orbitals with cas (4,4)
 Inactive = 3 0 0 0 2 0 0 0
 Ras2= 0 1 1 0 0 1 1 0
 NActEl=4,0,0
@@ -136,6 +138,7 @@ CIROOT= 8 8 1
 
 &RASSCF
 LUMORB
+Title = optimize cas(4,4) orbitals for anion
 Inactive = 3 0 0 0 2 0 0 0
 Ras2= 0 1 1 0 0 4 4 0
 TDM

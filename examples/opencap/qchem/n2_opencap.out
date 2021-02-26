@@ -1,0 +1,34 @@
+Welcome to OpenCAP: An open-source program for studying resonances in molecules.
+Version 1.0.3
+Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license.
+For questions and support, please visit: https://github.com/gayverjr/opencap
+
+Starting perturbative CAP calculation.
+Number of basis functions:119
+Successfully read in zeroth order Hamiltonian from file:n2.out
+Reading densities from file:n2.fchk
+Done.
+Verified overlap matrix.
+Calculating CAP matrix in AO basis using 4 threads.
+Radial precision: 1.00e-14 Angular points: 590
+Grid for atom 1 has: 148 radial points, 590 angular points, 87320 total points.
+Grid for atom 2 has: 148 radial points, 590 angular points, 87320 total points.
+Grid for atom 3 has: 98 radial points, 590 angular points, 57820 total points.
+Integration time:2.725900
+Printing out matrices required for Perturbative CAP calculation.
+Number of states: 5
+Zeroth order Hamiltonian
+-1.0931353915e+02  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00 -1.0926810571e+02  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00 -1.0921019423e+02  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00  0.0000000000e+00 -1.0906263866e+02  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00 -1.0899332184e+02
+CAP matrix
+-4.28774404e+01  1.61085022e+01  1.85490071e+01  6.02368463e+00 -6.49862795e-02
+ 1.61085022e+01 -8.67389040e+00 -1.31654640e+01 -6.21719468e+00 -3.78971745e-02
+ 1.85490071e+01 -1.31654640e+01 -2.50315192e+01 -1.58165466e+01  2.12837925e-01
+ 6.02368463e+00 -6.21719468e+00 -1.58165466e+01 -1.64128435e+01 -1.51809167e-01
+-6.49862795e-02 -3.78971745e-02  2.12837925e-01 -1.51809167e-01 -1.65333994e+02
+Wall time:3.09635800
+Job finished: 2021-02-26 18:17:00
+Thank you for using OpenCAP!

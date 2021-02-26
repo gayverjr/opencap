@@ -1,20 +1,20 @@
 import pyopencap
 import numpy as np
 from pandas import DataFrame
+import h5py
 
 #Change these lines to suit your system
 ##########################################
-guess=3
-eta_list = np.linspace(0,500,101)
+ref_energy =  -109.36195558
+guess = 2.2
+eta_list = np.linspace(0,5000,101)
 eta_list = eta_list * 1E-5
-ref_energy= -109.35498051
-au2eV= 27.2113961
-RASSI_FILE = "../../opencap/openmolcas/symm.rassi.h5"
-OUTPUT_FILE = "../../opencap/openmolcas/symm.out"
+FCHK_FILE = "../../opencap/qchem/n2.fchk"
+OUTPUT_FILE = "../../opencap/qchem/n2.out"
 ##########################################
 
-sys_dict = {"molecule": "molcas_rassi",
-"basis_file": RASSI_FILE}
+sys_dict = {"molecule": "qchem_fchk",
+"basis_file": FCHK_FILE}
 
 cap_dict = {
             "cap_type": "box",
@@ -25,25 +25,29 @@ cap_dict = {
             "angular_points": "110"
 }
 
-es_dict = {"method" : "ms-caspt2",
-    "molcas_output":OUTPUT_FILE ,
-        "rassi_h5":RASSI_FILE,
-}
+es_dict = {"method" : "eomea",
+           "qchem_output":OUTPUT_FILE,
+"qchem_fchk":FCHK_FILE}
 
-# When symmetry is turned on, data must be read in using read_data
+# Method 1: Read data from output
 s = pyopencap.System(sys_dict)
-pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
+pc = pyopencap.CAP(s,cap_dict,5,"qchem")
 pc.read_data(es_dict)
 pc.compute_ao_cap()
 pc.compute_perturb_cap()
 mat=pc.get_perturb_cap()
 h0 = pc.get_H()
 
+
 ### now time for trajectories
 import os
 import functools
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
+
+au2eV= 27.2113961
+
+# a root is a single eigenvalue of the cap hamiltonian at a particular value of eta
 @functools.total_ordering
 class root():
     def __init__(self, energy, eta):
@@ -56,6 +60,7 @@ class root():
     def __eq__(self, other):
         return self.eta == other.eta and self.eta == other.eta
 
+# a trajectory is a group of eigenvalues over a range of eta values, grouped by proximity to an initial guess
 class trajectory():
     def __init__(self,states,guess):
         min=500
@@ -67,15 +72,17 @@ class trajectory():
         self.last=cur
         self.states=[cur]
     
+    # picks out the state from the list of states whose energy is closest to the previous entry in the trajectory
     def add_state(self,states):
         min=500
         cur=-1
         for st in states:
-            if np.absolute(st.energy-guess)<min:
+            if np.absolute(st.energy-self.last.energy)<min:
                 cur=st
                 min=np.absolute(st.energy-self.last.energy)
+        self.last = cur
         self.states.append(cur)
-    
+    # applies first order correciton
     def get_corrections(self):
         energies=[]
         etas=[]
@@ -89,19 +96,22 @@ class trajectory():
 H_0 = h0
 cap_mat = mat
 all_roots=[]
+# diagonalize over range of eta values and generate trajectories
 for i in range(0,len(eta_list)):
     eta=eta_list[i]
     roots=[]
     fullH = H_0 +1.0j * eta * cap_mat
     eigv,eigvc=LA.eig(fullH)
     for eig in eigv:
-        E = (eig -ref_energy) * au2eV
+        E = (eig - ref_energy) * au2eV
         roots.append(root(E,eta))
         all_roots.append(root(E,eta))
     if i==0:
         traj=trajectory(roots,guess)
     else:
         traj.add_state(roots)
+
+# first lets plot everything
 re_traj = []
 im_traj = []
 energies=[]
@@ -109,13 +119,13 @@ for root in all_roots:
     re_traj.append(np.real(root.energy))
     im_traj.append(np.imag(root.energy))
     energies.append(root.energy)
-plt.plot(re_traj,im_traj,'ro')
 plt.title("Eigenvalue trajectories")
 plt.xlabel("Re(E)[eV]")
 plt.ylabel("Im(E)[eV]")
+plt.plot(re_traj,im_traj,'ro')
 plt.show()
 
-
+# lets get the corrected trajectory
 traj.get_corrections()
 re_traj = []
 im_traj = []
@@ -130,17 +140,19 @@ for root in traj.states:
     corr_re.append(np.real(root.corr_energy))
     corr_im.append(np.imag(root.corr_energy))
     corr_energies.append(root.corr_energy)
+# plot uncorrected and corrected trajectory
+plt.title("Resonance trajectory")
 plt.plot(re_traj,im_traj,'-ro',label="Uncorrected trajectory")
 plt.plot(corr_re,corr_im,'-bo',label="Corrected trajectory")
-plt.legend()
-plt.title("Resonance trajectory")
 plt.xlabel("Re(E)[eV]")
 plt.ylabel("Im(E)[eV]")
+plt.legend()
 plt.show()
 
-derivs=list(np.array(eta_list)*np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
+# plot derivative, find stationary point on uncorrected trajectory
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
-plt.title("Uncorrected derivatives")
+plt.title("Uncorrected derivative")
 plt.show()
 sorted_derivs = sorted(derivs[5:])
 points = []
@@ -153,10 +165,10 @@ print(points)
 print(sorted_derivs[:5])
 print(etas)
 
-
-derivs=list(np.array(eta_list)*np.absolute(np.gradient(uc_energies)/np.gradient(eta_list)))
+# plot derivative, find stationary point on corrected trajectory
+derivs=list(np.array(eta_list)*np.absolute(np.gradient(corr_energies)/np.gradient(eta_list)))
 plt.plot(eta_list,derivs)
-plt.title("Corrected derivatives")
+plt.title("Corrected derivative")
 plt.show()
 sorted_derivs = sorted(derivs[5:])
 points = []
@@ -168,6 +180,3 @@ print("Corrected:")
 print(points)
 print(sorted_derivs[:5])
 print(etas)
-
-
-
