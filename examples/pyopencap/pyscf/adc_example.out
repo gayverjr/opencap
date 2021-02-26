@@ -1,0 +1,1476 @@
+converged SCF energy = -108.984442935851
+Starting adc3 singlet Jacobi-Davidson ...
+Niter n_ss  max_residual  time  Ritz values
+  1     4        0.2698  324ms  [0.58576683]
+  2     8       0.28261   2.1s  [0.4664068]
+  3    12      0.034401   2.3s  [0.35442591]
+  4    16     0.0044105   2.2s  [0.34003649]
+  5    20    0.00077042   2.4s  [0.33747927]
+=== Restart ===
+  6     8    0.00010479   2.2s  [0.33718099]
+=== Converged ===
+    Number of matrix applies:    24
+    Total solver time:            11s 568ms
+E_0:-109.39504305049073
+converged SCF energy = -108.975408005345  <S^2> = 0.75000128  2S+1 = 2.0000013
+Calculating CAP matrix in AO basis using 16 threads.
+Radial precision: 1.00e-14 Angular points: 110
+Grid for atom 1 has: 148 radial points, 110 angular points, 16280 total points.
+Grid for atom 2 has: 148 radial points, 110 angular points, 16280 total points.
+Grid for atom 3 has: 98 radial points, 110 angular points, 10780 total points.
+Starting adc2  Jacobi-Davidson ...
+Niter n_ss  max_residual  time  Ritz values
+  1   100       0.46538  21.1s  [0.00358854 0.00358854 0.00367245 0.03294355 0.03294355 0.03328903
+ 0.03392736]
+  2   200      0.065224  46.2s  [0.00326234 0.00326234 0.00335361 0.03074854 0.03152221 0.03152221
+ 0.03179365]
+  3   300     0.0028388    74s  [0.00325375 0.00325375 0.00334816 0.03069912 0.03148562 0.03148562
+ 0.03176898]
+  4   400     0.0016596   101s  [0.00325301 0.00325301 0.00334779 0.03069775 0.03148319 0.03148319
+ 0.03176787]
+  5   500    0.00050124   2.2m  [0.00325297 0.00325297 0.00334778 0.03069773 0.03148311 0.03148311
+ 0.03176785]
+=== Restart ===
+  6   200    0.00011245   106s  [0.00325297 0.00325297 0.00334778 0.03069773 0.0314831  0.0314831
+ 0.03176785]
+=== Converged ===
+    Number of matrix applies:    600
+    Total solver time:            8m  4s
++--------------------------------------------------------------+
+| adc2                                        any ,  converged |
++--------------------------------------------------------------+
+|  #        excitation energy     osc str    |v1|^2    |v2|^2  |
+|          (au)           (eV)                                 |
+|  0   0.003252967    0.08851774   0.1423    0.9998 0.0002217  |
+|  1   0.003252967    0.08851774   0.1423    0.9998 0.0002217  |
+|  2   0.003347783    0.09109782   0.1360    0.9998 0.0002354  |
+|  3    0.03069773     0.8353279   0.0000    0.9974  0.002623  |
+|  4     0.0314831     0.8566987   0.0074    0.9989  0.001101  |
+|  5     0.0314831     0.8566987   0.0074    0.9989  0.001101  |
+|  6    0.03176785     0.8644472   0.0101    0.9987  0.001301  |
+|  7    0.03997939      1.087895   0.0000    0.9986  0.001446  |
+|  8    0.03997939      1.087895   0.0000    0.9986  0.001446  |
+|  9    0.04186167      1.139114   0.0000    0.9994 0.0005827  |
+| 10    0.04509541      1.227109   0.0000    0.9997 0.0003362  |
+| 11    0.04509541      1.227109   0.0000    0.9997 0.0003362  |
+| 12    0.08352808      2.272915   0.0000    0.9654    0.0346  |
+| 13    0.08352808      2.272915   0.0000    0.9654    0.0346  |
+| 14    0.09208355      2.505721   0.0405    0.9962  0.003807  |
+| 15    0.09320827      2.536326   0.0476    0.9965  0.003515  |
+| 16    0.09320827      2.536326   0.0476    0.9965  0.003515  |
+| 17      0.103696      2.821713   0.0000    0.9941  0.005942  |
+| 18     0.1285357      3.497635   0.0000    0.9972  0.002843  |
+| 19      0.142766      3.884861   0.0000    0.9868   0.01321  |
+| 20      0.142766      3.884861   0.0000    0.9868   0.01321  |
+| 21     0.1456226      3.962593   0.0000    0.9979  0.002114  |
+| 22     0.1456226      3.962593   0.0000    0.9979  0.002114  |
+| 23     0.1876446      5.106069   0.0014     0.994  0.006036  |
+| 24     0.2384315      6.488051   0.0075    0.9885   0.01154  |
+| 25     0.2384315      6.488051   0.0075    0.9885   0.01154  |
+| 26     0.2608134      7.097095   0.0000    0.9908   0.00915  |
+| 27       0.28049      7.632522   0.0000    0.9888   0.01119  |
+| 28     0.2908128       7.91342   0.0000    0.9869   0.01309  |
+| 29     0.2908128       7.91342   0.0000    0.9869   0.01309  |
+| 30     0.3001032      8.166224   0.0000    0.9797   0.02033  |
+| 31     0.3021133      8.220923   0.0000     0.954   0.04601  |
+| 32     0.3021133      8.220923   0.0000     0.954   0.04601  |
+| 33     0.3068199      8.348996   0.0003    0.9869   0.01315  |
+| 34     0.3339918      9.088379   0.0000    0.9916  0.008367  |
+| 35     0.3339918      9.088379   0.0000    0.9916  0.008367  |
+| 36     0.3406916      9.270691   0.0000    0.9783   0.02166  |
+| 37     0.3406916      9.270691   0.0000    0.9783   0.02166  |
+| 38     0.3485304      9.483995   0.0000    0.9376   0.06237  |
+| 39     0.3485304      9.483995   0.0000    0.9376   0.06237  |
+| 40     0.3765522      10.24651   0.0000    0.9715   0.02847  |
+| 41     0.3775328      10.27319   0.0000    0.9735   0.02651  |
+| 42     0.3969919       10.8027   0.0000    0.9709   0.02909  |
+| 43      0.396992       10.8027   0.0000    0.9709   0.02909  |
+| 44     0.4321912      11.76052   0.0000    0.9121   0.08786  |
+| 45     0.4485484      12.20562   0.0000    0.9086   0.09137  |
+| 46     0.4492778      12.22547   0.0131    0.9032   0.09681  |
+| 47     0.4492779      12.22547   0.0131    0.9032   0.09681  |
+| 48     0.4500488      12.24645   0.0272    0.9037   0.09633  |
+| 49     0.4598395      12.51287   0.0241    0.9016   0.09845  |
++--------------------------------------------------------------+
+
+Added state DM for state:0
+Added transition dms for states:0,1
+Added transition dms for states:0,2
+Added transition dms for states:0,3
+Added transition dms for states:0,4
+Added transition dms for states:0,5
+Added transition dms for states:0,6
+Added transition dms for states:0,7
+Added transition dms for states:0,8
+Added transition dms for states:0,9
+Added transition dms for states:0,10
+Added transition dms for states:0,11
+Added transition dms for states:0,12
+Added transition dms for states:0,13
+Added transition dms for states:0,14
+Added transition dms for states:0,15
+Added transition dms for states:0,16
+Added transition dms for states:0,17
+Added transition dms for states:0,18
+Added transition dms for states:0,19
+Added transition dms for states:0,20
+Added transition dms for states:0,21
+Added transition dms for states:0,22
+Added transition dms for states:0,23
+Added transition dms for states:0,24
+Added transition dms for states:0,25
+Added transition dms for states:0,26
+Added transition dms for states:0,27
+Added transition dms for states:0,28
+Added transition dms for states:0,29
+Added transition dms for states:0,30
+Added transition dms for states:0,31
+Added transition dms for states:0,32
+Added transition dms for states:0,33
+Added transition dms for states:0,34
+Added transition dms for states:0,35
+Added transition dms for states:0,36
+Added transition dms for states:0,37
+Added transition dms for states:0,38
+Added transition dms for states:0,39
+Added transition dms for states:0,40
+Added transition dms for states:0,41
+Added transition dms for states:0,42
+Added transition dms for states:0,43
+Added transition dms for states:0,44
+Added transition dms for states:0,45
+Added transition dms for states:0,46
+Added transition dms for states:0,47
+Added transition dms for states:0,48
+Added transition dms for states:0,49
+Added state DM for state:1
+Added transition dms for states:1,2
+Added transition dms for states:1,3
+Added transition dms for states:1,4
+Added transition dms for states:1,5
+Added transition dms for states:1,6
+Added transition dms for states:1,7
+Added transition dms for states:1,8
+Added transition dms for states:1,9
+Added transition dms for states:1,10
+Added transition dms for states:1,11
+Added transition dms for states:1,12
+Added transition dms for states:1,13
+Added transition dms for states:1,14
+Added transition dms for states:1,15
+Added transition dms for states:1,16
+Added transition dms for states:1,17
+Added transition dms for states:1,18
+Added transition dms for states:1,19
+Added transition dms for states:1,20
+Added transition dms for states:1,21
+Added transition dms for states:1,22
+Added transition dms for states:1,23
+Added transition dms for states:1,24
+Added transition dms for states:1,25
+Added transition dms for states:1,26
+Added transition dms for states:1,27
+Added transition dms for states:1,28
+Added transition dms for states:1,29
+Added transition dms for states:1,30
+Added transition dms for states:1,31
+Added transition dms for states:1,32
+Added transition dms for states:1,33
+Added transition dms for states:1,34
+Added transition dms for states:1,35
+Added transition dms for states:1,36
+Added transition dms for states:1,37
+Added transition dms for states:1,38
+Added transition dms for states:1,39
+Added transition dms for states:1,40
+Added transition dms for states:1,41
+Added transition dms for states:1,42
+Added transition dms for states:1,43
+Added transition dms for states:1,44
+Added transition dms for states:1,45
+Added transition dms for states:1,46
+Added transition dms for states:1,47
+Added transition dms for states:1,48
+Added transition dms for states:1,49
+Added state DM for state:2
+Added transition dms for states:2,3
+Added transition dms for states:2,4
+Added transition dms for states:2,5
+Added transition dms for states:2,6
+Added transition dms for states:2,7
+Added transition dms for states:2,8
+Added transition dms for states:2,9
+Added transition dms for states:2,10
+Added transition dms for states:2,11
+Added transition dms for states:2,12
+Added transition dms for states:2,13
+Added transition dms for states:2,14
+Added transition dms for states:2,15
+Added transition dms for states:2,16
+Added transition dms for states:2,17
+Added transition dms for states:2,18
+Added transition dms for states:2,19
+Added transition dms for states:2,20
+Added transition dms for states:2,21
+Added transition dms for states:2,22
+Added transition dms for states:2,23
+Added transition dms for states:2,24
+Added transition dms for states:2,25
+Added transition dms for states:2,26
+Added transition dms for states:2,27
+Added transition dms for states:2,28
+Added transition dms for states:2,29
+Added transition dms for states:2,30
+Added transition dms for states:2,31
+Added transition dms for states:2,32
+Added transition dms for states:2,33
+Added transition dms for states:2,34
+Added transition dms for states:2,35
+Added transition dms for states:2,36
+Added transition dms for states:2,37
+Added transition dms for states:2,38
+Added transition dms for states:2,39
+Added transition dms for states:2,40
+Added transition dms for states:2,41
+Added transition dms for states:2,42
+Added transition dms for states:2,43
+Added transition dms for states:2,44
+Added transition dms for states:2,45
+Added transition dms for states:2,46
+Added transition dms for states:2,47
+Added transition dms for states:2,48
+Added transition dms for states:2,49
+Added state DM for state:3
+Added transition dms for states:3,4
+Added transition dms for states:3,5
+Added transition dms for states:3,6
+Added transition dms for states:3,7
+Added transition dms for states:3,8
+Added transition dms for states:3,9
+Added transition dms for states:3,10
+Added transition dms for states:3,11
+Added transition dms for states:3,12
+Added transition dms for states:3,13
+Added transition dms for states:3,14
+Added transition dms for states:3,15
+Added transition dms for states:3,16
+Added transition dms for states:3,17
+Added transition dms for states:3,18
+Added transition dms for states:3,19
+Added transition dms for states:3,20
+Added transition dms for states:3,21
+Added transition dms for states:3,22
+Added transition dms for states:3,23
+Added transition dms for states:3,24
+Added transition dms for states:3,25
+Added transition dms for states:3,26
+Added transition dms for states:3,27
+Added transition dms for states:3,28
+Added transition dms for states:3,29
+Added transition dms for states:3,30
+Added transition dms for states:3,31
+Added transition dms for states:3,32
+Added transition dms for states:3,33
+Added transition dms for states:3,34
+Added transition dms for states:3,35
+Added transition dms for states:3,36
+Added transition dms for states:3,37
+Added transition dms for states:3,38
+Added transition dms for states:3,39
+Added transition dms for states:3,40
+Added transition dms for states:3,41
+Added transition dms for states:3,42
+Added transition dms for states:3,43
+Added transition dms for states:3,44
+Added transition dms for states:3,45
+Added transition dms for states:3,46
+Added transition dms for states:3,47
+Added transition dms for states:3,48
+Added transition dms for states:3,49
+Added state DM for state:4
+Added transition dms for states:4,5
+Added transition dms for states:4,6
+Added transition dms for states:4,7
+Added transition dms for states:4,8
+Added transition dms for states:4,9
+Added transition dms for states:4,10
+Added transition dms for states:4,11
+Added transition dms for states:4,12
+Added transition dms for states:4,13
+Added transition dms for states:4,14
+Added transition dms for states:4,15
+Added transition dms for states:4,16
+Added transition dms for states:4,17
+Added transition dms for states:4,18
+Added transition dms for states:4,19
+Added transition dms for states:4,20
+Added transition dms for states:4,21
+Added transition dms for states:4,22
+Added transition dms for states:4,23
+Added transition dms for states:4,24
+Added transition dms for states:4,25
+Added transition dms for states:4,26
+Added transition dms for states:4,27
+Added transition dms for states:4,28
+Added transition dms for states:4,29
+Added transition dms for states:4,30
+Added transition dms for states:4,31
+Added transition dms for states:4,32
+Added transition dms for states:4,33
+Added transition dms for states:4,34
+Added transition dms for states:4,35
+Added transition dms for states:4,36
+Added transition dms for states:4,37
+Added transition dms for states:4,38
+Added transition dms for states:4,39
+Added transition dms for states:4,40
+Added transition dms for states:4,41
+Added transition dms for states:4,42
+Added transition dms for states:4,43
+Added transition dms for states:4,44
+Added transition dms for states:4,45
+Added transition dms for states:4,46
+Added transition dms for states:4,47
+Added transition dms for states:4,48
+Added transition dms for states:4,49
+Added state DM for state:5
+Added transition dms for states:5,6
+Added transition dms for states:5,7
+Added transition dms for states:5,8
+Added transition dms for states:5,9
+Added transition dms for states:5,10
+Added transition dms for states:5,11
+Added transition dms for states:5,12
+Added transition dms for states:5,13
+Added transition dms for states:5,14
+Added transition dms for states:5,15
+Added transition dms for states:5,16
+Added transition dms for states:5,17
+Added transition dms for states:5,18
+Added transition dms for states:5,19
+Added transition dms for states:5,20
+Added transition dms for states:5,21
+Added transition dms for states:5,22
+Added transition dms for states:5,23
+Added transition dms for states:5,24
+Added transition dms for states:5,25
+Added transition dms for states:5,26
+Added transition dms for states:5,27
+Added transition dms for states:5,28
+Added transition dms for states:5,29
+Added transition dms for states:5,30
+Added transition dms for states:5,31
+Added transition dms for states:5,32
+Added transition dms for states:5,33
+Added transition dms for states:5,34
+Added transition dms for states:5,35
+Added transition dms for states:5,36
+Added transition dms for states:5,37
+Added transition dms for states:5,38
+Added transition dms for states:5,39
+Added transition dms for states:5,40
+Added transition dms for states:5,41
+Added transition dms for states:5,42
+Added transition dms for states:5,43
+Added transition dms for states:5,44
+Added transition dms for states:5,45
+Added transition dms for states:5,46
+Added transition dms for states:5,47
+Added transition dms for states:5,48
+Added transition dms for states:5,49
+Added state DM for state:6
+Added transition dms for states:6,7
+Added transition dms for states:6,8
+Added transition dms for states:6,9
+Added transition dms for states:6,10
+Added transition dms for states:6,11
+Added transition dms for states:6,12
+Added transition dms for states:6,13
+Added transition dms for states:6,14
+Added transition dms for states:6,15
+Added transition dms for states:6,16
+Added transition dms for states:6,17
+Added transition dms for states:6,18
+Added transition dms for states:6,19
+Added transition dms for states:6,20
+Added transition dms for states:6,21
+Added transition dms for states:6,22
+Added transition dms for states:6,23
+Added transition dms for states:6,24
+Added transition dms for states:6,25
+Added transition dms for states:6,26
+Added transition dms for states:6,27
+Added transition dms for states:6,28
+Added transition dms for states:6,29
+Added transition dms for states:6,30
+Added transition dms for states:6,31
+Added transition dms for states:6,32
+Added transition dms for states:6,33
+Added transition dms for states:6,34
+Added transition dms for states:6,35
+Added transition dms for states:6,36
+Added transition dms for states:6,37
+Added transition dms for states:6,38
+Added transition dms for states:6,39
+Added transition dms for states:6,40
+Added transition dms for states:6,41
+Added transition dms for states:6,42
+Added transition dms for states:6,43
+Added transition dms for states:6,44
+Added transition dms for states:6,45
+Added transition dms for states:6,46
+Added transition dms for states:6,47
+Added transition dms for states:6,48
+Added transition dms for states:6,49
+Added state DM for state:7
+Added transition dms for states:7,8
+Added transition dms for states:7,9
+Added transition dms for states:7,10
+Added transition dms for states:7,11
+Added transition dms for states:7,12
+Added transition dms for states:7,13
+Added transition dms for states:7,14
+Added transition dms for states:7,15
+Added transition dms for states:7,16
+Added transition dms for states:7,17
+Added transition dms for states:7,18
+Added transition dms for states:7,19
+Added transition dms for states:7,20
+Added transition dms for states:7,21
+Added transition dms for states:7,22
+Added transition dms for states:7,23
+Added transition dms for states:7,24
+Added transition dms for states:7,25
+Added transition dms for states:7,26
+Added transition dms for states:7,27
+Added transition dms for states:7,28
+Added transition dms for states:7,29
+Added transition dms for states:7,30
+Added transition dms for states:7,31
+Added transition dms for states:7,32
+Added transition dms for states:7,33
+Added transition dms for states:7,34
+Added transition dms for states:7,35
+Added transition dms for states:7,36
+Added transition dms for states:7,37
+Added transition dms for states:7,38
+Added transition dms for states:7,39
+Added transition dms for states:7,40
+Added transition dms for states:7,41
+Added transition dms for states:7,42
+Added transition dms for states:7,43
+Added transition dms for states:7,44
+Added transition dms for states:7,45
+Added transition dms for states:7,46
+Added transition dms for states:7,47
+Added transition dms for states:7,48
+Added transition dms for states:7,49
+Added state DM for state:8
+Added transition dms for states:8,9
+Added transition dms for states:8,10
+Added transition dms for states:8,11
+Added transition dms for states:8,12
+Added transition dms for states:8,13
+Added transition dms for states:8,14
+Added transition dms for states:8,15
+Added transition dms for states:8,16
+Added transition dms for states:8,17
+Added transition dms for states:8,18
+Added transition dms for states:8,19
+Added transition dms for states:8,20
+Added transition dms for states:8,21
+Added transition dms for states:8,22
+Added transition dms for states:8,23
+Added transition dms for states:8,24
+Added transition dms for states:8,25
+Added transition dms for states:8,26
+Added transition dms for states:8,27
+Added transition dms for states:8,28
+Added transition dms for states:8,29
+Added transition dms for states:8,30
+Added transition dms for states:8,31
+Added transition dms for states:8,32
+Added transition dms for states:8,33
+Added transition dms for states:8,34
+Added transition dms for states:8,35
+Added transition dms for states:8,36
+Added transition dms for states:8,37
+Added transition dms for states:8,38
+Added transition dms for states:8,39
+Added transition dms for states:8,40
+Added transition dms for states:8,41
+Added transition dms for states:8,42
+Added transition dms for states:8,43
+Added transition dms for states:8,44
+Added transition dms for states:8,45
+Added transition dms for states:8,46
+Added transition dms for states:8,47
+Added transition dms for states:8,48
+Added transition dms for states:8,49
+Added state DM for state:9
+Added transition dms for states:9,10
+Added transition dms for states:9,11
+Added transition dms for states:9,12
+Added transition dms for states:9,13
+Added transition dms for states:9,14
+Added transition dms for states:9,15
+Added transition dms for states:9,16
+Added transition dms for states:9,17
+Added transition dms for states:9,18
+Added transition dms for states:9,19
+Added transition dms for states:9,20
+Added transition dms for states:9,21
+Added transition dms for states:9,22
+Added transition dms for states:9,23
+Added transition dms for states:9,24
+Added transition dms for states:9,25
+Added transition dms for states:9,26
+Added transition dms for states:9,27
+Added transition dms for states:9,28
+Added transition dms for states:9,29
+Added transition dms for states:9,30
+Added transition dms for states:9,31
+Added transition dms for states:9,32
+Added transition dms for states:9,33
+Added transition dms for states:9,34
+Added transition dms for states:9,35
+Added transition dms for states:9,36
+Added transition dms for states:9,37
+Added transition dms for states:9,38
+Added transition dms for states:9,39
+Added transition dms for states:9,40
+Added transition dms for states:9,41
+Added transition dms for states:9,42
+Added transition dms for states:9,43
+Added transition dms for states:9,44
+Added transition dms for states:9,45
+Added transition dms for states:9,46
+Added transition dms for states:9,47
+Added transition dms for states:9,48
+Added transition dms for states:9,49
+Added state DM for state:10
+Added transition dms for states:10,11
+Added transition dms for states:10,12
+Added transition dms for states:10,13
+Added transition dms for states:10,14
+Added transition dms for states:10,15
+Added transition dms for states:10,16
+Added transition dms for states:10,17
+Added transition dms for states:10,18
+Added transition dms for states:10,19
+Added transition dms for states:10,20
+Added transition dms for states:10,21
+Added transition dms for states:10,22
+Added transition dms for states:10,23
+Added transition dms for states:10,24
+Added transition dms for states:10,25
+Added transition dms for states:10,26
+Added transition dms for states:10,27
+Added transition dms for states:10,28
+Added transition dms for states:10,29
+Added transition dms for states:10,30
+Added transition dms for states:10,31
+Added transition dms for states:10,32
+Added transition dms for states:10,33
+Added transition dms for states:10,34
+Added transition dms for states:10,35
+Added transition dms for states:10,36
+Added transition dms for states:10,37
+Added transition dms for states:10,38
+Added transition dms for states:10,39
+Added transition dms for states:10,40
+Added transition dms for states:10,41
+Added transition dms for states:10,42
+Added transition dms for states:10,43
+Added transition dms for states:10,44
+Added transition dms for states:10,45
+Added transition dms for states:10,46
+Added transition dms for states:10,47
+Added transition dms for states:10,48
+Added transition dms for states:10,49
+Added state DM for state:11
+Added transition dms for states:11,12
+Added transition dms for states:11,13
+Added transition dms for states:11,14
+Added transition dms for states:11,15
+Added transition dms for states:11,16
+Added transition dms for states:11,17
+Added transition dms for states:11,18
+Added transition dms for states:11,19
+Added transition dms for states:11,20
+Added transition dms for states:11,21
+Added transition dms for states:11,22
+Added transition dms for states:11,23
+Added transition dms for states:11,24
+Added transition dms for states:11,25
+Added transition dms for states:11,26
+Added transition dms for states:11,27
+Added transition dms for states:11,28
+Added transition dms for states:11,29
+Added transition dms for states:11,30
+Added transition dms for states:11,31
+Added transition dms for states:11,32
+Added transition dms for states:11,33
+Added transition dms for states:11,34
+Added transition dms for states:11,35
+Added transition dms for states:11,36
+Added transition dms for states:11,37
+Added transition dms for states:11,38
+Added transition dms for states:11,39
+Added transition dms for states:11,40
+Added transition dms for states:11,41
+Added transition dms for states:11,42
+Added transition dms for states:11,43
+Added transition dms for states:11,44
+Added transition dms for states:11,45
+Added transition dms for states:11,46
+Added transition dms for states:11,47
+Added transition dms for states:11,48
+Added transition dms for states:11,49
+Added state DM for state:12
+Added transition dms for states:12,13
+Added transition dms for states:12,14
+Added transition dms for states:12,15
+Added transition dms for states:12,16
+Added transition dms for states:12,17
+Added transition dms for states:12,18
+Added transition dms for states:12,19
+Added transition dms for states:12,20
+Added transition dms for states:12,21
+Added transition dms for states:12,22
+Added transition dms for states:12,23
+Added transition dms for states:12,24
+Added transition dms for states:12,25
+Added transition dms for states:12,26
+Added transition dms for states:12,27
+Added transition dms for states:12,28
+Added transition dms for states:12,29
+Added transition dms for states:12,30
+Added transition dms for states:12,31
+Added transition dms for states:12,32
+Added transition dms for states:12,33
+Added transition dms for states:12,34
+Added transition dms for states:12,35
+Added transition dms for states:12,36
+Added transition dms for states:12,37
+Added transition dms for states:12,38
+Added transition dms for states:12,39
+Added transition dms for states:12,40
+Added transition dms for states:12,41
+Added transition dms for states:12,42
+Added transition dms for states:12,43
+Added transition dms for states:12,44
+Added transition dms for states:12,45
+Added transition dms for states:12,46
+Added transition dms for states:12,47
+Added transition dms for states:12,48
+Added transition dms for states:12,49
+Added state DM for state:13
+Added transition dms for states:13,14
+Added transition dms for states:13,15
+Added transition dms for states:13,16
+Added transition dms for states:13,17
+Added transition dms for states:13,18
+Added transition dms for states:13,19
+Added transition dms for states:13,20
+Added transition dms for states:13,21
+Added transition dms for states:13,22
+Added transition dms for states:13,23
+Added transition dms for states:13,24
+Added transition dms for states:13,25
+Added transition dms for states:13,26
+Added transition dms for states:13,27
+Added transition dms for states:13,28
+Added transition dms for states:13,29
+Added transition dms for states:13,30
+Added transition dms for states:13,31
+Added transition dms for states:13,32
+Added transition dms for states:13,33
+Added transition dms for states:13,34
+Added transition dms for states:13,35
+Added transition dms for states:13,36
+Added transition dms for states:13,37
+Added transition dms for states:13,38
+Added transition dms for states:13,39
+Added transition dms for states:13,40
+Added transition dms for states:13,41
+Added transition dms for states:13,42
+Added transition dms for states:13,43
+Added transition dms for states:13,44
+Added transition dms for states:13,45
+Added transition dms for states:13,46
+Added transition dms for states:13,47
+Added transition dms for states:13,48
+Added transition dms for states:13,49
+Added state DM for state:14
+Added transition dms for states:14,15
+Added transition dms for states:14,16
+Added transition dms for states:14,17
+Added transition dms for states:14,18
+Added transition dms for states:14,19
+Added transition dms for states:14,20
+Added transition dms for states:14,21
+Added transition dms for states:14,22
+Added transition dms for states:14,23
+Added transition dms for states:14,24
+Added transition dms for states:14,25
+Added transition dms for states:14,26
+Added transition dms for states:14,27
+Added transition dms for states:14,28
+Added transition dms for states:14,29
+Added transition dms for states:14,30
+Added transition dms for states:14,31
+Added transition dms for states:14,32
+Added transition dms for states:14,33
+Added transition dms for states:14,34
+Added transition dms for states:14,35
+Added transition dms for states:14,36
+Added transition dms for states:14,37
+Added transition dms for states:14,38
+Added transition dms for states:14,39
+Added transition dms for states:14,40
+Added transition dms for states:14,41
+Added transition dms for states:14,42
+Added transition dms for states:14,43
+Added transition dms for states:14,44
+Added transition dms for states:14,45
+Added transition dms for states:14,46
+Added transition dms for states:14,47
+Added transition dms for states:14,48
+Added transition dms for states:14,49
+Added state DM for state:15
+Added transition dms for states:15,16
+Added transition dms for states:15,17
+Added transition dms for states:15,18
+Added transition dms for states:15,19
+Added transition dms for states:15,20
+Added transition dms for states:15,21
+Added transition dms for states:15,22
+Added transition dms for states:15,23
+Added transition dms for states:15,24
+Added transition dms for states:15,25
+Added transition dms for states:15,26
+Added transition dms for states:15,27
+Added transition dms for states:15,28
+Added transition dms for states:15,29
+Added transition dms for states:15,30
+Added transition dms for states:15,31
+Added transition dms for states:15,32
+Added transition dms for states:15,33
+Added transition dms for states:15,34
+Added transition dms for states:15,35
+Added transition dms for states:15,36
+Added transition dms for states:15,37
+Added transition dms for states:15,38
+Added transition dms for states:15,39
+Added transition dms for states:15,40
+Added transition dms for states:15,41
+Added transition dms for states:15,42
+Added transition dms for states:15,43
+Added transition dms for states:15,44
+Added transition dms for states:15,45
+Added transition dms for states:15,46
+Added transition dms for states:15,47
+Added transition dms for states:15,48
+Added transition dms for states:15,49
+Added state DM for state:16
+Added transition dms for states:16,17
+Added transition dms for states:16,18
+Added transition dms for states:16,19
+Added transition dms for states:16,20
+Added transition dms for states:16,21
+Added transition dms for states:16,22
+Added transition dms for states:16,23
+Added transition dms for states:16,24
+Added transition dms for states:16,25
+Added transition dms for states:16,26
+Added transition dms for states:16,27
+Added transition dms for states:16,28
+Added transition dms for states:16,29
+Added transition dms for states:16,30
+Added transition dms for states:16,31
+Added transition dms for states:16,32
+Added transition dms for states:16,33
+Added transition dms for states:16,34
+Added transition dms for states:16,35
+Added transition dms for states:16,36
+Added transition dms for states:16,37
+Added transition dms for states:16,38
+Added transition dms for states:16,39
+Added transition dms for states:16,40
+Added transition dms for states:16,41
+Added transition dms for states:16,42
+Added transition dms for states:16,43
+Added transition dms for states:16,44
+Added transition dms for states:16,45
+Added transition dms for states:16,46
+Added transition dms for states:16,47
+Added transition dms for states:16,48
+Added transition dms for states:16,49
+Added state DM for state:17
+Added transition dms for states:17,18
+Added transition dms for states:17,19
+Added transition dms for states:17,20
+Added transition dms for states:17,21
+Added transition dms for states:17,22
+Added transition dms for states:17,23
+Added transition dms for states:17,24
+Added transition dms for states:17,25
+Added transition dms for states:17,26
+Added transition dms for states:17,27
+Added transition dms for states:17,28
+Added transition dms for states:17,29
+Added transition dms for states:17,30
+Added transition dms for states:17,31
+Added transition dms for states:17,32
+Added transition dms for states:17,33
+Added transition dms for states:17,34
+Added transition dms for states:17,35
+Added transition dms for states:17,36
+Added transition dms for states:17,37
+Added transition dms for states:17,38
+Added transition dms for states:17,39
+Added transition dms for states:17,40
+Added transition dms for states:17,41
+Added transition dms for states:17,42
+Added transition dms for states:17,43
+Added transition dms for states:17,44
+Added transition dms for states:17,45
+Added transition dms for states:17,46
+Added transition dms for states:17,47
+Added transition dms for states:17,48
+Added transition dms for states:17,49
+Added state DM for state:18
+Added transition dms for states:18,19
+Added transition dms for states:18,20
+Added transition dms for states:18,21
+Added transition dms for states:18,22
+Added transition dms for states:18,23
+Added transition dms for states:18,24
+Added transition dms for states:18,25
+Added transition dms for states:18,26
+Added transition dms for states:18,27
+Added transition dms for states:18,28
+Added transition dms for states:18,29
+Added transition dms for states:18,30
+Added transition dms for states:18,31
+Added transition dms for states:18,32
+Added transition dms for states:18,33
+Added transition dms for states:18,34
+Added transition dms for states:18,35
+Added transition dms for states:18,36
+Added transition dms for states:18,37
+Added transition dms for states:18,38
+Added transition dms for states:18,39
+Added transition dms for states:18,40
+Added transition dms for states:18,41
+Added transition dms for states:18,42
+Added transition dms for states:18,43
+Added transition dms for states:18,44
+Added transition dms for states:18,45
+Added transition dms for states:18,46
+Added transition dms for states:18,47
+Added transition dms for states:18,48
+Added transition dms for states:18,49
+Added state DM for state:19
+Added transition dms for states:19,20
+Added transition dms for states:19,21
+Added transition dms for states:19,22
+Added transition dms for states:19,23
+Added transition dms for states:19,24
+Added transition dms for states:19,25
+Added transition dms for states:19,26
+Added transition dms for states:19,27
+Added transition dms for states:19,28
+Added transition dms for states:19,29
+Added transition dms for states:19,30
+Added transition dms for states:19,31
+Added transition dms for states:19,32
+Added transition dms for states:19,33
+Added transition dms for states:19,34
+Added transition dms for states:19,35
+Added transition dms for states:19,36
+Added transition dms for states:19,37
+Added transition dms for states:19,38
+Added transition dms for states:19,39
+Added transition dms for states:19,40
+Added transition dms for states:19,41
+Added transition dms for states:19,42
+Added transition dms for states:19,43
+Added transition dms for states:19,44
+Added transition dms for states:19,45
+Added transition dms for states:19,46
+Added transition dms for states:19,47
+Added transition dms for states:19,48
+Added transition dms for states:19,49
+Added state DM for state:20
+Added transition dms for states:20,21
+Added transition dms for states:20,22
+Added transition dms for states:20,23
+Added transition dms for states:20,24
+Added transition dms for states:20,25
+Added transition dms for states:20,26
+Added transition dms for states:20,27
+Added transition dms for states:20,28
+Added transition dms for states:20,29
+Added transition dms for states:20,30
+Added transition dms for states:20,31
+Added transition dms for states:20,32
+Added transition dms for states:20,33
+Added transition dms for states:20,34
+Added transition dms for states:20,35
+Added transition dms for states:20,36
+Added transition dms for states:20,37
+Added transition dms for states:20,38
+Added transition dms for states:20,39
+Added transition dms for states:20,40
+Added transition dms for states:20,41
+Added transition dms for states:20,42
+Added transition dms for states:20,43
+Added transition dms for states:20,44
+Added transition dms for states:20,45
+Added transition dms for states:20,46
+Added transition dms for states:20,47
+Added transition dms for states:20,48
+Added transition dms for states:20,49
+Added state DM for state:21
+Added transition dms for states:21,22
+Added transition dms for states:21,23
+Added transition dms for states:21,24
+Added transition dms for states:21,25
+Added transition dms for states:21,26
+Added transition dms for states:21,27
+Added transition dms for states:21,28
+Added transition dms for states:21,29
+Added transition dms for states:21,30
+Added transition dms for states:21,31
+Added transition dms for states:21,32
+Added transition dms for states:21,33
+Added transition dms for states:21,34
+Added transition dms for states:21,35
+Added transition dms for states:21,36
+Added transition dms for states:21,37
+Added transition dms for states:21,38
+Added transition dms for states:21,39
+Added transition dms for states:21,40
+Added transition dms for states:21,41
+Added transition dms for states:21,42
+Added transition dms for states:21,43
+Added transition dms for states:21,44
+Added transition dms for states:21,45
+Added transition dms for states:21,46
+Added transition dms for states:21,47
+Added transition dms for states:21,48
+Added transition dms for states:21,49
+Added state DM for state:22
+Added transition dms for states:22,23
+Added transition dms for states:22,24
+Added transition dms for states:22,25
+Added transition dms for states:22,26
+Added transition dms for states:22,27
+Added transition dms for states:22,28
+Added transition dms for states:22,29
+Added transition dms for states:22,30
+Added transition dms for states:22,31
+Added transition dms for states:22,32
+Added transition dms for states:22,33
+Added transition dms for states:22,34
+Added transition dms for states:22,35
+Added transition dms for states:22,36
+Added transition dms for states:22,37
+Added transition dms for states:22,38
+Added transition dms for states:22,39
+Added transition dms for states:22,40
+Added transition dms for states:22,41
+Added transition dms for states:22,42
+Added transition dms for states:22,43
+Added transition dms for states:22,44
+Added transition dms for states:22,45
+Added transition dms for states:22,46
+Added transition dms for states:22,47
+Added transition dms for states:22,48
+Added transition dms for states:22,49
+Added state DM for state:23
+Added transition dms for states:23,24
+Added transition dms for states:23,25
+Added transition dms for states:23,26
+Added transition dms for states:23,27
+Added transition dms for states:23,28
+Added transition dms for states:23,29
+Added transition dms for states:23,30
+Added transition dms for states:23,31
+Added transition dms for states:23,32
+Added transition dms for states:23,33
+Added transition dms for states:23,34
+Added transition dms for states:23,35
+Added transition dms for states:23,36
+Added transition dms for states:23,37
+Added transition dms for states:23,38
+Added transition dms for states:23,39
+Added transition dms for states:23,40
+Added transition dms for states:23,41
+Added transition dms for states:23,42
+Added transition dms for states:23,43
+Added transition dms for states:23,44
+Added transition dms for states:23,45
+Added transition dms for states:23,46
+Added transition dms for states:23,47
+Added transition dms for states:23,48
+Added transition dms for states:23,49
+Added state DM for state:24
+Added transition dms for states:24,25
+Added transition dms for states:24,26
+Added transition dms for states:24,27
+Added transition dms for states:24,28
+Added transition dms for states:24,29
+Added transition dms for states:24,30
+Added transition dms for states:24,31
+Added transition dms for states:24,32
+Added transition dms for states:24,33
+Added transition dms for states:24,34
+Added transition dms for states:24,35
+Added transition dms for states:24,36
+Added transition dms for states:24,37
+Added transition dms for states:24,38
+Added transition dms for states:24,39
+Added transition dms for states:24,40
+Added transition dms for states:24,41
+Added transition dms for states:24,42
+Added transition dms for states:24,43
+Added transition dms for states:24,44
+Added transition dms for states:24,45
+Added transition dms for states:24,46
+Added transition dms for states:24,47
+Added transition dms for states:24,48
+Added transition dms for states:24,49
+Added state DM for state:25
+Added transition dms for states:25,26
+Added transition dms for states:25,27
+Added transition dms for states:25,28
+Added transition dms for states:25,29
+Added transition dms for states:25,30
+Added transition dms for states:25,31
+Added transition dms for states:25,32
+Added transition dms for states:25,33
+Added transition dms for states:25,34
+Added transition dms for states:25,35
+Added transition dms for states:25,36
+Added transition dms for states:25,37
+Added transition dms for states:25,38
+Added transition dms for states:25,39
+Added transition dms for states:25,40
+Added transition dms for states:25,41
+Added transition dms for states:25,42
+Added transition dms for states:25,43
+Added transition dms for states:25,44
+Added transition dms for states:25,45
+Added transition dms for states:25,46
+Added transition dms for states:25,47
+Added transition dms for states:25,48
+Added transition dms for states:25,49
+Added state DM for state:26
+Added transition dms for states:26,27
+Added transition dms for states:26,28
+Added transition dms for states:26,29
+Added transition dms for states:26,30
+Added transition dms for states:26,31
+Added transition dms for states:26,32
+Added transition dms for states:26,33
+Added transition dms for states:26,34
+Added transition dms for states:26,35
+Added transition dms for states:26,36
+Added transition dms for states:26,37
+Added transition dms for states:26,38
+Added transition dms for states:26,39
+Added transition dms for states:26,40
+Added transition dms for states:26,41
+Added transition dms for states:26,42
+Added transition dms for states:26,43
+Added transition dms for states:26,44
+Added transition dms for states:26,45
+Added transition dms for states:26,46
+Added transition dms for states:26,47
+Added transition dms for states:26,48
+Added transition dms for states:26,49
+Added state DM for state:27
+Added transition dms for states:27,28
+Added transition dms for states:27,29
+Added transition dms for states:27,30
+Added transition dms for states:27,31
+Added transition dms for states:27,32
+Added transition dms for states:27,33
+Added transition dms for states:27,34
+Added transition dms for states:27,35
+Added transition dms for states:27,36
+Added transition dms for states:27,37
+Added transition dms for states:27,38
+Added transition dms for states:27,39
+Added transition dms for states:27,40
+Added transition dms for states:27,41
+Added transition dms for states:27,42
+Added transition dms for states:27,43
+Added transition dms for states:27,44
+Added transition dms for states:27,45
+Added transition dms for states:27,46
+Added transition dms for states:27,47
+Added transition dms for states:27,48
+Added transition dms for states:27,49
+Added state DM for state:28
+Added transition dms for states:28,29
+Added transition dms for states:28,30
+Added transition dms for states:28,31
+Added transition dms for states:28,32
+Added transition dms for states:28,33
+Added transition dms for states:28,34
+Added transition dms for states:28,35
+Added transition dms for states:28,36
+Added transition dms for states:28,37
+Added transition dms for states:28,38
+Added transition dms for states:28,39
+Added transition dms for states:28,40
+Added transition dms for states:28,41
+Added transition dms for states:28,42
+Added transition dms for states:28,43
+Added transition dms for states:28,44
+Added transition dms for states:28,45
+Added transition dms for states:28,46
+Added transition dms for states:28,47
+Added transition dms for states:28,48
+Added transition dms for states:28,49
+Added state DM for state:29
+Added transition dms for states:29,30
+Added transition dms for states:29,31
+Added transition dms for states:29,32
+Added transition dms for states:29,33
+Added transition dms for states:29,34
+Added transition dms for states:29,35
+Added transition dms for states:29,36
+Added transition dms for states:29,37
+Added transition dms for states:29,38
+Added transition dms for states:29,39
+Added transition dms for states:29,40
+Added transition dms for states:29,41
+Added transition dms for states:29,42
+Added transition dms for states:29,43
+Added transition dms for states:29,44
+Added transition dms for states:29,45
+Added transition dms for states:29,46
+Added transition dms for states:29,47
+Added transition dms for states:29,48
+Added transition dms for states:29,49
+Added state DM for state:30
+Added transition dms for states:30,31
+Added transition dms for states:30,32
+Added transition dms for states:30,33
+Added transition dms for states:30,34
+Added transition dms for states:30,35
+Added transition dms for states:30,36
+Added transition dms for states:30,37
+Added transition dms for states:30,38
+Added transition dms for states:30,39
+Added transition dms for states:30,40
+Added transition dms for states:30,41
+Added transition dms for states:30,42
+Added transition dms for states:30,43
+Added transition dms for states:30,44
+Added transition dms for states:30,45
+Added transition dms for states:30,46
+Added transition dms for states:30,47
+Added transition dms for states:30,48
+Added transition dms for states:30,49
+Added state DM for state:31
+Added transition dms for states:31,32
+Added transition dms for states:31,33
+Added transition dms for states:31,34
+Added transition dms for states:31,35
+Added transition dms for states:31,36
+Added transition dms for states:31,37
+Added transition dms for states:31,38
+Added transition dms for states:31,39
+Added transition dms for states:31,40
+Added transition dms for states:31,41
+Added transition dms for states:31,42
+Added transition dms for states:31,43
+Added transition dms for states:31,44
+Added transition dms for states:31,45
+Added transition dms for states:31,46
+Added transition dms for states:31,47
+Added transition dms for states:31,48
+Added transition dms for states:31,49
+Added state DM for state:32
+Added transition dms for states:32,33
+Added transition dms for states:32,34
+Added transition dms for states:32,35
+Added transition dms for states:32,36
+Added transition dms for states:32,37
+Added transition dms for states:32,38
+Added transition dms for states:32,39
+Added transition dms for states:32,40
+Added transition dms for states:32,41
+Added transition dms for states:32,42
+Added transition dms for states:32,43
+Added transition dms for states:32,44
+Added transition dms for states:32,45
+Added transition dms for states:32,46
+Added transition dms for states:32,47
+Added transition dms for states:32,48
+Added transition dms for states:32,49
+Added state DM for state:33
+Added transition dms for states:33,34
+Added transition dms for states:33,35
+Added transition dms for states:33,36
+Added transition dms for states:33,37
+Added transition dms for states:33,38
+Added transition dms for states:33,39
+Added transition dms for states:33,40
+Added transition dms for states:33,41
+Added transition dms for states:33,42
+Added transition dms for states:33,43
+Added transition dms for states:33,44
+Added transition dms for states:33,45
+Added transition dms for states:33,46
+Added transition dms for states:33,47
+Added transition dms for states:33,48
+Added transition dms for states:33,49
+Added state DM for state:34
+Added transition dms for states:34,35
+Added transition dms for states:34,36
+Added transition dms for states:34,37
+Added transition dms for states:34,38
+Added transition dms for states:34,39
+Added transition dms for states:34,40
+Added transition dms for states:34,41
+Added transition dms for states:34,42
+Added transition dms for states:34,43
+Added transition dms for states:34,44
+Added transition dms for states:34,45
+Added transition dms for states:34,46
+Added transition dms for states:34,47
+Added transition dms for states:34,48
+Added transition dms for states:34,49
+Added state DM for state:35
+Added transition dms for states:35,36
+Added transition dms for states:35,37
+Added transition dms for states:35,38
+Added transition dms for states:35,39
+Added transition dms for states:35,40
+Added transition dms for states:35,41
+Added transition dms for states:35,42
+Added transition dms for states:35,43
+Added transition dms for states:35,44
+Added transition dms for states:35,45
+Added transition dms for states:35,46
+Added transition dms for states:35,47
+Added transition dms for states:35,48
+Added transition dms for states:35,49
+Added state DM for state:36
+Added transition dms for states:36,37
+Added transition dms for states:36,38
+Added transition dms for states:36,39
+Added transition dms for states:36,40
+Added transition dms for states:36,41
+Added transition dms for states:36,42
+Added transition dms for states:36,43
+Added transition dms for states:36,44
+Added transition dms for states:36,45
+Added transition dms for states:36,46
+Added transition dms for states:36,47
+Added transition dms for states:36,48
+Added transition dms for states:36,49
+Added state DM for state:37
+Added transition dms for states:37,38
+Added transition dms for states:37,39
+Added transition dms for states:37,40
+Added transition dms for states:37,41
+Added transition dms for states:37,42
+Added transition dms for states:37,43
+Added transition dms for states:37,44
+Added transition dms for states:37,45
+Added transition dms for states:37,46
+Added transition dms for states:37,47
+Added transition dms for states:37,48
+Added transition dms for states:37,49
+Added state DM for state:38
+Added transition dms for states:38,39
+Added transition dms for states:38,40
+Added transition dms for states:38,41
+Added transition dms for states:38,42
+Added transition dms for states:38,43
+Added transition dms for states:38,44
+Added transition dms for states:38,45
+Added transition dms for states:38,46
+Added transition dms for states:38,47
+Added transition dms for states:38,48
+Added transition dms for states:38,49
+Added state DM for state:39
+Added transition dms for states:39,40
+Added transition dms for states:39,41
+Added transition dms for states:39,42
+Added transition dms for states:39,43
+Added transition dms for states:39,44
+Added transition dms for states:39,45
+Added transition dms for states:39,46
+Added transition dms for states:39,47
+Added transition dms for states:39,48
+Added transition dms for states:39,49
+Added state DM for state:40
+Added transition dms for states:40,41
+Added transition dms for states:40,42
+Added transition dms for states:40,43
+Added transition dms for states:40,44
+Added transition dms for states:40,45
+Added transition dms for states:40,46
+Added transition dms for states:40,47
+Added transition dms for states:40,48
+Added transition dms for states:40,49
+Added state DM for state:41
+Added transition dms for states:41,42
+Added transition dms for states:41,43
+Added transition dms for states:41,44
+Added transition dms for states:41,45
+Added transition dms for states:41,46
+Added transition dms for states:41,47
+Added transition dms for states:41,48
+Added transition dms for states:41,49
+Added state DM for state:42
+Added transition dms for states:42,43
+Added transition dms for states:42,44
+Added transition dms for states:42,45
+Added transition dms for states:42,46
+Added transition dms for states:42,47
+Added transition dms for states:42,48
+Added transition dms for states:42,49
+Added state DM for state:43
+Added transition dms for states:43,44
+Added transition dms for states:43,45
+Added transition dms for states:43,46
+Added transition dms for states:43,47
+Added transition dms for states:43,48
+Added transition dms for states:43,49
+Added state DM for state:44
+Added transition dms for states:44,45
+Added transition dms for states:44,46
+Added transition dms for states:44,47
+Added transition dms for states:44,48
+Added transition dms for states:44,49
+Added state DM for state:45
+Added transition dms for states:45,46
+Added transition dms for states:45,47
+Added transition dms for states:45,48
+Added transition dms for states:45,49
+Added state DM for state:46
+Added transition dms for states:46,47
+Added transition dms for states:46,48
+Added transition dms for states:46,49
+Added state DM for state:47
+Added transition dms for states:47,48
+Added transition dms for states:47,49
+Added state DM for state:48
+Added transition dms for states:48,49
+Added state DM for state:49
+Calculating cap matrix
+Integration time:0.425684
+Printing out matrices required for Perturbative CAP calculation.
+Number of states: 50
+Zeroth order Hamiltonian
+-109.39179    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000 -109.39179    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000 -109.391695    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000 -109.364345    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000 -109.36356    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000 -109.36356    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000 -109.363275    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000 -109.355064    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000 -109.355064    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000 -109.353181    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000 -109.349948    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.349948    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.311515    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.311515    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.30296    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000 -109.301835    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000 -109.301835    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000 -109.291347    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000 -109.266507    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000 -109.252277    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.252277    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.24942    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000 -109.24942    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000 -109.207398    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000 -109.156612    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000 -109.156612    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000 -109.13423    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000 -109.114553    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000 -109.10423    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000 -109.10423    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000 -109.09494    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000 -109.09293    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000 -109.09293    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000 -109.088223    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000 -109.061051    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000 -109.061051    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000 -109.054351    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000 -109.054351    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.046513    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.046513    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.018491    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -109.01751    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000 -108.998051    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000 -108.998051    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000 -108.962852    0.000000    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000 -108.946495    0.000000    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000 -108.945765    0.000000    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000 -108.945765    0.000000    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -108.944994    0.000000
+   0.00000    0.00000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.00000    0.000000    0.000000    0.000000    0.00000    0.000000    0.00000    0.00000    0.00000    0.00000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.00000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000    0.000000 -108.935204
+CAP Matrix
+-1.636170e+02  1.251441e-10  9.311135e-10  8.190133e-11  8.445848e+01 -2.682464e-03  3.200329e-09 -8.857652e-13 -3.507780e-10  6.683753e-11  1.915200e-12  7.615004e-12  2.273970e-11 -2.421837e-11 -1.271177e-09 -2.747405e+01  1.960926e-02 -9.767809e-12  3.417450e-12  4.526445e-12  1.390098e-10  9.772363e-13 -1.598663e-12  4.329465e-10  1.410556e+01 -2.064616e-03  3.508669e-11  1.425897e-11  1.453796e-11 -9.992520e-11  1.658116e-11  5.139417e-12  8.712190e-12 -3.231326e-10  1.258575e-12 -5.782478e-15 -1.374552e-12  7.864578e-13 -4.775502e-12 -1.396837e-12 -1.398576e-13 -6.133934e-13  5.428938e-14 -1.161989e-14 -1.386740e-11  2.707471e-11 -1.168857e-01 -1.156566e-05  1.016053e-11  3.115676e-02
+ 1.251441e-10 -1.636170e+02 -1.715400e-09 -1.405264e-10  2.682464e-03  8.445848e+01 -6.131593e-09  1.809138e-12 -1.128720e-10 -7.058296e-11 -2.982985e-12  6.180004e-13 -6.749055e-12 -7.997784e-12  2.509392e-09  1.960925e-02  2.747405e+01 -1.178546e-11 -2.659950e-12 -1.023049e-11  6.588770e-11 -1.718832e-12  3.215217e-12 -7.244418e-10 -2.064616e-03 -1.410557e+01  4.394757e-11  1.825342e-11 -4.208324e-11 -4.446829e-11 -4.217601e-11  7.857676e-13  1.309573e-12  5.751076e-10  2.181158e-12 -8.263672e-15 -2.202406e-12  1.138342e-12  3.569151e-12  6.641833e-13 -1.107487e-13 -1.411062e-12  3.865679e-13  4.516115e-14 -1.643373e-11  3.762339e-11  1.155785e-05 -1.169643e-01 -7.585256e-12 -3.081933e-06
+ 9.311135e-10 -1.715400e-09 -1.448613e+02  1.048758e-08 -3.507256e-09  6.677572e-09  7.922596e+01  2.473825e-11 -2.531152e-11  1.337032e-09  4.409949e-12 -8.793328e-12 -2.090007e-11 -7.249774e-13 -2.722457e+01  1.284330e-09  2.542835e-09  2.733848e-09  8.556801e-10 -4.459492e-12  8.619350e-12 -1.208970e-11  7.758669e-12  8.287568e+00 -7.187499e-10 -1.267835e-09  4.330373e-09  6.162800e-10  4.140746e-11 -1.667844e-11  4.146901e-01  2.134030e-11 -1.645386e-11 -6.359234e+00 -1.146456e-12 -8.609149e-13  3.727467e-12 -3.938203e-12 -4.554655e-12  4.908049e-13 -1.051560e-06 -2.212059e-06 -7.700555e-13  7.240043e-13  4.669853e-12 -1.480537e-11  1.122599e-11 -6.767353e-12  1.191484e-01 -1.512966e-11
+ 8.190133e-11 -1.405264e-10  1.048758e-08 -7.796942e+01 -4.336382e-11  5.135753e-11 -2.749606e-09 -3.062137e-11  3.246252e-11  4.489566e+00 -8.978716e-09 -1.286099e-07  1.382470e-11  1.342593e-11  1.227379e-08  2.753968e-11  1.061462e-10  4.737008e+01  7.713629e+00  1.414761e-11  1.507668e-11 -6.636454e-08  1.500457e-07 -6.545511e-10 -5.264492e-11 -1.410801e-12  1.663076e+01 -9.617797e+00  6.006389e-11 -2.784673e-11 -5.507285e-10  1.989665e-11  1.587986e-12  7.925972e-09  2.617394e-07  1.842311e-06  9.201528e-13 -1.432889e-11 -7.307431e-12 -1.148545e-11 -4.653053e-12  9.365357e-12  8.531565e-12 -1.763583e-12  3.068589e-02 -7.192845e-02  1.163442e-11 -1.588960e-11  3.141623e-11  2.407207e-11
+ 8.445848e+01  2.682464e-03 -3.507256e-09 -4.336382e-11 -1.058606e+02 -3.206821e-10  1.059375e-10  7.407064e-12  2.030074e-10 -6.889517e-11  1.814866e-12 -1.083385e-11 -4.480499e-11  1.695487e-10  3.103980e-10  5.891663e+01 -4.392223e-02 -1.439743e-11 -6.840599e-13 -1.149182e-11 -1.124300e-10 -1.809929e-12  9.101984e-13 -1.518747e-10 -2.326475e+01  4.144141e-03 -6.884468e-11 -1.162992e-11 -2.073276e-11  7.734824e-11 -1.320137e-12 -9.403438e-12 -3.446474e-12  1.213926e-10 -1.915662e-12 -5.104582e-14  2.038774e-12 -1.043344e-12  6.914644e-12  3.483288e-13  8.868458e-14  8.138738e-13  7.470731e-14  8.788358e-14  1.944074e-11 -3.779632e-11 -8.397954e-02 -1.096599e-05 -5.888114e-12  8.299902e-02
+-2.682464e-03  8.445848e+01  6.677572e-09  5.135753e-11 -3.206821e-10 -1.058606e+02 -1.557065e-10 -1.980375e-11  5.960225e-11  4.974993e-11  3.287021e-12 -2.483761e-12  3.742950e-12  7.000999e-11 -7.750010e-10 -4.392223e-02 -5.891663e+01  9.503732e-11 -5.409919e-12  2.811154e-11 -6.108758e-11  1.168276e-12 -1.477758e-12  1.228099e-10  4.144141e-03  2.326475e+01 -5.066943e-11 -5.210134e-11  6.237777e-11  3.513279e-11  1.793034e-11 -2.825796e-12  2.406260e-12 -1.544990e-10 -3.275029e-12 -1.921247e-13  3.570555e-12 -1.809999e-12 -4.358128e-12 -1.477825e-12  1.631969e-13  2.334496e-12 -6.231438e-13 -1.029169e-13  2.315879e-11 -5.271854e-11  1.097132e-05 -8.393904e-02 -3.852915e-12 -1.084606e-05
+ 3.200329e-09 -6.131593e-09  7.922596e+01 -2.749606e-09  1.059375e-10 -1.557065e-10 -9.371901e+01 -1.318331e-11  1.496481e-11 -7.885660e-10 -4.402497e-12  8.715958e-12  2.547301e-11  9.322519e-12  5.489639e+01 -3.562528e-10 -8.332002e-10 -1.130579e-08 -2.035010e-09  1.764672e-11 -5.200221e-12  2.091528e-11 -1.514073e-11 -1.331884e+01  2.326973e-10  2.692633e-10 -9.549765e-09  2.731559e-10 -7.563708e-11  2.895877e-11 -8.592074e-01 -4.338921e-11  3.404394e-11  1.252824e+01  1.883803e-12  2.551970e-12 -6.931756e-12  8.968804e-12  7.827220e-12 -1.197490e-12  1.739723e-06  5.254046e-06  3.890475e-12 -1.777358e-12 -9.828399e-12  3.483684e-11 -6.939259e-12 -1.006540e-11  1.134178e-01 -2.573456e-10
+-8.857652e-13  1.809138e-12  2.473825e-11 -3.062137e-11  7.407064e-12 -1.980375e-11 -1.318331e-11 -4.268112e+01  4.119447e-12  7.168343e-12  1.249127e-12 -5.284096e-12  1.615896e+01  9.590044e-02  1.320894e-11  1.956287e-12 -2.319477e-11  2.659734e-11  3.392404e-11 -1.874165e+01  1.971346e-01 -3.119132e-11  8.077084e-13 -1.180931e-11  1.951408e-12  9.004779e-12  2.335574e-11 -2.216426e-11 -5.956586e+00 -2.385651e-02 -4.582880e-12 -8.344725e-01 -6.733715e-02 -3.292530e-11  5.608922e-12  5.940938e-12  1.092634e-13 -9.433319e-14  2.389034e-01  1.214009e-02 -3.567121e-15  9.281979e-13 -4.134192e-13 -1.728714e-13 -4.462033e-12  4.615821e-12  1.626662e-12 -5.685017e-13  2.127179e-12  3.661005e-12
+-3.507780e-10 -1.128720e-10 -2.531152e-11  3.246252e-11  2.030074e-10  5.960225e-11  1.496481e-11  4.119447e-12 -4.268112e+01 -9.389786e-12 -3.144509e-13  4.497728e-12 -9.590044e-02  1.615896e+01 -2.007796e-11 -2.224507e-10  7.287998e-11 -3.649501e-11 -3.606243e-11  1.971346e-01  1.874165e+01 -4.370077e-11  4.776108e-11 -1.475342e-11  6.920443e-11 -2.363237e-11 -2.245859e-11  3.697402e-12  2.385651e-02 -5.956586e+00  5.745800e-12 -6.733715e-02  8.344725e-01  6.226729e-12 -3.659741e-12 -6.514028e-12 -1.072860e-12  4.010607e-13  1.214009e-02 -2.389034e-01 -1.568910e-14 -8.864710e-13  4.051620e-13  1.096122e-13  1.644384e-12 -1.595564e-12  4.630508e-13 -4.733304e-13 -2.848364e-12  9.524743e-13
+ 6.683753e-11 -7.058296e-11  1.337032e-09  4.489566e+00 -6.889517e-11  4.974993e-11 -7.885660e-10  7.168343e-12 -9.389786e-12 -4.761186e+01  1.632880e-08  4.006763e-07  1.789392e-11 -1.884497e-11 -1.468059e-10  3.679861e-11  5.220157e-11  9.619505e-01 -2.367098e+01 -2.083315e-11 -2.440949e-11 -8.622576e-08  4.681153e-07 -1.943348e-09 -1.929598e-11 -3.003374e-11 -4.380219e+00 -7.471040e+00  1.048825e-11 -4.894482e-13  1.956824e-10  4.676366e-11 -2.587883e-11 -2.907927e-09  5.407330e-07  6.010946e-07 -3.299274e-13  1.357038e-11 -7.817714e-12 -7.060318e-12 -3.210819e-12 -3.363033e-12 -1.178842e-11  5.334500e-12 -3.236219e-05 -5.094444e-03  9.967421e-12 -1.238704e-11 -2.165896e-12  1.901638e-11
+ 1.915200e-12 -2.982985e-12  4.409949e-12 -8.978716e-09  1.814866e-12  3.287021e-12 -4.402497e-12  1.249127e-12 -3.144509e-13  1.632880e-08 -5.165654e+01 -3.795636e+00  8.779019e-12 -5.830196e-12  3.005147e-12  7.395555e-14  1.729898e-12 -5.073411e-08 -3.631981e-08  4.165474e-11 -4.825884e-11 -2.302192e+01 -1.494743e+00 -3.979377e-11  1.710399e-12 -1.859081e-12  1.936674e-07  2.594933e-07 -6.700284e-12  4.355365e-12  7.907422e-13  2.284167e-12 -2.337277e-12 -2.428464e-12 -8.867924e+00  2.774780e-01 -4.688054e-12  1.812444e-12  3.857755e-12  1.587937e-13 -7.521727e-14 -1.228696e-12  1.096026e-12  2.465443e-13  8.652666e-06  7.358973e-06 -4.433598e-14 -1.048743e-13 -1.175016e-12 -3.809351e-13
+ 7.615004e-12  6.180004e-13 -8.793328e-12 -1.286099e-07 -1.083385e-11 -2.483761e-12  8.715958e-12 -5.284096e-12  4.497728e-12  4.006763e-07 -3.795636e+00 -5.085249e+01 -1.476705e-11  1.265777e-11 -5.049320e-12  2.981083e-12 -1.237086e-12 -4.067797e-07 -4.342216e-07 -7.121694e-12  5.004392e-11 -6.020380e-01 -2.284102e+01  2.850261e-11 -4.984850e-12  1.358242e-12  1.931821e-06  1.577084e-06  5.216536e-12 -5.240003e-12  5.050686e-13 -1.574891e-12  1.605511e-12 -8.800318e-13 -1.215417e-01  8.829180e+00 -2.643279e-13  3.849052e-13 -3.488619e-12 -2.048050e-12 -1.880216e-13  6.049337e-13  1.057464e-13  1.509695e-13 -3.511265e-04  2.227294e-04 -6.556162e-13  5.096542e-13  2.014921e-13 -1.451484e-12
+ 2.273970e-11 -6.749055e-12 -2.090007e-11  1.382470e-11 -4.480499e-11  3.742950e-12  2.547301e-11  1.615896e+01 -9.590044e-02  1.789392e-11  8.779019e-12 -1.476705e-11 -8.422735e+00 -5.516070e-14 -2.639534e-11  4.290658e-11  1.192040e-11 -2.201982e-11 -1.535725e-12  1.296341e+01 -5.941685e-02  2.956009e-11 -1.416776e-11  1.625106e-11 -2.746256e-11 -1.073289e-11 -2.012556e-11  2.863718e-11  6.009938e+00 -1.159740e-02  6.736119e-12 -3.432361e-01 -2.974847e-02  2.686102e-11 -5.660942e-13  1.564892e-12 -3.223904e-13  2.174174e-13  7.660912e-01  4.348932e-02 -6.043921e-15  1.496189e-13 -7.685278e-13 -1.177615e-13  2.049543e-12 -2.274656e-12 -7.635430e-13 -4.662176e-13 -1.481300e-12 -4.234144e-12
+-2.421837e-11 -7.997784e-12 -7.249774e-13  1.342593e-11  1.695487e-10  7.000999e-11  9.322519e-12  9.590044e-02  1.615896e+01 -1.884497e-11 -5.830196e-12  1.265777e-11 -5.516070e-14 -8.422735e+00 -2.559871e-12 -1.181791e-10  5.613947e-11 -3.871031e-13  1.844651e-12 -5.941685e-02 -1.296341e+01  2.520742e-11 -2.112592e-11  1.523880e-11  7.321637e-11 -3.253454e-11  2.502490e-12 -8.850835e-12  1.159740e-02  6.009938e+00 -1.628892e-12 -2.974847e-02  3.432361e-01 -1.475161e-11  8.121487e-13 -1.794623e-13  6.006401e-13 -2.155961e-13  4.348932e-02 -7.660912e-01 -1.098684e-13  3.768205e-13 -1.771118e-13 -1.633698e-13 -3.265183e-13  6.185012e-13 -1.383785e-12 -1.609050e-13  1.624092e-12 -6.266565e-13
+-1.271177e-09  2.509392e-09 -2.722457e+01  1.227379e-08  3.103980e-10 -7.750010e-10  5.489639e+01  1.320894e-11 -2.007796e-11 -1.468059e-10  3.005147e-12 -5.049320e-12 -2.639534e-11 -2.559871e-12 -5.551159e+01  8.150114e-12  5.388997e-12 -5.762571e-10 -1.279687e-09 -2.171460e-11  2.441697e-11 -4.079790e-11  2.944554e-11  2.525844e+01 -1.404964e-10  9.509639e-11  6.306047e-09  2.330360e-09  8.342133e-11 -3.396614e-11  7.141031e-01  3.824438e-11 -2.950762e-11 -1.187255e+01 -4.254470e-12 -2.390259e-12  9.730793e-12 -9.094490e-12 -1.002151e-11  9.927076e-13 -2.425030e-06 -2.631952e-06 -1.190365e-11  6.223098e-13 -1.717622e-11 -2.453928e-11  1.155351e-11  5.570103e-12  1.930511e-01 -5.181426e-11
+-2.747405e+01  1.960925e-02  1.284330e-09  2.753968e-11  5.891663e+01 -4.392223e-02 -3.562528e-10  1.956287e-12 -2.224507e-10  3.679861e-11  7.395555e-14  2.981083e-12  4.290658e-11 -1.181791e-10  8.150114e-12 -5.944994e+01  2.711765e-09  6.547649e-12 -7.674972e-12  1.536822e-11  1.617539e-10  2.564986e-12 -3.132777e-12  1.238396e-10  3.267450e+01  1.853848e-02  8.896209e-11  1.538948e-11  2.709971e-11 -6.272367e-11 -4.465011e-12  9.559349e-12 -3.469205e-12 -4.927359e-11  2.657663e-12  1.198664e-12 -4.057674e-12  2.069800e-12 -7.237357e-12 -1.336970e-12 -2.053138e-13 -3.059113e-12  1.010263e-12  1.771243e-13 -2.423347e-11  4.619209e-11 -1.941079e-01  1.194430e-04  6.168930e-12  8.241332e-02
+ 1.960926e-02  2.747405e+01  2.542835e-09  1.061462e-10 -4.392223e-02 -5.891663e+01 -8.332002e-10 -2.319477e-11  7.287998e-11  5.220157e-11  1.729898e-12 -1.237086e-12  1.192040e-11  5.613947e-11  5.388997e-12  2.711765e-09 -5.944993e+01  4.288137e-12  1.103071e-11  1.271086e-11 -7.262631e-11  7.925832e-13 -8.942475e-14 -1.028968e-10 -1.853848e-02  3.267451e+01 -1.032907e-10 -3.739137e-11  7.034015e-11  2.367611e-11  7.031389e-12 -6.703231e-12  7.337121e-12  2.908098e-11 -4.336496e-12 -3.106531e-13  5.172387e-12 -2.537424e-12 -8.091531e-12 -1.727958e-12  1.470402e-13  3.742046e-12 -1.146620e-12 -2.630029e-13  2.834833e-11 -6.414015e-11  1.193483e-04  1.942620e-01 -7.635244e-12 -5.066939e-05
+-9.767809e-12 -1.178546e-11  2.733848e-09  4.737008e+01 -1.439743e-11  9.503732e-11 -1.130579e-08  2.659734e-11 -3.649501e-11  9.619505e-01 -5.073411e-08 -4.067797e-07 -2.201982e-11 -3.871031e-13 -5.762571e-10  6.547649e-12  4.288137e-12 -4.956385e+01 -5.052070e+00 -6.009865e-12 -1.107705e-14  5.071984e-08 -1.045316e-06 -5.727323e-10  5.286628e-11 -5.802774e-11 -2.428775e+01  1.528430e+01 -8.919089e-11  3.524534e-11  4.845741e-10 -3.041171e-11  2.593452e-12 -6.393162e-09 -6.087101e-07 -2.824618e-06  1.130091e-11  2.474421e-11  7.091429e-12  1.530078e-11 -3.042273e-12 -6.713542e-12 -3.292546e-11  1.263608e-11 -2.451150e-01 -5.817051e-02 -1.393658e-11  1.907170e-11 -5.017059e-11 -3.018011e-11
+ 3.417450e-12 -2.659950e-12  8.556801e-10  7.713629e+00 -6.840599e-13 -5.409919e-12 -2.035010e-09  3.392404e-11 -3.606243e-11 -2.367098e+01 -3.631981e-08 -4.342216e-07 -1.535725e-12  1.844651e-12 -1.279687e-09 -7.674972e-12  1.103071e-11 -5.052070e+00 -2.700558e+01  3.077129e-12  9.253076e-13 -1.475744e-07 -7.388360e-07  4.956690e-10  2.763956e-11 -4.670441e-11 -1.201101e+01 -1.155269e+01  2.418794e-11 -1.041860e-11  3.547066e-10  5.945623e-11 -3.078546e-11 -4.713734e-09  4.705169e-07  1.631391e-06  1.623036e-11  2.458814e-11 -1.146329e-11 -1.238283e-11 -1.603059e-11  7.077198e-13 -3.382339e-11  1.694322e-11 -1.151455e-02  5.331762e-02  1.125175e-11 -1.534596e-11 -3.749119e-11  2.690479e-11
+ 4.526445e-12 -1.023049e-11 -4.459492e-12  1.414761e-11 -1.149182e-11  2.811154e-11  1.764672e-11 -1.874165e+01  1.971346e-01 -2.083315e-11  4.165474e-11 -7.121694e-12  1.296341e+01 -5.941685e-02 -2.171460e-11  1.536822e-11  1.271086e-11 -6.009865e-12  3.077129e-12 -2.531776e+01 -7.680294e-13  3.448068e-13  3.086802e-12  1.321918e-11  1.419974e-12  9.255613e-12  1.846196e-11 -6.339686e-11 -1.570535e+01  1.022919e-01 -6.007821e-12 -2.795101e+00 -2.551656e-01 -9.813134e-11  3.552135e-11  1.113218e-11  2.146248e-12 -9.972258e-13  1.432897e-01  8.793287e-03  8.556544e-15  2.901534e-12 -6.808736e-13 -1.984614e-13 -9.919396e-12  8.999907e-12 -2.796997e-13  1.989687e-12  1.231142e-12  2.352370e-12
+ 1.390098e-10  6.588770e-11  8.619350e-12  1.507668e-11 -1.124300e-10 -6.108758e-11 -5.200221e-12  1.971346e-01  1.874165e+01 -2.440949e-11 -4.825884e-11  5.004392e-11 -5.941685e-02 -1.296341e+01  2.441697e-11  1.617539e-10 -7.262631e-11 -1.107705e-14  9.253076e-13 -7.680294e-13 -2.531776e+01  3.940226e-12 -4.875134e-12  5.504775e-12 -9.138348e-11  4.565264e-11  1.127408e-11 -1.273612e-11  1.022919e-01  1.570535e+01 -1.593937e-11  2.551656e-01 -2.795101e+00 -2.546360e-11 -2.400066e-11 -2.197250e-11 -1.003003e-12  8.474621e-13 -8.793287e-03  1.432897e-01 -6.045714e-15 -4.788584e-13  5.835198e-13  1.135570e-13 -3.916685e-12  4.143720e-12 -8.743053e-13  2.825991e-13  2.905512e-12  6.280461e-13
+ 9.772363e-13 -1.718832e-12 -1.208970e-11 -6.636454e-08 -1.809929e-12  1.168276e-12  2.091528e-11 -3.119132e-11 -4.370077e-11 -8.622576e-08 -2.302192e+01 -6.020380e-01  2.956009e-11  2.520742e-11 -4.079790e-11  2.564986e-12  7.925832e-13  5.071984e-08 -1.475744e-07  3.448068e-13  3.940226e-12 -2.577366e+01 -2.247172e+00 -2.483660e-12 -6.455268e-13 -2.037241e-12  1.972971e-07  7.864835e-08 -3.809434e-11 -2.683121e-11  6.201525e-12 -1.417318e-11  9.270870e-12 -4.087512e-12 -1.448892e+01  8.568055e-01 -1.602556e-12  1.984224e-13  5.898889e-12  1.068779e-13 -2.082537e-13  4.044182e-12  1.026395e-12  7.784250e-13  1.504956e-05  3.669526e-06  1.112328e-14 -3.727698e-13 -2.122919e-12 -2.068526e-13
+-1.598663e-12  3.215217e-12  7.758669e-12  1.500457e-07  9.101984e-13 -1.477758e-12 -1.514073e-11  8.077084e-13  4.776108e-11  4.681153e-07 -1.494743e+00 -2.284102e+01 -1.416776e-11 -2.112592e-11  2.944554e-11 -3.132777e-12 -8.942475e-14 -1.045316e-06 -7.388360e-07  3.086802e-12 -4.875134e-12 -2.247172e+00 -2.547391e+01 -2.885256e-12  2.673222e-13  7.578486e-14  2.167797e-06  2.252668e-06  1.402621e-11  2.526195e-11 -2.939533e-12  8.040112e-12 -8.177323e-12  6.795196e-13 -1.163794e+00  1.433248e+01 -4.255454e-12  2.714943e-12 -4.930980e-12 -2.903994e-12 -2.414414e-13 -2.604785e-12  1.533228e-12 -6.015704e-13 -4.845703e-04  3.122940e-04 -8.513165e-13  9.357804e-13  3.980725e-13 -2.271151e-12
+ 4.329465e-10 -7.244418e-10  8.287568e+00 -6.545511e-10 -1.518747e-10  1.228099e-10 -1.331884e+01 -1.180931e-11 -1.475342e-11 -1.943348e-09 -3.979377e-11  2.850261e-11  1.625106e-11  1.523880e-11  2.525844e+01  1.238396e-10 -1.028968e-10 -5.727323e-10  4.956690e-10  1.321918e-11  5.504775e-12 -2.483660e-12 -2.885256e-12 -2.457563e+01  1.543001e-12  2.327144e-12 -3.241459e-09 -1.303663e-09 -1.945235e-11 -1.005682e-11 -1.727528e-01 -2.098766e-11  6.679492e-12  8.399633e-01 -2.061910e-11 -1.444976e-11  1.781069e-11 -2.664093e-11 -6.558058e-12 -4.328498e-14 -2.050836e-06 -8.695069e-07  5.647708e-11 -3.434042e-12  7.665317e-12  7.198897e-11  1.020592e-12 -1.044006e-11  7.379876e-02 -7.181763e-11
+ 1.410556e+01 -2.064616e-03 -7.187499e-10 -5.264492e-11 -2.326475e+01  4.144141e-03  2.326973e-10  1.951408e-12  6.920443e-11 -1.929598e-11  1.710399e-12 -4.984850e-12 -2.746256e-11  7.321637e-11 -1.404964e-10  3.267450e+01 -1.853848e-02  5.286628e-11  2.763956e-11  1.419974e-12 -9.138348e-11 -6.455268e-13  2.673222e-13  1.543001e-12 -2.624048e+01 -4.626657e-10 -1.843329e-11 -2.164682e-11 -1.469034e-11  4.083189e-11 -3.550004e-12  1.610611e-11 -2.202172e-11  7.318348e-12 -1.578074e-12 -4.241962e-13 -7.801293e-12  3.504852e-12  8.275795e-12  2.468268e-12  2.236397e-13 -5.308335e-12  1.654147e-12  4.255368e-13  2.267780e-11 -4.302043e-11 -1.432512e-01  6.801213e-06 -7.898008e-12  7.602595e-02
+-2.064616e-03 -1.410557e+01 -1.267835e-09 -1.410801e-12  4.144141e-03  2.326475e+01  2.692633e-10  9.004779e-12 -2.363237e-11 -3.003374e-11 -1.859081e-12  1.358242e-12 -1.073289e-11 -3.253454e-11  9.509639e-11  1.853848e-02  3.267451e+01 -5.802774e-11 -4.670441e-11  9.255613e-12  4.565264e-11 -2.037241e-12  7.578486e-14  2.327144e-12 -4.626657e-10 -2.624049e+01  1.972197e-11  2.943125e-11 -2.954092e-11 -1.712363e-11  8.236107e-12 -3.330468e-11  1.876952e-11 -7.808603e-12  2.225603e-12  5.571180e-13  1.028007e-11 -4.717598e-12  2.255625e-12  7.841073e-13 -3.989925e-14  7.118087e-12 -2.241463e-12 -4.755013e-13 -2.587818e-11  5.736674e-11  6.802558e-06  1.432219e-01  3.354974e-12 -3.607640e-06
+ 3.508669e-11  4.394757e-11  4.330373e-09  1.663076e+01 -6.884468e-11 -5.066943e-11 -9.549765e-09  2.335574e-11 -2.245859e-11 -4.380219e+00  1.936674e-07  1.931821e-06 -2.012556e-11  2.502490e-12  6.306047e-09  8.896209e-11 -1.032907e-10 -2.428775e+01 -1.201101e+01  1.846196e-11  1.127408e-11  1.972971e-07  2.167797e-06 -3.241459e-09 -1.843329e-11  1.972197e-11 -2.403705e+01  4.025576e+00 -8.420309e-12  2.243446e-11  3.032308e-10 -1.405242e-10  8.443145e-11 -4.815243e-09  3.595805e-07 -3.814965e-06  8.319350e-11  2.550788e-11  1.369251e-11  2.268103e-12 -6.745010e-11  7.732815e-12 -9.079069e-11  6.033158e-11  6.057297e-02  3.846224e-02 -2.163725e-12 -1.566407e-13 -9.313359e-12 -6.118971e-14
+ 1.425897e-11  1.825342e-11  6.162800e-10 -9.617797e+00 -1.162992e-11 -5.210134e-11  2.731559e-10 -2.216426e-11  3.697402e-12 -7.471040e+00  2.594933e-07  1.577084e-06  2.863718e-11 -8.850835e-12  2.330360e-09  1.538948e-11 -3.739137e-11  1.528430e+01 -1.155269e+01 -6.339686e-11 -1.273612e-11  7.864835e-08  2.252668e-06 -1.303663e-09 -2.164682e-11  2.943125e-11  4.025576e+00 -1.625548e+01  3.783293e-11  3.131135e-11 -3.805969e-11 -2.739965e-10  2.745928e-10  6.762265e-10  1.556925e-06  1.547923e-06  4.494968e-11 -3.627888e-12 -7.118560e-12 -2.462591e-11 -1.762401e-12  1.643258e-12 -6.089126e-12  1.885102e-12 -1.703801e-01 -1.117731e-01  1.687989e-11 -2.450211e-11  1.298322e-11  4.248132e-11
+ 1.453796e-11 -4.208324e-11  4.140746e-11  6.006389e-11 -2.073276e-11  6.237777e-11 -7.563708e-11 -5.956586e+00  2.385651e-02  1.048825e-11 -6.700284e-12  5.216536e-12  6.009938e+00  1.159740e-02  8.342133e-11  2.709971e-11  7.034015e-11 -8.919089e-11  2.418794e-11 -1.570535e+01  1.022919e-01 -3.809434e-11  1.402621e-11 -1.945235e-11 -1.469034e-11 -2.954092e-11 -8.420309e-12  3.783293e-11 -1.767578e+01 -8.140412e-12  6.800423e-11  9.556591e+00  8.096986e-01 -2.213026e-11  1.020350e-12 -7.945121e-13 -5.500601e-12  3.118583e-12  1.653211e-01  9.064902e-03 -3.743267e-15 -1.012029e-11  1.297594e-12  3.036486e-13 -1.125271e-11  1.041900e-11  2.356844e-12  4.926864e-12  5.687384e-12  6.316983e-12
+-9.992520e-11 -4.446829e-11 -1.667844e-11 -2.784673e-11  7.734824e-11  3.513279e-11  2.895877e-11 -2.385651e-02 -5.956586e+00 -4.894482e-13  4.355365e-12 -5.240003e-12 -1.159740e-02  6.009938e+00 -3.396614e-11 -6.272367e-11  2.367611e-11  3.524534e-11 -1.041860e-11  1.022919e-01  1.570535e+01 -2.683121e-11  2.526195e-11 -1.005682e-11  4.083189e-11 -1.712363e-11  2.243446e-11  3.131135e-11 -8.140412e-12 -1.767578e+01 -6.325378e-11  8.096986e-01 -9.556591e+00  4.802016e-11  5.390490e-13  1.279141e-13  4.211611e-12 -1.245812e-12  9.064902e-03 -1.653211e-01 -2.861768e-13  4.294244e-12 -7.322554e-13 -1.999980e-14  2.780278e-12 -4.418593e-12  2.071101e-12  1.938602e-12 -6.782754e-12  3.831588e-12
+ 1.658116e-11 -4.217601e-11  4.146901e-01 -5.507285e-10 -1.320137e-12  1.793034e-11 -8.592074e-01 -4.582880e-12  5.745800e-12  1.956824e-10  7.907422e-13  5.050686e-13  6.736119e-12 -1.628892e-12  7.141031e-01 -4.465011e-12  7.031389e-12  4.845741e-10  3.547066e-10 -6.007821e-12 -1.593937e-11  6.201525e-12 -2.939533e-12 -1.727528e-01 -3.550004e-12  8.236107e-12  3.032308e-10 -3.805969e-11  6.800423e-11 -6.325378e-11 -9.300546e+01  2.850018e-11 -5.909217e-12 -5.796311e+00  2.348021e-12  4.125711e-14  1.357209e-12 -2.049096e-12 -2.017359e-12  6.725551e-14 -6.345384e-06 -2.972815e-06 -7.239137e-12  4.344748e-13 -9.372460e-13  2.876441e-11 -7.720086e-12  1.454682e-11  4.668479e-02 -6.695716e-12
+ 5.139417e-12  7.857676e-13  2.134030e-11  1.989665e-11 -9.403438e-12 -2.825796e-12 -4.338921e-11 -8.344725e-01 -6.733715e-02  4.676366e-11  2.284167e-12 -1.574891e-12 -3.432361e-01 -2.974847e-02  3.824438e-11  9.559349e-12 -6.703231e-12 -3.041171e-11  5.945623e-11 -2.795101e+00  2.551656e-01 -1.417318e-11  8.040112e-12 -2.098766e-11  1.610611e-11 -3.330468e-11 -1.405242e-10 -2.739965e-10  9.556591e+00  8.096986e-01  2.850018e-11 -9.218648e+01 -8.951348e-11 -2.515676e-10 -3.037866e-12  5.312603e-13 -7.142721e-13  3.798152e-13  5.696685e-02 -1.695127e-03  5.746962e-14 -1.141112e-12  2.041076e-13  1.207100e-13 -1.241376e-11  1.049769e-11 -1.754700e-11  7.467197e-12 -7.483899e-12 -3.534266e-11
+ 8.712190e-12  1.309573e-12 -1.645386e-11  1.587986e-12 -3.446474e-12  2.406260e-12  3.404394e-11 -6.733715e-02  8.344725e-01 -2.587883e-11 -2.337277e-12  1.605511e-12 -2.974847e-02  3.432361e-01 -2.950762e-11 -3.469205e-12  7.337121e-12  2.593452e-12 -3.078546e-11 -2.551656e-01 -2.795101e+00  9.270870e-12 -8.177323e-12  6.679492e-12 -2.202172e-11  1.876952e-11  8.443145e-11  2.745928e-10  8.096986e-01 -9.556591e+00 -5.909217e-12 -8.951348e-11 -9.218648e+01  2.572454e-10 -7.456728e-13 -2.185773e-12 -5.443307e-13 -1.378280e-14  1.695127e-03  5.696685e-02  1.838072e-15 -4.702401e-13  6.733872e-14  4.254645e-14 -1.010171e-11  1.170646e-11  1.032560e-12 -4.787994e-12 -4.987009e-12  4.015045e-12
+-3.231326e-10  5.751076e-10 -6.359234e+00  7.925972e-09  1.213926e-10 -1.544990e-10  1.252824e+01 -3.292530e-11  6.226729e-12 -2.907927e-09 -2.428464e-12 -8.800318e-13  2.686102e-11 -1.475161e-11 -1.187255e+01 -4.927359e-11  2.908098e-11 -6.393162e-09 -4.713734e-09 -9.813134e-11 -2.546360e-11 -4.087512e-12  6.795196e-13  8.399633e-01  7.318348e-12 -7.808603e-12 -4.815243e-09  6.762265e-10 -2.213026e-11  4.802016e-11 -5.796311e+00 -2.515676e-10  2.572454e-10 -7.576076e+00 -2.024281e-12 -1.376383e-12 -2.261248e-11  4.288995e-11  2.418702e-11 -2.681761e-13 -3.768188e-06 -4.615953e-06  9.497815e-11 -8.389092e-12  6.139051e-11  7.690890e-11  6.057867e-12 -2.348931e-12 -2.427166e-01  1.838412e-10
+ 1.258575e-12  2.181158e-12 -1.146456e-12  2.617394e-07 -1.915662e-12 -3.275029e-12  1.883803e-12  5.608922e-12 -3.659741e-12  5.407330e-07 -8.867924e+00 -1.215417e-01 -5.660942e-13  8.121487e-13 -4.254470e-12  2.657663e-12 -4.336496e-12 -6.087101e-07  4.705169e-07  3.552135e-11 -2.400066e-11 -1.448892e+01 -1.163794e+00 -2.061910e-11 -1.578074e-12  2.225603e-12  3.595805e-07  1.556925e-06  1.020350e-12  5.390490e-13  2.348021e-12 -3.037866e-12 -7.456728e-13 -2.024281e-12 -1.226614e+01  1.205392e+00  3.052801e-11 -1.175546e-11 -3.547328e-11  6.430416e-13 -4.537396e-13  2.472913e-13 -1.022079e-11 -1.358627e-12 -1.231725e-05  3.212425e-05 -4.978895e-12  1.701064e-12 -7.470248e-12 -1.492944e-12
+-5.782478e-15 -8.263672e-15 -8.609149e-13  1.842311e-06 -5.104582e-14 -1.921247e-13  2.551970e-12  5.940938e-12 -6.514028e-12  6.010946e-07  2.774780e-01  8.829180e+00  1.564892e-12 -1.794623e-13 -2.390259e-12  1.198664e-12 -3.106531e-13 -2.824618e-06  1.631391e-06  1.113218e-11 -2.197250e-11  8.568055e-01  1.433248e+01 -1.444976e-11 -4.241962e-13  5.571180e-13 -3.814965e-06  1.547923e-06 -7.945121e-13  1.279141e-13  4.125711e-14  5.312603e-13 -2.185773e-12 -1.376383e-12  1.205392e+00 -1.205358e+01 -8.294773e-12  6.356420e-12  8.026980e-12  3.518329e-12 -6.912990e-14 -7.703228e-13  1.336989e-12 -2.927461e-13  5.078990e-04 -2.861922e-04  1.210738e-12 -1.195106e-12 -4.603304e-13  2.503873e-12
+-1.374552e-12 -2.202406e-12  3.727467e-12  9.201528e-13  2.038774e-12  3.570555e-12 -6.931756e-12  1.092634e-13 -1.072860e-12 -3.299274e-13 -4.688054e-12 -2.643279e-13 -3.223904e-13  6.006401e-13  9.730793e-12 -4.057674e-12  5.172387e-12  1.130091e-11  1.623036e-11  2.146248e-12 -1.003003e-12 -1.602556e-12 -4.255454e-12  1.781069e-11 -7.801293e-12  1.028007e-11  8.319350e-11  4.494968e-11 -5.500601e-12  4.211611e-12  1.357209e-12 -7.142721e-13 -5.443307e-13 -2.261248e-11  3.052801e-11 -8.294773e-12 -9.338942e+01 -5.761859e-05  5.744013e-14 -3.767980e-14  9.827310e-14  3.657900e-13 -2.916997e-03 -6.942840e-03  2.605757e-12  1.323587e-12  1.641423e-12 -9.865274e-13  1.818915e-12  6.411748e-14
+ 7.864578e-13  1.138342e-12 -3.938203e-12 -1.432889e-11 -1.043344e-12 -1.809999e-12  8.968804e-12 -9.433319e-14  4.010607e-13  1.357038e-11  1.812444e-12  3.849052e-13  2.174174e-13 -2.155961e-13 -9.094490e-12  2.069800e-12 -2.537424e-12  2.474421e-11  2.458814e-11 -9.972258e-13  8.474621e-13  1.984224e-13  2.714943e-12 -2.664093e-11  3.504852e-12 -4.717598e-12  2.550788e-11 -3.627888e-12  3.118583e-12 -1.245812e-12 -2.049096e-12  3.798152e-13 -1.378280e-14  4.288995e-11 -1.175546e-11  6.356420e-12 -5.761859e-05 -9.338984e+01  1.336405e-15  8.067794e-14  4.125734e-13 -3.687068e-13 -6.925929e-03  2.924603e-03  1.182987e-12 -1.159388e-14 -7.538048e-13  4.432828e-13 -8.808063e-13 -2.433642e-13
+-4.775502e-12  3.569151e-12 -4.554655e-12 -7.307431e-12  6.914644e-12 -4.358128e-12  7.827220e-12  2.389034e-01  1.214009e-02 -7.817714e-12  3.857755e-12 -3.488619e-12  7.660912e-01  4.348932e-02 -1.002151e-11 -7.237357e-12 -8.091531e-12  7.091429e-12 -1.146329e-11  1.432897e-01 -8.793287e-03  5.898889e-12 -4.930980e-12 -6.558058e-12  8.275795e-12  2.255625e-12  1.369251e-11 -7.118560e-12  1.653211e-01  9.064902e-03 -2.017359e-12  5.696685e-02  1.695127e-03  2.418702e-11 -3.547328e-11  8.026980e-12  5.744013e-14  1.336405e-15 -9.343374e+01  3.704560e-11 -7.926556e-14 -1.373445e-13 -3.648682e-14 -2.497290e-14  5.897105e-11 -5.682584e-11  2.760274e-11 -1.890962e-11 -5.220877e-12  3.104669e-11
+-1.396837e-12  6.641833e-13  4.908049e-13 -1.148545e-11  3.483288e-13 -1.477825e-12 -1.197490e-12  1.214009e-02 -2.389034e-01 -7.060318e-12  1.587937e-13 -2.048050e-12  4.348932e-02 -7.660912e-01  9.927076e-13 -1.336970e-12 -1.727958e-12  1.530078e-11 -1.238283e-11  8.793287e-03  1.432897e-01  1.068779e-13 -2.903994e-12 -4.328498e-14  2.468268e-12  7.841073e-13  2.268103e-12 -2.462591e-11  9.064902e-03 -1.653211e-01  6.725551e-14 -1.695127e-03  5.696685e-02 -2.681761e-13  6.430416e-13  3.518329e-12 -3.767980e-14  8.067794e-14  3.704560e-11 -9.343374e+01  9.184926e-14 -5.145984e-14 -1.324391e-13  5.601102e-14  3.554823e-11 -3.860867e-11  5.246733e-12  6.841737e-12 -4.656738e-14 -1.336280e-11
+-1.398576e-13 -1.107487e-13 -1.051560e-06 -4.653053e-12  8.868458e-14  1.631969e-13  1.739723e-06 -3.567121e-15 -1.568910e-14 -3.210819e-12 -7.521727e-14 -1.880216e-13 -6.043921e-15 -1.098684e-13 -2.425030e-06 -2.053138e-13  1.470402e-13 -3.042273e-12 -1.603059e-11  8.556544e-15 -6.045714e-15 -2.082537e-13 -2.414414e-13 -2.050836e-06  2.236397e-13 -3.989925e-14 -6.745010e-11 -1.762401e-12 -3.743267e-15 -2.861768e-13 -6.345384e-06  5.746962e-14  1.838072e-15 -3.768188e-06 -4.537396e-13 -6.912990e-14  9.827310e-14  4.125734e-13 -7.926556e-14  9.184926e-14 -9.338788e+01  8.398145e-03  6.109762e-13  9.191832e-13 -1.447668e-12  4.309329e-13 -1.319446e-13  4.701859e-13 -1.994016e-04  1.404739e-12
+-6.133934e-13 -1.411062e-12 -2.212059e-06  9.365357e-12  8.138738e-13  2.334496e-12  5.254046e-06  9.281979e-13 -8.864710e-13 -3.363033e-12 -1.228696e-12  6.049337e-13  1.496189e-13  3.768205e-13 -2.631952e-06 -3.059113e-12  3.742046e-12 -6.713542e-12  7.077198e-13  2.901534e-12 -4.788584e-13  4.044182e-12 -2.604785e-12 -8.695069e-07 -5.308335e-12  7.118087e-12  7.732815e-12  1.643258e-12 -1.012029e-11  4.294244e-12 -2.972815e-06 -1.141112e-12 -4.702401e-13 -4.615953e-06  2.472913e-13 -7.703228e-13  3.657900e-13 -3.687068e-13 -1.373445e-13 -5.145984e-14  8.398145e-03 -9.338867e+01 -1.022253e-13  1.347825e-12 -2.400116e-15  1.799890e-12  1.285546e-12 -1.904340e-12 -9.111527e-05  2.403677e-12
+ 5.428938e-14  3.865679e-13 -7.700555e-13  8.531565e-12  7.470731e-14 -6.231438e-13  3.890475e-12 -4.134192e-13  4.051620e-13 -1.178842e-11  1.096026e-12  1.057464e-13 -7.685278e-13 -1.771118e-13 -1.190365e-11  1.010263e-12 -1.146620e-12 -3.292546e-11 -3.382339e-11 -6.808736e-13  5.835198e-13  1.026395e-12  1.533228e-12  5.647708e-11  1.654147e-12 -2.241463e-12 -9.079069e-11 -6.089126e-12  1.297594e-12 -7.322554e-13 -7.239137e-12  2.041076e-13  6.733872e-14  9.497815e-11 -1.022079e-11  1.336989e-12 -2.916997e-03 -6.925929e-03 -3.648682e-14 -1.324391e-13  6.109762e-13 -1.022253e-13 -9.338937e+01 -1.472307e-05 -4.339282e-12  1.369838e-12  1.612637e-12  8.330605e-13  8.424696e-13 -3.337365e-13
+-1.161989e-14  4.516115e-14  7.240043e-13 -1.763583e-12  8.788358e-14 -1.029169e-13 -1.777358e-12 -1.728714e-13  1.096122e-13  5.334500e-12  2.465443e-13  1.509695e-13 -1.177615e-13 -1.633698e-13  6.223098e-13  1.771243e-13 -2.630029e-13  1.263608e-11  1.694322e-11 -1.984614e-13  1.135570e-13  7.784250e-13 -6.015704e-13 -3.434042e-12  4.255368e-13 -4.755013e-13  6.033158e-11  1.885102e-12  3.036486e-13 -1.999980e-14  4.344748e-13  1.207100e-13  4.254645e-14 -8.389092e-12 -1.358627e-12 -2.927461e-13 -6.942840e-03  2.924603e-03 -2.497290e-14  5.601102e-14  9.191832e-13  1.347825e-12 -1.472307e-05 -9.338953e+01  1.238058e-13 -1.932815e-13  5.146431e-13  3.987045e-13 -8.824502e-14  2.111846e-13
+-1.386740e-11 -1.643373e-11  4.669853e-12  3.068589e-02  1.944074e-11  2.315879e-11 -9.828399e-12 -4.462033e-12  1.644384e-12 -3.236219e-05  8.652666e-06 -3.511265e-04  2.049543e-12 -3.265183e-13 -1.717622e-11 -2.423347e-11  2.834833e-11 -2.451150e-01 -1.151455e-02 -9.919396e-12 -3.916685e-12  1.504956e-05 -4.845703e-04  7.665317e-12  2.267780e-11 -2.587818e-11  6.057297e-02 -1.703801e-01 -1.125271e-11  2.780278e-12 -9.372460e-13 -1.241376e-11 -1.010171e-11  6.139051e-11 -1.231725e-05  5.078990e-04  2.605757e-12  1.182987e-12  5.897105e-11  3.554823e-11 -1.447668e-12 -2.400116e-15 -4.339282e-12  1.238058e-13 -1.047236e+02 -5.567578e+00  2.218157e-11 -2.888000e-11  9.669458e-12  4.039402e-11
+ 2.707471e-11  3.762339e-11 -1.480537e-11 -7.192845e-02 -3.779632e-11 -5.271854e-11  3.483684e-11  4.615821e-12 -1.595564e-12 -5.094444e-03  7.358973e-06  2.227294e-04 -2.274656e-12  6.185012e-13 -2.453928e-11  4.619209e-11 -6.414015e-11 -5.817051e-02  5.331762e-02  8.999907e-12  4.143720e-12  3.669526e-06  3.122940e-04  7.198897e-11 -4.302043e-11  5.736674e-11  3.846224e-02 -1.117731e-01  1.041900e-11 -4.418593e-12  2.876441e-11  1.049769e-11  1.170646e-11  7.690890e-11  3.212425e-05 -2.861922e-04  1.323587e-12 -1.159388e-14 -5.682584e-11 -3.860867e-11  4.309329e-13  1.799890e-12  1.369838e-12 -1.932815e-13 -5.567578e+00 -1.259880e+02 -8.163002e-12 -1.094862e-11 -9.308444e-11 -1.388332e-11
+-1.168857e-01  1.155785e-05  1.122599e-11  1.163442e-11 -8.397954e-02  1.097132e-05 -6.939259e-12  1.626662e-12  4.630508e-13  9.967421e-12 -4.433598e-14 -6.556162e-13 -7.635430e-13 -1.383785e-12  1.155351e-11 -1.941079e-01  1.193483e-04 -1.393658e-11  1.125175e-11 -2.796997e-13 -8.743053e-13  1.112328e-14 -8.513165e-13  1.020592e-12 -1.432512e-01  6.802558e-06 -2.163725e-12  1.687989e-11  2.356844e-12  2.071101e-12 -7.720086e-12 -1.754700e-11  1.032560e-12  6.057867e-12 -4.978895e-12  1.210738e-12  1.641423e-12 -7.538048e-13  2.760274e-11  5.246733e-12 -1.319446e-13  1.285546e-12  1.612637e-12  5.146431e-13  2.218157e-11 -8.163002e-12 -1.292010e+02  9.420485e-11  8.288048e-12  1.956693e+00
+-1.156566e-05 -1.169643e-01 -6.767353e-12 -1.588960e-11 -1.096599e-05 -8.393904e-02 -1.006540e-11 -5.685017e-13 -4.733304e-13 -1.238704e-11 -1.048743e-13  5.096542e-13 -4.662176e-13 -1.609050e-13  5.570103e-12  1.194430e-04  1.942620e-01  1.907170e-11 -1.534596e-11  1.989687e-12  2.825991e-13 -3.727698e-13  9.357804e-13 -1.044006e-11  6.801213e-06  1.432219e-01 -1.566407e-13 -2.450211e-11  4.926864e-12  1.938602e-12  1.454682e-11  7.467197e-12 -4.787994e-12 -2.348931e-12  1.701064e-12 -1.195106e-12 -9.865274e-13  4.432828e-13 -1.890962e-11  6.841737e-12  4.701859e-13 -1.904340e-12  8.330605e-13  3.987045e-13 -2.888000e-11 -1.094862e-11  9.420485e-11 -1.292017e+02  7.142703e-11 -6.799664e-08
+ 1.016053e-11 -7.585256e-12  1.191484e-01  3.141623e-11 -5.888114e-12 -3.852915e-12  1.134178e-01  2.127179e-12 -2.848364e-12 -2.165896e-12 -1.175016e-12  2.014921e-13 -1.481300e-12  1.624092e-12  1.930511e-01  6.168930e-12 -7.635244e-12 -5.017059e-11 -3.749119e-11  1.231142e-12  2.905512e-12 -2.122919e-12  3.980725e-13  7.379876e-02 -7.898008e-12  3.354974e-12 -9.313359e-12  1.298322e-11  5.687384e-12 -6.782754e-12  4.668479e-02 -7.483899e-12 -4.987009e-12 -2.427166e-01 -7.470248e-12 -4.603304e-13  1.818915e-12 -8.808063e-13 -5.220877e-12 -4.656738e-14 -1.994016e-04 -9.111527e-05  8.424696e-13 -8.824502e-14  9.669458e-12 -9.308444e-11  8.288048e-12  7.142703e-11 -1.200126e+02  3.797838e-09
+ 3.115676e-02 -3.081933e-06 -1.512966e-11  2.407207e-11  8.299902e-02 -1.084606e-05 -2.573456e-10  3.661005e-12  9.524743e-13  1.901638e-11 -3.809351e-13 -1.451484e-12 -4.234144e-12 -6.266565e-13 -5.181426e-11  8.241332e-02 -5.066939e-05 -3.018011e-11  2.690479e-11  2.352370e-12  6.280461e-13 -2.068526e-13 -2.271151e-12 -7.181763e-11  7.602595e-02 -3.607640e-06 -6.118971e-14  4.248132e-11  6.316983e-12  3.831588e-12 -6.695716e-12 -3.534266e-11  4.015045e-12  1.838412e-10 -1.492944e-12  2.503873e-12  6.411748e-14 -2.433642e-13  3.104669e-11 -1.336280e-11  1.404739e-12  2.403677e-12 -3.337365e-13  2.111846e-13  4.039402e-11 -1.388332e-11  1.956693e+00 -6.799664e-08  3.797838e-09 -1.201163e+02

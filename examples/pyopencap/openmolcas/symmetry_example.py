@@ -9,8 +9,8 @@ eta_list = np.linspace(0,500,101)
 eta_list = eta_list * 1E-5
 ref_energy= -109.35498051
 au2eV= 27.2113961
-RASSI_FILE = "../../opencap/symm.rassi.h5"
-OUTPUT_FILE = "../../opencap/symm.out"
+RASSI_FILE = "../../opencap/openmolcas/symm.rassi.h5"
+OUTPUT_FILE = "../../opencap/openmolcas/symm.out"
 ##########################################
 
 sys_dict = {"molecule": "molcas_rassi",

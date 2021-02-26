@@ -1,0 +1,22 @@
+$system
+molecule qchem_fchk
+basis_file be.fchk
+$end
+
+$perturb_cap
+method eomea
+package qchem
+qchem_fchk be_combined_densities.fchk
+h0_file heff.in 
+nstates 20
+CAP_TYPE Voronoi
+R_Cut  5.00
+Radial_precision  18
+Angular_points    590
+$end
+
+$job
+title n2
+jobtype perturb_cap
+$end
+

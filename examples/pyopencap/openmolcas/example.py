@@ -9,8 +9,8 @@ ref_energy = -109.36009153
 guess = 2.2
 eta_list = np.linspace(0,500,101)
 eta_list = eta_list * 1E-5
-RASSI_FILE = "../../opencap/nosymm.rassi.h5"
-OUTPUT_FILE = "../../opencap/nosymm.out"
+RASSI_FILE = "../../opencap/openmolcas/nosymm.rassi.h5"
+OUTPUT_FILE = "../../opencap/openmolcas/nosymm.out"
 nbasis = 119
 ##########################################
 

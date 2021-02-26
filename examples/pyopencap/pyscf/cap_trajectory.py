@@ -7,8 +7,8 @@ import argparse
 
 #########################################
 # Alter these values to suit your purposes
-ref_energy = -1.1738730219803575
-guess = 13.1
+ref_energy = -14.616350949279369
+guess = 0.5
 eta_list = np.linspace(0,10000,1001)
 ###########################
 au2eV= 27.2113961

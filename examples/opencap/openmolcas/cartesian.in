@@ -1,0 +1,31 @@
+$geometry
+N  0  0   1.039
+N  0  0   -1.039
+X  0  0   0.0
+$end
+
+$system
+molecule inline
+bohr_coordinates true
+cart_bf dfg  
+basis_file basis.bas
+$end
+
+$perturb_cap
+method xms-caspt2
+package openmolcas
+rassi_h5 cart.rassi.h5
+molcas_output cart.out
+nstates 10
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+Radial_precision  14
+Angular_points    110
+$end
+
+$job
+title MS-CASPT2(5,10) with 10 states for N2-, Cartesian basis functions
+jobtype perturb_cap
+$end
