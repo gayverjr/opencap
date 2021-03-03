@@ -145,12 +145,12 @@ Officially supported methods
 ----------------------------
 
 * Full CI
+* ADC (through ADCC_)
 
 Coming (hopefully) soon
 -----------------------
 
 * EOM-CCSD
-* ADC
 
 Untested (use at your own risk!)
 --------------------------------
@@ -159,4 +159,5 @@ This includes all methods which can utilize the trans_rdm1 function, including b
 
 * MRPT
 * CISD
-* TDDFT
+
+.. _ADCC: https://adc-connect.org/v0.15.1/index.html

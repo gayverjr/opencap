@@ -19,8 +19,7 @@
     SOFTWARE.'''
 
 
-"""Root module of the package"""
-from .System import System
-from .CAP import CAP
-from . import analysis
+"""Analysis module of package."""
+from .CAPTrajectory import Root,EigenvalueTrajectory,CAPHamiltonian
+
 
