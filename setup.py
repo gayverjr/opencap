@@ -65,5 +65,5 @@ setup(
     ext_modules=[CMakeExtension('pyopencap.pyopencap_cpp','opencap')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
-    packages=['pyopencap']
+    packages=['pyopencap','pyopencap.analysis']
 )

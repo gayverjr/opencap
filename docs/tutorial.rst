@@ -104,6 +104,10 @@ We now have our zeroth order Hamiltonian (stored in h0) and our CAP matrix(W_mat
 the state basis. Extracting resonance position and width requires analysis of the 
 eigenvalue trajectories. 
 
+**Analysis**
+
+
+
 The script `example.py`_ runs this example and diagonalizes the CAP-augmented Hamiltonian :math:`H^{CAP}=H_0-i\eta W`
 over a range of :math:`\eta`-values. The reference energy was obtained in a separate calculation which 
 computed the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 

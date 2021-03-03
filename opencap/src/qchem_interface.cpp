@@ -250,7 +250,7 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
     return smat;
 }
 
-Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::string output_file)
+Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string method,std::string output_file)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H=Eigen::MatrixXd::Zero(nstates,nstates);
@@ -265,12 +265,15 @@ Eigen::MatrixXd read_qchem_energies(size_t nstates,std::string method,std::strin
     	{
     		if (is.peek()==EOF)
     			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found.");
-    		std::string line_to_find = method +" transition " + std::to_string(state_idx);
+    		std::string line_to_find = " transition " + std::to_string(state_idx);
     		if (line.find(line_to_find)!= std::string::npos)
     		{
 				std::getline(is,line);
-				ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
-				state_idx++;
+				if (line.find("Total energy")!= std::string::npos)
+				{
+					ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
+					state_idx++;
+				}
     		}
     		else
     			std::getline(is,line);

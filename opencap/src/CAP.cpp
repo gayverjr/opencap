@@ -162,16 +162,16 @@ void CAP::read_in_zero_order_H()
 {
 	if (parameters.find("h0_file")!=parameters.end())
 		ZERO_ORDER_H = read_h0_file();
-	else if (compare_strings(parameters["package"],"qchem"))
+	else if (compare_strings(parameters["package"],"qchem") && parameters.find("qchem_output")!=parameters.end())
 	{
-		ZERO_ORDER_H = read_qchem_energies(nstates,parameters["method"],parameters["qchem_output"]);
+		ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["method"],parameters["qchem_output"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
 		if(python)
 			py::print(message);
 		else
 			std::cout << message << std::endl;
 	}
-	else if (compare_strings(parameters["package"],"openmolcas"))
+	else if (compare_strings(parameters["package"],"openmolcas") && parameters.find("molcas_output")!=parameters.end())
 	{
 		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["molcas_output"];
@@ -181,7 +181,14 @@ void CAP::read_in_zero_order_H()
 			std::cout << message << std::endl;
 	}
 	else
-		opencap_throw("Error: Only q-chem and openmolcas formats are supported.");
+	{
+		std::string message = "Unable to find supported zeroth order Hamiltonian. Substituting zero matrix instead.";
+		if(python)
+			py::print(message);
+		else
+			std::cout << message << std::endl;
+		ZERO_ORDER_H = Eigen::MatrixXd::Zero(nstates,nstates);
+	}
 }
 
 void CAP::read_in_dms()
@@ -347,13 +354,11 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 	std::transform(method.begin(), method.end(), method.begin(), ::tolower);
 	if (compare_strings(package_name,"qchem"))
 	{
-		std::vector<std::string> supported = {"eomea","eomee","eomip","eomsf"};
+		std::vector<std::string> supported = {"eom"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
-			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eomea','eomee','eomip','eomsf'.");
+			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom'.");
 		if (params.find("qchem_fchk")==params.end())
 			opencap_throw("Error: missing keyword: qchem_fchk.");
-		if (params.find("qchem_output")==params.end() && params.find("h0_file")==params.end())
-			opencap_throw("Error: Need to specify zeroth order Hamiltonian via \"qchem_output\" or \"h0_file\" fields.");
 	}
 	else if(compare_strings(package_name,"openmolcas"))
 	{
@@ -362,8 +367,6 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 			opencap_throw("Error: unsupported OpenMolcas method. OpenCAP currently supports: 'ms-caspt2','xms-caspt2'");
 		if (params.find("rassi_h5")==params.end())
 			opencap_throw("Error: missing keyword: rassi_h5.");
-		if (params.find("molcas_output")==params.end() && params.find("h0_file")==params.end())
-			opencap_throw("Error: Need to specify H0 Hamiltonian via \"molcas_output\" or \"h0_file\" fields.");
 	}
 	else
 		opencap_throw("Error: unsupported package. Only QChem and OpenMolcas are currently supported.");
