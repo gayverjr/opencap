@@ -64,7 +64,7 @@ pc.compute_ao_cap()
 pc.compute_perturb_cap()
 mat=pc.get_perturb_cap()
 
-("Printing out matrices reiquired for Perturbative CAP calculation.")
+("Printing out matrices required for Perturbative CAP calculation.")
 print("Number of states: " + str(nstates))
 print("Zeroth order Hamiltonian")
 print(DataFrame(h0).to_string(index=False, header=False))

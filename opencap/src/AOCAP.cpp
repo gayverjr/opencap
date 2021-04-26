@@ -117,7 +117,6 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 
 void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double result = 0;
