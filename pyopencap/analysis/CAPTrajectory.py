@@ -121,7 +121,7 @@ class EigenvalueTrajectory():
             self.corrected_energies.append(self.uncorrected_energies[i]-self.etas[i]*derivs[i])
 
 
-    def find_eta_opt(self,corrected=False,start_idx=1):
+    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1):
         '''
         Finds optimal cap strength parameter for eigenvalue trajectory, as defined by eta_opt = min|eta*dE/deta|.
     
@@ -131,6 +131,7 @@ class EigenvalueTrajectory():
             Set to true if searching for stationary point on corrected trajectory
         start_idx: int, default=1
             Point on trajectory to begin the search for the optimal value of eta
+        end_idx: int, default=1
         
         Returns
         -------
@@ -141,12 +142,12 @@ class EigenvalueTrajectory():
         '''
         if corrected:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.corrected_energies)/np.gradient(self.etas))
-            min_val = np.min(derivs[start_idx:])
+            min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             return self.corrected_energies[opt_idx],self.etas[opt_idx]
         else:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.uncorrected_energies)/np.gradient(self.etas))
-            min_val = np.min(derivs[start_idx:])
+            min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             return self.uncorrected_energies[opt_idx],self.etas[opt_idx]
 
@@ -175,7 +176,7 @@ class EigenvalueTrajectory():
             E_eV.append((E-ref_energy)*au2eV)
         return E_eV
 
-    def get_derivatives(self,corrected=False):
+    def get_logarithmic_velocity(self,corrected=False):
         '''
         Returns eta*dE/deta for each point on eigenvalue trajectory. 
 
@@ -219,20 +220,15 @@ class CAPHamiltonian():
         Real CAP strength used for continuum remover CAP. Set to 0.0 by default.
     '''
 
-    def _init_from_matrices(self,H0,W,exclude_states):
+    def _init_from_matrices(self,H0,W):
         H0 = np.array(H0)
         W = np.array(W)
-        if exclude_states is not None:
-           H0,W = _delete_indices(H0,W,exclude_states)
         assert H0.shape == W.shape
         self.H0 = H0
         self.W = W
         self.nstates = len(H0)
-        self._all_roots = []
-        self.total_energies = []
-        self.etas = []
     
-    def __init__(self,H0=None,W=None,output_file=None,exclude_states=[]):
+    def __init__(self,H0=None,W=None,**kwargs):
         '''
         Initializes CAPHamiltonian object from H0 and W matrix in state basis.
 
@@ -248,62 +244,122 @@ class CAPHamiltonian():
             Zeroth order Hamiltonian in state basis
         W: np.ndarray of float: default=None
             CAP matrix in state basis. -1 prefactor is assumed.
-        output_file: str, default=None
-            Output file to parse which contains H0 and W
-        exclude_states: list of int, default = []
-            List of state indices to exclude from the analysis. Rows and columns of these indices will be deleted from both matrices.
         '''
         if H0 is not None and W is not None:
-            self._init_from_matrices(H0,W,exclude_states)
-        elif output_file is not None:
-            self._init_from_output_file(output_file,exclude_states)
+            self._init_from_matrices(H0,W)
+        elif "h0_data" in kwargs and "W_data" in kwargs:
+            self._init_from_data_files(kwargs["h0_data"],kwargs["W_data"])
+        elif "opencap_output" in kwargs:
+            self._init_from_opencap_output(kwargs["opencap_output"])
+        elif "qchem_output" in kwargs:
+            if "irrep" in kwargs:
+                self._init_from_qchem_output(kwargs["qchem_output"],irrep=kwargs["irrep"])
+            else:
+                self._init_from_qchem_output(kwargs["qchem_output"])
         else:
             raise RuntimeError("Error: Pass either H0 and W keyword arguments, or output_file keyword argument upon instantiation.")
-        self.cap_lambda = 0.0
 
-    def _init_from_output_file(self,output_file,exclude_states):
-        with open(output_file, 'r') as file:
-            filedata = file.readlines()
-        read_idx = -1
-        nstates = 0
-        for i in range(0,len(filedata)):
-            if "Number of states" in filedata[i]:
-                read_idx = i
-                nstates = int(filedata[read_idx].split()[-1])
-                break
-            # qchem output
-            elif "Generating CAP matrix for" in filedata[i]:
-                read_idx = i
-                nstates = int(filedata[read_idx].split()[-2])
-                break
-        if nstates == 0:
-            raise RuntimeError("Error: incompatible output. 0 states found.")
-        read_idx+=2
-        # zeroth order hamiltonian first
+    def _init_from_data_files(self,h0_data_file,W_data_file):
+        f = open(h0_data_file,'r')
         H0 = []
-        for i in range(0,nstates):
-            l1 = filedata[read_idx].split()
-            l1= [float(x) for x in l1]
-            H0+=l1
-            read_idx+=1
-        H0 = np.reshape(H0,(nstates,nstates))
-        read_idx+=1
-        # now CAP matrix
+        for l in f.readlines():
+            arr = l.split()
+            arr = [float(x) for x in arr]
+            H0+=arr
+        num_states = int(np.sqrt(len(H0)))
+        H0 = np.reshape(H0,(num_states,num_states))
+        f.close()
+        self.H0 = H0
+        f = open(W_data_file,'r')
         W = []
-        for i in range(0,nstates):
-            l1 = filedata[read_idx].split()
-            l1= [float(x) for x in l1]
-            W+=l1
-            read_idx+=1
-        W = np.reshape(W,(nstates,nstates))
-        if exclude_states is not None:
-           H0,W = _delete_indices(H0,W,exclude_states)
+        for l in f.readlines():
+            arr = l.split()
+            arr = [float(x) for x in arr]
+            W+=arr
+        num_states = int(np.sqrt(len(W)))
+        W = np.reshape(W,(num_states,num_states))
+        f.close()
         assert H0.shape == W.shape
         self.H0 = H0
         self.W = W
-        self.nstates = nstates
+        self.nstates = len(H0)
 
-    def run_trajectory(self,eta_list,cap_lambda=0.0):
+    def _init_from_qchem_output(self,output_file,irrep=""):
+        with open(output_file, 'r') as file:
+            filedata = file.readlines()
+        cur_idx = -1
+        nstates = 0
+        for i in range(0,len(filedata)):
+            if "Performing Projected CAP-EOM calculation for " + str(irrep) in filedata[i]:
+                cur_idx = i+1
+                break
+        if cur_idx == -1:
+            if not irrep=="":
+                raise RuntimeError("Error: could not find matrices for " + str(irrep) + " states in " + output_file)
+            else:
+                raise RuntimeError("Error: could not find matrices for in " + output_file)
+        nstates = int(filedata[cur_idx].split()[-2])     
+        # zeroth order hamiltonian first
+        while "Zeroth order Hamiltonian" not in filedata[cur_idx]:
+            cur_idx+=1
+        cur_idx+=1
+        H0 = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            H0+=l1
+            cur_idx+=1
+        H0 = np.reshape(H0,(nstates,nstates))
+        # now CAP matrix
+        cur_idx+=1
+        W = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            W+=l1
+            cur_idx+=1
+        W = np.reshape(W,(nstates,nstates))
+        assert H0.shape == W.shape
+        self.H0 = H0
+        self.W = W
+        self.nstates = len(H0) 
+
+    def _init_from_opencap_output(self,output_file):
+        with open(output_file, 'r') as file:
+            filedata = file.readlines()
+        cur_idx = -1
+        nstates = 0
+        for i in range(0,len(filedata)):
+            if "Number of states" in filedata[i]:
+                cur_idx = i
+                nstates = int(filedata[cur_idx].split()[-1])
+                break
+        if nstates == 0:
+            raise RuntimeError("Error: incompatible output. 0 states found.")
+        cur_idx+=2
+        # zeroth order hamiltonian first
+        H0 = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            H0+=l1
+            cur_idx+=1
+        H0 = np.reshape(H0,(nstates,nstates))
+        cur_idx+=1
+        # now CAP matrix
+        W = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            W+=l1
+            cur_idx+=1
+        W = np.reshape(W,(nstates,nstates))
+        assert H0.shape == W.shape
+        self.H0 = H0
+        self.W = W
+        self.nstates = len(H0)
+
+    def run_trajectory(self,eta_list,cap_lambda=0.0,exclude_states=[]):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -317,6 +373,11 @@ class CAPHamiltonian():
         cap_lambda: float, default=0.0
             Real CAP strength to use for continuum remover CAP
         '''
+        if exclude_states is not []:
+           H0,W= _delete_indices(self.H0,self.W,exclude_states)
+        else:
+            H0 = self.H0
+            W = self.W
         self._all_roots = []
         self.total_energies = []
         self.cap_lambda = cap_lambda
@@ -325,7 +386,7 @@ class CAPHamiltonian():
             eta=eta_list[i]
             self.etas.append(eta)
             roots = []
-            CAPH = self.H0 +1.0j * eta * self.W - cap_lambda*self.W
+            CAPH = H0 +1.0j * eta * W - cap_lambda*W
             eigv,eigvc=LA.eig(CAPH)
             for j,eig in enumerate(eigv):
                 roots.append(Root(eigv[j],eta,eigvc[:,j]))
@@ -353,7 +414,7 @@ class CAPHamiltonian():
         '''
         if len(self._all_roots) == 0:
             raise RuntimeError("Nothing to track. Execute run_trajectory() first.")
-        traj = EigenvalueTrajectory(state_idx,self._all_roots[0],tracking)
+        traj = EigenvalueTrajectory(state_idx,self._all_roots[0],tracking=tracking)
         for i in range(1,len(self._all_roots)):
             traj._add_state(self._all_roots[i])
         traj._calculate_corrected_energies()

@@ -43,73 +43,76 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::stri
 	bool symmetric_rdm = false;
 	bool symmetric_tdm = false;
 	std::string line, rest;
-	while(is.peek() != EOF )
+	if (is.good())
 	{
-    	std::getline(is, line);
-    	if(line.find("Alpha  State Density")!= std::string::npos || line.find("Alpha Excited State Density")!= std::string::npos)
-    	{
-    		sep_alpha_beta=true;
-			int num_elements = stoi(split(line,' ').back());
-			if(sqrt(num_elements)!=bs.Nbasis)
+		while(is.peek() != EOF )
+		{
+			std::getline(is, line);
+			if(line.find("Alpha  State Density")!= std::string::npos || line.find("Alpha Excited State Density")!= std::string::npos)
 			{
-				int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
-				if(lt_number == num_elements)
-					symmetric_rdm = true;
-				else
-					opencap_throw("Error: dimensions of DMs do not match specified basis set.");
+				sep_alpha_beta=true;
+				int num_elements = stoi(split(line,' ').back());
+				if(sqrt(num_elements)!=bs.Nbasis)
+				{
+					int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
+					if(lt_number == num_elements)
+						symmetric_rdm = true;
+					else
+						opencap_throw("Error: dimensions of DMs do not match specified basis set.");
+				}
+				break;
 			}
-    		break;
-    	}
-    	else if(line.find("State Density")!= std::string::npos)
-    	{
-    		sep_alpha_beta=false;
-			int num_elements = stoi(split(line,' ').back());
-			if(sqrt(num_elements)!=bs.Nbasis)
+			else if(line.find("State Density")!= std::string::npos)
 			{
-				int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
-				if (lt_number == num_elements)
-					symmetric_rdm = true;
-				else
-					opencap_throw("Error: dimensions of DMs do not match specified basis set.");
+				sep_alpha_beta=false;
+				int num_elements = stoi(split(line,' ').back());
+				if(sqrt(num_elements)!=bs.Nbasis)
+				{
+					int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
+					if (lt_number == num_elements)
+						symmetric_rdm = true;
+					else
+						opencap_throw("Error: dimensions of DMs do not match specified basis set.");
+				}
+				break;
 			}
-    		break;
-    	}
-	}
-	is.seekg (0, ios::beg);
-	while(is.peek()!=EOF)
-	{
-    	if (line.find("Transition DM")!= std::string::npos)
-    	{
-			int num_elements = stoi(split(line,' ').back());
-			if(sqrt(num_elements)!=bs.Nbasis)
+		}
+		is.seekg (0, ios::beg);
+		while(is.peek()!=EOF)
+		{
+			if (line.find("Transition DM")!= std::string::npos)
 			{
-				int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
-				if (lt_number == num_elements)
-					symmetric_tdm = true;
-				else
-					opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+				int num_elements = stoi(split(line,' ').back());
+				if(sqrt(num_elements)!=bs.Nbasis)
+				{
+					int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
+					if (lt_number == num_elements)
+						symmetric_tdm = true;
+					else
+						opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+				}
+
 			}
-    		
-    	}
-    	break;
+			break;
+		}
+		is.seekg (0, ios::beg);
+		while(is.peek()!=EOF)
+		{
+			std::getline(is, line);
+			if((line.find("Alpha  State Density")!= std::string::npos || line.find("Alpha Excited State Density")!= std::string::npos) && sep_alpha_beta)
+				nstates++;
+			else if(line.find("State Density")!= std::string::npos && !sep_alpha_beta)
+				nstates++;
+		}
+		if(nstates==0)
+			opencap_throw("Error:Unable to find any densities in:" +fchk_filename);
+		if(sep_alpha_beta)
+			return qchem_read_in_dms_open_shell(fchk_filename,nstates,bs,symmetric_rdm, symmetric_tdm);
+		else
+			return qchem_read_in_dms_closed_shell(fchk_filename,nstates,bs,symmetric_rdm, symmetric_tdm);
 	}
-	is.seekg (0, ios::beg);
-	while(is.peek()!=EOF)
-	{
-    	std::getline(is, line);
-    	if((line.find("Alpha  State Density")!= std::string::npos || line.find("Alpha Excited State Density")!= std::string::npos) && sep_alpha_beta)
-    		nstates++;
-    	else if(line.find("State Density")!= std::string::npos && !sep_alpha_beta)
-    		nstates++;
-	}
-	if(nstates==0)
-		opencap_throw("Error:Unable to find any densities in:" +fchk_filename);
-	if(sep_alpha_beta)
-		return qchem_read_in_dms_open_shell(fchk_filename,nstates,bs,symmetric_rdm, symmetric_tdm);
 	else
-		return qchem_read_in_dms_closed_shell(fchk_filename,nstates,bs,symmetric_rdm, symmetric_tdm);
-
-
+	    opencap_throw("Error: I couldn't read:" + fchk_filename);
 }
 
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_shell(std::string dmat_filename,
@@ -213,6 +216,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
     		}
     	}
     }
+    else
+    	opencap_throw("Error: I couldn't read:" + dmat_filename);
     return {alpha_opdms,beta_opdms};
 }
 
@@ -247,6 +252,8 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
 		fill_LT(matrix_elements,smat);
 		to_opencap_ordering(smat,bs,get_qchem_ids(bs));
     }
+    else
+    	opencap_throw("Error: I couldn't read:" + dmat_filename);
     return smat;
 }
 
@@ -279,6 +286,8 @@ Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string method,std::s
     			std::getline(is,line);
     	}
     }
+    else
+    	opencap_throw("Error: I couldn't read:" + output_file);
     return ZERO_ORDER_H;
 }
 
@@ -363,6 +372,8 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_closed
     		}
     	}
     }
+    else
+    	opencap_throw("Error: I couldn't read:" + dmat_filename);
     return {opdms,opdms};
 
 }
@@ -412,9 +423,7 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename)
 			atoms.push_back(Atom(atom_nums[i],coords[i*3],coords[i*3+1],coords[i*3+2]));
     }
     else
-    {
     	opencap_throw("Error: I couldn't read:" + fchk_filename);
-    }
     return atoms;
 }
 
@@ -542,6 +551,8 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			}
 		}
     }
+    else
+    	opencap_throw("Error: I couldn't read:" + fchk_filename);
     size_t prim_idx=0;
     for(size_t i=0;i<shell_types.size();i++)
     {

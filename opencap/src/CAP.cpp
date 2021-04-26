@@ -107,7 +107,7 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
     }
     catch(exception &e)
     {
-    	opencap_throw("Failed to construct CAP object.");
+    	throw ;
     }
 
 }
@@ -512,7 +512,6 @@ void CAP::read_electronic_structure_data(py::dict dict)
 	}
 	catch(exception &e)
 	{
-		//remove bad params
 		for (auto item: dict)
 		{
 			std::string key = py::str(item.first).cast<std::string>();
@@ -523,6 +522,6 @@ void CAP::read_electronic_structure_data(py::dict dict)
 				parameters.erase(it1);
 			}
 		}
-		opencap_rethrow("Error: Failed to read electronic structure data.");
+		throw ;
 	}
 }

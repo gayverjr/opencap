@@ -3,41 +3,13 @@ import numpy as np
 from pandas import DataFrame
 import h5py
 
-
-FCHK_FILE = "n2.fchk"
-OUTPUT_FILE = "n2.out"
-
-sys_dict = {"molecule": "qchem_fchk",
-"basis_file": FCHK_FILE}
-
-cap_dict = {
-            "cap_type": "box",
-            "cap_x":"2.76",
-            "cap_y":"2.76",
-            "cap_z":"4.88",
-            "Radial_precision": "14",
-            "angular_points": "110"
-}
-
-es_dict = {"method" : "eom",
-           "qchem_output":OUTPUT_FILE,
-"qchem_fchk":FCHK_FILE}
-
-s = pyopencap.System(sys_dict)
-pc = pyopencap.CAP(s,cap_dict,5,"qchem")
-pc.read_data(es_dict)
-pc.compute_ao_cap()
-pc.compute_perturb_cap()
-W=pc.get_perturb_cap()
-H0 = pc.get_H()
-
 # now its time for trajectories
 from pyopencap.analysis.CAPTrajectory import CAPHamiltonian
 import matplotlib.pyplot as plt
 ref_energy =  -109.36195558
 eta_list = np.linspace(0,5000,101)
 eta_list = eta_list * 1E-5
-CAPH = CAPHamiltonian(H0=H0,W=W,blah="blah")
+CAPH = CAPHamiltonian(opencap_output="n2_opencap.out")
 CAPH.run_trajectory(eta_list)
 plt.plot(np.real(CAPH.energies_ev(ref_energy=ref_energy)),np.imag(CAPH.energies_ev(ref_energy=ref_energy)),'ro',label='Uncorrected Trajectory')
 plt.show()
