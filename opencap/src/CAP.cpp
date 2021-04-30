@@ -58,6 +58,9 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	{
 		std::cout << "Number of basis functions:" << my_sys.bs.Nbasis << std::endl;
 		python = false;
+		unaltered = false;
+		force_negative = false;
+		symmetrize = false;
 		verify_method(params);
 		parameters=params;
 		stringstream ss(parameters["nstates"]);
@@ -77,6 +80,9 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
 			"r_cut","radial_precision","angular_points"};
 	std::map<std::string, std::string> params;
 	python = true;
+	unaltered = false;
+	force_negative = false;
+	symmetrize = false;
     for (auto item : dict)
     {
     	std::string key = py::str(item.first).cast<std::string>();
@@ -203,6 +209,7 @@ void CAP::read_in_dms()
 			else
 				std::cout << message << std::endl;
 			auto parsed_dms = qchem_read_dms(parameters["qchem_fchk"],system.bs);
+			//auto parsed_dms = qchem_read_dm_files(system.bs,nstates);
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
 			message= "Done.";
@@ -229,6 +236,7 @@ void CAP::read_in_dms()
 			alpha_dms = parsed_dms[0];
 			beta_dms = parsed_dms[1];
 			message = "Done.";
+			symmetrize = true;
 			if(python)
 				py::print(message);
 			else
@@ -246,6 +254,7 @@ void CAP::read_in_dms()
 
 void CAP::compute_perturb_cap()
 {
+	symmetrize = true;
 	if (AO_CAP_MAT.cols()==0)
 		compute_ao_cap();
 	verify_data();
@@ -260,6 +269,31 @@ void CAP::compute_perturb_cap()
 			Eigen::MatrixXd beta_mat_prod = beta_dms[row_idx][col_idx]*AO_CAP_MAT;
 			CAP_matrix(row_idx,col_idx) =  alpha_mat_prod.trace()+beta_mat_prod.trace();
 			CAP_matrix(row_idx,col_idx) = -1.0* CAP_matrix(row_idx,col_idx);
+		}
+	}
+	if(symmetrize)
+	{
+		std::cout << "Warning: Projected CAP matrix will be symmetrized. Set 'unaltered' to True if this is not desired.\n";
+		for (size_t row_idx=0;row_idx<CAP_matrix.rows();row_idx++)
+		{
+			for (size_t col_idx=row_idx+1;col_idx<CAP_matrix.cols();col_idx++)
+				CAP_matrix(col_idx,row_idx) = CAP_matrix(row_idx,col_idx);
+
+		}
+	}
+	if(force_negative)
+	{
+		std::cout << "Warning: adjusting the sign of the matrix elements. All positive matrix elements will be "
+				"set to negative (magnitudes are conserved). "
+				"Set 'unaltered' to True if this is not desired.\n";
+		for (size_t row_idx=0;row_idx<CAP_matrix.rows();row_idx++)
+		{
+			for (size_t col_idx=0;col_idx<CAP_matrix.cols();col_idx++)
+			{
+				if(CAP_matrix(row_idx,col_idx)>0)
+					CAP_matrix(row_idx,col_idx) = -1.0*CAP_matrix(row_idx,col_idx);
+			}
+
 		}
 	}
 	CAP_MAT = CAP_matrix;

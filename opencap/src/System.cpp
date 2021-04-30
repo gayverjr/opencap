@@ -61,7 +61,10 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 			if(parameters.find(pair.first)==parameters.end())
 				parameters[pair.first]=pair.second;
 		}
-		if(compare_strings(parameters["bohr_coordinates"],"false"))
+		bool bohr_coord;
+		std::istringstream do_bohr(params["bohr_coordinates"]);
+		do_bohr >> std::boolalpha >> bohr_coord;
+		if(bohr_coord)
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();

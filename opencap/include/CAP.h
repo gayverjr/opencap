@@ -53,6 +53,9 @@ public:
 	/** Set to true when constructed from the python interpreter, important for printing
 	 */
 	bool python;
+	bool symmetrize;
+	bool force_negative;
+	bool unaltered;
 	/** Zeroth order Hamiltonian. Dimension is (nstates,nstates)
 	 */
 	Eigen::MatrixXd ZERO_ORDER_H;

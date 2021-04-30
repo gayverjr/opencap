@@ -175,15 +175,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 			beta_opdms.push_back(beta_state_row);
 		}
     }
-    //symmetric, for some reason molcas does this wrong
-    for (size_t i=0;i<d[0];i++)
-    {
-    	for(size_t j=0;j<i;j++)
-    	{
-    		alpha_opdms[i][j]= alpha_opdms[j][i];
-    		beta_opdms[i][j]= beta_opdms[j][i];
-    	}
-    }
+
     if(alpha_opdms.size()!=nstates)
     	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
     			+ std::to_string(nstates) + " states were specified.");
