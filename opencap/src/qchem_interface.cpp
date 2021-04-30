@@ -35,6 +35,163 @@ SOFTWARE.
 #include <Eigen/Dense>
 
 
+
+
+std::array<std::vector<Eigen::MatrixXd>,2> qchem_read_tdms_for_state(std::string fchk_filename,BasisSet &bs,
+		int nstates,int state_idx)
+{
+	bool symmetric_tdm = false;
+	int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
+	std::vector<Eigen::MatrixXd> alpha_opdms;
+	std::vector<Eigen::MatrixXd> beta_opdms;
+	//start with state density matrices, alpha and beta densities
+	std::ifstream is(fchk_filename);
+	if (is.good())
+	{
+    	std::string line, rest;
+    	std::getline(is, line);
+		for (size_t j=0;j<nstates;j++)
+		{
+			if(j!=state_idx)
+			{
+				//alpha first, then beta
+				for (size_t spin=1;spin<=2;spin++)
+				{
+					while(line.find("Transition DM")== std::string::npos)
+					{
+						std::getline(is,line);
+						if (is.peek()==EOF)
+							opencap_throw("Error: Reached end of file before densities for "+
+									std::to_string(nstates) + " states were found.");
+					}
+					//last part of line should be number of elements to read
+					size_t num_elements = stoi(split(line,' ').back());
+					if(sqrt(num_elements)!=bs.Nbasis && num_elements!=lt_number)
+						opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+					std::vector<double> matrix_elements;
+					for (size_t k=1;k<=lines_to_read;k++)
+					{
+						std::getline(is,line);
+						std::vector<std::string> tokens = split(line,' ');
+						for (auto token:tokens)
+							matrix_elements.push_back(std::stod(token));
+					}
+					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
+					if(symmetric_tdm)
+						fill_LT(matrix_elements,st_opdm);
+					else
+						fill_mat(matrix_elements,st_opdm);
+						to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
+					if(spin==1)
+						alpha_opdms.push_back(st_opdm);
+					else
+						beta_opdms.push_back(st_opdm);
+				}
+			}
+			else
+			{
+				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+				st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
+				alpha_opdms.push_back(st_opdm);
+				beta_opdms.push_back(st_opdm);	
+			}
+		}
+	}
+    return {alpha_opdms,beta_opdms};
+    }
+
+std::array<std::vector<Eigen::MatrixXd>,2> qchem_read_state_densities(std::string fchk_filename,BasisSet &bs,
+		int nstates)
+{
+	bool symmetric_rdm = true;
+	int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
+	std::vector<Eigen::MatrixXd> alpha_opdms;
+	std::vector<Eigen::MatrixXd> beta_opdms;
+	//start with state density matrices, alpha and beta densities
+	std::ifstream is(fchk_filename);
+    if (is.good())
+    {
+    	std::string line, rest;
+    	std::getline(is, line);
+    	for (size_t i=0;i<nstates;i++)
+    	{
+    			//alpha first, then beta
+    			for(size_t spin=1;spin<=2;spin++)
+    			{
+					while(line.find("State Density")== std::string::npos or line.find("Ground State")!= std::string::npos)
+					{
+						std::getline(is,line);
+	    	    		if (is.peek()==EOF)
+	    	    			opencap_throw("Error: Reached end of file before densities for "+
+	    	    					std::to_string(nstates) + " states were found.");
+					}
+					//last part of line should be number of elements to read
+					int num_elements = stoi(split(line,' ').back());
+					if(sqrt(num_elements)!=bs.Nbasis && num_elements!=lt_number)
+						opencap_throw("Error: dimensions of TDMs do not match specified basis set.");
+					size_t lines_to_read = num_elements%5==0 ? (num_elements/5) : num_elements/5+1;
+					std::vector<double> matrix_elements;
+					for (size_t k=1;k<=lines_to_read;k++)
+					{
+						std::getline(is,line);
+						std::vector<std::string> tokens = split(line,' ');
+						for (auto token:tokens)
+						{
+							matrix_elements.push_back(std::stod(token));
+						}
+					}
+					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
+					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
+					if(symmetric_rdm)
+						fill_LT(matrix_elements,st_opdm);
+					else
+						fill_mat(matrix_elements,st_opdm);
+					to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
+					if(spin==1)
+						alpha_opdms.push_back(st_opdm);
+					else
+						beta_opdms.push_back(st_opdm);
+    			}
+		}
+    }
+    return {alpha_opdms,beta_opdms};
+}
+
+std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dm_files(BasisSet &bs,int nstates)
+{
+	std::vector<std::string> files;// {"state1.fchk","state2.fchk","state3.fchk","state4.fchk","state5.fchk"};
+	for(size_t i=1;i<=30;i++)
+	{
+		std::string fi_name = "state" + std::to_string(i) + ".fchk";
+		files.push_back(fi_name);
+	}
+	std::vector< std::vector<Eigen::MatrixXd>> alpha_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
+	std::vector< std::vector<Eigen::MatrixXd>> beta_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
+	auto parsed_1rdms = qchem_read_state_densities(files[0],bs,nstates);
+	auto alpha_1rdms = parsed_1rdms[0];
+	auto beta_1rdms = parsed_1rdms[1];
+	for(size_t i=0;i<files.size();i++)
+	{
+		std::cout << files[i] << std::endl;
+		auto parsed_tdms = qchem_read_tdms_for_state(files[i],bs,nstates,i);
+		auto alpha_tdms = parsed_tdms[0];
+		auto beta_tdms = parsed_tdms[1];
+		for(size_t j=0;j<alpha_tdms.size();j++)
+		{
+			alpha_opdms[i][j] = alpha_tdms[j];
+			beta_opdms[i][j] = beta_tdms[j];
+		}								  
+	}
+	for(size_t i=0;i<alpha_1rdms.size();i++)
+	{
+		alpha_opdms[i][i] = alpha_1rdms[i];
+		beta_opdms[i][i] = beta_1rdms[i];
+	}
+	return {alpha_opdms,beta_opdms};
+}
+
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::string fchk_filename,BasisSet &bs)
 {
 	std::ifstream is(fchk_filename);
@@ -118,6 +275,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_dms(std::stri
 std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_shell(std::string dmat_filename,
 		size_t nstates, BasisSet bs, bool symmetric_rdm,  bool symmetric_tdm)
 {
+	std::ios_base::sync_with_stdio(false);
 	int lt_number = bs.Nbasis*(bs.Nbasis+1)/2;
 	std::vector< std::vector<Eigen::MatrixXd>> alpha_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
 	std::vector< std::vector<Eigen::MatrixXd>> beta_opdms(nstates, std::vector<Eigen::MatrixXd> (nstates));
@@ -197,6 +355,7 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 					}
 					Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 					st_opdm=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
+					
 					if(symmetric_tdm)
 						fill_LT(matrix_elements,st_opdm);
 					else
@@ -205,12 +364,12 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> qchem_read_in_dms_open_s
 					if(spin==1)
 					{
 						alpha_opdms[i][j]=st_opdm;
-						alpha_opdms[j][i]=st_opdm;
+						alpha_opdms[j][i]=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					}
 					else
 					{
 						beta_opdms[i][j]=st_opdm;
-						beta_opdms[j][i]=st_opdm;
+						beta_opdms[j][i]=Eigen::MatrixXd::Zero(bs.Nbasis,bs.Nbasis);
 					}
     			}
     		}

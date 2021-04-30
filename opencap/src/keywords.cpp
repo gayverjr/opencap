@@ -37,8 +37,9 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 	std::transform(my_key.begin(), my_key.end(), my_key.begin(), ::tolower);
 	std::vector<open_key> open_keys
 	{
-		{"title","job"},
-		{"jobtype","job"},
+		{"eta_step","trajectory"},
+		{"nsteps","trajectory"},
+		{"save_trajectory","trajectory"},
 		{"basis_file","system"},
 		{"method","perturb_cap"},
 		{"nstates","perturb_cap"},

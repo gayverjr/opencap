@@ -80,6 +80,8 @@ std::vector<Atom> parse_geometry(std::string input_file)
 void parse_section(std::string input_file,std::map<std::string,std::string> &parameters,
 		std::string section_name)
 {
+	bool section_found = false;
+	bool end_found = false;
 	std::ifstream is(input_file);
 	if (is.good())
 	{
@@ -87,13 +89,19 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 		while (std::getline(is, line))
 		{
 			if(compare_strings(line,"$"+section_name))
+			{
+				section_found = true;
 				break;
+			}
 		}
 		while (!is.eof())
 		{
 			std::getline(is, line);
 			if (compare_strings(line,"$end"))
+			{
+				end_found = true;
 				break;
+			}
 			else
 			{
 				if (line[0] != '!')
@@ -110,6 +118,13 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 			}
 			}
 		}
+	if(section_found)
+		parameters[section_name]="true";
+	else
+		return;
+	if(!end_found)
+		opencap_throw("Error: missing a $end for the " + section_name + " section." );
+
 }
 
 System get_System(std::string input_file, std::map<std::string,std::string> params)
@@ -135,17 +150,9 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 	System my_sys;
 	try
 	{
-		//parse job section
-		parse_section(input_file,parameters,"job");
-		//parse system
 		parse_section(input_file,parameters,"system");
-		if(compare_strings(parameters["jobtype"],"perturb_cap"))
-		{
-			//parse cap_parameters
-			parse_section(input_file,parameters,"perturb_cap");
-		}
-		else
-			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);
+		parse_section(input_file,parameters,"perturb_cap");
+		parse_section(input_file,parameters,"trajectory");
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
         
 	}
