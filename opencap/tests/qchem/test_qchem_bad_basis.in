@@ -4,7 +4,7 @@ basis_file ../tests/qchem/bad_basis.fchk
 $end
 
 $perturb_cap
-method EOMEE
+method EOM
 package qchem
 qchem_fchk ../tests/qchem/EE.fchk
 qchem_output ../tests/qchem/EE.out

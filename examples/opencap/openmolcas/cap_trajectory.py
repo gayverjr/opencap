@@ -9,7 +9,7 @@ import argparse
 # Alter these values to suit your purposes
 ref_energy = -109.36009153
 guess = 2.2
-eta_list = np.linspace(0,500,51)
+eta_list = np.linspace(0,5000,101)
 ###########################
 au2eV= 27.2113961
 eta_list = eta_list * 1E-5
@@ -72,7 +72,7 @@ with open(args.pos_arg, 'r') as file :
 idx=-1
 for i in range(0,len(filedata)):
     line = filedata[i]
-    if "Printing out matrices required for Perturbative CAP calculation." in line:
+    if "Printing out matrices required for Projected CAP calculation." in line:
         idx=i
 num_roots=int(filedata[idx+1].split()[-1])
 start=idx+3

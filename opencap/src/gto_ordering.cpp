@@ -37,6 +37,29 @@ SOFTWARE.
 #include <Eigen/Dense>
 
 
+//from:http://cheminf.cmbi.ru.nl/molden/molden_format.html
+std::vector<int> opencap_harmonic_ordering(int l)
+{
+	//s
+	if(l == 0)
+		return {0};
+	//p
+	if(l==1)
+		return {1,-1,0};
+	//d
+	else if (l==2)
+		return {0,1,-1,2,-2};
+	//f
+	else if (l==3)
+		return {0,1,-1,2,-2,3,-3};
+	//g
+	else if (l==4)
+		return {0,1,-1,2,-2,3,-3,4,-4};
+	else
+		opencap_throw("Error: Only up to G type orbitals are supported.");
+}
+
+//from: http://cheminf.cmbi.ru.nl/molden/molden_format.html
 std::vector<std::array<size_t,3>> opencap_carts_ordering(int l)
 {
 	//s
@@ -57,17 +80,17 @@ std::vector<std::array<size_t,3>> opencap_carts_ordering(int l)
 		return {{4,0,0},{0,4,0},{0,0,4},{3,1,0},{3,0,1},{1,3,0},{0,3,1},
 		        {1,0,3},{0,1,3},{2,2,0},{2,0,2},{0,2,2},{2,1,1},{1,2,1},{1,1,2}};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
-std::vector<int> opencap_harmonic_ordering(int l)
+std::vector<int> psi4_harmonic_ordering(int l)
 {
 	//s
 	if(l == 0)
 		return {0};
 	//p
 	if(l==1)
-		return {1,-1,0};
+		return {0,1,-1};
 	//d
 	else if (l==2)
 		return {0,1,-1,2,-2};
@@ -78,8 +101,33 @@ std::vector<int> opencap_harmonic_ordering(int l)
 	else if (l==4)
 		return {0,1,-1,2,-2,3,-3,4,-4};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
+
+
+std::vector<std::array<size_t,3>> psi4_carts_ordering(int l)
+{
+	//s
+	if(l == 0)
+		return {{0,0,0}};
+	//p
+	if(l==1)
+		return {{0,0,1},{1,0,0},{0,1,0}};
+	//d
+	else if (l==2)
+		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
+	//f
+	else if (l==3)
+		return {{3,0,0},{2,1,0},{2,0,1},{1,2,0},{1,1,1},{1,0,2},{0,3,0},
+				{0,2,1},{0,1,2},{0,0,3}};
+	//g
+	else if(l==4)
+		return {{4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},{1,2,1},
+				{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
+	else
+		opencap_throw("Error: Only up to G type orbitals are supported.");
+}
+
 
 // From: pyscf tools/molden.py
 std::vector<std::array<size_t,3>> pyscf_carts_ordering(int l)
@@ -102,7 +150,7 @@ std::vector<std::array<size_t,3>> pyscf_carts_ordering(int l)
 		return {{4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},
 		        {1,2,1},{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
 std::vector<int> pyscf_harmonic_ordering(int l)
@@ -123,7 +171,7 @@ std::vector<int> pyscf_harmonic_ordering(int l)
 	else if (l==4)
 		return {-4,-3,-2,-1,0,1,2,3,4};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
 std::vector<bf_id> get_pyscf_ids(BasisSet &bs)
@@ -143,84 +191,6 @@ std::vector<bf_id> get_pyscf_ids(BasisSet &bs)
 			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell.l);
 			std::vector<std::array<size_t,3>> pyscf_order = pyscf_carts_ordering(my_shell.l);
 			for(auto m:pyscf_order)
-			{
-				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
-				if (it != opencap_order.end())
-				{
-					int index = std::distance(opencap_order.begin(), it);
-					ids.push_back(bf_id(bs.shell_ids[i],index));
-				}
-				else
-				    opencap_throw("Something's gone wrong.");
-			}
-		}
-	}
-	return ids;
-}
-
-//from:http://cheminf.cmbi.ru.nl/molden/molden_format.html
-std::vector<std::array<size_t,3>> molden_carts_ordering(int l)
-{
-	//s
-	if(l == 0)
-		return {{0,0,0}};
-	//p
-	if(l==1)
-		return {{1,0,0},{0,1,0},{0,0,1}};
-	//d
-	else if (l==2)
-		return {{2,0,0},{0,2,0},{0,0,2},{1,1,0},{1,0,1},{0,1,1}};
-	//f
-	else if (l==3)
-		return {{3,0,0},{0,3,0},{0,0,3},{1,2,0},{2,1,0},{2,0,1},{1,0,2},
-				{0,1,2},{0,2,1},{1,1,1}};
-	//g
-	else if(l==4)
-		return {{4,0,0},{0,4,0},{0,0,4},{3,1,0},{3,0,1},{1,3,0},{0,3,1},
-		        {1,0,3},{0,1,3},{2,2,0},{2,0,2},{0,2,2},{2,1,1},{1,2,1},{1,1,2}};
-	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
-}
-
-//from:http://cheminf.cmbi.ru.nl/molden/molden_format.html
-std::vector<int> molden_harmonic_ordering(int l)
-{
-	//s
-	if(l == 0)
-		return {0};
-	//p
-	if(l==1)
-		return {1,-1,0};
-	//d
-	else if (l==2)
-		return {0,1,-1,2,-2};
-	//f
-	else if (l==3)
-		return {0,1,-1,2,-2,3,-3};
-	//g
-	else if (l==4)
-		return {0,1,-1,2,-2,3,-3,4,-4};
-	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
-}
-
-std::vector<bf_id> get_molden_ids(BasisSet &bs)
-{
-	std::vector<bf_id> ids;
-	for(size_t i=0;i<bs.basis.size();i++)
-	{
-		Shell my_shell = bs.basis[i];
-		if (my_shell.pure)
-		{
-			std::vector<int> molden_order = molden_harmonic_ordering(my_shell.l);
-			for(int m:molden_order)
-				ids.push_back(bf_id(bs.shell_ids[i],m));
-		}
-		else
-		{
-			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell.l);
-			std::vector<std::array<size_t,3>> molden_order = molden_carts_ordering(my_shell.l);
-			for(auto m:molden_order)
 			{
 				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
 				if (it != opencap_order.end())
@@ -257,7 +227,7 @@ std::vector<std::array<size_t,3>> qchem_carts_ordering(int l)
 		return {{0,0,4},{0,1,3},{0,2,2},{0,3,1},{0,4,0},{1,0,3},{1,1,2},
 		        {1,2,1},{1,3,0},{2,0,2},{2,1,1},{2,2,0},{3,0,1},{3,1,0},{4,0,0}};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
 //should be same as molden
@@ -279,7 +249,7 @@ std::vector<int> qchem_harmonic_ordering(int l)
 	else if (l==4)
 		return {0,1,-1,2,-2,3,-3,4,-4};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
 std::vector<bf_id> get_qchem_ids(BasisSet &bs)
@@ -314,6 +284,37 @@ std::vector<bf_id> get_qchem_ids(BasisSet &bs)
 	return ids;
 }
 
+std::vector<bf_id> get_psi4_ids(BasisSet &bs)
+{
+	std::vector<bf_id> ids;
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell my_shell = bs.basis[i];
+		if (my_shell.pure)
+		{
+			std::vector<int> qchem_order = psi4_harmonic_ordering(my_shell.l);
+			for(int m:qchem_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
+		}
+		else
+		{
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell.l);
+			std::vector<std::array<size_t,3>> qchem_order = psi4_carts_ordering(my_shell.l);
+			for(auto m:qchem_order)
+			{
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
+				if (it != opencap_order.end())
+				{
+					int index = std::distance(opencap_order.begin(), it);
+					ids.push_back(bf_id(bs.shell_ids[i],index));
+				}
+				else
+				    opencap_throw("Something's gone wrong.");
+			}
+		}
+	}
+	return ids;
+}
 
 std::vector<std::array<size_t,3>> molcas_carts_ordering(int l)
 {
@@ -335,7 +336,7 @@ std::vector<std::array<size_t,3>> molcas_carts_ordering(int l)
 		return { {4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},
 		         {1,2,1},{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
 std::vector<int> molcas_harmonic_ordering(int l)
@@ -356,10 +357,8 @@ std::vector<int> molcas_harmonic_ordering(int l)
 	else if (l==4)
 		return {-4,-3,-2,-1,0,1,2,3,4};
 	else
-		opencap_throw("Error: Only up to G type orbitals are supported.")
+		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
-
-
 
 size_t get_molcas_cart_idx(int l,int m)
 {

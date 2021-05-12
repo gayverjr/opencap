@@ -12,7 +12,7 @@ cart_bf  dfg
 $end
 
 $perturb_cap
-method EOMEE
+method EOM
 package qchem
 qchem_fchk ../tests/qchem/EE_cart.fchk
 qchem_output ../tests/qchem/EE_cart.out

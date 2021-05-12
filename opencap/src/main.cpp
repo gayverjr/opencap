@@ -52,11 +52,11 @@ int main(int argc, char **argv)
 		{
 			std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 			std::map<std::string,std::string> params = std::get<1>(inp_data);
-			if(params["perturb_cap"] == "true")
+			if(params["projected_cap"] == "true")
 			{
-				std::cout << std::endl << "Starting perturbative CAP calculation." << std::endl;
+				std::cout << std::endl << "Starting Projected CAP calculation." << std::endl;
 				auto t_start = std::chrono::high_resolution_clock::now();
-				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));
+				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
 				pc.run();
 				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;

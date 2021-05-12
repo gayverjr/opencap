@@ -151,7 +151,7 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 	try
 	{
 		parse_section(input_file,parameters,"system");
-		parse_section(input_file,parameters,"perturb_cap");
+		parse_section(input_file,parameters,"projected_cap");
 		parse_section(input_file,parameters,"trajectory");
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
         

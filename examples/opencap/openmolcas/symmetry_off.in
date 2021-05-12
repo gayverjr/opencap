@@ -3,7 +3,7 @@ molecule molden
 basis_file nosymm.rasscf.molden
 $end
 
-$perturb_cap
+$projected_cap
 method ms-caspt2
 package openmolcas
 rassi_h5 nosymm.rassi.h5
@@ -16,9 +16,4 @@ CAP_Y 2.76
 CAP_Z 4.88
 Radial_precision  14
 Angular_points    110
-$end
-
-$job
-title MS-CASPT2(5,10) with 10 states for N2-, symmetry turned off
-jobtype perturb_cap
 $end

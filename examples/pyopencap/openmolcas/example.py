@@ -3,13 +3,13 @@ import numpy as np
 from pandas import DataFrame
 import h5py
 import matplotlib.pyplot as plt
-from CAPTrajectory import CAPHamiltonian
+from pyopencap.analysis import CAPHamiltonian
 
 #Change these lines to suit your system
 ##########################################
 ref_energy = -109.36009153
 guess = 2.2
-eta_list = np.linspace(0,500,101)
+eta_list = np.linspace(0,2000,101)
 eta_list = eta_list * 1E-5
 RASSI_FILE = "../../opencap/openmolcas/nosymm.rassi.h5"
 OUTPUT_FILE = "../../opencap/openmolcas/nosymm.out"
@@ -35,6 +35,17 @@ es_dict = {"method" : "ms-caspt2",
 
 f = h5py.File(RASSI_FILE, 'r')
 arr = f["SFS_TRANSITION_DENSITIES"]
+
+tdm1 = arr[0][1]
+tdm1 = 0.5*np.reshape(tdm1,(nbasis,nbasis))
+print("tdm1")
+print(DataFrame(tdm1).to_string(index=False, header=False))
+print("tdm2")
+tdm2 = arr[1][0]
+tdm2 = 0.5*np.reshape(tdm2,(nbasis,nbasis))
+print(DataFrame(tdm2).to_string(index=False, header=False))
+
+
 arr2 = np.array(f["AO_OVERLAP_MATRIX"])
 arr2 = np.reshape(arr2,(nbasis,nbasis))
 
@@ -65,7 +76,7 @@ mat=pc.get_perturb_cap()
 # Method 3: Spin traced densities
 pc = pyopencap.CAP(s,cap_dict,10,"openmolcas")
 for i in range(0,10):
-    for j in range(i,10):
+    for j in range(0,10):
         arr1 = np.reshape(arr[i][j],(nbasis,nbasis))
         pc.add_tdm(arr1,i,j,"openmolcas",RASSI_FILE)
         if i!=j:
@@ -77,24 +88,30 @@ print(DataFrame(h0).to_string(index=False, header=False))
 
 CAPH = CAPHamiltonian(H0=h0,W=mat)
 CAPH.run_trajectory(eta_list)
-plt.plot(np.real(CAPH.all_energies),np.imag(CAPH.all_energies),'ro',label='Uncorrected Trajectory')
+plt.plot(np.real(CAPH.energies_ev(ref_energy=ref_energy)),np.imag(CAPH.energies_ev(ref_energy=ref_energy)),'ro',label='Uncorrected Trajectory')
 plt.show()
 
-for i in range(0,CAPH.nstates):
+for i in range(0,10):
     traj = CAPH.track_state(i,tracking="overlap")
-    uc_energy,uc_eta_opt = traj.find_eta_opt()
-    plt.plot(np.real(traj.uncorrected_energies),np.imag(traj.uncorrected_energies),'-ro',label='Uncorrected Trajectory')
-    plt.plot(np.real(traj.corrected_energies),np.imag(traj.corrected_energies),'-bo',label='Corrected Trajectory')
+    uc_energies = traj.energies_ev(ref_energy=ref_energy)
+    corr_energies = traj.energies_ev(ref_energy=ref_energy,corrected=True)
+
+    uc_energy, eta_opt = traj.find_eta_opt(start_idx=10)
+    uc_energy = (uc_energy-ref_energy)*27.2114
+    corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10)
+    corr_energy = (corr_energy-ref_energy)*27.2114
+
+    print("Uncorrected:")
+    print(uc_energy)
+    print(eta_opt)
+    print("Corrected:")
+    print(corr_energy)
+    print(corr_eta_opt)
+
+    plt.plot(np.real(uc_energies),np.imag(uc_energies),'-ro',label="Uncorrected")
+    plt.plot(np.real(corr_energies),np.imag(corr_energies),'-bo',label="Corrected")
+    plt.plot(np.real(uc_energy),np.imag(uc_energy),'g*',markersize=20)
+    plt.plot(np.real(corr_energy),np.imag(corr_energy),'g*',markersize=20)
     plt.legend()
     plt.show()
-
-corr_energy,corr_eta_opt = traj.find_eta_opt(corrected=True)
-
-print((uc_energy-ref_energy)*27.2114)
-print((corr_energy-ref_energy)*27.2114)
-
-plt.plot(np.real(traj.uncorrected_energies),np.imag(traj.uncorrected_energies),'-ro',label='Uncorrected Trajectory')
-plt.plot(np.real(traj.corrected_energies),np.imag(traj.corrected_energies),'-bo',label='Corrected Trajectory')
-plt.legend()
-plt.show()
 

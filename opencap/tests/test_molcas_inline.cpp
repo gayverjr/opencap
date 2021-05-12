@@ -46,11 +46,8 @@ int main()
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 		std::map<std::string,std::string> params = std::get<1>(inp_data);
-		if(params["jobtype"] == "perturb_cap")
-		{
 			CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));
 			pc.run();
-		}
 	}
 	catch (exception& e)
 	{

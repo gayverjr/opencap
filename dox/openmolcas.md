@@ -34,7 +34,7 @@ titled $JOBNAME.rassi.h5.
 	 TRD1
 
 OpenCAP uses these densities to compute the 
-%CAP matrix elements in state basis, which is required to perform perturbative %CAP 
+%CAP matrix elements in state basis, which is required to perform projected %CAP 
 calculations.
 
 In addition to the one particle densities, OpenCAP also requires a zeroth order Hamiltonian.
@@ -58,7 +58,7 @@ __Example input__
     basis_file nosymm.rasscf.molden
     $end
 
-    $perturb_cap
+    $projected_cap
     method ms-caspt2
     package openmolcas
     rassi_h5 nosymm.rassi.h5
@@ -71,11 +71,6 @@ __Example input__
     CAP_Z 4.88
     Radial_precision  14
     Angular_points    110
-    $end
-
-    $job
-    title MS-CASPT2(5,10) with 10 states for N2-, symmetry turned off
-    jobtype perturb_cap
     $end
     
 More inputs are available in our [repository](https://github.com/gayverjr/opencap/tree/master/examples/opencap).

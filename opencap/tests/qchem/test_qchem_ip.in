@@ -4,7 +4,7 @@ basis_file ../tests/qchem/IP.fchk
 $end
 
 $perturb_cap
-method EOMIP
+method EOM
 package qchem
 qchem_fchk ../tests/qchem/IP.fchk
 qchem_output ../tests/qchem/IP.out
