@@ -9,7 +9,8 @@ import argparse
 # Alter these values to suit your purposes
 ref_energy = -109.36195558
 guess = 2.5
-eta_list = np.linspace(0,5000,101)
+#eta_list = np.linspace(0,50,6)
+eta_list = np.linspace(0,5000,501)
 ###########################
 au2eV= 27.2113961
 eta_list = eta_list * 1E-5
@@ -72,7 +73,7 @@ with open(args.pos_arg, 'r') as file :
 idx=-1
 for i in range(0,len(filedata)):
     line = filedata[i]
-    if "Printing out matrices required for Perturbative CAP calculation." in line:
+    if "Printing out matrices required for Projected CAP calculation." in line:
         idx=i
 num_roots=int(filedata[idx+1].split()[-1])
 start=idx+3
@@ -100,6 +101,9 @@ for i in range(0,len(eta_list)):
     roots=[]
     fullH = H_0 +1.0j * eta * cap_mat
     eigv,eigvc=LA.eig(fullH)
+    print("ETA:" + str(eta))
+    print(eigv)
+    print()
     for eig in eigv:
         E = (eig - ref_energy) * au2eV
         roots.append(root(E,eta))
@@ -108,6 +112,7 @@ for i in range(0,len(eta_list)):
         traj=trajectory(roots,guess)
     else:
         traj.add_state(roots)
+
 
 # first lets plot everything
 re_traj = []
@@ -178,4 +183,5 @@ print("Corrected:")
 print(points)
 print(sorted_derivs[:5])
 print(etas)
+
 

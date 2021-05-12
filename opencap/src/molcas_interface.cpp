@@ -50,7 +50,9 @@ Eigen::Map<const Eigen::MatrixXd> reshape (const Eigen::VectorXd& b, const uint 
     return Eigen::Map<const Eigen::MatrixXd>(b.data(), n, m);
 }
 
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string filename,BasisSet bs,size_t nstates)
+void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
+		std::vector<std::vector<Eigen::MatrixXd>> &beta_opdms,
+		std::string filename,BasisSet bs,size_t nstates)
 {
 	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	//first lets check if the dimensions are correct
@@ -63,8 +65,6 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 	auto nsym = file.readAttribute<long>("NSYM", "/");
 	//now lets load the densities
 	Eigen::Tensor<double,3> rass_data, spin_dens;
-	std::vector<std::vector<Eigen::MatrixXd>> alpha_opdms;
-	std::vector<std::vector<Eigen::MatrixXd>> beta_opdms;
 	try
 	{
 		file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
@@ -176,10 +176,20 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 		}
     }
 
+    std::cout << "Warning: CAP matrix is assumed to be symmetric." << std::endl;
+    //symmetrize
+    for (size_t i=0;i<d[0];i++)
+    {
+    	for(size_t j=0;j<i;j++)
+    	{
+    		alpha_opdms[i][j]= alpha_opdms[j][i];
+    		beta_opdms[i][j]= beta_opdms[j][i];
+    	}
+    }
+
     if(alpha_opdms.size()!=nstates)
     	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
     			+ std::to_string(nstates) + " states were specified.");
-    return {alpha_opdms,beta_opdms};
 }
 
 Eigen::MatrixXd read_rassi_overlap(std::string filename,BasisSet bs)

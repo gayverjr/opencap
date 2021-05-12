@@ -58,9 +58,6 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	{
 		std::cout << "Number of basis functions:" << my_sys.bs.Nbasis << std::endl;
 		python = false;
-		unaltered = false;
-		force_negative = false;
-		symmetrize = false;
 		verify_method(params);
 		parameters=params;
 		stringstream ss(parameters["nstates"]);
@@ -80,9 +77,6 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
 			"r_cut","radial_precision","angular_points"};
 	std::map<std::string, std::string> params;
 	python = true;
-	unaltered = false;
-	force_negative = false;
-	symmetrize = false;
     for (auto item : dict)
     {
     	std::string key = py::str(item.first).cast<std::string>();
@@ -103,7 +97,7 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
 		if(num_states<1)
 			opencap_throw("Error: not enough states to run calculation.");
 		std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
-		if(!(gto_ordering=="openmolcas"||gto_ordering=="qchem" || gto_ordering=="pyscf")||gto_ordering=="molden")
+		if(!(gto_ordering=="psi4"||gto_ordering=="qchem" || gto_ordering=="pyscf")||gto_ordering=="molden")
 			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
 		parameters["package"] = gto_ordering;
 		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
@@ -170,7 +164,10 @@ void CAP::read_in_zero_order_H()
 		ZERO_ORDER_H = read_h0_file();
 	else if (compare_strings(parameters["package"],"qchem") && parameters.find("qchem_output")!=parameters.end())
 	{
-		ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["method"],parameters["qchem_output"]);
+		if(parameters["method"]=="eom")
+			ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["method"],parameters["qchem_output"]);
+		else
+			ZERO_ORDER_H = read_qchem_tddft_energies(nstates,parameters["method"],parameters["qchem_output"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
 		if(python)
 			py::print(message);
@@ -208,10 +205,7 @@ void CAP::read_in_dms()
 				py::print(message);
 			else
 				std::cout << message << std::endl;
-			auto parsed_dms = qchem_read_dms(parameters["qchem_fchk"],system.bs);
-			//auto parsed_dms = qchem_read_dm_files(system.bs,nstates);
-			alpha_dms = parsed_dms[0];
-			beta_dms = parsed_dms[1];
+			qchem_read_dms(alpha_dms,beta_dms,parameters["qchem_fchk"],system.bs);
 			message= "Done.";
 			if(python)
 				py::print(message);
@@ -232,11 +226,8 @@ void CAP::read_in_dms()
 				py::print(message);
 			else
 				std::cout << message << std::endl;
-			auto parsed_dms = read_rassi_tdms(parameters["rassi_h5"],system.bs,nstates);
-			alpha_dms = parsed_dms[0];
-			beta_dms = parsed_dms[1];
+			read_rassi_tdms(alpha_dms,beta_dms,parameters["rassi_h5"],system.bs,nstates);
 			message = "Done.";
-			symmetrize = true;
 			if(python)
 				py::print(message);
 			else
@@ -252,9 +243,8 @@ void CAP::read_in_dms()
 
 }
 
-void CAP::compute_perturb_cap()
+void CAP::compute_projected_cap()
 {
-	symmetrize = true;
 	if (AO_CAP_MAT.cols()==0)
 		compute_ao_cap();
 	verify_data();
@@ -269,31 +259,6 @@ void CAP::compute_perturb_cap()
 			Eigen::MatrixXd beta_mat_prod = beta_dms[row_idx][col_idx]*AO_CAP_MAT;
 			CAP_matrix(row_idx,col_idx) =  alpha_mat_prod.trace()+beta_mat_prod.trace();
 			CAP_matrix(row_idx,col_idx) = -1.0* CAP_matrix(row_idx,col_idx);
-		}
-	}
-	if(symmetrize)
-	{
-		std::cout << "Warning: Projected CAP matrix will be symmetrized. Set 'unaltered' to True if this is not desired.\n";
-		for (size_t row_idx=0;row_idx<CAP_matrix.rows();row_idx++)
-		{
-			for (size_t col_idx=row_idx+1;col_idx<CAP_matrix.cols();col_idx++)
-				CAP_matrix(col_idx,row_idx) = CAP_matrix(row_idx,col_idx);
-
-		}
-	}
-	if(force_negative)
-	{
-		std::cout << "Warning: adjusting the sign of the matrix elements. All positive matrix elements will be "
-				"set to negative (magnitudes are conserved). "
-				"Set 'unaltered' to True if this is not desired.\n";
-		for (size_t row_idx=0;row_idx<CAP_matrix.rows();row_idx++)
-		{
-			for (size_t col_idx=0;col_idx<CAP_matrix.cols();col_idx++)
-			{
-				if(CAP_matrix(row_idx,col_idx)>0)
-					CAP_matrix(row_idx,col_idx) = -1.0*CAP_matrix(row_idx,col_idx);
-			}
-
 		}
 	}
 	CAP_MAT = CAP_matrix;
@@ -325,7 +290,7 @@ void CAP::check_overlap_matrix()
 		OVERLAP_MAT = qchem_read_overlap(parameters["qchem_fchk"],system.bs);
 	else if (compare_strings(parameters["package"],"openmolcas"))
 		OVERLAP_MAT = read_rassi_overlap(parameters["rassi_h5"],system.bs);
-	system.check_overlap_mat(OVERLAP_MAT,"opencap");
+	system.check_overlap_mat(OVERLAP_MAT,"molden");
 }
 
 void CAP::renormalize_cap(Eigen::MatrixXd smat, std::string ordering,
@@ -345,7 +310,9 @@ void CAP::renormalize_cap(Eigen::MatrixXd smat, std::string ordering,
 	}
 	else if(compare_strings(ordering,"qchem"))
 		ids = get_qchem_ids(system.bs);
-	else if(compare_strings(ordering,"opencap"))
+	else if(compare_strings(ordering,"psi4"))
+		ids = get_psi4_ids(system.bs);
+	else if(compare_strings(ordering,"molden"))
 		ids = system.bs.bf_ids;
 	else
 		opencap_throw(ordering +" ordering is not supported.");
@@ -388,7 +355,7 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 	std::transform(method.begin(), method.end(), method.begin(), ::tolower);
 	if (compare_strings(package_name,"qchem"))
 	{
-		std::vector<std::string> supported = {"eom"};
+		std::vector<std::string> supported = {"eom","tddft"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom'.");
 		if (params.find("qchem_fchk")==params.end())
@@ -414,7 +381,7 @@ void CAP::run()
 			check_overlap_matrix();
 		compute_ao_cap();
         renormalize();
-		compute_perturb_cap();
+		compute_projected_cap();
 	}
 	catch(exception &e)
 	{
@@ -454,7 +421,7 @@ Eigen::MatrixXd CAP::get_ao_cap()
 	return AO_CAP_MAT;
 }
 
-Eigen::MatrixXd CAP::get_perturb_cap()
+Eigen::MatrixXd CAP::get_projected_cap()
 {
 	return CAP_MAT;
 }
@@ -486,6 +453,8 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 	}
 	else if(compare_strings(ordering,"qchem"))
 		ids = get_qchem_ids(system.bs);
+	else if(compare_strings(ordering,"psi4"))
+		ids = get_psi4_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(alpha_dm,system.bs,ids);
@@ -514,6 +483,8 @@ void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string
 	}
 	else if(compare_strings(ordering,"qchem"))
 		ids = get_qchem_ids(system.bs);
+	else if(compare_strings(ordering,"psi4"))
+		ids = get_psi4_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(dmat,system.bs,ids);

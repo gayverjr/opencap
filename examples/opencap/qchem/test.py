@@ -4,7 +4,7 @@ from CAPTrajectory import CAPHamiltonian
 
 #########################################
 # Alter these values to suit your purposes
-ref_energy = -109.36195558
+ref_energy = 0
 guess = 2.5
 eta_list = np.linspace(0,5000,101)
 ###########################

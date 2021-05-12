@@ -64,7 +64,7 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 		bool bohr_coord;
 		std::istringstream do_bohr(params["bohr_coordinates"]);
 		do_bohr >> std::boolalpha >> bohr_coord;
-		if(bohr_coord)
+		if(!bohr_coord)
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
@@ -247,8 +247,10 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	}
 	else if(compare_strings(ordering,"qchem"))
 		ids = get_qchem_ids(bs);
-	else if(compare_strings(ordering,"opencap"))
+	else if(compare_strings(ordering,"molden"))
 		ids = bs.bf_ids;
+	else if(compare_strings(ordering,"psi4"))
+		ids = get_psi4_ids(bs);
 	else
 		opencap_throw(ordering +" ordering is not supported.");
 	to_opencap_ordering(smat,bs,ids);

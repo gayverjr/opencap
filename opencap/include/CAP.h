@@ -53,9 +53,6 @@ public:
 	/** Set to true when constructed from the python interpreter, important for printing
 	 */
 	bool python;
-	bool symmetrize;
-	bool force_negative;
-	bool unaltered;
 	/** Zeroth order Hamiltonian. Dimension is (nstates,nstates)
 	 */
 	Eigen::MatrixXd ZERO_ORDER_H;
@@ -81,7 +78,7 @@ public:
 	void compute_ao_cap();
 	/** Computes %CAP in state basis
 	 */
-	void compute_perturb_cap();
+	void compute_projected_cap();
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method(std::map<std::string,std::string> params);
@@ -100,7 +97,7 @@ public:
 	Eigen::MatrixXd get_ao_cap();
 	/** Returns CAP matrix in wave function basis.
 	 */
-	Eigen::MatrixXd get_perturb_cap();
+	Eigen::MatrixXd get_projected_cap();
 	/** Returns zeroth order Hamiltonian.
 	 */
 	Eigen::MatrixXd get_H();

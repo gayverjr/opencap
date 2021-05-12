@@ -46,7 +46,7 @@ point on the eigenvalue trajectory E(\f$ \eta \f$). A commonly used criterion is
 the minimum of the logarithmic velocity (\f$|\eta\frac{dE}{d\eta}|\rightarrow min \f$)[2].
 
 
-Perturbative or "Projected" CAP
+"Projected" CAP
 ===============================
 
 There are multiple strategies for how to incorporate %CAPs into an electronic structure calculation. 

@@ -47,9 +47,9 @@ uc_energies = traj.energies_ev(ref_energy=ref_energy)
 corr_energies = traj.energies_ev(ref_energy=ref_energy,corrected=True)
 
 uc_energy, eta_opt = traj.find_eta_opt(start_idx=10)
-uc_energy = (uc_energy-ref_energy)*27.2114
+#uc_energy = (uc_energy-ref_energy)*27.2114
 corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10)
-corr_energy = (corr_energy-ref_energy)*27.2114
+#corr_energy = (corr_energy-ref_energy)*27.2114
 
 print("Uncorrected:")
 print(uc_energy)

@@ -16,7 +16,7 @@ Grid for atom 1 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 2 has: 148 radial points, 110 angular points, 16280 total points.
 Grid for atom 3 has: 98 radial points, 110 angular points, 10780 total points.
 Integration time:0.560667
-Printing out matrices required for Perturbative CAP calculation.
+Printing out matrices required for Projected CAP calculation.
 Number of states: 10
 Zeroth order Hamiltonian
 -109.3075014100   -0.0000000000   -0.0098650100    0.0001935300   -0.0025726700   -0.0000444800    0.0001327900    0.0000009700   -0.0000000000   -0.0000000000
