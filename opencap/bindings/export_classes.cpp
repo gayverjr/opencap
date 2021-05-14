@@ -42,7 +42,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				"atom index,shell number,l,m")
 		;
     py::class_<CAP>(m, "CAP")
-		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs CAP object.")
+		.def(py::init<System,py::dict,size_t>(),"Constructs CAP object.")
     	.def("get_ao_cap",&CAP::get_ao_cap, "Returns CAP matrix in AO basis.")
     	.def("get_projected_cap",&CAP::get_projected_cap, "Returns CAP matrix in state basis.")
     	.def("compute_ao_cap",&CAP::compute_ao_cap, "Computes CAP matrix in AO basis.")

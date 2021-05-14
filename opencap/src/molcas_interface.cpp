@@ -52,7 +52,7 @@ Eigen::Map<const Eigen::MatrixXd> reshape (const Eigen::VectorXd& b, const uint 
 
 void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 		std::vector<std::vector<Eigen::MatrixXd>> &beta_opdms,
-		std::string filename,BasisSet bs,size_t nstates)
+		std::string filename, BasisSet bs,size_t nstates)
 {
 	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	//first lets check if the dimensions are correct
@@ -186,7 +186,8 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
     		beta_opdms[i][j]= beta_opdms[j][i];
     	}
     }
-
+    std::cout << "NSTATES:" << nstates << std::endl;
+    std::cout << alpha_opdms.size() << std::endl;
     if(alpha_opdms.size()!=nstates)
     	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
     			+ std::to_string(nstates) + " states were specified.");
@@ -295,6 +296,49 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	}
 	return ZERO_ORDER_H;
 }
+
+Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)
+{
+	std::string line_to_find;
+	if(method=="pc-nevpt2")
+		line_to_find = "Zero + second order effective Hamiltonian (PC)";
+	else if(method=="sc-nevpt2")
+		line_to_find = "Zero + second order Effective Hamiltonian (SC)";
+	else
+		opencap_throw("Either pc-nevpt2 or sc-nevpt2 should be selected.");
+	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
+	ZERO_ORDER_H= Eigen::MatrixXd::Zero(nstates,nstates);
+	std::ifstream is(filename);
+	if (is.good())
+	{
+		std::string line, rest;
+		std::getline(is,line);
+		while (line.find(line_to_find)== std::string::npos && is.peek()!=EOF)
+			std::getline(is,line);
+		std::getline(is,line);
+		std::getline(is,line);
+		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
+		for (size_t i=1;i<=num_groups;i++)
+		{
+			std::getline(is,line);
+			for (size_t j=1;j<=nstates;j++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				size_t row_idx = std::stoul(tokens[0]);
+				for(size_t k=1;k<tokens.size();k++)
+				{
+					size_t col_idx = k-1+(i-1)*5;
+					if(col_idx>=ZERO_ORDER_H.cols() || row_idx-1 >= ZERO_ORDER_H.rows())
+						opencap_throw("Error: State index of out bounds. There is a problem with the OpenMolcas output file. Exiting...");
+					ZERO_ORDER_H(row_idx-1,col_idx)=std::stod(tokens[k]);
+				}
+			}
+		}
+	}
+	return ZERO_ORDER_H;
+}
+
 
 std::vector<Atom> read_geometry_from_rassi(std::string filename)
 {
