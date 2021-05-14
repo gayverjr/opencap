@@ -254,6 +254,8 @@ class CAPHamiltonian():
         elif "qchem_output" in kwargs:
             if "irrep" in kwargs:
                 self._init_from_qchem_output(kwargs["qchem_output"],irrep=kwargs["irrep"])
+            elif "onset" in kwargs:
+                self._init_from_qchem_output(kwargs["qchem_output"],onset=kwargs["onset"])
             else:
                 self._init_from_qchem_output(kwargs["qchem_output"])
         else:
@@ -284,7 +286,7 @@ class CAPHamiltonian():
         self.W = W
         self.nstates = len(H0)
 
-    def _init_from_qchem_eomcc(self,output_file,irrep=""):
+    def _init_from_qchem_eomcc(self,output_file,irrep):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
@@ -322,7 +324,7 @@ class CAPHamiltonian():
         self.W = W
         self.nstates = len(H0) 
 
-    def _init_from_qchem_adc(self,output_file, onset=""):
+    def _init_from_qchem_adc(self,output_file,onset):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
@@ -368,45 +370,23 @@ class CAPHamiltonian():
         self.W = W
         self.nstates = len(H0) 
 
-    def _init_from_qchem_output(self,output_file,irrep=""):
+    def _init_from_qchem_output(self,output_file,onset="",irrep=""):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
-        cur_idx = -1
-        nstates = 0
+        method=""
         for i in range(0,len(filedata)):
             if "Performing Projected CAP-EOM calculation for " + str(irrep) in filedata[i]:
-                cur_idx = i+1
+                method="eomcc"
                 break
-        if cur_idx == -1:
-            if not irrep=="":
-                raise RuntimeError("Error: could not find matrices for " + str(irrep) + " states in " + output_file)
-            else:
-                raise RuntimeError("Error: could not find matrices for in " + output_file)
-        nstates = int(filedata[cur_idx].split()[-2])     
-        # zeroth order hamiltonian first
-        while "Zeroth order Hamiltonian" not in filedata[cur_idx]:
-            cur_idx+=1
-        cur_idx+=1
-        H0 = []
-        for i in range(0,nstates):
-            l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            H0+=l1
-            cur_idx+=1
-        H0 = np.reshape(H0,(nstates,nstates))
-        # now CAP matrix
-        cur_idx+=1
-        W = []
-        for i in range(0,nstates):
-            l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            W+=l1
-            cur_idx+=1
-        W = np.reshape(W,(nstates,nstates))
-        assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0) 
+            elif "The imaginary part of the CAP subspace matrix, onset=" + str(onset) in filedata[i]:
+                method="adc"
+                break
+        if method=="eomcc":
+            self._init_from_qchem_eomcc(output_file,irrep)
+        elif method=="adc":
+            self._init_from_qchem_adc(output_file,onset)
+        else:
+            raise RuntimeError("Error: Incompatible Q-Chem output.")
 
     def _init_from_opencap_output(self,output_file):
         with open(output_file, 'r') as file:
