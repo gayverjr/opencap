@@ -56,7 +56,6 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	system = my_sys;
 	try
 	{
-		std::cout << "Number of basis functions:" << my_sys.bs.Nbasis << std::endl;
 		python = false;
 		verify_method(params);
 		parameters=params;
@@ -71,7 +70,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	}
 }
 
-CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_ordering)
+CAP::CAP(System my_sys, py::dict dict, size_t num_states)
 {
 	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
 			"r_cut","radial_precision","angular_points"};
@@ -96,14 +95,6 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states, std::string gto_orderi
 		nstates = num_states;
 		if(num_states<1)
 			opencap_throw("Error: not enough states to run calculation.");
-		std::transform(gto_ordering.begin(), gto_ordering.end(), gto_ordering.begin(), ::tolower);
-		if(!(gto_ordering=="psi4"||gto_ordering=="qchem" || gto_ordering=="pyscf")||gto_ordering=="molden")
-			opencap_throw("Error: " + gto_ordering + " ordering is unsupported.");
-		parameters["package"] = gto_ordering;
-		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
-				std::vector<Eigen::MatrixXd>(nstates));
-		beta_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
-				std::vector<Eigen::MatrixXd>(nstates));
     }
     catch(exception &e)
     {
@@ -176,7 +167,10 @@ void CAP::read_in_zero_order_H()
 	}
 	else if (compare_strings(parameters["package"],"openmolcas") && parameters.find("molcas_output")!=parameters.end())
 	{
-		ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
+		if(parameters["method"]=="ms-caspt2" || parameters["method"]=="xms-caspt2")
+			ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
+		else if(parameters["method"]=="sc-nevpt2" || parameters["method"]=="pc-nevpt2")
+			ZERO_ORDER_H = read_nevpt2_heff(nstates,parameters["molcas_output"],parameters["method"]);
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["molcas_output"];
 		if(python)
 			py::print(message);
@@ -333,37 +327,36 @@ void CAP::renormalize()
 		py::print("Error: no overlap matrix to use for re-normalization. Use \"read_data\" first, or"
 				" use the \"renormalize_cap\" function instead.");
 	else
-		renormalize_cap(OVERLAP_MAT,"opencap");
+		renormalize_cap(OVERLAP_MAT,"molden");
 }
 
 void CAP::verify_method(std::map<std::string,std::string> params)
 {
-	std::string package_name;
 	if (!python)
 	{
 		if(params.find("nstates")==params.end())
 			opencap_throw("Error: missing the 'nstates' keyword. "
 					"Please specify the number of electronic states.")
-		package_name = params["package"];
 	}
-	else
-		package_name = parameters["package"];
+	if(params.find("package")==params.end())
+		opencap_throw("Error: missing the 'package' keyword. "
+				"Please choose a supported package.");
+	std::string package_name = params["package"];
 	if(params.find("method")==params.end())
 		opencap_throw("Error: missing the 'method' keyword. "
-				"Please choose a supported package/method.");
+				"Please choose a supported method.");
 	std::string method = params["method"];
-	std::transform(method.begin(), method.end(), method.begin(), ::tolower);
 	if (compare_strings(package_name,"qchem"))
 	{
 		std::vector<std::string> supported = {"eom","tddft"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
-			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom'.");
+			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom','tddft'");
 		if (params.find("qchem_fchk")==params.end())
 			opencap_throw("Error: missing keyword: qchem_fchk.");
 	}
 	else if(compare_strings(package_name,"openmolcas"))
 	{
-		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2"};
+		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 			opencap_throw("Error: unsupported OpenMolcas method. OpenCAP currently supports: 'ms-caspt2','xms-caspt2'");
 		if (params.find("rassi_h5")==params.end())
@@ -435,6 +428,14 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 		Eigen::MatrixXd &beta_density,size_t row_idx, size_t col_idx,
 		std::string ordering,std::string basis_file)
 {
+	// if this is the first one, we need to create the data structures
+	if(alpha_dms.size()!=nstates)
+	{
+		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
+		beta_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
+	}
 	Eigen::MatrixXd alpha_dm = alpha_density;
 	Eigen::MatrixXd beta_dm = beta_density;
 	if(!(alpha_dm.cols() == alpha_dm.rows() && alpha_dm.cols() == system.bs.Nbasis &&
@@ -466,6 +467,14 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string ordering,
 		std::string basis_file)
 {
+	// if this is the first one, we need to create the data structures
+	if(alpha_dms.size()!=nstates)
+	{
+		alpha_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
+		beta_dms = std::vector<std::vector<Eigen::MatrixXd>>(nstates,
+				std::vector<Eigen::MatrixXd>(nstates));
+	}
 	Eigen::MatrixXd dmat;
 	dmat = 0.5 * tdm;
 	if(!(dmat.cols() == dmat.rows()&& dmat.cols() == system.bs.Nbasis))
@@ -494,7 +503,7 @@ void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string
 
 void CAP::read_electronic_structure_data(py::dict dict)
 {
-	std::vector<std::string> valid_keywords = {"method","qchem_output","rassi_h5","qchem_fchk","molcas_output"};
+	std::vector<std::string> valid_keywords = {"method","qchem_output","rassi_h5","qchem_fchk","molcas_output","package"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)
     {

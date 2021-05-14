@@ -91,7 +91,7 @@ public:
 	 *\param gto_ordering: Name of electronic structure package
 	 *\param dict: Python dictionary containing parameters
 	 */
-	CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
+	CAP(System my_sys,py::dict dict,size_t num_states);
 	/** Returns CAP matrix in AO basis.
 	 */
 	Eigen::MatrixXd get_ao_cap();

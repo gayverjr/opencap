@@ -284,6 +284,90 @@ class CAPHamiltonian():
         self.W = W
         self.nstates = len(H0)
 
+    def _init_from_qchem_eomcc(self,output_file,irrep=""):
+        with open(output_file, 'r') as file:
+            filedata = file.readlines()
+        cur_idx = -1
+        nstates = 0
+        for i in range(0,len(filedata)):
+            if "Performing Projected CAP-EOM calculation for " + str(irrep) in filedata[i]:
+                cur_idx = i+1
+                break
+        if cur_idx == -1:
+            if not irrep=="":
+                raise RuntimeError("Error: could not find matrices for " + str(irrep) + " states in " + output_file)
+            else:
+                raise RuntimeError("Error: could not find matrices in " + output_file)
+        nstates = int(filedata[cur_idx].split()[-2])     
+        while "Zeroth order Hamiltonian" not in filedata[cur_idx] and cur_idx<len(filedata):
+            cur_idx+=1
+        cur_idx+=1
+        H0 = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            H0+=l1
+            cur_idx+=1
+        H0 = np.reshape(H0,(nstates,nstates))
+        cur_idx+=1
+        W = []
+        for i in range(0,nstates):
+            l1 = filedata[cur_idx].split()
+            l1= [float(x) for x in l1]
+            W+=l1
+            cur_idx+=1
+        W = np.reshape(W,(nstates,nstates))
+        assert H0.shape == W.shape
+        self.H0 = H0
+        self.W = W
+        self.nstates = len(H0) 
+
+    def _init_from_qchem_adc(self,output_file, onset=""):
+        with open(output_file, 'r') as file:
+            filedata = file.readlines()
+        cur_idx = -1
+        found = False
+        for i in range(0,len(filedata)):
+            if "Hamiltonian subspace matrix" in filedata[i]:
+                cur_idx = i+1
+                found = True
+                break
+        if not found:
+            raise RuntimeError("Error: could not find matrices in " + output_file)
+        H0 = []
+        while cur_idx < len(filedata):
+            l1 = filedata[cur_idx].split()
+            try:
+                l1= [float(x) for x in l1]
+                H0+=l1
+                cur_idx+=1
+            except:
+                break
+        nstates = len(H0)
+        H0 = np.reshape(H0,(nstates,nstates))
+        found = False
+        for i in range(0,len(filedata)):
+            if "The imaginary part of the CAP subspace matrix, onset=" + str(onset) in filedata[i]:
+                cur_idx = i+1
+                found = True
+                break
+        if not found:
+            raise RuntimeError("Error: could not find matrices in " + output_file)
+        W = []
+        while cur_idx < len(filedata):
+            l1 = filedata[cur_idx].split()
+            try:
+                l1= [float(x) for x in l1]
+                W+=l1
+                cur_idx+=1
+            except:
+                break
+        W = np.reshape(W,(nstates,nstates))
+        assert H0.shape == W.shape
+        self.H0 = H0
+        self.W = W
+        self.nstates = len(H0) 
+
     def _init_from_qchem_output(self,output_file,irrep=""):
         with open(output_file, 'r') as file:
             filedata = file.readlines()

@@ -61,4 +61,5 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms);
  * \return Geometry specified by rassi.h5 file
 */
 std::vector<Atom> read_geometry_from_rassi(std::string filename);
+Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method);
 #endif /* MOLCAS_INTERFACE_H_ */
