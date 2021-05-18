@@ -2,6 +2,7 @@ import pyopencap
 from pandas import DataFrame
 from pyscf import gto, scf, ci, ao2mo, tools, fci
 import numpy as np
+from pyopencap.analysis import CAPHamiltonian
 
 cap_dict = {
             "cap_type": "box",
@@ -9,18 +10,14 @@ cap_dict = {
             "cap_y":"6.00",
             "cap_z":"6.7",
 }
-nstates = 22
+nstates = 10
 
 # pyscf mol
-ghost_bas = gto.basis.load('H2_custom.bas', 'X')
-H_bas = gto.basis.load('H2_custom.bas', 'H')
 mol = gto.M(
-            atom = 'ghost 0.0000000000 0.0000000000 -0.7400000000; \
-            ghost 0.0000000000 0.0000000000 0.7400000000;          \
-            H 0.0000000000 0.0000000000 0.3705000000;           \
+            atom ='H 0.0000000000 0.0000000000 0.3705000000;  \
              H 0.0000000000 0.0000000000 -0.3705000000',
-             basis = {'H': H_bas, 'ghost': ghost_bas},
-             symmetry=True)
+             basis = "aug-cc-pvtz",
+             symmetry=True,verbose=5)
 mol.build()
 myhf = scf.RHF(mol)
 myhf.kernel()
@@ -36,11 +33,12 @@ s.check_overlap_mat(pyscf_smat,"pyscf")
 fs = fci.FCI(mol, myhf.mo_coeff)
 fs.nroots = nstates
 fs.spin = 0
+fs.wfnsym = 'A1g'
+fs = fci.addons.fix_spin_(fs)
 e, c = fs.kernel()
-print("Ground state energy:" + str(e[0]))
 
 # create cap object
-pc = pyopencap.CAP(s,cap_dict,nstates,"pyscf")
+pc = pyopencap.CAP(s,cap_dict,nstates)
 pc.compute_ao_cap()
 
 # fill density matrices
@@ -54,12 +52,12 @@ for i in range(0,len(fs.ci)):
         pc.add_tdm(dm1_ao,i,j,"pyscf")
 
 pc.compute_projected_cap()
-mat=pc.get_projected_cap()
+W=pc.get_projected_cap()
 
 print("Printing out matrices required for Projected CAP calculation.")
 print("Number of states: "+ str(nstates))
 print("Zeroth order Hamiltonian")
 print(DataFrame(h0).to_string(index=False, header=False))
 print("CAP matrix")
-print(DataFrame(mat).to_string(index=False, header=False))
+print(DataFrame(W).to_string(index=False, header=False))
 

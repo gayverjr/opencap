@@ -58,7 +58,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyopencap',
-    version='1.0.3',
+    version='1.1.0b1',
     author='James Gayvert',
     author_email='jrg444@gmail.com',
     description='Python bindings for OpenCAP',

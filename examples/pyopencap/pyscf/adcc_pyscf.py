@@ -25,7 +25,7 @@ cap_dict = {
 }
 
 nstates = 30
-pc = pyopencap.CAP(s,cap_dict,nstates,"pyscf")
+pc = pyopencap.CAP(s,cap_dict,nstates)
 
 
 ghost_bas = gto.basis.load('n2_nwchemformat.bas', 'X')
