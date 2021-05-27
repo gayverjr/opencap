@@ -54,20 +54,13 @@ SOFTWARE.
 CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 {
 	system = my_sys;
-	try
-	{
-		python = false;
-		verify_method(params);
-		parameters=params;
-		stringstream ss(parameters["nstates"]);
-		ss >> nstates;
-		read_in_zero_order_H();
-		read_in_dms();
-	}
-	catch(exception &e)
-	{
-		opencap_rethrow("Failed to initialize Projected CAP calculation.");
-	}
+	python = false;
+	verify_method(params);
+	parameters=params;
+	stringstream ss(parameters["nstates"]);
+	ss >> nstates;
+	read_in_zero_order_H();
+	read_in_dms();
 }
 
 CAP::CAP(System my_sys, py::dict dict, size_t num_states)
@@ -86,21 +79,13 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states)
     		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
 		params[key]=value;
     }
-    try
-    {
-    	AOCAP cap_integrator(system.atoms,params);
-		for (auto item: params)
-			parameters[item.first]=item.second;
-		system = my_sys;
-		nstates = num_states;
-		if(num_states<1)
-			opencap_throw("Error: not enough states to run calculation.");
-    }
-    catch(exception &e)
-    {
-    	throw ;
-    }
-
+    AOCAP cap_integrator(system.atoms,params);
+	for (auto item: params)
+		parameters[item.first]=item.second;
+	system = my_sys;
+	nstates = num_states;
+	if(num_states<1)
+		opencap_throw("Error: not enough states to run calculation.");
 }
 
 Eigen::MatrixXd CAP::read_h0_file()
@@ -151,14 +136,18 @@ Eigen::MatrixXd CAP::read_h0_file()
 
 void CAP::read_in_zero_order_H()
 {
+	std::string method = parameters["method"];
+	transform(method.begin(),method.end(),method.begin(),::tolower);
 	if (parameters.find("h0_file")!=parameters.end())
 		ZERO_ORDER_H = read_h0_file();
 	else if (compare_strings(parameters["package"],"qchem") && parameters.find("qchem_output")!=parameters.end())
 	{
-		if(parameters["method"]=="eom")
+		if(compare_strings(method,"eom"))
 			ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["method"],parameters["qchem_output"]);
-		else
+		else if (compare_strings(method,"tddft"))
 			ZERO_ORDER_H = read_qchem_tddft_energies(nstates,parameters["method"],parameters["qchem_output"]);
+		else
+			opencap_throw("Error: unsupported Q-Chem method. Currently EOM and TDDFT are supported.");
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
 		if(python)
 			py::print(message);
@@ -167,10 +156,12 @@ void CAP::read_in_zero_order_H()
 	}
 	else if (compare_strings(parameters["package"],"openmolcas") && parameters.find("molcas_output")!=parameters.end())
 	{
-		if(parameters["method"]=="ms-caspt2" || parameters["method"]=="xms-caspt2")
+		if(compare_strings(method,"ms-caspt2") || compare_strings(method,"xms-caspt2"))
 			ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
-		else if(parameters["method"]=="sc-nevpt2" || parameters["method"]=="pc-nevpt2")
-			ZERO_ORDER_H = read_nevpt2_heff(nstates,parameters["molcas_output"],parameters["method"]);
+		else if(compare_strings(method,"sc-nevpt2") || compare_strings(method,"pc-nevpt2"))
+			ZERO_ORDER_H = read_nevpt2_heff(nstates,parameters["molcas_output"],method);
+		else
+			opencap_throw("Error: unsupported OpenMolcas method. Currently (X)-MS-CASPT2, and PC/SC-NEVPT2 are supported.");
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["molcas_output"];
 		if(python)
 			py::print(message);
@@ -199,7 +190,7 @@ void CAP::read_in_dms()
 				py::print(message);
 			else
 				std::cout << message << std::endl;
-			qchem_read_dms(alpha_dms,beta_dms,parameters["qchem_fchk"],system.bs);
+			qchem_read_dms(alpha_dms,beta_dms,parameters["qchem_fchk"],system.bs,nstates);
 			message= "Done.";
 			if(python)
 				py::print(message);
@@ -346,11 +337,17 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 		opencap_throw("Error: missing the 'method' keyword. "
 				"Please choose a supported method.");
 	std::string method = params["method"];
+	transform(method.begin(),method.end(),method.begin(),::tolower);
 	if (compare_strings(package_name,"qchem"))
 	{
 		std::vector<std::string> supported = {"eom","tddft"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
-			opencap_throw("Error: unsupported Q-Chem method. OpenCAP currently supports: 'eom','tddft'");
+		{
+			std::string message = "Error: unsupported Q-Chem method. OpenCAP currently supports: ";
+			for (auto mthd: supported)
+				message += mthd + ", ";
+			opencap_throw(message);
+		}
 		if (params.find("qchem_fchk")==params.end())
 			opencap_throw("Error: missing keyword: qchem_fchk.");
 	}
@@ -358,7 +355,12 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 	{
 		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
-			opencap_throw("Error: unsupported OpenMolcas method. OpenCAP currently supports: 'ms-caspt2','xms-caspt2'");
+		{
+			std::string message = "Error: unsupported OpenMolcas method. OpenCAP currently supports: ";
+			for (auto mthd: supported)
+				message += mthd + ", ";
+			opencap_throw(message);
+		}
 		if (params.find("rassi_h5")==params.end())
 			opencap_throw("Error: missing keyword: rassi_h5.");
 	}

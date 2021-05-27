@@ -3,7 +3,7 @@ molecule qchem_fchk
 basis_file ../tests/qchem/EA.fchk
 $end
 
-$perturb_cap
+$projected_cap
 method EOM
 package qchem
 qchem_fchk ../tests/qchem/EA.fchk
@@ -16,9 +16,3 @@ CAP_Z 4.88
 Radial_precision  14
 Angular_points    110
 $end
-
-$job
-title Q-Chem EOMEA specified with molden basis
-jobtype perturb_cap
-$end
-

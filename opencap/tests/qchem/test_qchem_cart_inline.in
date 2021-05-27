@@ -11,7 +11,7 @@ bohr_coordinates true
 cart_bf  dfg
 $end
 
-$perturb_cap
+$projected_cap
 method EOM
 package qchem
 qchem_fchk ../tests/qchem/EE_cart.fchk
@@ -24,9 +24,3 @@ CAP_Z 4.88
 Radial_precision  14
 Angular_points    110
 $end
-
-$job
-title Q-Chem EOMEE with cartesian GTOs specified inline
-jobtype perturb_cap
-$end
-

@@ -1,3 +1,29 @@
+'''Copyright (c) 2020 James Gayvert
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'''
+
+'''
+CAP/ADC(2) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh]. Requires ADCC.
+See https://adc-connect.org/
+'''
+
 import adcc
 import numpy as np
 from adcc.State2States import State2States
@@ -83,6 +109,8 @@ def basisspec_psi4_yo__anonymous03952cbd(mol, role):
         0.0144000              1.0000000
         S   1   1.00
         0.0072000              1.0000000
+        S   1   1.00
+        1.00D-08               1.0000000
         P   1   1.00
         0.0245500              1.0000000
         P   1   1.00
@@ -168,12 +196,10 @@ for i in range(0,nstates):
 pc.compute_projected_cap()
 W = pc.get_projected_cap()
 
-print("Printing out matrices required for Projected CAP calculation.")
-print("Number of states: " + str(nstates))
-print("Zeroth order Hamiltonian")
-print(DataFrame(h0).to_string(index=False, header=False))
-print("CAP Matrix")
-print(DataFrame(W).to_string(index=False, header=False))
+from pyopencap.analysis import CAPHamiltonian as CAPH
+my_CAPH = CAPH(H0=h0,W=W)
+
+my_CAPH.export("n2_adc_opencap.out")
 
 end = time.time()
 print("Time:")

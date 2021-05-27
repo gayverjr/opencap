@@ -14,8 +14,3 @@ CAP_X 2.76
 CAP_Y 2.76
 CAP_Z 4.88
 $end
-
-$trajectory
-ETA_STEP 10
-NSTEPS 200
-$end
