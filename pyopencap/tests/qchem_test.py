@@ -38,64 +38,68 @@ cap_dict = {
 def test_EE():
     sys_dict = {"molecule": "qchem_fchk",
 "basis_file": destDir+"/EE.fchk"}
-    es_dict = {"method" : "EOMEE",
+    es_dict = {"method" : "EOM",
+            "package": "qchem",
         "qchem_output":destDir+"/EE.out",
             "qchem_fchk":destDir+"/EE.fchk",
 }
     s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
+    pc = pyopencap.CAP(s,cap_dict,3)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
     h0 = pc.get_H()
 
 def test_EA():
     sys_dict = {"molecule": "qchem_fchk",
 "basis_file": destDir+"/EA.fchk"}
-    es_dict = {"method" : "EOMEA",
+    es_dict = {"method" : "EOM",
+            "package": "qchem",
         "qchem_output":destDir+"/EA.out",
             "qchem_fchk":destDir+"/EA.fchk",
 }
     s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
+    pc = pyopencap.CAP(s,cap_dict,3)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
-    h0 = pc.get_H()
-
-def test_IP():
-    sys_dict = {"molecule": "qchem_fchk",
-"basis_file": destDir+"/IP.fchk"}
-    es_dict = {"method" : "EOMIP",
-        "qchem_output":destDir+"/IP.out",
-            "qchem_fchk":destDir+"/IP.fchk",
-}
-    s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
-    pc.read_data(es_dict)
-    pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
     h0 = pc.get_H()
 
 def test_EE_cart():
     sys_dict = {"molecule": "qchem_fchk",
 "basis_file": destDir+"/EE_cart.fchk"}
-    es_dict = {"method" : "EOMEE",
+    es_dict = {"method" : "EOM",
+            "package": "qchem",
         "qchem_output":destDir+"/EE_cart.out",
             "qchem_fchk":destDir+"/EE_cart.fchk",
 }
     s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
+    pc = pyopencap.CAP(s,cap_dict,3)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.renormalize()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
     h0 = pc.get_H()
 
+def test_tddft():
+    sys_dict = {"molecule": "qchem_fchk",
+"basis_file": destDir+"/tddft.fchk"}
+    es_dict = {"method" : "tddft",
+        "package": "qchem",
+        "qchem_output":destDir+"/tddft.out",
+            "qchem_fchk":destDir+"/tddft.fchk",
+}
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,4)
+    pc.read_data(es_dict)
+    pc.compute_ao_cap()
+    pc.renormalize()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
+    h0 = pc.get_H()
 
 
 

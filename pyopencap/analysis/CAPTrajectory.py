@@ -504,7 +504,9 @@ class CAPHamiltonian():
            self.H0,self.W = _delete_indices(self._H0,self._W,exclude_states)
            self.nstates = len(self.H0)
         elif include_states is not None:
-            self.H0,self.W = _delete_indices(self.H0,self.W,[i for i in range(0,self._nstates)]-include_states)
+            all_states = [i for i in range(0,self._nstates)]
+            exclude_states = [item for item in all_states if item not in include_states]
+            self.H0,self.W = _delete_indices(self._H0,self._W,exclude_states)
             self.nstates = len(self.H0)
         else:
             self.H0 = self._H0
