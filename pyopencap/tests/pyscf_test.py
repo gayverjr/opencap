@@ -28,7 +28,7 @@ destDir="../opencap/tests/data"
 sys_dict = {"geometry":'''H        0.0     0.0     0.54981512
     H        0.0     0.0     -0.54981512
     X       0.0     0.0     0.0''',
-        "basis_file":destDir+"/test_basis_for_pyscf.bas",
+        "basis_file":destDir+"/pyscf_basis.bas",
         "molecule": "inline"
 }
 cap_dict = {
@@ -41,9 +41,8 @@ cap_dict = {
 }
 sys_dict2 = { "molecule": "molden", "basis_file": destDir+"/molden_file.molden"}
 
-s = pyopencap.System(sys_dict)
-H_bas = gto.basis.load(destDir+'/pyscf_test_basis.bas', 'H')
-X_bas = gto.basis.load(destDir+'/pyscf_test_basis.bas', 'O')
+H_bas = gto.basis.load(destDir+'/pyscf_basis.nw', 'H')
+X_bas = gto.basis.load(destDir+'/pyscf_basis.nw', 'O')
 mol = gto.M(
             atom = 'H        0.0     0.0     0.54981512;\
             H        0.0     0.0     -0.54981512;\
@@ -55,18 +54,20 @@ myhf = scf.RHF(mol)
 myhf.kernel()
 
 def test_overlap():
+    s = pyopencap.System(sys_dict)
     pyscf_smat = scf.hf.get_ovlp(mol)
     s.check_overlap_mat(pyscf_smat,"pyscf")
 
 def test_from_molden():
     tools.molden.from_scf(myhf,destDir+"/molden_file.molden")
-    s2 = pyopencap.System(sys_dict2)
+    s = pyopencap.System(sys_dict2)
     pyscf_smat = scf.hf.get_ovlp(mol)
-    s2.check_overlap_mat(pyscf_smat,"pyscf")
+    s.check_overlap_mat(pyscf_smat,"pyscf")
     os.remove(destDir+"/molden_file.molden")
 
 def test_pyscf():
-    pc = pyopencap.CAP(s,cap_dict,3,"pyscf")
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,3)
     fs = fci.FCI(mol, myhf.mo_coeff)
     fs.nroots = 3
     e, c = fs.kernel()
@@ -75,5 +76,4 @@ def test_pyscf():
             dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao,i,j,"pyscf")
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()

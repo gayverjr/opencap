@@ -38,6 +38,7 @@ cap_dict = {
             "angular_points": "110"
 }
 es_dict = {"method" : "ms-caspt2",
+           "package": "openmolcas",
            "molcas_output":destDir+"/symm.out",
            "rassi_h5":destDir+"/symm.rassi.h5",
 }
@@ -46,19 +47,19 @@ s2 = pyopencap.System(molden_dict)
 f = h5py.File(destDir+"/symm.rassi.h5", 'r')
 
 def test_rassi():
-    pc = pyopencap.CAP(s1,cap_dict,3,"openmolcas")
+    pc = pyopencap.CAP(s1,cap_dict,3)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
     h0 = pc.get_H()
 
 def test_molden():
-    pc = pyopencap.CAP(s2,cap_dict,3,"openmolcas")
+    pc = pyopencap.CAP(s2,cap_dict,3)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    mat=pc.get_projected_cap()
     h0 = pc.get_H()
 
 
