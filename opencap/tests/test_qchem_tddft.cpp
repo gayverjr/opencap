@@ -20,8 +20,7 @@ SOFTWARE.
 */
 
 /*
- * test_qchem_ip.cpp
- *
+ * test_qchem_ee.cpp
  */
 #include <iostream>
 #include <vector>
@@ -42,12 +41,12 @@ SOFTWARE.
 
 int main()
 {
-	std::string input_filename = "../tests/qchem/test_qchem_ip.in";
+	std::string input_filename = "../tests/qchem/test_qchem_tddft.in";
 	try
 	{
 		std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 		std::map<std::string,std::string> params = std::get<1>(inp_data);
-			CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));
+			CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
 			pc.run();
 	}
 	catch (exception& e)

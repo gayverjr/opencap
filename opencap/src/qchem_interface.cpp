@@ -96,7 +96,7 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
     	for(size_t i=0;i<ntdm;i++)
     	{
 			//alpha first, then beta
-			for (size_t spin=1;spin<=2;spin++)
+			for (size_t spin=0;spin<=do_spin;spin++)
 			{
 				while(line.find("Transition DM")== std::string::npos)
 				{
@@ -121,8 +121,12 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
 				Eigen::MatrixXd st_opdm(bs.Nbasis,bs.Nbasis);
 				fill_mat<double>(matrix_elements,st_opdm);
 				to_opencap_ordering(st_opdm,bs,get_qchem_ids(bs));
-				if(spin==1)
+				if(spin==0)
+				{
 					alpha_tdms.push_back(st_opdm);
+					if(!do_spin)
+						beta_tdms.push_back(st_opdm);
+				}
 				else
 					beta_tdms.push_back(st_opdm);
 			}
@@ -166,7 +170,7 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
 
 void qchem_read_dms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_dms,
 		std::vector<std::vector<Eigen::MatrixXd>> &beta_dms,
-		std::string fchk_filename, BasisSet &bs)
+		std::string fchk_filename, BasisSet &bs,size_t num_states)
 {
 	std::ifstream is(fchk_filename);
 	size_t nstates = 0;
@@ -227,7 +231,14 @@ void qchem_read_dms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_dms,
 		}
 		is.close();
 		if(nstates==0)
-			opencap_throw("Error:Unable to find any densities in:" +fchk_filename);
+		{
+			opencap_throw("Error: Unable to find any densities in:" +fchk_filename);
+		}
+		else if(nstates!=num_states)
+		{
+			opencap_throw("Error: number of states found: " + std::to_string(nstates) + ", does not match "
+					"number of states specified in the input: " + std::to_string(num_states)+ ". Exiting...");
+		}
 		qchem_parse_fchk_dms(fchk_filename,alpha_dms,beta_dms,nstates,num_tdm,bs,symmetric_rdm,sep_alpha_beta);
 	}
 	else
@@ -285,7 +296,8 @@ Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string method,std:
     	while (state_idx<nstates)
     	{
     		if (is.peek()==EOF)
-    			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found.");
+    			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found. "
+    					"Only " + std::to_string(state_idx) + " states were found. Exiting...");
     		if (line.find("Total energy in the final basis set")!= std::string::npos)
     			ZERO_ORDER_H(0,0) = std::stod(split(line,' ')[8]);
 			if (line.find("Total energy for state")!= std::string::npos)
@@ -317,7 +329,8 @@ Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string method,std::s
     	while (state_idx<=nstates)
     	{
     		if (is.peek()==EOF)
-    			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found.");
+    			opencap_throw("Error: Reached end of file before "+ std::to_string(nstates) + " energies were found. "
+    					"Only " + std::to_string(state_idx) + " states were found. Exiting...");
 			if (line.find("Total energy")!= std::string::npos && line.find("Excitation energy")!= std::string::npos)
 			{
 					ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
@@ -546,6 +559,5 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
     bs.normalize();
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto total_time = std::chrono::duration<double>(stop-start).count();
-	std::cout << "Read basis in :" << total_time << std::endl;
     return bs;
 }

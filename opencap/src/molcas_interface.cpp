@@ -186,8 +186,6 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
     		beta_opdms[i][j]= beta_opdms[j][i];
     	}
     }
-    std::cout << "NSTATES:" << nstates << std::endl;
-    std::cout << alpha_opdms.size() << std::endl;
     if(alpha_opdms.size()!=nstates)
     	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
     			+ std::to_string(nstates) + " states were specified.");
@@ -300,9 +298,9 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)
 {
 	std::string line_to_find;
-	if(method=="pc-nevpt2")
+	if(compare_strings(method,"pc-nevpt2"))
 		line_to_find = "Zero + second order effective Hamiltonian (PC)";
-	else if(method=="sc-nevpt2")
+	else if(compare_strings(method,"sc-nevpt2"))
 		line_to_find = "Zero + second order Effective Hamiltonian (SC)";
 	else
 		opencap_throw("Either pc-nevpt2 or sc-nevpt2 should be selected.");
@@ -315,6 +313,8 @@ Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::stri
 		std::getline(is,line);
 		while (line.find(line_to_find)== std::string::npos && is.peek()!=EOF)
 			std::getline(is,line);
+		if(is.peek()==EOF)
+			opencap_throw("Error: Unable to find QD-NEVPT2 effective Hamiltonian.");
 		std::getline(is,line);
 		std::getline(is,line);
 		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;

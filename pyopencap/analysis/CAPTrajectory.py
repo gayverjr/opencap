@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import linalg as LA
+import warnings
 
 # https://physics.nist.gov/cgi-bin/cuu/Value?hrev
 au2eV = 27.211386245988
@@ -121,17 +122,20 @@ class EigenvalueTrajectory():
             self.corrected_energies.append(self.uncorrected_energies[i]-self.etas[i]*derivs[i])
 
 
-    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1):
+    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1,ref_energy=None, units="au"):
         '''
         Finds optimal cap strength parameter for eigenvalue trajectory, as defined by eta_opt = min|eta*dE/deta|.
+        
+        The range of self.etas[start_idx:end_idx] (in python slice notation) is searched for the optimal value of CAP strength parameter.
     
         Parameters
         ----------
         corrected: bool, default=False
             Set to true if searching for stationary point on corrected trajectory
         start_idx: int, default=1
-            Point on trajectory to begin the search for the optimal value of eta
+            Starting slice index
         end_idx: int, default=1
+            Ending slice index
         
         Returns
         -------
@@ -139,17 +143,31 @@ class EigenvalueTrajectory():
             Complex energy at optimal value of eta
         eta_opt: float
             Optimal value of eta
+        ref_energy: float, default=None
+            Reference energy to define excitation energy.
+        units: str, default="au"
+            Options are "au" or "eV"
         '''
+        if units=="au":
+            scaling_factor = 1.0
+        elif units=="eV":
+            scaling_factor = au2eV
         if corrected:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.corrected_energies)/np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
-            return self.corrected_energies[opt_idx],self.etas[opt_idx]
+            E = self.corrected_energies[opt_idx]
+            if ref_energy is not None:
+                E = (E-ref_energy)*scaling_factor
+            return E,self.etas[opt_idx]
         else:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.uncorrected_energies)/np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
-            return self.uncorrected_energies[opt_idx],self.etas[opt_idx]
+            E = self.uncorrected_energies[opt_idx]
+            if ref_energy is not None:
+                E = (E-ref_energy)*scaling_factor
+            return E,self.etas[opt_idx]
 
     def energies_ev(self,ref_energy,corrected=False):
         '''
@@ -175,8 +193,48 @@ class EigenvalueTrajectory():
         for E in E_hartree:
             E_eV.append((E-ref_energy)*au2eV)
         return E_eV
+    
+    def get_energy(self,eta,corrected=False,ref_energy=None,units="au"):
+        '''
+        Returns total energy at given value of eta. 
+        
+        Note that if the eta provided is not in self.etas, the nearest value will be used.
 
-    def get_logarithmic_velocity(self,corrected=False):
+        Parameters
+        ----------
+        eta: float
+            Value of CAP strength parameter
+        corrected: bool, default=False
+            Set to true if analyzing corrected trajectory
+        ref_energy: float, default=None
+            Reference energy to define excitation energy.
+        units: str, default="au"
+            Options are "au" or "eV"
+        '''
+        if units=="au":
+            scaling_factor = 1.0
+        elif units=="eV":
+            scaling_factor = au2eV
+        else:
+            raise RuntimeError("Invalid unit. Options are au or eV.")
+        if eta in self.etas:
+            idx = self.etas.index(eta)
+        else:
+            idx = np.nanargmin(np.abs(np.asarray(self.etas) - eta))
+            warnings.warn("Warning: "+str(eta) + " is not in the list of values for this trajectory." \
+                +" Defaulting to nearest value of " + str(self.etas[idx]))
+        if ref_energy is not None:
+            if corrected:
+                return (self.corrected_energies[idx]-ref_energy)*scaling_factor
+            else:
+                return (self.uncorrected_energies[idx]-ref_energy)*scaling_factor
+        else:
+            if corrected:
+                return self.corrected_energies[idx]
+            else:
+                return self.uncorrected_energies[idx]
+
+    def get_logarithmic_velocities(self,corrected=False):
         '''
         Returns eta*dE/deta for each point on eigenvalue trajectory. 
 
@@ -202,7 +260,11 @@ class EigenvalueTrajectory():
 
 class CAPHamiltonian():
     '''
-    Projected CAP Hamiltonian handler for generating eigenvalue trajectories.
+    Projected CAP Hamiltonian handler for generating eigenvalue trajectories. 
+
+    The instance variables H0,W etc. are only set after `run_trajectory` is executed. The original matrices 
+    passed/parsed when the object is constructed are stored in _H0, _W, etc. This makes it easy to run multiple 
+    trajectories with different states included in the projection scheme without having to construct a new object.
     
     Attributes
     ----------
@@ -224,11 +286,11 @@ class CAPHamiltonian():
         H0 = np.array(H0)
         W = np.array(W)
         assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0)
+        self._H0 = H0
+        self._W = W
+        self._nstates = len(H0)
     
-    def __init__(self,H0=None,W=None,**kwargs):
+    def __init__(self,H0=None,W=None,output=None,irrep="",onset=""):
         '''
         Initializes CAPHamiltonian object from H0 and W matrix in state basis.
 
@@ -244,47 +306,29 @@ class CAPHamiltonian():
             Zeroth order Hamiltonian in state basis
         W: np.ndarray of float: default=None
             CAP matrix in state basis. -1 prefactor is assumed.
+        output: str: default=None
+            Path to Q-Chem or OpenCAP output file.
+        irrep: str: default=None
+            Title of irreducible representation of state of interest. Only compatible with Q-Chem projected CAP-EOM-CC outputs.
+        onset: str: default=None
+            Title of CAP onset. Only compatible with Q-Chem projected CAP-ADC outputs.
+
         '''
         if H0 is not None and W is not None:
             self._init_from_matrices(H0,W)
-        elif "h0_data" in kwargs and "W_data" in kwargs:
-            self._init_from_data_files(kwargs["h0_data"],kwargs["W_data"])
-        elif "opencap_output" in kwargs:
-            self._init_from_opencap_output(kwargs["opencap_output"])
-        elif "qchem_output" in kwargs:
-            if "irrep" in kwargs:
-                self._init_from_qchem_output(kwargs["qchem_output"],irrep=kwargs["irrep"])
-            elif "onset" in kwargs:
-                self._init_from_qchem_output(kwargs["qchem_output"],onset=kwargs["onset"])
-            else:
-                self._init_from_qchem_output(kwargs["qchem_output"])
+        elif output is not None:
+            with open(output, 'r') as file:
+                filedata = file.readlines()
+                for l in filedata:
+                    if "Welcome to OpenCAP" in l:
+                        self._init_from_opencap_output(output)
+                        return
+                    elif "Welcome to Q-Chem" in l:
+                        self._init_from_qchem_output(output,irrep,onset)
+                        return
+            raise RuntimeError("Only Q-Chem and OpenCAP outputs are supported.")
         else:
-            raise RuntimeError("Error: Pass either H0 and W keyword arguments, or output_file keyword argument upon instantiation.")
-
-    def _init_from_data_files(self,h0_data_file,W_data_file):
-        f = open(h0_data_file,'r')
-        H0 = []
-        for l in f.readlines():
-            arr = l.split()
-            arr = [float(x) for x in arr]
-            H0+=arr
-        num_states = int(np.sqrt(len(H0)))
-        H0 = np.reshape(H0,(num_states,num_states))
-        f.close()
-        self.H0 = H0
-        f = open(W_data_file,'r')
-        W = []
-        for l in f.readlines():
-            arr = l.split()
-            arr = [float(x) for x in arr]
-            W+=arr
-        num_states = int(np.sqrt(len(W)))
-        W = np.reshape(W,(num_states,num_states))
-        f.close()
-        assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0)
+            raise RuntimeError("Error: Either pass H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file.")
 
     def _init_from_qchem_eomcc(self,output_file,irrep):
         with open(output_file, 'r') as file:
@@ -301,7 +345,7 @@ class CAPHamiltonian():
             else:
                 raise RuntimeError("Error: could not find matrices in " + output_file)
         nstates = int(filedata[cur_idx].split()[-2])     
-        while "Zeroth order Hamiltonian" not in filedata[cur_idx] and cur_idx<len(filedata):
+        while "zeroth order hamiltonian" not in filedata[cur_idx].lower() and cur_idx<len(filedata):
             cur_idx+=1
         cur_idx+=1
         H0 = []
@@ -320,9 +364,9 @@ class CAPHamiltonian():
             cur_idx+=1
         W = np.reshape(W,(nstates,nstates))
         assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0) 
+        self._H0 = H0
+        self._W = W
+        self._nstates = len(H0)
 
     def _init_from_qchem_adc(self,output_file,onset):
         with open(output_file, 'r') as file:
@@ -331,54 +375,65 @@ class CAPHamiltonian():
         found = False
         for i in range(0,len(filedata)):
             if "Hamiltonian subspace matrix" in filedata[i]:
-                cur_idx = i+1
+                cur_idx = i+2
                 found = True
                 break
         if not found:
             raise RuntimeError("Error: could not find matrices in " + output_file)
         H0 = []
-        while cur_idx < len(filedata):
+        done = False
+        nstates = 0
+        while cur_idx < len(filedata) and not done:
             l1 = filedata[cur_idx].split()
             try:
                 l1= [float(x) for x in l1]
-                H0+=l1
-                cur_idx+=1
+                if len(l1)>0:
+                    H0+=l1
+                    cur_idx+=1
+                    nstates+=1
+                else:
+                    done = True
             except:
-                break
-        nstates = len(H0)
+                done = True
         H0 = np.reshape(H0,(nstates,nstates))
         found = False
         for i in range(0,len(filedata)):
             if "The imaginary part of the CAP subspace matrix, onset=" + str(onset) in filedata[i]:
-                cur_idx = i+1
+                cur_idx = i+2
                 found = True
                 break
         if not found:
             raise RuntimeError("Error: could not find matrices in " + output_file)
         W = []
-        while cur_idx < len(filedata):
+        done = False
+        nstates = 0
+        while cur_idx < len(filedata) and not done:
             l1 = filedata[cur_idx].split()
             try:
                 l1= [float(x) for x in l1]
-                W+=l1
-                cur_idx+=1
+                if len(l1)>0:
+                    W+=l1
+                    cur_idx+=1
+                    nstates+=1
+                else:
+                    done = True
             except:
-                break
+                done = True
         W = np.reshape(W,(nstates,nstates))
         assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0) 
+        self._H0 = H0
+        self._W = W
+        self._nstates = len(H0)
 
-    def _init_from_qchem_output(self,output_file,onset="",irrep=""):
+    def _init_from_qchem_output(self,output_file,irrep,onset):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         method=""
         for i in range(0,len(filedata)):
-            if "Performing Projected CAP-EOM calculation for " + str(irrep) in filedata[i]:
+            if "Performing Projected CAP-EOM calculation for " in filedata[i]:
                 method="eomcc"
                 break
-            elif "The imaginary part of the CAP subspace matrix, onset=" + str(onset) in filedata[i]:
+            elif "The imaginary part of the CAP subspace matrix, onset=" in filedata[i]:
                 method="adc"
                 break
         if method=="eomcc":
@@ -419,29 +474,42 @@ class CAPHamiltonian():
             cur_idx+=1
         W = np.reshape(W,(nstates,nstates))
         assert H0.shape == W.shape
-        self.H0 = H0
-        self.W = W
-        self.nstates = len(H0)
+        self._H0 = H0
+        self._W = W
+        self._nstates = len(H0)
 
-    def run_trajectory(self,eta_list,cap_lambda=0.0,exclude_states=[]):
+    def run_trajectory(self,eta_list,cap_lambda=0.0,exclude_states=None,include_states=None):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
         CAP Hamiltonian is defined as H^CAP = H0 + i*eta*W - cap_lambda * W.
         W matrix is assumed to already have a -1 prefactor, as that is how OpenCAP output is formatted.
+        Recommended range for eta_list is between 1E-5 and 1E-2, though this can vary widely based on system and CAP shape.
         
         Parameters
         ----------
         eta_list: iterable object
-            List of eta values to use (recommended range is between 1E-5 and 1E-2, though this can vary widely based on system and CAP shape)
+            List of eta values to use 
         cap_lambda: float, default=0.0
             Real CAP strength to use for continuum remover CAP
+        exclude_states: list of int, default=None
+            List of states to exclude from subspace projection. Not compatible with include_states parameter.
+        include_states: list of int, default=None
+            List of states to include in subspace projection. Not compatible with exclude_states parameter.
+
         '''
-        if exclude_states is not []:
-           H0,W= _delete_indices(self.H0,self.W,exclude_states)
+        if exclude_states is not None and include_states is not None:
+            raise RuntimeError("Error: exclude_states and include_states keyword arguments are incompatible.")
+        if exclude_states is not None:
+           self.H0,self.W = _delete_indices(self._H0,self._W,exclude_states)
+           self.nstates = len(self.H0)
+        elif include_states is not None:
+            self.H0,self.W = _delete_indices(self.H0,self.W,[i for i in range(0,self._nstates)]-include_states)
+            self.nstates = len(self.H0)
         else:
-            H0 = self.H0
-            W = self.W
+            self.H0 = self._H0
+            self.W = self._W
+            self.nstates = self._nstates
         self._all_roots = []
         self.total_energies = []
         self.cap_lambda = cap_lambda
@@ -450,7 +518,7 @@ class CAPHamiltonian():
             eta=eta_list[i]
             self.etas.append(eta)
             roots = []
-            CAPH = H0 +1.0j * eta * W - cap_lambda*W
+            CAPH = self.H0 +1.0j * eta * self.W - cap_lambda*self.W
             eigv,eigvc=LA.eig(CAPH)
             for j,eig in enumerate(eigv):
                 roots.append(Root(eigv[j],eta,eigvc[:,j]))
@@ -461,15 +529,16 @@ class CAPHamiltonian():
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
-        CAP Hamiltonian is defined as H^CAP = H0 + i*eta*W - cap_lambda * W.
-        W matrix is assumed to already have a -1 prefactor, as that is how OpenCAP output is formatted.
+        CAP Hamiltonian is defined as H^CAP = H0 + i*eta*W - cap_lambda * W. 
+        CAP matrix W is assumed to already have a -1 prefactor.
         
         Parameters
         ----------
         state_idx: int
             Index of state to track
         tracking: str, default="overlap"
-            Method to use to track the state.
+            Method to use to track the state. Options are "overlap", which tracks based on eigenvector overlap, and "energy" which 
+            tracks based on energy.
 
         Returns
         -------
@@ -477,7 +546,7 @@ class CAPHamiltonian():
             Eigenvalue trajectory for further analysis.
         '''
         if len(self._all_roots) == 0:
-            raise RuntimeError("Nothing to track. Execute run_trajectory() first.")
+            raise RuntimeError("Nothing to track. Execute `run_trajectory` first.")
         traj = EigenvalueTrajectory(state_idx,self._all_roots[0],tracking=tracking)
         for i in range(1,len(self._all_roots)):
             traj._add_state(self._all_roots[i])
@@ -492,8 +561,6 @@ class CAPHamiltonian():
         ----------
         ref_energy: float
             Reference energy
-        corrected: bool, default=False
-            Set to true if analyzing corrected trajectory
         
         Returns
         -------
@@ -505,3 +572,26 @@ class CAPHamiltonian():
             E_eV.append((E-ref_energy)*au2eV)
         return E_eV
 
+    def export(self,finame):
+        '''
+        Exports Zeroth order Hamiltonian and CAP matrix to an OpenCAP formatted output file for further analysis. 
+        Useful for saving the results of an expensive electronic structure calculation performed in a python environment.
+
+        Parameters
+        ----------
+        finame: str
+            File handle to export data.
+        '''
+        from datetime import datetime
+        from pandas import DataFrame
+        now = datetime.now()
+        dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
+        with open(finame,'w') as f:
+            f.write("Welcome to OpenCAP: An open-source program for studying resonances in molecules.\n")
+            f.write("OpenCAP output file generated on: " + dt_string + "\n")
+            f.write("Printing out matrices required for Projected CAP calculation.\n") 
+            f.write("Number of states: " + str(self._nstates) +"\n")   
+            f.write("Zeroth order Hamiltonian\n")
+            f.write(DataFrame(self._H0).to_string(index=False, header=False))
+            f.write("\nCAP Matrix\n")
+            f.write(DataFrame(self._W).to_string(index=False, header=False))

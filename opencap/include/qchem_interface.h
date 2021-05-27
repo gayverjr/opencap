@@ -51,7 +51,7 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename);
 BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms);
 void qchem_read_dms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_dms,
 		std::vector<std::vector<Eigen::MatrixXd>> &beta_dms,
-		std::string fchk_filename,BasisSet &bs);
+		std::string fchk_filename,BasisSet &bs, size_t num_states);
 Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string method,std::string output_file);
 
 #endif /* QCHEM_INTERFACE_H_*/
