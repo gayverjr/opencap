@@ -20,7 +20,7 @@ SOFTWARE.
 '''
 
 '''
-CAP/TDDFT(omegaB97XD) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh].
+CAP/TDA-TDDFT(omegaB97XD) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh].
 '''
 
 import adcc
