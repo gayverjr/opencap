@@ -6,7 +6,7 @@ Input sections
 
 An OpenCAP input file has four sections: 
 
-$system, $projected_cap, $job, and optionally, $geometry
+$system and $projected_cap are required, $geometry and $trajectory are optional.
   
 Within each section, the user inserts keyword/value pairs which define the calculation.  
 All four sections have their own unique keywords, and all four must be specified to run a calculation. 
@@ -20,23 +20,15 @@ The general format is:
 
     $end
 
-In each section, the parser will read lines until it sees the $end keyword.  Only the first two arguments per line are read, so all remaining text can be used as comments. Additionally, lines beginning with an exclamation mark '!' are ignored. All input sections are case-insensitive.
-
-Job 
-====
-
-This section specifies what type of job is to be executed by the software. 
-
-__Required__
-| Keyword | Type | Description | Valid options |
-|:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| title | string | Title of job | N/A |
-| jobtype | string | Type of job to be executed | projected_cap |
+In each section, the parser will read lines until it sees the $end keyword.  
+Only the first two arguments per line are read, so all remaining text can be used as comments. 
+Additionally, lines beginning with an exclamation mark '!' are ignored. All input sections 
+(except for those referring to file paths) are case-insensitive.
 
 System
 =======
 
-The system section specifies information about the molecular system and the ab initio basis set. Basis sets can be downloaded from the [MolSSI](https://www.basissetexchange.org/) and modified to suit your purposes.
+The system section specifies information about the molecular system and the ab initio basis set. Basis sets can be downloaded from the [MolSSI basis set exchange](https://www.basissetexchange.org/) and modified to suit your purposes.
 
 __Required__
 | Keyword    | Valid options                     | Description                                                                                                                                                                                                                                                                                      |
@@ -63,7 +55,7 @@ Ghost centers with zero nuclear charge can be specified using the symbol "X".
 By default, units are assumed to be Angstroms.
 
 Projected_CAP
-===========
+============
 
 This section allows one to specify the parameters used to define the complex absorbing potential, 
 the data read in from the electronic structure calculation, and the grid used for numerical integration.
@@ -86,8 +78,8 @@ __Required__
 | Keyword | Type | Description | Valid options |
 |:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | cap_type | string | Type of absorbing potential| 'Box' or 'Voronoi'|
-| Method | string | Name of electronic structure method | For OpenMolcas: MS-CASPT2, XMS-CASPT2 |
-| Package | string | Name of electronic structure package | OpenMolcas |
+| Method | string | Name of electronic structure method | MS-CASPT2, XMS-CASPT2, TDDFT, EOM, SC-NEVPT2, PC-NEVPT2|
+| Package | string | Name of electronic structure package | OpenMolcas, Q-Chem |
 | Nstates | int | Number of electronic states | 2 or greater |
 
 __OpenMolcas Interface__
@@ -95,6 +87,12 @@ __OpenMolcas Interface__
 |---------------|--------|------------------------------------------------------------------------------------------------------|
 | rassi_h5 | string | Relative or absolute path to rassi.h5 file containing TDMs.  |
 | molcas_output | string | Relative or absolute path to OpenMolcas output file.  Required when h0_file keyword is unspecified.  |
+
+__QChem Interface__
+| Keyword | Type | Description |
+|---------------|--------|------------------------------------------------------------------------------------------------------|
+| qchem_fchk | string | Relative or absolute path to qchem .fchk file containing TDMs.  |
+| qchem_output | string | Relative or absolute path to Q-Chem output file.  Required when h0_file keyword is unspecified.  |
 
 __Box %CAP__
 
@@ -139,6 +137,19 @@ __Optional__
 | radial_precision| int | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used.  | 14  |
 | angular_points | int | Number of angular ponts used for the grid. See  https://github.com/dftlibs/numgrid for allowed numbers of points. | 590 |
 | h0_file | string | Relative or absolute path to formatted zeroth order Hamiltonian file.  Required when output from electronic structure package (e.g. molcas_output) is unspecified. | "" |
+
+Trajectory
+============
+One can generate eigenvalue trajectories within OpenCAP using the $trajectory field. One can 
+specify the range of \f$\eta\f$ values to be explored, and for each state, the minimum of 
+the logarithmic velocity will be printed in the output. States are tracked using eigenvector overlap.
+The entire trajectory can also be exported to a .data file using the save_trajectory keyword.
+
+| Keyword | Type | Description |
+|---------------|--------|------------------------------------------------------------------------------------------------------|
+| eta_step | float | \f$\eta\f$-step size, in 1E-5 bohr|
+| nsteps | int | Number of steps for eigenvalue trajectory|
+| save_trajectory | bool | Set to true if you want to save the trajectory, it will be saved to a .data file.|
 
 References
 ==========

@@ -12,10 +12,10 @@ parsing OpenMolcas output files to obtain the zeroth order Hamiltonian and retur
    .. automethod:: add_tdm
    .. automethod:: add_tdms
    .. automethod:: compute_ao_cap
-   .. automethod:: compute_perturb_cap
+   .. automethod:: compute_projected_cap
    .. automethod:: get_H
    .. automethod:: get_ao_cap
-   .. automethod:: get_perturb_cap  
+   .. automethod:: get_projected_cap  
    .. automethod:: read_data 
    .. automethod:: renormalize
    .. automethod:: renormalize_cap

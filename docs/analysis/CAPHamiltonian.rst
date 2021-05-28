@@ -16,11 +16,11 @@ The first is to pass H0 and W as numpy arrays:
 	CAPH = CAPHamiltonian(H0=h0,W=mat)
 
 The other is to read them in from an OpenCAP output file, or from a Q-Chem output file generated 
-by a Projected CAP-EOM-CC calculation. 
+by a Projected CAP-EOM-CC or Projected CAP-ADC calculation. 
 
 .. code-block:: python
 
-	CAPH = CAPHamiltonian(output_file="path/to/output.out")
+	CAPH = CAPHamiltonian(output="path/to/output.out")
 
 If one wishes to exclude some of the states from the analysis, this can be accomplished through the 
 by placing their indices in a list (starting from 0) and passing it into the 
@@ -30,6 +30,15 @@ by placing their indices in a list (starting from 0) and passing it into the
 
 	exclude_states = [2,5,7]
 	CAPH = CAPHamiltonian(H0=h0,W=mat,exclude_states=exclude_states)
+
+Similarly, the `include_states` argument includes only the desired states. Note that these two keywords 
+are incompatible.
+
+.. code-block:: python
+
+	include_states = [0,1,2,3,4]
+	CAPH = CAPHamiltonian(H0=h0,W=mat,include_states=include_states)
+
 
 Importantly, in all cases, **the W matrix is assumed to be pre-multiplied by a factor of -1.0**.
 
@@ -65,7 +74,8 @@ for more details.
 
 Visualization
 --------------
-The energies of all states computed are stored in the `all_energies` class attribute. This can 
+The energies of all states computed are stored in the `total_energies` instance variable of the 
+:class:`~pyopencap.analysis.CAPHamiltonian` object. This can 
 very useful for graphical searches e.g.
 
 .. code-block:: python

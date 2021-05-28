@@ -3,8 +3,7 @@ Overview
 
 OpenCAP is currently capable of processing quantum chemistry data in order to perform 'projected' complex absorbing potential calculations on metastable electronic states. These calculations are able to extract resonance position and width at the cost of a single bound-state electronic structure calculation. 
 
-We currently support an interface with the [OpenMolcas](https://molcas.gitlab.io/OpenMolcas/sphinx/) quantum chemistry package, which specializes in multi-reference wave functions. 
-There is also an experimental interface with the [Q-Chem](https://www.q-chem.com/) package for Q-Chem developers. Please contact us directly by writing to gayverjr@bu.edu if you are interested in using OpenCAP in tandem with Q-Chem.
+We currently support interfaces with the [OpenMolcas](https://molcas.gitlab.io/OpenMolcas/sphinx/) and [Q-Chem](https://www.q-chem.com/) quantum chemistry packages.
 
 If you have questions or need support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.
 
@@ -19,7 +18,11 @@ For information on constructing an input for OpenCAP, please see the <a href="in
 
 For information on the interface with OpenMolcas, please see the <a href="molcas.html">OpenMolcas</a> page.
 
+For information on the interface with Q-Chem, please see the <a href="qchem.html">Q-Chem</a> page.
+
 For some introductory theoretical background on resonances and complex absorbing potentials, please see the <a href="theory.html">theory</a> page.
+
+For our Python bindings and trajectory analysis tools, see the <a href="https://gayverjropencap.readthedocs.io/en/latest">PyOpenCAP </a> documentation.
 
 __Developers__
 

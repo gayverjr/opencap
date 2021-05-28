@@ -154,9 +154,11 @@ using the OpenMolcas and Q-Chem interfaces.
 | Keyword       | Description                                                                                          |
 +---------------+------------------------------------------------------------------------------------------------------+
 | method        | Electronic structure method used in the calculation. Valid options are "MS-CASPT2" and "XMS-CASPT2", |
-|               | "EOM", and "CIS".                                                                                    |
+|               | "EOM", and "TDDFT".                                                                                  |
 +---------------+------------------------------------------------------------------------------------------------------+
 | molcas_output | Path to OpenMolcas output file.                                                                      |
++---------------+------------------------------------------------------------------------------------------------------+
+| package       | "OpenMolcas" or "QChem"                                                                              |
 +---------------+------------------------------------------------------------------------------------------------------+
 | rassi_h5      | Path to OpenMolcas rassi.h5 file.                                                                    |
 +---------------+------------------------------------------------------------------------------------------------------+
@@ -175,6 +177,6 @@ Example:
     pc.read_data(es_dict)
 
 References
-==========
+-----------------
 .. [Sommerfeld2015] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.
 

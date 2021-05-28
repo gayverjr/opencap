@@ -5,11 +5,11 @@ of quantum chemistry packages to describe resonances. PyOpenCAP uses the pybind1
 to expose C++ classes and methods, allowing calculations to be driven within a Python interpreter. 
 
 PyOpenCAP is currently capable of processing quantum chemistry data in order to
-perform 'perturbative'/'projected' complex absorbing potential calculations on metastable electronic states. 
+perform 'projected' complex absorbing potential calculations on metastable electronic states. 
 These calculations are able to extract resonance position and width at the 
 cost of a single bound-state electronic structure calculation.
 
-To get started, please see our :ref:`tutorial <tutorial>`.
+To get started, please see our :ref:`Getting Started <getting_started>` page.
 
 If you have questions or need support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.
 
@@ -23,6 +23,16 @@ Supported Packages
 * OpenMolcas_
 * PySCF_
 * Q-Chem_
+* Psi4_
+
+Supported Methods
+=================
+
+* EOM-CC
+* FCI
+* (X)-MS-CASPT2
+* TDDFT
+* ADC (through ADCC_)
 
 Supported Potentials
 ====================
@@ -39,8 +49,6 @@ Other features
 
 In development
 ==================
-
-* interfaces to other packages such as Psi4_
 * Feshbach projection approaches
 
 .. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
@@ -49,7 +57,7 @@ In development
 .. _OpenCAP: https://github.com/gayverjr/opencap
 .. _pybind11: https://github.com/pybind/pybind11
 .. _Q-Chem: https://www.q-chem.com/
-
+.. _ADCC: https://adc-connect.org/
 
 Contents
 ========
@@ -58,7 +66,7 @@ Contents
    :maxdepth: 1
 
    install.rst
-   tutorial.rst
+   getting_started.rst
    theory.rst
    interfaces.rst
    analysis/analysis.rst
