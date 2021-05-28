@@ -122,7 +122,7 @@ class EigenvalueTrajectory():
             self.corrected_energies.append(self.uncorrected_energies[i]-self.etas[i]*derivs[i])
 
 
-    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1,ref_energy=None, units="au"):
+    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1,ref_energy=0.0, units="au"):
         '''
         Finds optimal cap strength parameter for eigenvalue trajectory, as defined by eta_opt = min|eta*dE/deta|.
         
@@ -136,6 +136,10 @@ class EigenvalueTrajectory():
             Starting slice index
         end_idx: int, default=1
             Ending slice index
+        ref_energy: float, default=0.0
+            Reference energy to define excitation energy.
+        units: str, default="au"
+            Options are "au" or "eV"
         
         Returns
         -------
@@ -143,30 +147,27 @@ class EigenvalueTrajectory():
             Complex energy at optimal value of eta
         eta_opt: float
             Optimal value of eta
-        ref_energy: float, default=None
-            Reference energy to define excitation energy.
-        units: str, default="au"
-            Options are "au" or "eV"
+
         '''
         if units=="au":
             scaling_factor = 1.0
         elif units=="eV":
             scaling_factor = au2eV
+        else:
+            raise RuntimeError("Units should be either au or eV.")
         if corrected:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.corrected_energies)/np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             E = self.corrected_energies[opt_idx]
-            if ref_energy is not None:
-                E = (E-ref_energy)*scaling_factor
+            E = (E-ref_energy)*scaling_factor
             return E,self.etas[opt_idx]
         else:
             derivs=np.array(self.etas)*np.absolute(np.gradient(self.uncorrected_energies)/np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             E = self.uncorrected_energies[opt_idx]
-            if ref_energy is not None:
-                E = (E-ref_energy)*scaling_factor
+            E = (E-ref_energy)*scaling_factor
             return E,self.etas[opt_idx]
 
     def energies_ev(self,ref_energy,corrected=False):
@@ -194,7 +195,7 @@ class EigenvalueTrajectory():
             E_eV.append((E-ref_energy)*au2eV)
         return E_eV
     
-    def get_energy(self,eta,corrected=False,ref_energy=None,units="au"):
+    def get_energy(self,eta,corrected=False,ref_energy=0.0,units="au"):
         '''
         Returns total energy at given value of eta. 
         
@@ -206,10 +207,15 @@ class EigenvalueTrajectory():
             Value of CAP strength parameter
         corrected: bool, default=False
             Set to true if analyzing corrected trajectory
-        ref_energy: float, default=None
+        ref_energy: float, default=0.0
             Reference energy to define excitation energy.
         units: str, default="au"
             Options are "au" or "eV"
+        
+        Returns
+        -------
+        E: float
+            Energy at given value of eta
         '''
         if units=="au":
             scaling_factor = 1.0
@@ -223,16 +229,10 @@ class EigenvalueTrajectory():
             idx = np.nanargmin(np.abs(np.asarray(self.etas) - eta))
             warnings.warn("Warning: "+str(eta) + " is not in the list of values for this trajectory." \
                 +" Defaulting to nearest value of " + str(self.etas[idx]))
-        if ref_energy is not None:
-            if corrected:
-                return (self.corrected_energies[idx]-ref_energy)*scaling_factor
-            else:
-                return (self.uncorrected_energies[idx]-ref_energy)*scaling_factor
+        if corrected:
+            return (self.corrected_energies[idx]-ref_energy)*scaling_factor
         else:
-            if corrected:
-                return self.corrected_energies[idx]
-            else:
-                return self.uncorrected_energies[idx]
+            return (self.uncorrected_energies[idx]-ref_energy)*scaling_factor
 
     def get_logarithmic_velocities(self,corrected=False):
         '''
@@ -242,8 +242,6 @@ class EigenvalueTrajectory():
     
         Parameters
         ----------
-        ref_energy: float
-            Reference energy
         corrected: bool, default=False
             Set to true if analyzing corrected trajectory
 

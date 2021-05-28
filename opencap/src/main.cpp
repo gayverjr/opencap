@@ -41,7 +41,7 @@ SOFTWARE.
 int main(int argc, char **argv)
 {
 	std::cout<< "Welcome to OpenCAP: An open-source program for studying resonances in molecules." << std::endl
-			 << "Version 1.0.3" << std::endl
+			 << "Version 1.1.0" << std::endl
 			 << "Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license." << std::endl
 			 << "For questions and support, please visit: https://github.com/gayverjr/opencap"
 			 <<  std::endl;
