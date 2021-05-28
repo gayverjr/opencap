@@ -1,12 +1,18 @@
-PySCF
+PSI4
 =======================
 
-PySCF_ is an ab initio computational chemistry program natively implemented in Python. The major
-advantage of using Pyscf in tandem with OpenCAP is that calculations can be performed in 
-one-shot within the same python script. Since PySCF allows direct control over data structures such as density matrices, 
-the interface between PySCF and OpenCAP is seamless. 
+PSI4_ is a C++/Python core that easily interfaces with and is extended by 
+standalone community projects. The major advantage of using PSI4 in tandem with PyOpenCAP 
+is that calculations can be performed in one-shot within the same python script. 
+Since PSI4 allows direct control over data structures such as density matrices, 
+the interface between PSI4 and PyOpenCAP is seamless. Our interface has been tested for 
+the Psi4 dev build, which is available via conda:
 
-.. _PySCF: http://pyscf.org/
+.. code-block:: rst
+
+	conda install -c psi4/label/dev psi4
+
+.. _PSI4: http://www.psicode.org/
 
 
 Step 1: Defining the System object
@@ -20,8 +26,8 @@ AO basis set.
 
 .. code-block:: python
 
+    psi4.molden(wfn, 'molden_in.molden')
     molden_dict = {"basis_file":"molden_in.molden","molecule": "molden"}
-    pyscf.tools.molden.from_scf(myhf,"molden_in.molden")
     s = pyopencap.System(molden_dict)
 
 **Inline**
@@ -35,8 +41,10 @@ the MolSSI BSE_. Other optional keyword for this section include "bohr_coordinat
 overlap matrix to ensure that the ordering and normalization matches. Up to G-type functions are supported.
 
 .. code-block:: python
-	
-    pyscf_smat = scf.hf.get_ovlp(mol)
+
+    E, wfn = psi4.energy('scf', return_wfn=True)
+    mints = psi4.core.MintsHelper(wfn.basisset())
+    S_mat = np.asarray(mints.ao_overlap())
     sys_dict = {"geometry":    '''N  0  0   1.039
                               N  0  0   -1.039
                               X   0  0   0.0''',
@@ -44,7 +52,7 @@ overlap matrix to ensure that the ordering and normalization matches. Up to G-ty
             		"basis_file":"path/to/basis.bas",
             		"cart_bf":"d",
             		"bohr_coordinates:": "true"}
-    s.check_overlap_mat(pyscf_smat,"pyscf")
+    s.check_overlap_mat(S_mat,"psi4")
     
 .. _BSE: https://www.basissetexchange.org/
 
@@ -53,7 +61,7 @@ Step 1: Defining the CAP object
 
 The CAP matrix is computed by the :class:`~pyopencap.CAP` object. The constructor 
 requires a :class:`~pyopencap.System` object, a dictionary containing the CAP parameters, 
-and the number of states. An example is provided below. Please see the :ref:`keywords <keywords>` section for more information on
+and the number of states. An example is provided below. Please see the keywords section for more information on
 the CAP parameters.
 
 .. code-block:: python
@@ -68,43 +76,37 @@ the CAP parameters.
     
 Step 2: Passing the density matrices
 ------------------------------------
-The simplest interface is with the FCI modules. Transition densities can be obtained using the :func:`~pyscf.fci.direct_spin1.FCISolver.trans_rdm1`
-function:
+The simplest interface is with the full CI module. One can request one particle densities 
+to be calculated by using the `opdm` and `tdm` options:
 
 .. code-block:: python
+
+	psi4.set_options({"opdm":True,"num_roots":nstates,"tdm":True,"dipmom":True})
+	ci_energy, ci_wfn = psi4.energy('FCI', return_wfn=True)
 	
-	fs = fci.FCI(mol, myhf.mo_coeff)
-	e, c = fs.kernel()
-	# tdm between ground and 1st excited states
-	dm1 = fs.trans_rdm1(fs.ci[0],fs.ci[1],myhf.mo_coeff.shape[1],mol.nelec)
-	
-.. _FCI: https://sunqm.github.io/pyscf/fci.html
-
-Importantly, trans_rdm1 returns the density matrix in **MO basis**. Thus before passing it to 
-PyOpenCAP, it **must be transformed into AO basis**:
+Densities are now available through the `get_opdm` function. One must be careful to ensure 
+that the densities are represented in AO basis before passing to PyOpenCAP using the 
+:func:`~pyopencap.CAP.add_tdm` function:
 
 .. code-block:: python
 
-    dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
-    
-Densities are loaded in one at a time using :func:`~pyopencap.CAP.add_tdm`. 
-Ensure that the indices of each state match those of the zeroth order Hamiltonian.
+    for i in range(0,nstates):
+        for j in range(i,nstates):
+            opdm_mo = ci_wfn.get_opdm(i, j, "SUM", True)
+            opdm_so = psi4.core.triplet(ci_wfn.Ca(), opdm_mo, ci_wfn.Ca(), False, False, True)
+            opdm_ao = psi4.core.Matrix(n_bas,n_bas)
+            opdm_ao.remove_symmetry(opdm_so,so2ao)
+            pc.add_tdm(opdm_ao.to_array(),i,j,"psi4")
+            if not i==j:
+                pc.add_tdm(opdm_ao.to_array(),j,i,"psi4")
 
-.. code-block:: python
-
-    for i in range(0,len(fs.ci)):
-        for j in range(0,len(fs.ci)):
-            dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)
-            dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
-            pc.add_tdm(dm1_ao,i,j,"pyscf")
+Please see the PSI4_ documentation for more details, or our repository for an example.
 
 *Note:*
 
-The interface with PySCF is not restricted to the FCI module. The :func:`~pyopencap.CAP.add_tdm` 
+The interface with Psi4 is not restricted to FCI. The :func:`~pyopencap.CAP.add_tdm` 
 function is completely general; it requires only that the densities are in AO basis, and that
-the basis set ordering matches the system. Examples for ADC and TDA-TDDFT are provided in 
-the repository.
-
+the basis set ordering matches the system. An example for ADC is provided in the repository.
 
 Step 3: Computing the CAP matrix
 --------------------------------
@@ -117,18 +119,6 @@ using the :func:`~pyopencap.CAP.compute_projected_cap` function. The matrix can 
     pc.compute_projected_cap()
     W_mat=pc.get_projected_cap()
     
-*Note:*
-
-When using cartesian d, f, or g-type basis functions, special care must be taken to ensure that the normalization 
-conventions match what is used by OpenMolcas. In these cases, :func:`~pyopencap.CAP.compute_ao_cap` 
-and then :func:`~pyopencap.CAP.renormalize` or :func:`~pyopencap.CAP.renormalize_cap` 
-should be invoked before calling :func:`~pyopencap.CAP.compute_projected_cap`.
-
-.. code-block:: python
-
-    pc.compute_ao_cap()
-    pc.renormalize_cap(pyscf_smat,"pyscf")
-    pc.compute_projected_cap()
 
 Step 4: Generate and analyze eigenvalue trajectories
 -----------------------------------------------------
@@ -150,14 +140,6 @@ Officially supported methods
 
 * Full CI
 * ADC (through ADCC_)
-* TDA-TDDFT
 
-Untested (use at your own risk!)
---------------------------------
-Any module which one particle transition densities available can be supported. 
-This includes all methods which can utilize the trans_rdm1 function, including but not limited to:
-
-* MRPT
-* CISD
 
 .. _ADCC: https://adc-connect.org

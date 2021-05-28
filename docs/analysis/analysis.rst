@@ -2,8 +2,8 @@
 
 Analysis Tools
 =================================
-PyOpenCAP provides user friendly tools for analysis of eigenvalue trajectories. This page
-is currently under construction, but the basics are as follows:
+PyOpenCAP provides user friendly tools for analysis of eigenvalue trajectories in the form of
+:class:`~pyopencap.analysis.CAPHamiltonian` and :class:`~pyopencap.analysis.EigenvalueTrajectory` objects.
 
 **Basic usage**
 

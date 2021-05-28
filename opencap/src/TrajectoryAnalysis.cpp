@@ -16,7 +16,6 @@ void CAPHamiltonian::set_eta_list(std::map<std::string, std::string> params)
 	size_t nsteps;
 	std::stringstream stepss(params["eta_step"]);
 	std::stringstream nstepss(params["nsteps"]);
-	//std::istringstream save_trajectory(params["save_trajectory"]);
 	std::istringstream save_traj(params["save_trajectory"]);
 	stepss >> eta_step;
 	nstepss >> nsteps;

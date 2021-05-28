@@ -3,14 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pyopencap.analysis import CAPHamiltonian
 
-#Change these lines to suit your system
-##########################################
 ref_energy = -109.36009153
 eta_list = np.linspace(0,2000,101)
 eta_list = eta_list * 1E-5
 RASSI_FILE = "xms.out"
 OUTPUT_FILE = "xms.rassi.h5"
-##########################################
 
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
@@ -33,8 +30,8 @@ s = pyopencap.System(sys_dict)
 pc = pyopencap.CAP(s,cap_dict,10)
 pc.read_data(es_dict)
 pc.compute_ao_cap()
-pc.compute_perturb_cap()
-W = pc.get_perturb_cap()
+pc.compute_projected_cap()
+W = pc.get_projected_cap()
 h0 = pc.get_H()
 
 

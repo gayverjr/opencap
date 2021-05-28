@@ -9,33 +9,15 @@ shown to yield accurate energies and lifetimes for metastable electronic states.
 Here, we outline the steps of performing these calculations using OpenMolcas and PyOpenCAP. 
 Some suggested readings are provided at the bottom of the page.
 
-Preliminary: Prepare input orbitals
------------------------------------
-As with any multi-reference calculation, the choice of active space is crucial for CAP/(X)MS-CASPT2, 
-and is most often guided by chemical intuition. We refer the reader to the OpenMolcas 
-manual_ for how to prepare input orbitals for a state-averaged RASSCF calculation. 
 
-.. _manual: https://molcas.gitlab.io/OpenMolcas/sphinx/
-.. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
-
-Step 1: Running the OpenMolcas calculation
-------------------------------------------
-**State-averaged RASSCF**
-
-In order to utilize the Perturbative CAP approach, a multi-state excited state calculation must be performed.
-In the RASSCF module, the keyword 'CIROOT' is used to activate state-averaged RASSCF calculations. 
-
-.. code-block:: bash
-
-	 &RASSCF
-	 CIROOT = 10 10 1
-
-**Export transition densities with RASSI**
-
+Step 1: Running OpenMolcas calculation
+----------------------------------------
 To generate the one-particle densities required to construct the CAP matrix, the RASSI 
 module must be executed with the TRD1 keyword activated. This keyword saves one-particle 
 transition density matrices between each pair of RASSCF states as well as the one-particle 
 density matrices for each state to a file titled $Jobname.rassi.h5.
+
+**Export transition densities with RASSI**
 
 .. code-block:: bash
 
@@ -45,7 +27,7 @@ density matrices for each state to a file titled $Jobname.rassi.h5.
 **Generate effective Hamiltonian with (X)MS-CASPT2**
 
 The (X)MS-CASPT2 approach is required to generate an appropriate zeroth Hamiltonian for the 
-perturbative CAP method. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
+projected CAP method. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
 module.
 
 .. code-block:: bash
@@ -60,9 +42,8 @@ module.
 There are multiple strategies for obtaining the reference energy used to define the resonance 
 position. For anionic resonances, one such strategy is to add an additional diffuse orbital to the active space in order to
 mimic ionization, which obtains the resonance and the ground state of the neutral molecule 
-in a single calculation [Kunitsa2017]_. Another strategy (which was used in the :ref:`tutorial <tutorial>`) 
-is to calculate the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 
-anionic state.  
+in a single calculation [Kunitsa2017]_. Another strategy is to calculate the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 
+anionic state [Phung2020]_.  
 
 
 Step 2: Importing the data to PyOpenCAP
@@ -136,79 +117,60 @@ the CAP parameters.
             	"cap_z":"4.88",
             	"Radial_precision": "14",
             	"angular_points": "110"}
-    pc = pycap.CAP(my_system,cap_dict,10,"openmolcas")
+    pc = pyopencap.CAP(my_system,cap_dict,10)
 
 Before we can compute the CAP matrix in the state basis, we must load in the density matrices.
-There are two ways of doing this. The first is to use the :func:`~pyopencap.CAP.read_data` function. 
-As shown below, we define a dictionary which contains the following keys: "method" 
+The best way is to use the :func:`~pyopencap.CAP.read_data` function. 
+As shown below, we define a dictionary which contains the following keys: "package"(openmolcas), "method" 
 (electronic structure method chosen), "rassi_h5"(density matrices), and "molcas_output"(output file containing effective Hamiltonian).
-The effective Hamiltonian can be retrieved using the :func:`~pyopencap.CAP.get_H` function of the :class:`~pyopencap.CAP` object. Currently, only the
-effective Hamiltonians from (X)MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
-We note that when :func:`~pyopencap.CAP.read_data` is used, our code symmetrizes the 
-CAP matrix in the state basis.
+The effective Hamiltonian can be retrieved using the :func:`~pyopencap.CAP.get_H` function of the :class:`~pyopencap.CAP` object. 
+Currently, only effective Hamiltonians from (X)MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
 
 .. code-block:: python
 	
-    es_dict = {"method" : "ms-caspt2",
+    es_dict = { "package": "openmolcas",
+           "method" : "ms-caspt2",
            "molcas_output":"path/to/output.out",
            "rassi_h5":"path/to/rassi.h5"}
     pc.read_data(es_dict)
     # save the effective Hamiltonian for later use
     h0 = pc.get_H()
 
-Alternatively, one can load in the densities one at a time using :func:`~pyopencap.CAP.add_tdm`.
-In our examples below, we load in the matrices from rassi.h5 using the h5py package, and then
-pass them as numpy arrays to the :class:`~pyopencap.CAP` object.
-
-.. code-block:: python
-	
-    import h5py
-    f = h5py.File('path/to/rassi.h5', 'r')
-    dms = f["SFS_TRANSITION_DENSITIES"]
-    # spin traced
-    nbasis = int(np.sqrt(dms.shape[2]))
-    for i in range(0,10):
-        for j in range(i,10):
-            dm = 0.5*np.reshape(dms[i][j],(nbasis,nbasis))
-            pc.add_tdm(dm,i,j,"openmolcas","path/to/rassi.h5")
-            # usually a good idea to symmetrize       
-            if i!=j:
-                pc.add_tdm(dm,,j,i,"openmolcas","path/to/rassi.h5")
- 
-
 
 Step 3: Computing the CAP matrix
 --------------------------------
 Once all of the densities are loaded, the CAP matrix is computed 
-using :func:`~pyopencap.CAP.compute_perturb_cap`. The matrix can be retrieved using :func:`~pyopencap.CAP.get_perturb_cap`.
+using :func:`~pyopencap.CAP.compute_projected_cap`. The matrix can be retrieved using :func:`~pyopencap.CAP.get_projected_cap`.
 
 .. code-block:: python
 
-    pc.compute_perturb_cap()
-    W_mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    W_mat=pc.get_projected_cap()
     
 *Note:*
 
 When using cartesian d, f, or g-type basis functions, special care must be taken to ensure that the normalization 
 conventions match what is used by OpenMolcas. In these cases, :func:`~pyopencap.CAP.compute_ao_cap` 
 and then :func:`~pyopencap.CAP.renormalize` or :func:`~pyopencap.CAP.renormalize_cap` 
-should be invoked before calling :func:`~pyopencap.CAP.compute_perturb_cap`.
+should be invoked before calling :func:`~pyopencap.CAP.compute_projected_cap`.
 
 .. code-block:: python
 
     pc.compute_ao_cap()
     pc.renormalize()
-    pc.compute_perturb_cap()
+    pc.compute_projected_cap()
 
 
-Step 4: Generate eigenvalue trajectories
+Step 4: Generate and analyze eigenvalue trajectories
 ----------------------------------------
-Extracting resonance position and width requires analysis of the eigenvalue trajectories. 
-Template scripts are provided in the repository_. Development of automated tools 
-for trajectory analysis is a subject of future work.
+H0 and W can be used to construct a :class:`~pyopencap.CAP.analysis.CAPHamiltonian` object. 
 
-.. _repository: https://github.com/gayverjr/opencap/blob/master/examples/pyopencap/openmolcas/example.py
+.. code-block:: python
 
+	from pyopencap.analysis import CAPHamiltonian
+	CAPH = CAPHamiltonian(H0=H0,W=W_mat)
+
+See the :ref:`analysis <analysis>` section for more details.
 
 Officially supported methods
 ----------------------------
@@ -225,8 +187,8 @@ but have not been benchmarked for any systems, and the zeroth order Hamiltonian 
 from the output file using the :func:`~pyopencap.CAP.read_data` function. Use at your own caution, and please contact us if you
 find success using any of these methods so we can add official support!
 
-* (QD/SS)DMRG-(PC/SC)NEVPT2
-* SS-CASPT2
+* (QD)DMRG-(PC/SC)NEVPT2
+* SS-CASPT2 
 * MC-PDFT
 
 Suggested reading

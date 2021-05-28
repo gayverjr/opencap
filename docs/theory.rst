@@ -45,7 +45,7 @@ point on the eigenvalue trajectory E(:math:`\eta`). A commonly used criterion is
 the minimum of the logarithmic velocity (:math:`|\eta\frac{dE}{d\eta}|\rightarrow min`) [Riss1993]_.
 
 
-Perturbative or "Projected" CAP
+Projected CAP
 ----------------------------------------
 There are multiple strategies for how to incorporate CAPs into an electronic structure calculation. 
 The most straightforward implementation is to engage the one-electron CAP term starting at the 
@@ -56,8 +56,8 @@ eigenvalue trajectory, which can become prohibitively expensive for larger syste
 dynamical simulation. 
 
 An efficient alternative is to treat the CAP as a first order perturbation, considering only a 
-small subset of the eigenstates of the real Hamiltonian [Sommerfeld2001]_. In this case, the CAP will be 
-introduced in the basis of the reduced subset of states:
+small subset of the eigenstates of the real Hamiltonian [Sommerfeld2001]_. In this so called 
+subspace projection scheme, the CAP will be introduced in the basis of the reduced subset of states:
 
 .. centered:: :math:`W_{uv}=\langle u | W | v \rangle`
 
