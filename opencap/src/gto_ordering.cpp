@@ -104,7 +104,7 @@ std::vector<int> psi4_harmonic_ordering(int l)
 		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
-
+// From: psi4/psi4/src/psi4/libmints/cartesianiter.cc
 std::vector<std::array<size_t,3>> psi4_carts_ordering(int l)
 {
 	//s
@@ -112,18 +112,19 @@ std::vector<std::array<size_t,3>> psi4_carts_ordering(int l)
 		return {{0,0,0}};
 	//p
 	if(l==1)
-		return {{0,0,1},{1,0,0},{0,1,0}};
+		return {{1,0,0},{0,1,0},{0,0,1}};
 	//d
 	else if (l==2)
 		return {{2,0,0},{1,1,0},{1,0,1},{0,2,0},{0,1,1},{0,0,2}};
 	//f
 	else if (l==3)
-		return {{3,0,0},{2,1,0},{2,0,1},{1,2,0},{1,1,1},{1,0,2},{0,3,0},
-				{0,2,1},{0,1,2},{0,0,3}};
+		return {{3,0,0},{2,1,0},{2,0,1},{1,2,0},{1,1,1},
+			    {1,0,2},{0,3,0},{0,2,1},{0,1,2},{0,0,3}};
 	//g
 	else if(l==4)
-		return {{4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},{2,0,2},{1,3,0},{1,2,1},
-				{1,1,2},{1,0,3},{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
+		return {{4,0,0},{3,1,0},{3,0,1},{2,2,0},{2,1,1},
+			    {2,0,2},{1,3,0},{1,2,1},{1,1,2},{1,0,3},
+				{0,4,0},{0,3,1},{0,2,2},{0,1,3},{0,0,4}};
 	else
 		opencap_throw("Error: Only up to G type orbitals are supported.");
 }

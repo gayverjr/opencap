@@ -24,6 +24,8 @@ SOFTWARE.
 #include <vector>
 #include <map>
 #include <Eigen/Dense>
+#include <fstream>
+#include "opencap_exception.h"
 
 static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4}};
 double fact2(int n)
@@ -85,6 +87,8 @@ void fortran_dfloats_to_efloats(std::string& str)
 
 int shell2angmom(std::string shell_label)
 {
+	if(angmom_map.find(shell_label)==angmom_map.end())
+		opencap_throw("Error: Only up to G type shells are supported.");
 	return angmom_map[shell_label];
 }
 
@@ -103,4 +107,45 @@ bool is_number(const std::string &s)
 bool is_letter(const std::string &s)
 {
   return !s.empty() && std::all_of(s.begin(), s.end(), ::isalpha);
+}
+
+
+Eigen::MatrixXd read_matrix(size_t N, std::string filename)
+{
+	Eigen::MatrixXd h0(N,N);
+	h0= Eigen::MatrixXd::Zero(N,N);
+	std::ifstream is(filename);
+	if (is.good())
+	{
+		//first line should be diagonal or full
+		std::string line;
+		std::getline(is,line);
+		std::string mat_type = line;
+		std::transform(mat_type.begin(), mat_type.end(), mat_type.begin(), ::tolower);
+		if (compare_strings(mat_type,"diagonal"))
+		{
+			for(size_t i=0;i<N;i++)
+			{
+				std::getline(is,line);
+				h0(i,i)=std::stod(line);
+			}
+		}
+		else if (compare_strings(mat_type,"full"))
+		{
+			for (size_t i=0;i<N;i++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				for(size_t j=0;j<N;j++)
+				{
+					h0(i,j)=std::stod(tokens[j]);
+				}
+			}
+		}
+		else
+		{
+			return h0;
+		}
+	}
+	return h0;
 }

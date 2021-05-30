@@ -25,33 +25,25 @@ import os
 import sys
 
 destDir="../opencap/tests/openmolcas"
-sys_dict = {"molecule": "molcas_rassi",
-"basis_file": destDir+"/symm.rassi.h5"}
-molden_dict = {"molecule": "molden",
-"basis_file": destDir+"/symm.molden"}
-cap_dict = {
-            "cap_type": "box",
-            "cap_x":"2.76",
-            "cap_y":"2.76",
-            "cap_z":"4.88",
+cap_dict =
+{
+            "cap_type": "voronoi",
+            "r_cut":"3.00",
             "Radial_precision": "14",
             "angular_points": "110"
 }
-es_dict = {"method" : "ms-caspt2",
-           "package": "openmolcas",
-           "molcas_output":destDir+"/symm.out",
-           "rassi_h5":destDir+"/symm.rassi.h5",
-}
-s1 = pyopencap.System(sys_dict)
-s2 = pyopencap.System(molden_dict)
-f = h5py.File(destDir+"/symm.rassi.h5", 'r')
 
-def test_rassi():
-    pc = pyopencap.CAP(s1,cap_dict,3)
-    pc.read_data(es_dict)
+def test_ms_caspt2():
+    sys_dict = {}
+    es_dict = {"method" : "ms-caspt2",
+"package": "openmolcas",
+"molcas_output":destDir+"/ms_spherical.out",
+"rassi_h5":destDir+"/ms_spherical.rassi.h5"}
+    pc = pyopencap.CAP(s1,cap_dict,16)
+    pc.read_data(es_dict2)
     pc.compute_ao_cap()
     pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    W = pc.get_projected_cap()
     h0 = pc.get_H()
 
 def test_molden():
@@ -59,11 +51,27 @@ def test_molden():
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.compute_projected_cap()
-    mat=pc.get_projected_cap()
+    W = pc.get_projected_cap()
     h0 = pc.get_H()
+    assert 
 
+def test_pc_nevpt2():
+    pc = pyopencap.CAP(s3,cap_dict,10)
+    pc.read_data(es_dict3)
+    pc.compute_ao_cap()
+    pc.compute_projected_cap()
+    W = pc.get_projected_cap()
+    h0 = pc.get_H()
+    assert np.isclose(h0[0][0],-109.3332404495)
 
-
+def test_sc_nevpt2():
+    pc = pyopencap.CAP(s3,cap_dict,10)
+    pc.read_data(es_dict4)
+    pc.compute_ao_cap()
+    pc.compute_projected_cap()
+    W = pc.get_projected_cap()
+    h0 = pc.get_H()
+    assert np.isclose(h0[0][0],-109.3327110632)
 
 
 

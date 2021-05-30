@@ -132,7 +132,7 @@ System get_System(std::string input_file, std::map<std::string,std::string> para
 	//first check that we've got what we need to at least try to construct a system
 	if (params.find("molecule")==params.end())
 		opencap_throw("Missing required keyword: molecule. Please choose one of the following: qchem_fchk, "
-				"molcas_rassi,read, molden");
+				"molcas_rassi,inline, molden");
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
@@ -154,7 +154,7 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 		parse_section(input_file,parameters,"projected_cap");
 		parse_section(input_file,parameters,"trajectory");
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
-        
+
 	}
 	catch (exception &e)
 	{

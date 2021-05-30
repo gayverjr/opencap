@@ -118,5 +118,8 @@ bool is_number(const std::string &s);
 /*! Checks if the string is a letter
  */
 bool is_letter(const std::string &s);
+/*! Reads formatted matrix from .txt file
+ */
+Eigen::MatrixXd read_matrix(size_t N, std::string filename);
 
 #endif /* UTILS_H_ */

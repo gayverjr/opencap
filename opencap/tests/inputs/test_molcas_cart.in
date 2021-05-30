@@ -1,0 +1,16 @@
+$system
+molecule molcas_rassi
+basis_file ../tests/openmolcas/cart.rassi.h5
+$end
+
+$projected_cap
+method ms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/cart.rassi.h5
+molcas_output ../tests/openmolcas/cart.out
+nstates 4
+CAP_TYPE voronoi
+R_cut 3.00
+Radial_precision  14
+Angular_points    110
+$end

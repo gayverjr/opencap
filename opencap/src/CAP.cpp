@@ -88,58 +88,21 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states)
 		opencap_throw("Error: not enough states to run calculation.");
 }
 
-Eigen::MatrixXd CAP::read_h0_file()
-{
-	Eigen::MatrixXd h0(nstates,nstates);
-	h0= Eigen::MatrixXd::Zero(nstates,nstates);
-	std::cout << "Reading in Hamiltonian from:" << parameters["h0_file"] << std::endl;
-	std::ifstream is(parameters["h0_file"]);
-	if (is.good())
-	{
-		//first line should be diagonal or full
-		std::string line;
-		std::getline(is,line);
-		std::string mat_type = line;
-		std::transform(mat_type.begin(), mat_type.end(), mat_type.begin(), ::tolower);
-		if (mat_type=="diagonal")
-		{
-			for(size_t i=0;i<nstates;i++)
-			{
-				std::getline(is,line);
-				h0(i,i)=std::stod(line);
-			}
-		}
-		else if (mat_type=="full")
-		{
-			for (size_t i=0;i<nstates;i++)
-			{
-				std::getline(is,line);
-				std::vector<std::string> tokens = split(line,' ');
-				for(size_t j=0;j<nstates;j++)
-				{
-					h0(i,j)=std::stod(tokens[j]);
-				}
-			}
-		}
-		else
-		{
-			return h0;
-		}
-	}
-	std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["h0_file"];
-	if(python)
-		py::print(message);
-	else
-		std::cout << message << std::endl;
-	return h0;
-}
 
 void CAP::read_in_zero_order_H()
 {
 	std::string method = parameters["method"];
 	transform(method.begin(),method.end(),method.begin(),::tolower);
 	if (parameters.find("h0_file")!=parameters.end())
-		ZERO_ORDER_H = read_h0_file();
+	{
+		std::cout << "Reading in Hamiltonian from:" << parameters["h0_file"] << std::endl;
+		ZERO_ORDER_H = read_matrix(nstates,parameters["h0_file"]);
+		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["h0_file"];
+		if(python)
+			py::print(message);
+		else
+			std::cout << message << std::endl;
+	}
 	else if (compare_strings(parameters["package"],"qchem") && parameters.find("qchem_output")!=parameters.end())
 	{
 		if(compare_strings(method,"eom"))

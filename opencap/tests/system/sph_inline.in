@@ -1,0 +1,10 @@
+$geometry
+N 0.0000000000 0.0000000000 0.548756750
+N 0.0000000000 0.0000000000 -0.548756750
+X 0.0000000000 0.0000000000 0.000
+$end
+
+$system
+molecule inline
+basis_file ../tests/system/test.bs
+$end
