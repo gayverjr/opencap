@@ -32,11 +32,15 @@ SOFTWARE.
 #include <list>
 #include "utils.h"
 #include "Shell.h"
+#include "opencap_exception.h"
 
 BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 {
+
 	cart_bf = parameters["cart_bf"];
     transform(cart_bf.begin(),cart_bf.end(),cart_bf.begin(),::toupper);
+    for (int i = 0; i < cart_bf.length(); i++)
+    	shell2angmom(std::string(1,cart_bf[i]));
 	basis_file = parameters["basis_file"];
 }
 

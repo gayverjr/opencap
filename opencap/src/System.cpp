@@ -119,7 +119,7 @@ System::System(py::dict dict)
 	else if(compare_strings(parameters["molecule"],"inline"))
 	{
 		if(parameters.find("geometry")==parameters.end())
-			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");
+			opencap_throw("Error: Need to specify geometry string when molecule is set to \"inline.\"");
 		atoms = parse_geometry_string(parameters["geometry"]);
 		if(parameters.find("bohr_coordinates")== parameters.end() || compare_strings(parameters["bohr_coordinates"],"false"))
 		{
@@ -228,7 +228,6 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 			}
 		}
 	}
-
 }
 
 bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
@@ -262,7 +261,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 			if (abs(smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 			{
 				conflicts = true;
-				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-10) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-10) )
+				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-6) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-6) )
 				{
 					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
 							"Verify that your basis is specified properly, or use a different type of input. If the "

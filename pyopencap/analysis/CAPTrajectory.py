@@ -288,7 +288,7 @@ class CAPHamiltonian():
         self._W = W
         self._nstates = len(H0)
     
-    def __init__(self,H0=None,W=None,output=None,irrep="",onset=""):
+    def __init__(self,pc=None,H0=None,W=None,output=None,irrep="",onset=""):
         '''
         Initializes CAPHamiltonian object from H0 and W matrix in state basis.
 
@@ -300,6 +300,8 @@ class CAPHamiltonian():
         
         Parameters
         ----------
+        pc: :class:`~pyopencap.CAP`: default=None
+            PyOpenCAP CAP object
         H0: np.ndarray of float: default=None
             Zeroth order Hamiltonian in state basis
         W: np.ndarray of float: default=None
@@ -312,7 +314,9 @@ class CAPHamiltonian():
             Title of CAP onset. Only compatible with Q-Chem projected CAP-ADC outputs.
 
         '''
-        if H0 is not None and W is not None:
+        if pc is not None:
+            self._init_from_matrices(pc.get_H(),pc.get_projected_cap())
+        elif H0 is not None and W is not None:
             self._init_from_matrices(H0,W)
         elif output is not None:
             with open(output, 'r') as file:
@@ -326,7 +330,7 @@ class CAPHamiltonian():
                         return
             raise RuntimeError("Only Q-Chem and OpenCAP outputs are supported.")
         else:
-            raise RuntimeError("Error: Either pass H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file.")
+            raise RuntimeError("Error: Either pass a CAP object, H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file.")
 
     def _init_from_qchem_eomcc(self,output_file,irrep):
         with open(output_file, 'r') as file:

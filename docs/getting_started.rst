@@ -101,7 +101,7 @@ W in the state basis as numpy matrices, it can be constructed as such:
 	
 `traj` is now a :class:`~pyopencap.analysis.EigenvalueTrajectory` object, which 
 contains helpful functions for analysis. For example, one can find the optimal value of the CAP 
-strength parameter for uncorrected/corrected trajectories:
+strength parameter (and therefore, best estimate of resonance position and width) for uncorrected/corrected trajectories:
 
 .. code-block:: python
 

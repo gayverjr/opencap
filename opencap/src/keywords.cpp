@@ -53,7 +53,8 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"cap_z","projected_cap"},
 		{"r_cut","projected_cap"},
 		{"radial_precision","projected_cap"},
-		{"angular_points","projected_cap"}
+		{"angular_points","projected_cap"},
+		{"cart_bf","system"}
 	};
 	std::vector<closed_key> closed_keys
 	{
@@ -61,7 +62,6 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"cap_type","projected_cap",{"box","voronoi"}},
 		{"molecule","system",{"inline","molden","qchem_fchk","molcas_rassi"}},
 		{"bohr_coordinates","system",{"true","false"}},
-		{"cart_bf","system",{"d","df","dfg","f","fg","g"}},
 	};
 
 	for(auto key:open_keys)

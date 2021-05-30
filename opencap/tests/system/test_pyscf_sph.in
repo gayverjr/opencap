@@ -1,0 +1,4 @@
+$system
+molecule molden
+basis_file ../tests/system/sph.molden
+$end

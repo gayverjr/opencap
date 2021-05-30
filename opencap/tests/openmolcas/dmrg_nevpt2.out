@@ -1,0 +1,2085 @@
+*******************************************************
+*** WorkDir is not cleaned in parallel environment! ***
+*******************************************************
+   This run of MOLCAS is using the pymolcas driver
+
+                             OPE
+                             OPE          NMOL  CASOP  ENMOLC A   SO
+                 OPE        NMOLC        AS  OP EN  MO LC     AS  OP
+                OPENM       OL CA        SO  PE NM  OL CA     SOP EN
+                OP EN      MO   LC       AS  OP ENMOL  CASO   PENMOL
+                OP  EN     MO   LC       AS  OP EN     MO     LC ASO
+               OP   E  NMOL  C  AS       OP  EN MO     LC     AS  OP
+               OP  E   NMO   LC AS        OPEN  MO     LCASOP EN   M
+               O  PEN   MO  LCA  SO
+            OPE   NMO   L   CAS    OP
+        OPENMOL  CASOP     ENMOL   CASOPE
+     OPENMOLCA   SOPENMOLCASOPEN   MOLCASOPE
+    OPENMOLCAS   OP           EN   MOL    CAS
+    OPENMOLCAS       OP  ENM        O     LCA
+    OPENMOLCAS    OPEN  MOLCASO     P  E  NMO
+    OPENMOLCAS     OP               E  N  MOL
+    OPENMOLCA   SO           PENM   O  L  CAS    OPEN    MO    LCAS
+    OPENMOLCA   SOP           ENM   O  L  CAS   OP  EN  MOLC  AS   O
+    OPENMOLCA   SOPE           NM      O  LCA   S      OP  EN MO
+    OPENMOLC                AS         O  PEN   M      OL  CA  SOPE
+    OPENMO        LCASOPE  NMOL        C  ASO   P      ENMOLC     AS
+    OPE     NMO      LCA  SO     P     E   NM   OL  CA SO  PE N   MO
+          OPENMOLCA            SOPE   NMO        LCAS  O    P  ENMO
+     OPENMOLCASOPENMOLCASOPENMOLCASOPENMOLCA
+        OPENMOLCASOPENMOLCASOPENMOLCASOPE
+            OPENMOLCASOPENMOLCASOPENM
+               OPENMOLCASOPENMOLCA        version: 21.02
+                   OPENMOLCASO
+                       OPE                tag: 957-gb1e1fa9
+
+ OpenMolcas is free software; you can redistribute it and/or modify it
+ under the terms of the GNU Lesser General Public License version 2.1.
+ OpenMolcas is distributed in the hope that it will be useful, but it
+ is provided "as is" and without any express or implied warranties.
+ For more details see the full text of the license in the file
+ LICENSE or in <http://www.gnu.org/licenses/>.
+
+                 Copyright (C) The OpenMolcas Authors
+           For the author list and the recommended citation,
+                   consult the file CONTRIBUTORS.md
+
+           *************************************************
+           * pymolcas version py2.18                       *
+           *   build 7a16d2f9e823a0c2ad601740b42a4b0e      *
+           *   (after the EMIL interpreter by V. Veryazov) *
+           *************************************************
+
+configuration info
+------------------
+Host name: dirac.bu.edu (Linux)
+C Compiler ID: GNU
+C flags: -std=gnu99 -fopenmp
+Fortran Compiler ID: GNU
+Fortran flags: -fno-aggressive-loop-optimizations -cpp -fdefault-integer-8 -fopenmp
+Definitions: _MOLCAS_;_I8_;_LINUX_;_DMRG_
+Parallel: OFF (GA=OFF)
+
+
+   ----------------------------------------------------------------------
+  |
+  |             Project: dmrg_nevpt2
+  |      Submitted from: /scratch/gayverjr/dmrg_nevpt2.269588624
+  |        Scratch area: /scratch/gayverjr/dmrg_nevpt2.269588624
+  |     Save outputs to: /home/gayverjr/opencap_tests/openmolcas
+  |              Molcas: /home/qcsoftware/OpenMolcas/qcmaquis_build/build
+  |
+  | Scratch area is NOT empty
+  |
+  |      MOLCAS_DRIVER = /home/qcsoftware/bin/pymolcas
+  | MOLCAS_NEW_WORKDIR = YES
+  |      MOLCAS_NPROCS = 16
+  |      MOLCAS_SOURCE = /home/qcsoftware/OpenMolcas/Molcas_src
+  |   MOLCAS_STRUCTURE = 0
+  |
+   ----------------------------------------------------------------------
+
+++ ---------   Input file   ---------
+
+&GATEWAY
+Coord
+2
+Angstrom
+N 0.0000000000 0.0000000000 0.55
+N 0.0000000000 0.0000000000 -0.55
+Basis = cc-pvdz
+group = nosym
+
+&SEWARD
+
+&SCF
+
+&DMRGSCF
+ActiveSpaceOptimizer=QCMaquis
+DMRGSettings
+ nsweeps            = 100
+ max_bond_dimension = 1000
+EndDMRGSettings
+OOptimizationSettings
+Inactive = 5
+Ras2= 4
+NActEl=4,0,0
+CIROOT= 4 4 1
+NEVPT2Prep
+EndOOptimizationSettings
+
+&MPSSI
+TRD1
+NrofJobIphs
+1 4
+1 2 3 4
+File
+1
+$Project.dmrgscf.h5
+EJOB
+
+&MOTRA
+Frozen=0
+CTOnly
+Kpq
+HDF5
+
+&NEVPT2
+Frozen = 0
+States = 4
+
+-- ----------------------------------
+
+--- Start Module: gateway at Fri May 28 20:19:29 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                              &GATEWAY
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 18504
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+
+++    Symmetry information:
+      ---------------------
+
+                    Character Table for C1 
+
+                             E  
+                    a        1  x, y, xy, Rz, z, xz, Ry, yz, Rx, I
+--
+
+
+++    Basis set information:
+      ----------------------
+
+
+      Basis set label: N.CC-PVDZ.........
+
+      Electronic valence basis set:
+      ------------------
+      Associated Effective Charge   7.000000 au
+      Associated Actual Charge      7.000000 au
+      Nuclear Model: Point charge
+
+      Shell  nPrim  nBasis  Cartesian Spherical Contaminant
+         s       9       3        X                  
+         p       4       2        X                  
+         d       1       1                 X         
+--
+
+
+++    Molecular structure info:
+      -------------------------
+
+                    ************************************************ 
+                    **** Cartesian Coordinates / Bohr, Angstrom **** 
+                    ************************************************ 
+
+     Center  Label                x              y              z                     x              y              z
+        1      N1               0.000000       0.000000       1.039349              0.000000       0.000000       0.550000
+        2      N2               0.000000       0.000000      -1.039349              0.000000       0.000000      -0.550000
+--
+
+
+            Nuclear Potential Energy             23.57243939 au
+
+--- Stop Module: gateway at Fri May 28 20:19:29 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+
+--- Start Module: seward at Fri May 28 20:19:29 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                              &SEWARD
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 18525
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+               SEWARD will generate:
+                  Multipole Moment integrals up to order  2
+                  Kinetic Energy integrals
+                  Nuclear Attraction integrals (point charge)
+                  One-Electron Hamiltonian integrals
+                  Velocity integrals
+                  Orbital angular momentum around ( 0.0000  0.0000  0.0000 )
+                  Velocity quadrupole around ( 0.0000  0.0000  0.0000 )
+                  Two-Electron Repulsion integrals
+
+                   Integrals are discarded if absolute value <: 0.10E-13
+                   Integral cutoff threshold is set to       <: 0.10E-15
+
+            Nuclear Potential Energy             23.57243939 au
+
+
+      Basis set specifications :
+      Symmetry species         a  
+      Basis functions           28
+
+
+  Input file to MOLDEN was generated!
+
+--- Stop Module: seward at Fri May 28 20:19:31 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: dmrg_nevpt2.GssOrb dmrg_nevpt2.guessorb.h5 dmrg_nevpt2.guessorb.molden xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+--- Module seward spent 1 second ---
+
+*** symbolic link created: INPORB -> dmrg_nevpt2.GssOrb
+--- Start Module: scf at Fri May 28 20:19:31 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                                &SCF
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 18549
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+++    Input section:
+      --------------
+
+      Header of the integral files:
+      
+       Integrals generated by Gateway/Seward, Fri May 28 20:19:29 2021
+
+
+      Cartesian coordinates in Angstrom:
+      -----------------------------------------------------
+      No.  Label        X            Y            Z        
+      -----------------------------------------------------
+       1   N1         0.00000000   0.00000000   0.55000000
+       2   N2         0.00000000   0.00000000  -0.55000000
+      -----------------------------------------------------
+      Nuclear repulsion energy =   23.57243939
+--
+
+++    Orbital specifications:
+      -----------------------
+
+      Symmetry species               1
+                                     a
+      Frozen orbitals                0
+      Occupied orbitals              7
+      Secondary orbitals            21
+      Deleted orbitals               0
+      Total number of orbitals      28
+      Number of basis functions     28
+--
+
+      Molecular charge                           0.000
+
+++    Optimization specifications:
+      ----------------------------
+
+      SCF Algorithm: Conventional
+      Minimized density differences are used
+      Number of density matrices in core                5
+      Maximum number of NDDO SCF iterations           400
+      Maximum number of HF SCF iterations             400
+      Threshold for SCF energy change            0.10E-08
+      Threshold for density matrix               0.10E-03
+      Threshold for Fock matrix                  0.15E-03
+      Threshold for linear dependence            0.10E-08
+      Threshold at which DIIS is turned on       0.15E+00
+      Threshold at which QNR/C2DIIS is turned on 0.75E-01
+      Threshold for Norm(delta) (QNR/C2DIIS)     0.20E-04
+      DIIS extrapolation of the SCF procedure
+      All orbitals punched on: SCFORB
+--
+
+      Input vectors read from INPORB
+      Orbital file label: *Guess orbitals
+
+
+++ Convergence information
+                                   SCF        iterations: Energy and convergence statistics
+
+Iter     Tot. SCF        One-elec.       Two-elec.     Energy      Max Dij or  Max Fij      DNorm      TNorm      AccCon     Time
+         Energy          Energy          Energy        Change      Delta Norm                                                in Sec.
+   1  -108.693318020  -191.864266600    59.598509186   0.00E+00    0.26E+00*   0.24E+00*    0.53E+01   0.46E+02   None         0.
+   2  -108.943094576  -194.790982855    62.275448884  -0.25E+00*   0.63E-01*   0.45E-01*    0.25E+01   0.47E+02   EDIIS        0.
+   3  -108.953223525  -194.000204334    61.474541415  -0.10E-01*   0.14E-01*   0.12E-01*    0.62E+00   0.47E+02   EDIIS        0.
+   4  -108.953763122  -194.175960092    61.649757575  -0.54E-03*   0.30E-02*   0.22E-02*    0.61E-01   0.47E+02   c2DIIS       0.
+   5  -108.953794431  -194.138185867    61.611952041  -0.31E-04*   0.62E-03*   0.59E-03*    0.34E-02   0.47E+02   QNRc2DIIS    0.
+   6  -108.953796106  -194.141896048    61.615660547  -0.17E-05*   0.23E-03*   0.16E-03*    0.58E-03   0.47E+02   QNRc2DIIS    0.
+   7  -108.953796240  -194.140883354    61.614647719  -0.13E-06*   0.15E-04    0.13E-04     0.53E-04   0.47E+02   QNRc2DIIS    0.
+   8  -108.953796241  -194.141066553    61.614830917  -0.88E-09    0.25E-05    0.16E-05     0.12E-03   0.47E+02   QNRc2DIIS    0.
+
+       Convergence after  8 Macro Iterations
+--
+
+ *****************************************************************************************************************************
+ *                                                                                                                           *
+ *                                             SCF/KS-DFT Program, Final results                                             *
+ *                                                                                                                           *
+ *                                                                                                                           *
+ *                                                                                                                           *
+ *                                                       Final Results                                                       *
+ *                                                                                                                           *
+ *****************************************************************************************************************************
+
+::    Total SCF energy                               -108.9537962409
+      One-electron energy                            -194.1410665530
+      Two-electron energy                              61.6148309174
+      Nuclear repulsion energy                         23.5724393948
+      Kinetic energy (interpolated)                   108.6997708543
+      Virial theorem                                    1.0023369450
+      Total spin, S(S+1)                                0.0000000000
+      Total spin, S                                     0.0000000000
+      Max non-diagonal density matrix element           0.0000025646
+      Max non-diagonal Fock matrix element              0.0000004544
+
+
+      All orbitals with orbital energies smaller than  E(LUMO)+0.5 are printed
+
+++    Molecular orbitals:
+      -------------------
+
+      Title: SCF orbitals
+
+      Molecular orbitals for symmetry species 1: a  
+
+          Orbital            1         2         3         4         5         6         7         8         9        10    
+          Energy          -15.6872  -15.6838   -1.4695   -0.7749   -0.6260   -0.6072   -0.6072    0.1744    0.1744    0.5939
+          Occ. No.          2.0000    2.0000    2.0000    2.0000    2.0000    2.0000    2.0000    0.0000    0.0000    0.0000
+
+        1 N1     1s         0.7069   -0.7080   -0.0085   -0.0036    0.0115    0.0000   -0.0000   -0.0000   -0.0000    0.0308
+        2 N1     2s         0.0008   -0.0033    0.6660   -0.6534   -0.1917   -0.0000    0.0000   -0.0000   -0.0000   -0.3368
+        3 N1     *s        -0.0000    0.0044   -0.1909   -0.0438   -0.2192   -0.0000    0.0000    0.0000   -0.0000   -3.7195
+        4 N1     2px       -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.6202   -0.1046   -0.0028    0.6316    0.0000
+        5 N1     *px        0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0328    0.0055   -0.0017    0.3835   -0.0000
+        6 N1     2py        0.0000   -0.0000   -0.0000    0.0000    0.0000    0.1046    0.6202   -0.6316   -0.0028   -0.0000
+        7 N1     *py       -0.0000    0.0000    0.0000   -0.0000   -0.0000   -0.0055   -0.0328   -0.3835   -0.0017    0.0000
+        8 N1     2pz       -0.0020    0.0035   -0.3206   -0.3180   -0.6704   -0.0000    0.0000    0.0000    0.0000    0.0922
+        9 N1     *pz        0.0015   -0.0030    0.1118    0.0332    0.0963    0.0000   -0.0000   -0.0000    0.0000    2.5801
+       10 N1     *d2-       0.0000   -0.0000    0.0000    0.0000    0.0000    0.0000   -0.0000    0.0000    0.0000    0.0000
+       11 N1     *d1-      -0.0000    0.0000    0.0000   -0.0000   -0.0000   -0.0079   -0.0468   -0.0130   -0.0001   -0.0000
+       12 N1     *d0        0.0004   -0.0012    0.0285    0.0134    0.0250    0.0000   -0.0000   -0.0000   -0.0000   -0.0534
+       13 N1     *d1+       0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0468    0.0079   -0.0001    0.0130    0.0000
+       14 N1     *d2+      -0.0000    0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.0000    0.0000    0.0000    0.0000
+       15 N2     1s         0.7069    0.7080   -0.0085    0.0036    0.0115    0.0000   -0.0000    0.0000   -0.0000   -0.0308
+       16 N2     2s         0.0008    0.0033    0.6660    0.6534   -0.1917   -0.0000    0.0000    0.0000   -0.0000    0.3368
+       17 N2     *s        -0.0000   -0.0044   -0.1909    0.0438   -0.2192   -0.0000    0.0000   -0.0000    0.0000    3.7195
+       18 N2     2px       -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.6202   -0.1046    0.0028   -0.6316    0.0000
+       19 N2     *px        0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0328    0.0055    0.0017   -0.3835   -0.0000
+       20 N2     2py        0.0000   -0.0000   -0.0000    0.0000    0.0000    0.1046    0.6202    0.6316    0.0028    0.0000
+       21 N2     *py       -0.0000    0.0000    0.0000   -0.0000   -0.0000   -0.0055   -0.0328    0.3835    0.0017   -0.0000
+       22 N2     2pz        0.0020    0.0035    0.3206   -0.3180    0.6704    0.0000   -0.0000   -0.0000    0.0000    0.0922
+       23 N2     *pz       -0.0015   -0.0030   -0.1118    0.0332   -0.0963   -0.0000    0.0000   -0.0000    0.0000    2.5801
+       24 N2     *d2-       0.0000    0.0000    0.0000   -0.0000    0.0000    0.0000    0.0000    0.0000   -0.0000    0.0000
+       25 N2     *d1-       0.0000   -0.0000   -0.0000    0.0000    0.0000    0.0079    0.0468   -0.0130   -0.0001   -0.0000
+       26 N2     *d0        0.0004    0.0012    0.0285   -0.0134    0.0250    0.0000   -0.0000   -0.0000    0.0000    0.0534
+       27 N2     *d1+      -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.0468   -0.0079   -0.0001    0.0130   -0.0000
+       28 N2     *d2+      -0.0000   -0.0000   -0.0000   -0.0000   -0.0000   -0.0000    0.0000   -0.0000   -0.0000   -0.0000
+--
+
+
+++    Molecular charges:
+      ------------------
+
+      Mulliken charges per centre and basis function type
+      ---------------------------------------------------
+
+                N1      N2    
+      1s       2.0010  2.0010
+      2s       1.8257  1.8257
+      2px      1.0269  1.0269
+      2pz      1.4268  1.4268
+      2py      1.0269  1.0269
+      *s      -0.0794 -0.0794
+      *px     -0.0503 -0.0503
+      *pz     -0.1926 -0.1926
+      *py     -0.0503 -0.0503
+      *d2+    -0.0000 -0.0000
+      *d1+     0.0234  0.0234
+      *d0      0.0185  0.0185
+      *d1-     0.0234  0.0234
+      *d2-     0.0000  0.0000
+      Total    7.0000  7.0000
+
+      N-E     -0.0000  0.0000
+
+      Total electronic charge=   14.000000
+
+      Total            charge=   -0.000000
+--
+
+
+++    Molecular properties:
+      ---------------------
+
+      Charge (e):
+                      =   -0.0000
+      Dipole Moment (Debye):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                   X=  6.7515E-18               Y=  2.9965E-18               Z= -6.3211E-14           Total=  6.3211E-14
+      Quadrupole Moment (Debye*Ang):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                  XX= -1.0149E+01              XY= -3.7004E-16              XZ= -1.0611E-16              YY= -1.0149E+01
+                  YZ= -1.1035E-19              ZZ= -1.1659E+01
+      In traceless form (Debye*Ang)
+                  XX=  7.5529E-01              XY= -5.5506E-16              XZ= -1.5916E-16              YY=  7.5529E-01
+                  YZ= -1.6552E-19              ZZ= -1.5106E+00
+--
+
+
+  Input file to MOLDEN was generated!
+
+ ###############################################################################
+ ###############################################################################
+ ###                                                                         ###
+ ###                                                                         ###
+ ###    WARNING: RunFile label nBas                                          ###
+ ###    was used       71 times                                              ###
+ ###                                                                         ###
+ ###                                                                         ###
+ ###############################################################################
+ ###############################################################################
+--- Stop Module: scf at Fri May 28 20:19:31 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: dmrg_nevpt2.scf.molden dmrg_nevpt2.ScfOrb dmrg_nevpt2.scf.h5 xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+
+*** symbolic link created: INPORB -> dmrg_nevpt2.ScfOrb
+--- Start Module: dmrgscf at Fri May 28 20:19:31 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                              &DMRGSCF
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 18573
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+
+      DMRGSCF: active space solver is set to qcmaquis
+      -------                                --------
+
+
+      Header of the ONEINT file:
+      --------------------------
+      
+      Integrals generated by Gateway/Seward, Fri May 28 20:19:29 2021
+
+
+      OrdInt status: non-squared
+
+
+      Cartesian coordinates in Angstrom:
+      -----------------------------------------------------
+      No.  Label        X            Y            Z        
+      -----------------------------------------------------
+       1   N1         0.00000000   0.00000000   0.55000000
+       2   N2         0.00000000   0.00000000  -0.55000000
+      -----------------------------------------------------
+      Nuclear repulsion energy =   23.57243939
+
+++    Wave function specifications:
+      -----------------------------
+
+      Number of closed shell electrons          10
+      Number of electrons in active shells       4
+      Max number of holes in RAS1 space          0
+      Max nr of electrons in RAS3 space          0
+      Number of inactive orbitals                5
+      Number of active orbitals                  4
+      Number of secondary orbitals              19
+      Spin quantum number                      0.0
+      State symmetry                             1
+--
+
+++    Orbital specifications:
+      -----------------------
+
+      Symmetry species                           1
+                                                 a
+      Frozen orbitals                            0
+      Inactive orbitals                          5
+      Active orbitals                            4
+      RAS1 orbitals                              0
+      RAS2 orbitals                              4
+      RAS3 orbitals                              0
+      Secondary orbitals                        19
+      Deleted orbitals                           0
+      Number of basis functions                 28
+--
+
+++    DMRG specifications:
+      ----------------------------
+
+      Number of renormalized states              1000
+      (Max) number of sweeps                     100
+      Convergence threshold (sweep tolerance)    0.100E-07
+      Jacobi-Davidson threshold                  0.100E-10
+      SVD truncation threshold (initial)         1e-50
+      SVD truncation threshold (final)           0.100E-10
+      Number of root(s) required                 4
+      Root chosen for geometry opt.              4
+      DMRG roots used                            1     2     3     4
+      weights                                0.250 0.250 0.250 0.250
+--
+
+++    Optimization specifications:
+      ----------------------------
+
+      RASSCF algorithm: Conventional
+      Maximum number of macro iterations       200
+      Maximum number of SX iterations          100
+      Threshold for RASSCF energy            0.100E-07
+      Threshold for max MO rotation          0.100E+00
+      Threshold for max BLB element          0.100E-03
+      Level shift parameter                  0.500E+00
+      Make Quasi-Newton update
+--
+
+      Orbitals from runfile: scf orbitals
+      The MO-coefficients are taken from scf orbitals on runfile
+
+      Total molecular charge    0.00
+
+      ************************************************************************************************************************
+      *                                                                                                                      *
+      *                                            Wave function control section                                             *
+      *                                                                                                                      *
+      ************************************************************************************************************************
+
+
+                                         DMRGSCF iterations: Energy and convergence statistics
+                                         -----------------------------------------------------
+
+                                             Please cite for the QCMaquis-Molcas driver:
+
+                                    Freitag L.; Keller S.; Knecht S.; Lindh R.; Ma Y.; 
+                                    Stein C. J. and Reiher M., in preparation. (2018).
+                                    ---------------------------------------------------------------
+
+                                             Please cite for the QCMaquis DMRG software:
+
+                                    S. Keller, M. Dolfi, M. Troyer, M. Reiher,
+                                    J. Chem. Phys. 143, 244118 (2015)
+                                    ---------------------------------------------------------------
+
+
+      Iter num  DMRG max tr DMRG  SX      DMRGSCF       Energy    max ROT   max BLB     max BLB  Level Ln srch  Step   QN     CPU Time
+         sweeps/root weight/root iter     energy        change     param    element      value   shift minimum  type update   hh:mm:ss
+        1  1   1    0.00E+00   1    5  -108.71979223    0.00E+00  0.96E-01    9  15 1 -0.52E-01*  0.23   0.00    SX    NO      0:00:01
+        2  3   3    0.00E+00   1    4  -108.73522712   -0.15E-01* 0.27E-01    4  17 1 -0.17E-01*  0.22   0.00    SX    NO      0:00:00
+        3  2   1    0.00E+00   1    4  -108.73679111   -0.16E-02* 0.10E-01    4  17 1 -0.65E-02*  0.22   0.00    SX    NO      0:00:00
+        4  3   1    0.00E+00   1    4  -108.73699135   -0.20E-03* 0.35E-02    5  14 1 -0.29E-02*  0.22   0.00    SX    NO      0:00:00
+        5  2   1    0.00E+00   1    3  -108.73701807   -0.27E-04* 0.20E-02    5  14 1 -0.12E-02*  0.22   1.58    LS   YES      0:00:00
+        6  3   1    0.00E+00   1    3  -108.73702230   -0.42E-05*-0.11E-03    6  13 1  0.26E-03*  0.22   1.01    QN   YES      0:00:01
+        7  3   3    0.00E+00   1    3  -108.73702243   -0.13E-06*-0.46E-04    5  11 1  0.99E-04   0.22   1.43    LS   YES      0:00:00
+        8  3   1    0.00E+00   1    3  -108.73702244   -0.13E-07*-0.28E-04    5  11 1  0.54E-04   0.22   1.00    QN   YES      0:00:01
+        9  2   1    0.00E+00   1    2  -108.73702245   -0.29E-08 -0.19E-05    5  14 1  0.70E-05   0.22   0.96    QN   YES      0:00:00
+      Convergence after  9 iterations
+       10  3   1    0.00E+00   1    2  -108.73702245   -0.31E-10 -0.19E-05    5  14 1  0.18E-05   0.22   0.96    QN   YES      0:00:01
+
+      ************************************************************************************************************************
+                                                      Wave function printout:
+                       occupation of active orbitals, and spin coupling of open shells (u,d: Spin up or down)
+      ************************************************************************************************************************
+
+      Note: transformation to natural orbitals
+      has been made, which may change the order of the CSFs.
+
+      Natural orbitals and occupation numbers for root  1
+      sym 1:   1.934093   1.934093   0.065907   0.065907
+
+      Natural orbitals and occupation numbers for root  2
+      sym 1:   1.484240   1.484241   0.515760   0.515759
+
+      Natural orbitals and occupation numbers for root  3
+      sym 1:   1.491562   1.491561   0.508438   0.508439
+
+      Natural orbitals and occupation numbers for root  4
+      sym 1:   1.491561   1.491561   0.508439   0.508439
+
+      ************************************************************************************************************************
+      *                                                                                                                      *
+      *                                                    Final results                                                     *
+      *                                                                                                                      *
+      ************************************************************************************************************************
+
+
+++    Wave function specifications:
+      -----------------------------
+
+      Number of closed shell electrons          10
+      Number of electrons in active shells       4
+      Max number of holes in RAS1 space          0
+      Max nr of electrons in RAS3 space          0
+      Number of inactive orbitals                5
+      Number of active orbitals                  4
+      Number of secondary orbitals              19
+      Spin quantum number                      0.0
+      State symmetry                             1
+--
+
+++    Orbital specifications:
+      -----------------------
+
+      Symmetry species                           1
+                                                 a
+      Frozen orbitals                            0
+      Inactive orbitals                          5
+      Active orbitals                            4
+      RAS1 orbitals                              0
+      RAS2 orbitals                              4
+      RAS3 orbitals                              0
+      Secondary orbitals                        19
+      Deleted orbitals                           0
+      Number of basis functions                 28
+--
+
+++    DMRG specifications:
+      ----------------------------
+
+      Number of renormalized states              1000
+      (Max) number of sweeps                     100
+      Convergence threshold (sweep tolerance)    0.100E-07
+      Jacobi-Davidson threshold                  0.100E-10
+      SVD truncation threshold (initial)         1e-50
+      SVD truncation threshold (final)           0.100E-10
+      Number of root(s) required                 4
+      DMRG roots used                            1     2     3     4
+      weights                                0.250 0.250 0.250 0.250
+      highest root included in the DMRG          4
+      Root passed to geometry opt.               4
+--
+
+++    Final optimization conditions:
+      ------------------------------
+
+      Average CI energy                            -108.73702245
+      RASSCF energy for state  4                   -108.62804265
+      Super-CI energy                                -0.00000000
+      RASSCF energy change                           -0.00000000
+      Max change in MO coefficients              -0.479E-05
+      Max non-diagonal density matrix element    -0.191E-05
+      Maximum BLB matrix element                  0.185E-05
+      (orbital pair   5,  14 in symmetry   1)
+      Norm of electronic gradient            0.329E-01
+--
+
+
+      Final state energy(ies):
+      ------------------------
+
+::    RASSCF root number  1 Total energy:   -109.03448020
+::    RASSCF root number  2 Total energy:   -108.65752428
+::    RASSCF root number  3 Total energy:   -108.62804265
+::    RASSCF root number  4 Total energy:   -108.62804265
+
+++    Molecular orbitals:
+      -------------------
+
+      Pseudonatural active orbitals and approximate occupation numbers
+
+
+
+
+      Molecular orbitals for symmetry species 1: a  
+
+
+      Orbital                 1         2         3         4         5         6         7         8         9
+      Energy           -15.6647  -15.6618   -1.4751   -0.7704   -0.6155    0.0000    0.0000    0.0000    0.0000
+      Occ. No.           2.0000    2.0000    2.0000    2.0000    2.0000    1.6004    1.6004    0.3996    0.3996
+
+     1 N1     1s         0.7070   -0.7081   -0.0078   -0.0012    0.0135    0.0000   -0.0000   -0.0000   -0.0000
+     2 N1     2s         0.0013   -0.0041    0.6662   -0.6490   -0.1909   -0.0000    0.0000   -0.0000   -0.0000
+     3 N1     *s        -0.0005    0.0046   -0.1970   -0.0769   -0.2281   -0.0000    0.0000    0.0000   -0.0000
+     4 N1     2px       -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.6338   -0.1068   -0.0034    0.7792
+     5 N1     *px        0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0474    0.0080   -0.0007    0.1532
+     6 N1     2py        0.0000   -0.0000    0.0000    0.0000    0.0000    0.1068    0.6338   -0.7792   -0.0034
+     7 N1     *py       -0.0000    0.0000   -0.0000   -0.0000   -0.0000   -0.0080   -0.0474   -0.1532   -0.0007
+     8 N1     2pz       -0.0023    0.0042   -0.3323   -0.3049   -0.6624   -0.0000    0.0000   -0.0000    0.0000
+     9 N1     *pz        0.0019   -0.0032    0.1169    0.0405    0.0930    0.0000   -0.0000   -0.0000    0.0000
+    10 N1     *d2-       0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.0000    0.0000
+    11 N1     *d1-      -0.0000    0.0000   -0.0000   -0.0000   -0.0000   -0.0078   -0.0462   -0.0107   -0.0000
+    12 N1     *d0        0.0003   -0.0014    0.0312    0.0176    0.0295    0.0000   -0.0000   -0.0000   -0.0000
+    13 N1     *d1+       0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0462    0.0078   -0.0000    0.0107
+    14 N1     *d2+       0.0000   -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.0000   -0.0000
+    15 N2     1s         0.7070    0.7081   -0.0078    0.0012    0.0135    0.0000   -0.0000    0.0000   -0.0000
+    16 N2     2s         0.0013    0.0041    0.6662    0.6490   -0.1909   -0.0000    0.0000    0.0000   -0.0000
+    17 N2     *s        -0.0005   -0.0046   -0.1970    0.0769   -0.2281   -0.0000    0.0000   -0.0000    0.0000
+    18 N2     2px       -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.6338   -0.1068    0.0034   -0.7792
+    19 N2     *px        0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0474    0.0080    0.0007   -0.1532
+    20 N2     2py        0.0000   -0.0000    0.0000    0.0000    0.0000    0.1068    0.6338    0.7792    0.0034
+    21 N2     *py       -0.0000    0.0000   -0.0000   -0.0000   -0.0000   -0.0080   -0.0474    0.1532    0.0007
+    22 N2     2pz        0.0023    0.0042    0.3323   -0.3049    0.6624    0.0000   -0.0000   -0.0000    0.0000
+    23 N2     *pz       -0.0019   -0.0032   -0.1169    0.0405   -0.0930   -0.0000    0.0000   -0.0000    0.0000
+    24 N2     *d2-      -0.0000   -0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.0000    0.0000   -0.0000
+    25 N2     *d1-       0.0000   -0.0000    0.0000    0.0000    0.0000    0.0078    0.0462   -0.0107   -0.0000
+    26 N2     *d0        0.0003    0.0014    0.0312   -0.0176    0.0295    0.0000   -0.0000   -0.0000    0.0000
+    27 N2     *d1+      -0.0000    0.0000   -0.0000   -0.0000   -0.0000    0.0462   -0.0078   -0.0000    0.0107
+    28 N2     *d2+      -0.0000   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.0000   -0.0000   -0.0000
+--
+
+      Von Neumann Entropy (Root  1) =  0.41799
+
+
+      Mulliken population analysis for root number:  1
+      -----------------------------------------------
+
+
+++    Molecular charges:
+      ------------------
+
+      Mulliken charges per centre and basis function type
+      ---------------------------------------------------
+
+                N1      N2    
+      1s       2.0013  2.0013
+      2s       1.8201  1.8201
+      2px      1.0436  1.0436
+      2pz      1.4060  1.4060
+      2py      1.0436  1.0436
+      *s      -0.0458 -0.0458
+      *px     -0.0661 -0.0661
+      *pz     -0.2036 -0.2036
+      *py     -0.0661 -0.0661
+      *d2+     0.0000  0.0000
+      *d1+     0.0225  0.0225
+      *d0      0.0220  0.0220
+      *d1-     0.0225  0.0225
+      *d2-     0.0000  0.0000
+      Total    7.0000  7.0000
+
+      N-E     -0.0000  0.0000
+
+      Total electronic charge=   14.000000
+
+      Total            charge=   -0.000000
+--
+
+
+
+      Expectation values of various properties for root number:  1
+      -----------------------------------------------------------
+
+ Properties not supported for DMRGSCFS
+
+++    Molecular properties:
+      ---------------------
+
+      Charge (e):
+                      =   -0.0000
+      Dipole Moment (Debye):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                   X= -9.4128E-16               Y=  5.6561E-16               Z=  1.6179E-11           Total=  1.6179E-11
+      Quadrupole Moment (Debye*Ang):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                  XX= -1.0035E+01              XY= -3.0994E-12              XZ= -1.5087E-16              YY= -1.0035E+01
+                  YZ=  5.2953E-17              ZZ= -1.1669E+01
+      In traceless form (Debye*Ang)
+                  XX=  8.1716E-01              XY= -4.6491E-12              XZ= -2.2630E-16              YY=  8.1716E-01
+                  YZ=  7.9430E-17              ZZ= -1.6343E+00
+--
+
+      Von Neumann Entropy (Root  2) =  1.64706
+
+
+      Mulliken population analysis for root number:  2
+      -----------------------------------------------
+
+
+++    Molecular charges:
+      ------------------
+
+      Mulliken charges per centre and basis function type
+      ---------------------------------------------------
+
+                N1      N2    
+      1s       2.0013  2.0013
+      2s       1.8201  1.8201
+      2px      1.0078  1.0078
+      2pz      1.4060  1.4060
+      2py      1.0078  1.0078
+      *s      -0.0458 -0.0458
+      *px     -0.0264 -0.0264
+      *pz     -0.2036 -0.2036
+      *py     -0.0264 -0.0264
+      *d2+     0.0000  0.0000
+      *d1+     0.0186  0.0186
+      *d0      0.0220  0.0220
+      *d1-     0.0186  0.0186
+      *d2-     0.0000  0.0000
+      Total    7.0000  7.0000
+
+      N-E      0.0000 -0.0000
+
+      Total electronic charge=   14.000000
+
+      Total            charge=   -0.000000
+--
+
+
+
+      Expectation values of various properties for root number:  2
+      -----------------------------------------------------------
+
+ Properties not supported for DMRGSCFS
+
+++    Molecular properties:
+      ---------------------
+
+      Charge (e):
+                      =   -0.0000
+      Dipole Moment (Debye):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                   X= -4.5709E-15               Y=  2.7290E-15               Z=  3.5435E-11           Total=  3.5435E-11
+      Quadrupole Moment (Debye*Ang):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                  XX= -9.9833E+00              XY=  1.1104E-06              XZ= -3.2155E-16              YY= -9.9833E+00
+                  YZ=  3.0278E-16              ZZ= -1.2871E+01
+      In traceless form (Debye*Ang)
+                  XX=  1.4437E+00              XY=  1.6656E-06              XZ= -4.8233E-16              YY=  1.4437E+00
+                  YZ=  4.5416E-16              ZZ= -2.8874E+00
+--
+
+      Von Neumann Entropy (Root  3) =  1.63580
+
+
+      Mulliken population analysis for root number:  3
+      -----------------------------------------------
+
+
+++    Molecular charges:
+      ------------------
+
+      Mulliken charges per centre and basis function type
+      ---------------------------------------------------
+
+                N1      N2    
+      1s       2.0013  2.0013
+      2s       1.8201  1.8201
+      2px      1.0083  1.0083
+      2pz      1.4060  1.4060
+      2py      1.0083  1.0083
+      *s      -0.0458 -0.0458
+      *px     -0.0271 -0.0271
+      *pz     -0.2036 -0.2036
+      *py     -0.0271 -0.0271
+      *d2+     0.0000  0.0000
+      *d1+     0.0187  0.0187
+      *d0      0.0220  0.0220
+      *d1-     0.0187  0.0187
+      *d2-     0.0000  0.0000
+      Total    7.0000  7.0000
+
+      N-E      0.0000 -0.0000
+
+      Total electronic charge=   14.000000
+
+      Total            charge=   -0.000000
+--
+
+
+
+      Expectation values of various properties for root number:  3
+      -----------------------------------------------------------
+
+ Properties not supported for DMRGSCFS
+
+++    Molecular properties:
+      ---------------------
+
+      Charge (e):
+                      =   -0.0000
+      Dipole Moment (Debye):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                   X= -4.5119E-15               Y=  2.6938E-15               Z=  1.6349E-10           Total=  1.6349E-10
+      Quadrupole Moment (Debye*Ang):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                  XX= -9.9842E+00              XY= -1.2561E-06              XZ= -3.1877E-16              YY= -9.9842E+00
+                  YZ=  2.9871E-16              ZZ= -1.2851E+01
+      In traceless form (Debye*Ang)
+                  XX=  1.4335E+00              XY= -1.8842E-06              XZ= -4.7816E-16              YY=  1.4335E+00
+                  YZ=  4.4807E-16              ZZ= -2.8670E+00
+--
+
+      Von Neumann Entropy (Root  4) =  1.63580
+
+
+      Mulliken population analysis for root number:  4
+      -----------------------------------------------
+
+
+++    Molecular charges:
+      ------------------
+
+      Mulliken charges per centre and basis function type
+      ---------------------------------------------------
+
+                N1      N2    
+      1s       2.0013  2.0013
+      2s       1.8201  1.8201
+      2px      1.0083  1.0083
+      2pz      1.4060  1.4060
+      2py      1.0083  1.0083
+      *s      -0.0458 -0.0458
+      *px     -0.0271 -0.0271
+      *pz     -0.2036 -0.2036
+      *py     -0.0271 -0.0271
+      *d2+     0.0000  0.0000
+      *d1+     0.0187  0.0187
+      *d0      0.0220  0.0220
+      *d1-     0.0187  0.0187
+      *d2-     0.0000  0.0000
+      Total    7.0000  7.0000
+
+      N-E      0.0000 -0.0000
+
+      Total electronic charge=   14.000000
+
+      Total            charge=   -0.000000
+--
+
+
+
+      Expectation values of various properties for root number:  4
+      -----------------------------------------------------------
+
+ Properties not supported for DMRGSCFS
+
+++    Molecular properties:
+      ---------------------
+
+      Charge (e):
+                      =   -0.0000
+      Dipole Moment (Debye):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                   X= -4.5119E-15               Y=  2.6938E-15               Z=  2.3858E-10           Total=  2.3858E-10
+      Quadrupole Moment (Debye*Ang):
+      Origin of the operator (Ang)=    0.0000    0.0000    0.0000
+                  XX= -9.9842E+00              XY=  1.4567E-07              XZ= -3.1877E-16              YY= -9.9842E+00
+                  YZ=  2.9871E-16              ZZ= -1.2851E+01
+      In traceless form (Debye*Ang)
+                  XX=  1.4335E+00              XY=  2.1851E-07              XZ= -4.7816E-16              YY=  1.4335E+00
+                  YZ=  4.4807E-16              ZZ= -2.8670E+00
+--
+
+
+  Input file to MOLDEN was generated!
+
+
+  Input file to MOLDEN was generated!
+
+
+  Input file to MOLDEN was generated!
+
+
+  Input file to MOLDEN was generated!
+
+
+  Input file to MOLDEN was generated!
+
+      Average orbitals are written to the RASORB file
+      Natural orbitals for root   1 are written to the RASORB.1 file
+      Natural orbitals for root   2 are written to the RASORB.2 file
+      Natural orbitals for root   3 are written to the RASORB.3 file
+      Natural orbitals for root   4 are written to the RASORB.4 file
+      Spin density orbitals for root   1 are written to the SPDORB.1 file
+      Spin density orbitals for root   2 are written to the SPDORB.2 file
+      Spin density orbitals for root   3 are written to the SPDORB.3 file
+      Spin density orbitals for root   4 are written to the SPDORB.4 file
+
+Writing 4-RDM QCMaquis template for state 1
+Writing 4-RDM QCMaquis template for state 2
+Writing 4-RDM QCMaquis template for state 3
+Writing 4-RDM QCMaquis template for state 4
+Writing 3-TDM QCMaquis template for states 1 and 2
+Writing 3-TDM QCMaquis template for states 1 and 3
+Writing 3-TDM QCMaquis template for states 1 and 4
+Writing 3-TDM QCMaquis template for states 2 and 3
+Writing 3-TDM QCMaquis template for states 2 and 4
+Writing 3-TDM QCMaquis template for states 3 and 4
+--- Stop Module: dmrgscf at Fri May 28 20:19:44 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: dmrg_nevpt2.rasscf.molden.4 dmrg_nevpt2.rasscf.molden.2 dmrg_nevpt2.rasscf.molden.3 dmrg_nevpt2.rasscf.molden dmrg_nevpt2.rasscf.molden.1 dmrg_nevpt2.RasOrb.2
+           dmrg_nevpt2.RasOrb.1 dmrg_nevpt2.RasOrb.4 dmrg_nevpt2.RasOrb dmrg_nevpt2.RasOrb.3 dmrg_nevpt2.dmrgscf.h5 dmrg_nevpt2.SpdOrb.2 dmrg_nevpt2.SpdOrb.1 dmrg_nevpt2.SpdOrb.3
+           dmrg_nevpt2.SpdOrb.4 xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+--- Module dmrgscf spent 12 seconds ---
+
+*** symbolic link created: INPORB -> dmrg_nevpt2.RasOrb
+--- Start Module: mpssi at Fri May 28 20:19:44 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                               &MPSSI
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 19824
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+
+   ---------------------------------------------------------
+   Matrix-Product-State State-Interaction (MPS-SI) activated
+
+   Please cite for the MPS-SI framework:
+   S. Knecht, S. Keller, J. Autschbach, M. Reiher,
+   J. Chem. Theory Comput., 12, 5881-5894 (2016).
+   ---------------------------------------------------------
+
+
+      ********************************************************************************
+      *                                                                              *
+      *                             General data section                             *
+      *                                                                              *
+      ********************************************************************************
+
+   Specific data for HDF5 file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.dmrgscf.h5                                                                  
+   -------------------------------------
+   QCMaquis checkpoint files:
+   --------------------------
+   State   Checkpoint file  
+   --------------------------
+   STATE IRREP:                            1
+   SPIN MULTIPLICITY:                      1
+   ACTIVE ELECTRONS:                       4
+Right end: <2,2,0>
+Right end: <2,2,0>
+Right end: <2,2,0>
+Right end: <2,2,0>
+
+  Info: creating TDMFILE
+        estimated file size                   110 kB
+        TDMs in AO format
+
+
+   The following data are common to all the states:
+   ------------------------------------------------
+   (note: frozen counts as inactive, deleted as secondary)
+
+      Nr of irreps: 1
+
+                 Total     No./Irrep 
+      Irrep                  1
+                             a
+
+      INACTIVE       5       5
+      ACTIVE         4       4
+      SECONDARY     19      19
+      BASIS         28      28
+
+      RAS1           0       0
+      RAS2           4       4
+      RAS3           0       0
+
+        MATRIX ELEMENTS WILL BE COMPUTED FOR THE FOLLOWING ONE-ELECTRON OPERATORS, UNLESS ZERO BY SYMMETRY.
+   (Herm=Hermitian, Anti=Antihermitian, Sing=Singlet operator, Trip=Triplet operator)
+     MLTPL  0   1 (HERMSING)     MLTPL  1   1 (HERMSING)     MLTPL  1   2 (HERMSING)
+     MLTPL  1   3 (HERMSING)     MLTPL  2   1 (HERMSING)     MLTPL  2   2 (HERMSING)
+     MLTPL  2   3 (HERMSING)     MLTPL  2   4 (HERMSING)     MLTPL  2   5 (HERMSING)
+     MLTPL  2   6 (HERMSING)     VELOCITY   1 (ANTISING)     VELOCITY   2 (ANTISING)
+     VELOCITY   3 (ANTISING)     ANGMOM     1 (ANTISING)     ANGMOM     2 (ANTISING)
+     ANGMOM     3 (ANTISING)     MLTPV  2   1 (ANTISING)     MLTPV  2   2 (ANTISING)
+     MLTPV  2   3 (ANTISING)     MLTPV  2   4 (ANTISING)     MLTPV  2   5 (ANTISING)
+     MLTPV  2   6 (ANTISING)
+
+       EIGENSTATES OF A SPIN-FREE HAMILTONIAN WILL BE COMPUTED BASED ON:
+
+  a Hamiltonian matrix assumed to be diagonal with energies read from the wavefunction file(s).
+  SO coupling elements will be added.
+       EIGENSTATES OF SPIN-ORBIT HAMILTONIAN WILL BE COMPUTED
+        MATRIX ELEMENTS OVER SPIN EIGENSTATES FOR:
+     MLTPL  0   1 (HERMSING)     MLTPL  1   1 (HERMSING)     MLTPL  1   2 (HERMSING)
+     MLTPL  1   3 (HERMSING)     MLTPL  2   1 (HERMSING)     MLTPL  2   2 (HERMSING)
+     MLTPL  2   3 (HERMSING)     MLTPL  2   4 (HERMSING)     MLTPL  2   5 (HERMSING)
+     MLTPL  2   6 (HERMSING)     VELOCITY   1 (ANTISING)     VELOCITY   2 (ANTISING)
+     VELOCITY   3 (ANTISING)     ANGMOM     1 (ANTISING)     ANGMOM     2 (ANTISING)
+     ANGMOM     3 (ANTISING)     MLTPV  2   1 (ANTISING)     MLTPV  2   2 (ANTISING)
+     MLTPV  2   3 (ANTISING)     MLTPV  2   4 (ANTISING)     MLTPV  2   5 (ANTISING)
+     MLTPV  2   6 (ANTISING)
+
+  Nr of states:                    4
+
+   State:        1   2   3   4
+  JobIph:        1   1   1   1
+ Root nr:        1   2   3   4
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.0.h5                                                                                                                                                                                                                               
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.1.h5                                                                                                                                                                                                                               
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.2.h5                                                                                                                                                                                                                               
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.3.h5                                                                                                                                                                                                                               
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.0.h5                                                                                                                                                                                                                               
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_aef9e742ee0b/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_9da050e0b3cb/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_72da48dcafa8/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_f7ac718460dc/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.1.h5                                                                                                                                                                                                                               
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_4c4e0c67156a/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_3902eb425f18/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_ac665d48b7b4/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.2.h5                                                                                                                                                                                                                               
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_1cb36cbdc7f7/
+Will start again at site -1 in sweep 27
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.2.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_8df7bc570d6a/
+Will start again at site -1 in sweep 27
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.2.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring transition_oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring transition_oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+ prepMPS: no MPS rotation requested for state dmrg_nevpt2.checkpoint_state.3.h5                                                                                                                                                                                                                               
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_13adc478c56a/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.3.0.0.h5
+Parameters:
+               Sites: 4
+   Spin-up electrons: 2
+ Spin-down electrons: 2
+               Irrep: 0
+The hamiltonian will contain 355 terms
+MPO Bond 0: 57/22
+MPO Bond 1: 68/28
+MPO Bond 2: 17/6
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Measuring oneptdm_aa
+ measuring in 2u1 version of tagged_nrank 
+Measuring oneptdm_bb
+ measuring in 2u1 version of tagged_nrank 
+
+  HAMILTONIAN MATRIX FOR THE ORIGINAL STATES:
+
+  Diagonal, with energies
+   -109.03448020   -108.65752428   -108.62804265   -108.62804265
+
+      OVERLAP MATRIX FOR THE ORIGINAL STATES:
+
+  Diagonal, with elements
+      1.00000000      1.00000000      1.00000000      1.00000000
+
+::    RASSI State    1     Total energy:   -109.03448020
+::    RASSI State    2     Total energy:   -108.65752428
+::    RASSI State    3     Total energy:   -108.62804265
+::    RASSI State    4     Total energy:   -108.62804265
+
+
+
+      ****************************************************************************************************
+      *                                                                                                  *
+      *                                         Spin-free section                                        *
+      *                                                                                                  *
+      *                 Note: index according to input order, order according to energy.                 *
+      *                                                                                                  *
+      ****************************************************************************************************
+
+
+
+  SPIN-FREE ENERGIES:
+  (Shifted by EMIN (a.u.) =       -109.0344802022)
+
+ SF State       Relative EMIN(au)   Rel lowest level(eV)    D:o, cm**(-1)
+
+     1             0.0000000000        0.0000000000              0.0000
+     2             0.3769559210       10.2574931647          82732.2618
+     3             0.4064375495       11.0597291442          89202.7313
+     4             0.4064375495       11.0597291442          89202.7313
+
+++ Dipole transition strengths (spin-free states):
+   -----------------------------------------------
+     for osc. strength at least  1.00000000E-05
+
+  ( Max oscillator strength is only    1.6165758885622754E-020 )
+--
+
+++ Velocity transition strengths (spin-free states):
+   -------------------------------------------------
+     for osc. strength at least  1.00000000E-05
+
+  ( Max oscillator strength is only    3.9526278861048692E-020 )
+--
+
+++ Length and velocity gauge comparison (spin-free states):
+   --------------------------------------------------------
+
+ --------------------------------------------------
+ A comparison between the dipole oscillator strengths in 
+ length and velocity gauge will be performed
+
+     All dipole oscillator differences above the tolerance of   1.00000000E-01  will be printed 
+
+ Due to basis set deficiency these oscillator may be problematic 
+
+ The tolerance is defined as ABS(1-O_l/O_v) 
+ O_l : dipole oscillator strength in length gauge
+ O_p : dipole oscillator strength in velocity gauge
+ --------------------------------------------------
+
+ No problematic oscillator strengths above the tolerance   0.10000000000000001       have been found
+
+--
+
+ Electric-dipole - electric-octupole not included
+ Electric-dipole - magnetic-quadrupole not included
+
+
+      ****************************************************************************************************
+      *                                                                                                  *
+      *                                    Special properties section                                    *
+      *                                                                                                  *
+      ****************************************************************************************************
+
+
+++ I/O STATISTICS
+ 
+  I. General I/O information
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  Unit  Name          Flsize      Write/Read            MBytes           Write/Read
+                      (MBytes)       Calls              In/Out           Time, sec.
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   1  SCRATCH           0.00 .       0/       0 .      0.0/      0.0 .       0/       0
+   2  ANNI              0.00 .       0/       0 .      0.0/      0.0 .       0/       0
+   3  RUNFILE           0.17 .     266/    1470 .      1.9/     10.7 .       0/       0
+   4  ONEINT            1.45 .       0/     712 .      0.0/    652.2 .       0/       0
+   5  TDMFILE           0.13 .      20/      20 .      0.1/      0.1 .       0/       0
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   *  TOTAL             1.75 .     286/    2202 .      2.0/    663.0 .       0/       0
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  II. I/O Access Patterns
+  - - - - - - - - - - - - - - - - - - - -
+  Unit  Name               % of random
+                         Write/Read calls
+  - - - - - - - - - - - - - - - - - - - -
+   1  SCRATCH              0.0/   0.0
+   2  ANNI                 0.0/   0.0
+   3  RUNFILE             28.6/  10.0
+   4  ONEINT               0.0/  98.3
+   5  TDMFILE             95.0/ 100.0
+  - - - - - - - - - - - - - - - - - - - -
+--
+--- Stop Module: mpssi at Fri May 28 20:19:46 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: dmrg_nevpt2.mpssi.h5 xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+--- Module mpssi spent 1 second ---
+
+*** symbolic link created: INPORB -> dmrg_nevpt2.RasOrb
+--- Start Module: motra at Fri May 28 20:19:46 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                               &MOTRA
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 19863
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+
+      *** WARNING: Default frozen orbitals is overwritten by user input.
+      *** Default values:   2
+
+      Header of the integral files:
+      
+       Integrals generated by Gateway/Seward, Fri May 28 20:19:29 2021
+
+
+      Header of MO coefficients source file:
+      * RASSCF average (pseudo-natural) orbitals                                      
+
+
+      Cartesian coordinates in Angstrom:
+      -----------------------------------------------------
+      No.  Label        X            Y            Z        
+      -----------------------------------------------------
+       1   N1         0.00000000   0.00000000   0.55000000
+       2   N2         0.00000000   0.00000000  -0.55000000
+      -----------------------------------------------------
+      Nuclear repulsion energy =   23.57243939
+
+      Orbital specifications:
+      -----------------------
+
+      Symmetry species:              1
+      Number of basis functions:    28
+      Frozen orbitals:               0
+      Deleted orbitals:              0
+      Number of orbitals used:      28
+       Warning! This is not RI/CD calculation: 
+                       keyword CTonly ignored! 
+
+       SYMMETRY  BASIS FUNCTIONS       ORBITALS      INTEGRALS   CPU(SEC)  I/O(SEC)
+ size of tmpbuf:               707281
+        1 1 1 1   28  28  28  28    28  28  28  28       82621       0.00      0.00
+
+       TOTAL CPU TIME(SEC)    0.05TOTAL I/O TIME(SEC)    0.04
+
+--- Stop Module: motra at Fri May 28 20:19:46 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+
+*** symbolic link created: INPORB -> dmrg_nevpt2.RasOrb
+--- Start Module: nevpt2 at Fri May 28 20:19:46 2021 ---
+
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+                                              &NEVPT2
+
+                                   only a single process is used
+                       available to each process: 20 GB of memory, 16 threads
+                                             pid: 19890
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+
+
+ ---------------------------------------------------------------------- 
+ This program calculates the second order correction to the energy       
+ using the n-electron valence state perturbation theory (NEVPT)          
+ in the partially contracted (PC) ad strongly contracted (SC)            
+ variants using the Dyalls Hamiltonian for the definition of the        
+ zero order energies. All equations are based on the spin free           
+ formulation of NEVPT.                                                   
+
+ Relevant papers:                                                        
+ 1) C. Angeli, R. Cimiraglia, J-P Malrieu,                               
+    Chem. Phys. Lett.,  317, 472-480, (2000)                             
+    Definition of the inactive (core+virtual) orbital energies.          
+ 2) C. Angeli, R. Cimiraglia, S. Evangelisti, T. Leininger, J-P Malrieu, 
+    J. Chem. Phys., 114, 10252, (2001)                                   
+    Introduction of NEVPT                                                
+ 3) C. Angeli, R. Cimiraglia, J-P Malrieu,                               
+    Chem. Phys. Lett., 350, 297-305, (2001)                              
+    Introduction of the formalism based on the Koopmans operators        
+ 4) C. Angeli, R. Cimiraglia, J-P Malrieu,                               
+    J. Chem. Phys., 117, 10525-10533, (2002)                             
+    Spin free version of NEVPT                                           
+
+ Main authors of the original NEVPT code:                                
+                  C. Angeli     (U Ferrara, Italy)                       
+                  R. Cimiraglia (U Ferrara, Italy)                       
+                  J-P Malrieu   (U Toulouse, France)                     
+ DMRG-driven NEVPT code:                                                 
+                  S. Knecht     (ETH Zurich)                             
+                  L. Freitag    (ETH Zurich)                             
+                  M. Reiher     (ETH Zurich)                             
+ DMRG-driven/CASSCF-driven relativistic NEVPT code:                      
+                  S. Knecht     (ETH Zurich)                             
+
+                NEVPT version: 2.1
+                 Git revision: e1484fd4901ae93ab0188bde417cf5dc440a8a3b (master)
+
+  Running the non- and scalar-relativistic version                       
+
+  Please cite the following work in a publication that reports data      
+  obtained with this code:                                               
+
+  L. Freitag, S. Knecht, C. Angeli, and M. Reiher,                       
+  J. Chem. Theory Comput., 13, 451-459 (2017).                           
+ -----------------------------------------------------------------------
+
+ Number of frozen orbitals has been set to 0.
+ Cholesky Decomposition: Disabled
+ wavefunction data from HDF5 file:
+   /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.dmrgscf.h5
+
+ Wavefunction parameters for NEVPT2
+ ----------------------------------
+ Number of active electrons .......    4
+ Spin .............................    1
+ Inactive orbitals ................    5
+ Active orbitals ..................    4
+ Secondary orbitals ...............   19
+ ----------------------------------
+
+ Energies of zeroth-order DMRG wavefunction(s)
+ ---------------------------------------------
+ State ...   1 ... Energy =      -109.03448020
+ State ...   2 ... Energy =      -108.65752428
+ State ...   3 ... Energy =      -108.62804265
+ State ...   4 ... Energy =      -108.62804265
+ ---------------------------------------------
+
+ DMRG wavefunction data will be read from
+ ----------------------------------------
+ State ...   1 .......................... dmrg_nevpt2.checkpoint_state.0.h5
+ State ...   2 .......................... dmrg_nevpt2.checkpoint_state.1.h5
+ State ...   3 .......................... dmrg_nevpt2.checkpoint_state.2.h5
+ State ...   4 .......................... dmrg_nevpt2.checkpoint_state.3.h5
+ ----------------------------------------
+
+
+ Calculating the Koopmans' matrices
+ ----------------------------------
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_006308f27647/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -109.034
+Right end: <2,2,0>
+Measuring fourptdm
+ measuring in 2u1 version of tagged_nrank 
+Number of total 4-RDM elements measured: 527
+ Reading 4-RDM for state 1 from checkpoint file dmrg_nevpt2.checkpoint_state.0.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_74eff1938394/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.658
+Right end: <2,2,0>
+Measuring fourptdm
+ measuring in 2u1 version of tagged_nrank 
+Number of total 4-RDM elements measured: 527
+ Reading 4-RDM for state 2 from checkpoint file dmrg_nevpt2.checkpoint_state.1.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_4ea3452a1464/
+Will start again at site -1 in sweep 27
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.2.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.628
+Right end: <2,2,0>
+Measuring fourptdm
+ measuring in 2u1 version of tagged_nrank 
+Number of total 4-RDM elements measured: 527
+ Reading 4-RDM for state 3 from checkpoint file dmrg_nevpt2.checkpoint_state.2.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_36e2d0e2970f/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.3.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.628
+Right end: <2,2,0>
+Measuring fourptdm
+ measuring in 2u1 version of tagged_nrank 
+Number of total 4-RDM elements measured: 527
+ Reading 4-RDM for state 4 from checkpoint file dmrg_nevpt2.checkpoint_state.3.h5
+
+ time needed for construction of RDM matrices:     15.64 sec.
+
+ total number of 4-index 2e-integrals:       82621
+ construction of AMAT took       0.39 seconds
+
+ construction of BMAT took       0.02 seconds
+
+ construction of CMAT took       0.02 seconds
+
+ construction of DMAT took       0.00 seconds
+
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_1a92330186b1/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -109.034
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 1 and 2 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.0_1.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_ed528ae5dc89/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -109.034
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 1 and 3 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.0_2.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_a1dd874186dd/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.658
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 2 and 3 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.1_2.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_d0bd045794ac/
+Will start again at site -1 in sweep 26
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.0.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -109.034
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 1 and 4 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.0_3.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_07d652603bdb/
+Will start again at site -1 in sweep 24
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.1.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.658
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 2 and 4 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.1_3.h5
+This binary contains symmetries: 2u1pg su2u1pg 
+DMRG version 3.0.4-c79b5607ad94b58f135058a11df2d2741c6c0e4d (master) release-3.0.4
+Temporary storage enabled in ./tmp//storage_temp_38e798ea4345/
+Will start again at site -1 in sweep 27
+Loading checkpoint from /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.checkpoint_state.2.h5
+Parameters:
+               Sites: 4
+           Electrons: 4
+                Spin: 0
+               Irrep: 0
+The hamiltonian will contain 141 terms
+MPO Bond 0: 32/11
+MPO Bond 1: 38/14
+MPO Bond 2: 10/3
+MPO Bond 3: 1/0
+MPS initialization has finished...
+Energy: -108.628
+Right end: <2,2,0>
+Measuring transition_threeptdm
+Right end: <2,2,0>
+ measuring in 2u1 version of tagged_nrank 
+Number of total 3-RDM elements measured: 1196
+ Reading 3-TDM for states 3 and 4 from file /scratch/gayverjr/dmrg_nevpt2.269588624/dmrg_nevpt2.trans3rdm.2_3.h5
+
+ time needed for construction of transition RDM matrices:     28.68 sec.
+
+ Starting NEVPT2 perturbation summation
+ --------------------------------------
+
+ total number of 4-index 2e-integrals:       82621
+
+ Orbital energies (in CAS terminology) used in the NEVPT calculation
+ -------------------------------------------------------------------
+
+                    state  1        state  2        state  3        state  4
+
+ inactive
+ --------
+         1      -15.66375064   -15.66509511   -15.66507320   -15.66507320
+         2      -15.66043143   -15.66225397   -15.66222431   -15.66222431
+         3       -1.45628181    -1.48172912    -1.48130739    -1.48130739
+         4       -0.76751650    -0.77146219    -0.77139798    -0.77139798
+         5       -0.61497376    -0.61557821    -0.61557601    -0.61557601
+
+ secondary
+ ---------
+        10        0.59608149     0.59707002     0.59706063     0.59706063
+        11        0.82527643     0.81585294     0.81602108     0.81602108
+        12        0.87757424     0.86770820     0.86786876     0.86786877
+        13        0.87757424     0.86770820     0.86786877     0.86786877
+        14        0.99924506     1.00033074     1.00029874     1.00029874
+        15        1.03802573     1.02890444     1.02905334     1.02905334
+        16        1.03802573     1.02890444     1.02905335     1.02905334
+        17        1.15226411     1.14465367     1.14477616     1.14477616
+        18        1.64667715     1.63165332     1.63189588     1.63189588
+        19        1.76680904     1.75404095     1.75424874     1.75424874
+        20        1.76680904     1.75404095     1.75424874     1.75424874
+        21        1.88700100     1.86656488     1.86689745     1.86689746
+        22        1.88700100     1.86656489     1.86689746     1.86689746
+        23        2.30328763     2.28282414     2.28315716     2.28315716
+        24        2.30328763     2.28282414     2.28315716     2.28315716
+        25        2.87878185     2.86660286     2.86680061     2.86680061
+        26        3.00020822     2.99189152     2.99202640     2.99202641
+        27        3.00020822     2.99189156     2.99202644     2.99202642
+        28        3.28928333     3.27908582     3.27924837     3.27924837
+
+ -----------------------------------------------
+ -     Starting the perturbative calculation   -
+ -----------------------------------------------
+
+ V(0)   contributions calculated in       0.01 seconds
+
+ V(+1)  contributions calculated in       0.01 seconds
+
+ V(-1)  contributions calculated in       0.29 seconds
+
+ V(+2)  contributions calculated in       0.01 seconds
+
+ V(-2)  contributions calculated in       0.12 seconds
+
+ V(0p)  contributions calculated in       0.22 seconds
+
+ V(-1p) contributions calculated in       0.23 seconds
+
+ V(+1p) contributions calculated in       0.09 seconds
+
+
+
+ QD-NEVPT2: FINAL RESULTS
+
+
+ Second order contribution of each class to the energies
+ (to the diagonal elements of Heff)
+
+ state number:   1
+ -----------------
+ class        norm(sc)           energy(sc)           norm(pc)           energy(pc)
+ (0)     0.010927548564860  -0.050119893736126   0.010927548564860  -0.050119893736126
+ (+1)    0.003312607172423  -0.013080514740744   0.003312607172423  -0.013080514740744
+ (-1)    0.013507725724580  -0.056613446045792   0.013507725724580  -0.056613446045792
+ (+2)    0.002133800596437  -0.005618548528882   0.002135442049618  -0.005620100546162
+ (-2)    0.004614386117369  -0.021215608544237   0.004616981666236  -0.021219531790433
+ (+1)'   0.000000000000000  -0.000000000000000   0.000000000000000  -0.000000000000000
+ (-1)'   0.003943029309821  -0.009917901855940   0.004023222621157  -0.009987163836498
+ (0)'    0.022528913281901  -0.064198777501349   0.022722882428031  -0.064354502210619
+ -------------------------------------------------------------------------------------
+ Total   0.060968010767391  -0.220764690953071   0.061246410226905  -0.220995152906374
+
+ state number:   2
+ -----------------
+ class        norm(sc)           energy(sc)           norm(pc)           energy(pc)
+ (0)     0.010916662302819  -0.050115953062912   0.010916662302819  -0.050115953062912
+ (+1)    0.003476661307812  -0.013597582257552   0.003476661307812  -0.013597582257552
+ (-1)    0.014964802615453  -0.061005353368264   0.014964802615453  -0.061005353368264
+ (+2)    0.001627951516342  -0.004156431511266   0.001627951519708  -0.004156431515502
+ (-2)    0.004883272890225  -0.021346504363935   0.004889049427554  -0.021354005623194
+ (+1)'   0.000000000000000  -0.000000000000000   0.000000000000000  -0.000000000000000
+ (-1)'   0.005511440791401  -0.012719539546086   0.005819207550521  -0.012925148681787
+ (0)'    0.021408384232638  -0.059699913884308   0.021423150777841  -0.059710094658940
+ -------------------------------------------------------------------------------------
+ Total   0.062789175656691  -0.222641277994322   0.063117485501708  -0.222864569168152
+
+ state number:   3
+ -----------------
+ class        norm(sc)           energy(sc)           norm(pc)           energy(pc)
+ (0)     0.010916812971138  -0.050115983516489   0.010916812971138  -0.050115983516489
+ (+1)    0.003508860923227  -0.013653427046271   0.003508860923227  -0.013653427046271
+ (-1)    0.015099427173547  -0.061227516657860   0.015099427173547  -0.061227516657860
+ (+2)    0.003918531214503  -0.010272287670723   0.003918531247253  -0.010272287717368
+ (-2)    0.005902408004744  -0.026368759574797   0.005910647802355  -0.026379668262342
+ (+1)'   0.000000000000000  -0.000000000000000   0.000000000000000  -0.000000000000000
+ (-1)'   0.006566582580128  -0.014813533953015   0.007173770099313  -0.015200943779774
+ (0)'    0.018784180378745  -0.051365511105939   0.018810214428364  -0.051389939380971
+ -------------------------------------------------------------------------------------
+ Total   0.064696803246032  -0.227817019525095   0.065338264645197  -0.228239766361075
+
+ state number:   4
+ -----------------
+ class        norm(sc)           energy(sc)           norm(pc)           energy(pc)
+ (0)     0.010916812971138  -0.050115983516489   0.010916812971138  -0.050115983516489
+ (+1)    0.003508860923227  -0.013653427046271   0.003508860923227  -0.013653427046271
+ (-1)    0.015099427173547  -0.061227516657860   0.015099427173547  -0.061227516657860
+ (+2)    0.003918531214504  -0.010272287670726   0.003918531241910  -0.010272287710997
+ (-2)    0.005902641392024  -0.026369147064674   0.005910647804300  -0.026379668266406
+ (+1)'   0.000000000000000  -0.000000000000000   0.000000000000000  -0.000000000000000
+ (-1)'   0.006566582580124  -0.014813533953009   0.007173770094741  -0.015200943774856
+ (0)'    0.018785131213659  -0.051366524680583   0.018810214403613  -0.051389939349928
+ -------------------------------------------------------------------------------------
+ Total   0.064697987468224  -0.227818420589611   0.065338264612477  -0.228239766322807
+
+*******************************************
+* Second order Effective Hamiltonian (SC) *
+*******************************************
+
+                1                2                3                4
+  1      -109.2552448931    -0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000  -108.8801655592     0.0000000029    -0.0000000008
+  3        -0.0000000000     0.0000000030  -108.8558596722    -0.0000174852
+  4        -0.0000000000    -0.0000000008     0.0000137149  -108.8558610733
+**************************************************
+* Zero + second order Effective Hamiltonian (SC) *
+**************************************************
+
+                1                2                3                4
+  1      -109.2552448931    -0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000  -108.8801655592     0.0000000029    -0.0000000008
+  3        -0.0000000000     0.0000000030  -108.8558596722    -0.0000174852
+  4        -0.0000000000    -0.0000000008     0.0000137149  -108.8558610733
+
+
+ Eigenvalues of Heff (non-Hermitian):
+
+ n.       Real          Imag     
+ 1   -109.25524489   0.00000000
+ 2   -108.88016556   0.00000000
+ 3   -108.85586037   0.00001547
+ 4   -108.85586037  -0.00001547
+
+ Right eigenvectors
+                1                2                3                4
+  1        -1.0000000000     0.0000000000     0.0000000000    -0.0000000000
+  2        -0.0000000000    -1.0000000000    -0.0000000879    -0.0000000206
+  3        -0.0000000000     0.0000001222    -0.7486125184     0.0000000000
+  4        -0.0000000000    -0.0000000315    -0.0299927140     0.6623290228
+
+ Left eigenvectors
+                1                2                3                4
+  1        -1.0000000000     0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000    -1.0000000000    -0.0000000273     0.0000000810
+  3        -0.0000000000     0.0000001187    -0.0299927140     0.6623290228
+  4        -0.0000000000    -0.0000000311     0.7486125184     0.0000000000
+
+  Heff~ (Hermitian) --> SC
+                1                2                3                4
+  1      -109.2552448931    -0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000  -108.8801655592     0.0000000029    -0.0000000008
+  3        -0.0000000000     0.0000000029  -108.8558603727    -0.0000000000
+  4        -0.0000000000    -0.0000000008    -0.0000000000  -108.8558603727
+ eigenvectors of Heff~ (Hermitian) --> SC
+                1                2                3                4
+  1        -1.0000000000    -0.0000000000     0.0000000000    -0.0000000000
+  2        -0.0000000000     1.0000000000    -0.0000001197    -0.0000000352
+  3        -0.0000000000    -0.0000001207    -0.9994872275    -0.0320200256
+  4        -0.0000000000     0.0000000314    -0.0320200256     0.9994872275
+ eigenvalues of Heff~ matrix (Hermitian) --> SC
+                1
+  1      -109.2552448931
+  2      -108.8801655592
+  3      -108.8558603727
+  4      -108.8558603727
+
+*******************************************
+* Second order effective Hamiltonian (PC) *
+*******************************************
+
+                1                2                3                4
+  1      -109.2554753551     0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000  -108.8803888503     0.0000000018    -0.0000000005
+  3        -0.0000000000     0.0000000020  -108.8562824191     0.0000000000
+  4        -0.0000000000    -0.0000000005     0.0000000000  -108.8562824190
+
+**************************************************
+* Zero + second order effective Hamiltonian (PC) *
+**************************************************
+
+                1                2                3                4
+  1      -109.2554753551     0.0000000000    -0.0000000000    -0.0000000000
+  2        -0.0000000000  -108.8803888503     0.0000000018    -0.0000000005
+  3        -0.0000000000     0.0000000020  -108.8562824191     0.0000000000
+  4        -0.0000000000    -0.0000000005     0.0000000000  -108.8562824190
+
+ Eigenvalues of Heff (non-Hermitian):
+
+ n.       Real          Imag     
+ 1   -109.25547536   0.00000000
+ 2   -108.88038885   0.00000000
+ 3   -108.85628242   0.00000000
+ 4   -108.85628242   0.00000000
+
+ Right eigenvectors
+                1                2                3                4
+  1        -1.0000000000    -0.0000000001    -0.0000000001     0.0000000000
+  2        -0.0000000000    -1.0000000000     0.0000000718     0.0000000074
+  3        -0.0000000000     0.0000000834     0.8165952406    -0.1534283497
+  4        -0.0000000000    -0.0000000216    -0.5772107181    -0.9881597753
+
+ Left eigenvectors
+                1                2                3                4
+  1        -1.0000000000     0.0000000000    -0.0000000000     0.0000000000
+  2         0.0000000001    -1.0000000000     0.0000000857    -0.0000000305
+  3        -0.0000000001     0.0000000745     0.9881597753    -0.5772107181
+  4        -0.0000000000    -0.0000000191    -0.1534283497    -0.8165952406
+
+  Heff~ (Hermitian) --> PC
+                1                2                3                4
+  1      -109.2554753551     0.0000000000    -0.0000000000    -0.0000000000
+  2         0.0000000000  -108.8803888503     0.0000000019    -0.0000000005
+  3        -0.0000000000     0.0000000019  -108.8562824191     0.0000000000
+  4        -0.0000000000    -0.0000000005     0.0000000000  -108.8562824190
+ eigenvectors of Heff~ (Hermitian) --> PC
+                1                2                3                4
+  1         1.0000000000    -0.0000000000     0.0000000000    -0.0000000000
+  2        -0.0000000000    -1.0000000000    -0.0000000810     0.0000000113
+  3         0.0000000001     0.0000000793    -0.9270407237     0.3749606601
+  4         0.0000000000    -0.0000000199     0.3749606601     0.9270407237
+ eigenvalues of Heff~ matrix (Hermitian) --> PC
+                1
+  1      -109.2554753551
+  2      -108.8803888503
+  3      -108.8562824191
+  4      -108.8562824190
+
+
+                 Summary of the QD-NEVPT2 energies
+ ------------------------------------------------------------------------
+ state   diagonalization     strongly-contracted     partially-contracted
+
+ @   1      -109.0344802            -109.2552449             -109.2554754
+ @   2      -108.6575243            -108.8801656             -108.8803889
+ @   3      -108.6280427            -108.8558604             -108.8562824
+ @   4      -108.6280427            -108.8558604             -108.8562824
+ ------------------------------------------------------------------------
+
+
+--- Stop Module: nevpt2 at Fri May 28 20:19:51 2021 /rc=_RC_ALL_IS_WELL_ ---
+*** files: dmrg_nevpt2.nevpt2.h5 xmldump
+    saved to directory /home/gayverjr/opencap_tests/openmolcas
+--- Module nevpt2 spent 5 seconds ---
+
+.##################.
+.# Happy landing! #.
+.##################.
+
+    Timing: Wall=21.60 User=103.77 System=3.81

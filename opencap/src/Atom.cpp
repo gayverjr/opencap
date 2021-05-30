@@ -28,6 +28,7 @@ SOFTWARE.
 static std::vector<element> elements
       {
 	  {0, "ghost", "X"},
+	  {0, "ghost", "Gh"},
 	  {1, "hydrogen", "H"},
       {2, "helium", "He"},
       {3, "lithium", "Li"},

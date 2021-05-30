@@ -37,9 +37,9 @@ start = time.time()
 psi4.core.set_output_file('output.dat', False)
 
 mol = psi4.geometry("""
-    Gh(He) 0.0000000000 0.0000000000 0.000
     N 0.0000000000 0.0000000000 0.548756750
     N 0.0000000000 0.0000000000 -0.548756750
+    Gh(He) 0.0000000000 0.0000000000 0.000
     Symmetry C1
     """)
 
