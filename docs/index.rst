@@ -15,7 +15,7 @@ If you have questions or need support, please open an issue on GitHub, or contac
 
 PyOpenCAP is released under the MIT license_.
 
-.. _license: https://github.com/gayverjr/opencap/blob/master/LICENSE
+.. _license: https://github.com/gayverjr/opencap/blob/main/LICENSE
 
 Supported Packages
 ===================

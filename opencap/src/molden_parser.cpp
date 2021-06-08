@@ -27,7 +27,6 @@ SOFTWARE.
 #include "molden_parser.h"
 
 #include <algorithm>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>

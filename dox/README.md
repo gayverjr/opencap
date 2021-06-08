@@ -29,4 +29,4 @@ __Developers__
 Developers interested in adding new functionality should consult the <a href="notes.html"> developers notes</a>
 to help get started.
 
-The source code is publicly available under the MIT <a href="https://github.com/gayverjr/opencap/blob/master/LICENSE">license</a> on <a href="https://github.com/gayverjr/opencap">GitHub</a>.
+The source code is publicly available under the MIT <a href="https://github.com/gayverjr/opencap/blob/main/LICENSE">license</a> on <a href="https://github.com/gayverjr/opencap">GitHub</a>.

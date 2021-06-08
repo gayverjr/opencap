@@ -84,6 +84,6 @@ To run OpenCAP, specify an input file from the command line
 
     /path/to/opencap input_file.in 
 
-See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/opencap) directory 
+See the [examples](https://github.com/gayverjr/opencap/tree/main/examples/opencap) directory 
 and our <a href="input.html">input </a> page to help get you started.
 
