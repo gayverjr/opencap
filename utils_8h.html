@@ -82,9 +82,8 @@ $(function() {
 
 <p>Helper functions used by various pieces of the software.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_shell_8h_source.html">Shell.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;Eigen/Dense&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
-<code>#include &lt;Eigen/Dense&gt;</code><br />
 </div>
 <p><a href="utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,10 +106,12 @@ Functions</h2></td></tr>
 <tr class="separator:abda3c3a57991206298b0f9ffd09ed6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d4f48de4652460fe98887d2ff4b549f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a2d4f48de4652460fe98887d2ff4b549f">split</a> (const std::string &amp;s, char delimiter)</td></tr>
 <tr class="separator:a2d4f48de4652460fe98887d2ff4b549f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d245b21feeb62f5041e66641fecc27c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a4d245b21feeb62f5041e66641fecc27c">fill_LT</a> (std::vector&lt; double &gt; matrix_elements, Eigen::MatrixXd &amp;opdm)</td></tr>
-<tr class="separator:a4d245b21feeb62f5041e66641fecc27c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92615b1c67e1e88757ef0471dae613c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a92615b1c67e1e88757ef0471dae613c2">fill_mat</a> (std::vector&lt; double &gt; &amp;matrix_elements, Eigen::MatrixXd &amp;opdm)</td></tr>
-<tr class="separator:a92615b1c67e1e88757ef0471dae613c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65346ca06847567b50ade20abef509a6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a65346ca06847567b50ade20abef509a6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utils_8h.html#a65346ca06847567b50ade20abef509a6">fill_mat</a> (std::vector&lt; T &gt; &amp;matrix_elements, Eigen::MatrixXd &amp;opdm)</td></tr>
+<tr class="separator:a65346ca06847567b50ade20abef509a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bfcd99eef3641bb3dd26aed15a10581"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3bfcd99eef3641bb3dd26aed15a10581"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utils_8h.html#a3bfcd99eef3641bb3dd26aed15a10581">fill_LT</a> (std::vector&lt; T &gt; matrix_elements, Eigen::MatrixXd &amp;opdm)</td></tr>
+<tr class="separator:a3bfcd99eef3641bb3dd26aed15a10581"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46aee065d0d4297e76042a53ee3725d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a46aee065d0d4297e76042a53ee3725d1">fortran_dfloats_to_efloats</a> (std::string &amp;str)</td></tr>
 <tr class="separator:a46aee065d0d4297e76042a53ee3725d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9dacf38df60afd15471135a2b1b8ec1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#aa9dacf38df60afd15471135a2b1b8ec1">shell2angmom</a> (std::string angmom)</td></tr>
@@ -121,6 +122,8 @@ Functions</h2></td></tr>
 <tr class="separator:a53d02df1713071578c4b6a030269739b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcc11713425b9f33bc4265dbf2a5e46e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#abcc11713425b9f33bc4265dbf2a5e46e">is_letter</a> (const std::string &amp;s)</td></tr>
 <tr class="separator:abcc11713425b9f33bc4265dbf2a5e46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1490a5295bf7f3971ac28dfbf5bf9b3"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#ad1490a5295bf7f3971ac28dfbf5bf9b3">read_matrix</a> (size_t N, std::string filename)</td></tr>
+<tr class="separator:ad1490a5295bf7f3971ac28dfbf5bf9b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper functions used by various pieces of the software. </p>
@@ -266,16 +269,48 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4d245b21feeb62f5041e66641fecc27c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d245b21feeb62f5041e66641fecc27c">&#9670;&nbsp;</a></span>fill_LT()</h2>
+<a id="a3bfcd99eef3641bb3dd26aed15a10581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bfcd99eef3641bb3dd26aed15a10581">&#9670;&nbsp;</a></span>fill_LT()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void fill_LT </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
+          <td class="paramtype">std::vector&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>matrix_elements</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>opdm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65346ca06847567b50ade20abef509a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65346ca06847567b50ade20abef509a6">&#9670;&nbsp;</a></span>fill_mat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void fill_mat </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>matrix_elements</em>, </td>
         </tr>
         <tr>
@@ -301,41 +336,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a92615b1c67e1e88757ef0471dae613c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92615b1c67e1e88757ef0471dae613c2">&#9670;&nbsp;</a></span>fill_mat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fill_mat </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>matrix_elements</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
-          <td class="paramname"><em>opdm</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Populates matrix given full list of elements in row major order </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">matrix_elements</td><td>list of all matrix elements in row-major order </td></tr>
-    <tr><td class="paramname">opdm</td><td>matrix to be populated </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a46aee065d0d4297e76042a53ee3725d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46aee065d0d4297e76042a53ee3725d1">&#9670;&nbsp;</a></span>fortran_dfloats_to_efloats()</h2>
 
@@ -351,7 +351,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts fortran-style d floats to e c-style floats. </p>
 
 </div>
 </div>
@@ -414,6 +413,35 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ad1490a5295bf7f3971ac28dfbf5bf9b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1490a5295bf7f3971ac28dfbf5bf9b3">&#9670;&nbsp;</a></span>read_matrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd read_matrix </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filename</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reads formatted matrix from .txt file </p>
 
 </div>
 </div>

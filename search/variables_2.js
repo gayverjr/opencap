@@ -9,5 +9,8 @@ var searchData=
   ['centers',['centers',['../class_basis_set.html#ad7dabaf15dd6e74cacc2da8a828dc974',1,'BasisSet']]],
   ['coeffs',['coeffs',['../class_shell.html#a348bf162b3c6bd877c7a1811f5fb3673',1,'Shell']]],
   ['coords',['coords',['../class_atom.html#af5ddb4b6cd27799543197356e65280f8',1,'Atom']]],
+  ['corr_5fopt',['corr_opt',['../class_eigenvalue_trajectory.html#abf3b2ae1eb11233ec2c6cd4ff7fb3a8d',1,'EigenvalueTrajectory']]],
+  ['corr_5fopt_5feta',['corr_opt_eta',['../class_eigenvalue_trajectory.html#acff70b51a769a522cf405071ab860b45',1,'EigenvalueTrajectory']]],
+  ['corrected_5fenergies',['corrected_energies',['../class_eigenvalue_trajectory.html#ad1fbac1d38c36dedf80008a51cfe0ec3',1,'EigenvalueTrajectory']]],
   ['ctr',['ctr',['../structshell__id.html#a6a44f8151e8013e8c667776e5081ba16',1,'shell_id::ctr()'],['../structbf__id.html#a5daf3a50ed348d8bd856c09b4f5abbdd',1,'bf_id::ctr()']]]
 ];

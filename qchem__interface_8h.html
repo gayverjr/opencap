@@ -88,33 +88,43 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a27b7a07ec49154fc492033ad77d3279b"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt; &gt;, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a27b7a07ec49154fc492033ad77d3279b">qchem_read_in_dms_open_shell</a> (std::string dmat_filename, size_t nstates, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
-<tr class="separator:a27b7a07ec49154fc492033ad77d3279b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a553fc92abe9ce0f798b0080f892f5075"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt; &gt;, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a553fc92abe9ce0f798b0080f892f5075">qchem_read_in_dms_closed_shell</a> (std::string dmat_filename, size_t nstates, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
-<tr class="separator:a553fc92abe9ce0f798b0080f892f5075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cdb22c7b82d5326192392d6449d72fa"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a7cdb22c7b82d5326192392d6449d72fa">qchem_read_overlap</a> (std::string dmat_filename, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
 <tr class="separator:a7cdb22c7b82d5326192392d6449d72fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f4bc80233b7c312e3c2ab1e6461b987"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a2f4bc80233b7c312e3c2ab1e6461b987">read_qchem_energies</a> (size_t nstates, std::string method, std::string output_file)</td></tr>
-<tr class="separator:a2f4bc80233b7c312e3c2ab1e6461b987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfb45137bf740f9707e8d530f62ef04b"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#adfb45137bf740f9707e8d530f62ef04b">read_qchem_eom_energies</a> (size_t nstates, std::string output_file)</td></tr>
+<tr class="separator:adfb45137bf740f9707e8d530f62ef04b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5025996d3be0d5fe2cdc6a1445aba61e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a5025996d3be0d5fe2cdc6a1445aba61e">read_geometry_from_fchk</a> (std::string fchk_filename)</td></tr>
 <tr class="separator:a5025996d3be0d5fe2cdc6a1445aba61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0468476e1eb1a63ede9f8f7f010544a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#a0468476e1eb1a63ede9f8f7f010544a0">read_basis_from_fchk</a> (std::string fchk_filename, std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt; atoms)</td></tr>
 <tr class="separator:a0468476e1eb1a63ede9f8f7f010544a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4460703acb98b9e07d3906d803772cc"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt; &gt;, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#af4460703acb98b9e07d3906d803772cc">qchem_read_dms</a> (std::string fchk_filename, <a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
-<tr class="separator:af4460703acb98b9e07d3906d803772cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd53b9e7e05f295dbadcf2bcdd654c17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#acd53b9e7e05f295dbadcf2bcdd654c17">qchem_read_dms</a> (std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;alpha_dms, std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;beta_dms, std::string fchk_filename, <a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs, size_t num_states)</td></tr>
+<tr class="separator:acd53b9e7e05f295dbadcf2bcdd654c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb289f1bb4bb731bd1e0cfc402336779"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="qchem__interface_8h.html#acb289f1bb4bb731bd1e0cfc402336779">read_qchem_tddft_energies</a> (size_t nstates, std::string output_file)</td></tr>
+<tr class="separator:acb289f1bb4bb731bd1e0cfc402336779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions pertaining to the Q-Chem interface. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="af4460703acb98b9e07d3906d803772cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4460703acb98b9e07d3906d803772cc">&#9670;&nbsp;</a></span>qchem_read_dms()</h2>
+<a id="acd53b9e7e05f295dbadcf2bcdd654c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd53b9e7e05f295dbadcf2bcdd654c17">&#9670;&nbsp;</a></span>qchem_read_dms()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;std::vector&lt;std::vector&lt;Eigen::MatrixXd&gt; &gt;,2&gt; qchem_read_dms </td>
+          <td class="memname">void qchem_read_dms </td>
           <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>alpha_dms</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>beta_dms</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>fchk_filename</em>, </td>
         </tr>
@@ -122,41 +132,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a> &amp;&#160;</td>
-          <td class="paramname"><em>bs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a553fc92abe9ce0f798b0080f892f5075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a553fc92abe9ce0f798b0080f892f5075">&#9670;&nbsp;</a></span>qchem_read_in_dms_closed_shell()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt;std::vector&lt;std::vector&lt;Eigen::MatrixXd&gt; &gt;,2&gt; qchem_read_in_dms_closed_shell </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>dmat_filename</em>, </td>
+          <td class="paramname"><em>bs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nstates</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td>
-          <td class="paramname"><em>bs</em>&#160;</td>
+          <td class="paramname"><em>num_states</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -165,58 +147,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Read in TDMs from Q-Chem .fchk file for open-shell system (no distinction between alpha/beta densities) </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Read in TDMs from Q-Chem fchk file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dmat_filename</td><td>file location of the Q-Chem .fchk file </td></tr>
-    <tr><td class="paramname">nstates</td><td>number of states </td></tr>
-    <tr><td class="paramname">bs</td><td><a class="el" href="class_basis_set.html" title="Object for storing basis set information.">BasisSet</a> of system </td></tr>
+    <tr><td class="paramname">alpha_opdms</td><td>MxM vector of vectors containing Eigen matrices for opdms </td></tr>
+    <tr><td class="paramname">beta_opdms</td><td>MxM vector of vectors containing Eigen matrices for opdms </td></tr>
+    <tr><td class="paramname">fchk_filename</td><td>file location of the rassi.h5 file. </td></tr>
+    <tr><td class="paramname">bs</td><td><a class="el" href="class_basis_set.html" title="Object for storing basis set information.">BasisSet</a> of the system </td></tr>
+    <tr><td class="paramname">nstates</td><td>Number of states </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An array of size 2, each entry holding a 2D vector corresponding to the state densities. The first entry is the alpha densities, the second the beta densities. </dd></dl>
-
-</div>
-</div>
-<a id="a27b7a07ec49154fc492033ad77d3279b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27b7a07ec49154fc492033ad77d3279b">&#9670;&nbsp;</a></span>qchem_read_in_dms_open_shell()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt;std::vector&lt;std::vector&lt;Eigen::MatrixXd&gt; &gt;,2&gt; qchem_read_in_dms_open_shell </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>dmat_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nstates</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td>
-          <td class="paramname"><em>bs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Read in TDMs from Q-Chem .fchk file for open-shell system (separate alpha and beta densities) </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dmat_filename</td><td>file location of the Q-Chem .fchk file </td></tr>
-    <tr><td class="paramname">nstates</td><td>number of states </td></tr>
-    <tr><td class="paramname">bs</td><td><a class="el" href="class_basis_set.html" title="Object for storing basis set information.">BasisSet</a> of system </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An array of size 2, each entry holding a 2D vector corresponding to the state densities. The first entry is the alpha densities, the second the beta densities. </dd></dl>
 
 </div>
 </div>
@@ -302,23 +242,17 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2f4bc80233b7c312e3c2ab1e6461b987"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f4bc80233b7c312e3c2ab1e6461b987">&#9670;&nbsp;</a></span>read_qchem_energies()</h2>
+<a id="adfb45137bf740f9707e8d530f62ef04b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb45137bf740f9707e8d530f62ef04b">&#9670;&nbsp;</a></span>read_qchem_eom_energies()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Eigen::MatrixXd read_qchem_energies </td>
+          <td class="memname">Eigen::MatrixXd read_qchem_eom_energies </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>nstates</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>method</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -336,8 +270,43 @@ Functions</h2></td></tr>
 <p>Read in energies from Q-Chem output file for EOM-EE/EA/IP methods </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nstates</td><td>number of states, </td></tr>
-    <tr><td class="paramname">method</td><td>electronic structure method method, </td></tr>
-    <tr><td class="paramname">output_file</td><td>qchem .fchk file location </td></tr>
+    <tr><td class="paramname">output_file</td><td>qchem output file location </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Eigen matrix containing the diagonal H0 matrix. Dimension is MxM, where M is number of states. </dd></dl>
+
+</div>
+</div>
+<a id="acb289f1bb4bb731bd1e0cfc402336779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb289f1bb4bb731bd1e0cfc402336779">&#9670;&nbsp;</a></span>read_qchem_tddft_energies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd read_qchem_tddft_energies </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nstates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>output_file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Read in energies from Q-Chem output file for EOM-EE/EA/IP methods </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nstates</td><td>number of states, </td></tr>
+    <tr><td class="paramname">output_file</td><td>qchem output file location </td></tr>
   </table>
   </dd>
 </dl>

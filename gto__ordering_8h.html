@@ -81,8 +81,8 @@ $(function() {
 
 <p>Functions pertaining to ordering of Gaussian type orbitals (GTOs).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_basis_set_8h_source.html">BasisSet.h</a>&quot;</code><br />
-<code>#include &lt;Eigen/Dense&gt;</code><br />
+<div class="textblock"><code>#include &lt;Eigen/Dense&gt;</code><br />
+<code>#include &quot;<a class="el" href="_basis_set_8h_source.html">BasisSet.h</a>&quot;</code><br />
 </div>
 <p><a href="gto__ordering_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -94,10 +94,10 @@ Functions</h2></td></tr>
 <tr class="separator:a7aca6061b6beca5ac775d6217cbc6519"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1fc085a49c790655c0e752a1ef686e8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#ac1fc085a49c790655c0e752a1ef686e8">get_molcas_ids</a> (<a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs, std::string rassi_filename)</td></tr>
 <tr class="separator:ac1fc085a49c790655c0e752a1ef686e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6beaf5ad3002d06abb256864c06ebfa"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#ac6beaf5ad3002d06abb256864c06ebfa">get_molden_ids</a> (<a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
-<tr class="separator:ac6beaf5ad3002d06abb256864c06ebfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a4a16830c11ea044944cc531a16cc16"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#a5a4a16830c11ea044944cc531a16cc16">get_qchem_ids</a> (<a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
 <tr class="separator:a5a4a16830c11ea044944cc531a16cc16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eff2e865d01e0b0d986b9302fa61c5c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#a2eff2e865d01e0b0d986b9302fa61c5c">get_psi4_ids</a> (<a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
+<tr class="separator:a2eff2e865d01e0b0d986b9302fa61c5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16db66ea3b87c391e1f7d40d4c818005"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#a16db66ea3b87c391e1f7d40d4c818005">get_pyscf_ids</a> (<a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
 <tr class="separator:a16db66ea3b87c391e1f7d40d4c818005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace1277d17ac4074b3a990e3ee4422f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gto__ordering_8h.html#ace1277d17ac4074b3a990e3ee4422f79">to_opencap_ordering</a> (Eigen::MatrixXd &amp;mat, <a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs, std::vector&lt; <a class="el" href="structbf__id.html">bf_id</a> &gt; input_ids)</td></tr>
@@ -134,14 +134,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac6beaf5ad3002d06abb256864c06ebfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6beaf5ad3002d06abb256864c06ebfa">&#9670;&nbsp;</a></span>get_molden_ids()</h2>
+<a id="a2eff2e865d01e0b0d986b9302fa61c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eff2e865d01e0b0d986b9302fa61c5c">&#9670;&nbsp;</a></span>get_psi4_ids()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="structbf__id.html">bf_id</a>&gt; get_molden_ids </td>
+          <td class="memname">std::vector&lt;<a class="el" href="structbf__id.html">bf_id</a>&gt; get_psi4_ids </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a> &amp;&#160;</td>
           <td class="paramname"><em>bs</em></td><td>)</td>
@@ -203,7 +203,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ordering of cartesian gaussians in opencap standard form. </p>
+<p>Ordering of cartesian gaussians in molden ordering. </p>
 
 </div>
 </div>
@@ -222,7 +222,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ordering of harmonic gaussians in opencap standard form. </p>
+<p>Ordering of harmonic gaussians in molden ordering. </p>
 
 </div>
 </div>

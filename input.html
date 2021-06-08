@@ -75,7 +75,7 @@ $(function() {
 <div class="textblock"><h1><a class="anchor" id="autotoc_md2"></a>
 Input sections</h1>
 <p>An OpenCAP input file has four sections:</p>
-<p>$system, $perturb_cap, $job, and optionally, $geometry</p>
+<p>$system and $projected_cap are required, $geometry and $trajectory are optional.</p>
 <p>Within each section, the user inserts keyword/value pairs which define the calculation.</p>
 <p>All four sections have their own unique keywords, and all four must be specified to run a calculation. The general format is: </p><pre class="fragment">$section_name
 
@@ -84,21 +84,11 @@ keyword  value
 keyword  value
 
 $end
-</pre><p>In each section, the parser will read lines until it sees the $end keyword. Only the first two arguments per line are read, so all remaining text can be used as comments. Additionally, lines beginning with an exclamation mark '!' are ignored. All input sections are case-insensitive.</p>
+</pre><p>In each section, the parser will read lines until it sees the $end keyword.</p>
+<p>Only the first two arguments per line are read, so all remaining text can be used as comments. Additionally, lines beginning with an exclamation mark '!' are ignored. All input sections (except for those referring to file paths) are case-insensitive.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
-Job </h1>
-<p>This section specifies what type of job is to be executed by the software.</p>
-<p><b>Required</b> </p><table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadCenter">Keyword  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Description  </th><th class="markdownTableHeadNone">Valid options   </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter">title  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Title of job  </td><td class="markdownTableBodyNone">N/A   </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter">jobtype  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Type of job to be executed  </td><td class="markdownTableBodyNone">perturb_cap   </td></tr>
-</table>
-<h1><a class="anchor" id="autotoc_md4"></a>
 System</h1>
-<p>The system section specifies information about the molecular system and the ab initio basis set. Basis sets can be downloaded from the <a href="https://www.basissetexchange.org/">MolSSI</a> and modified to suit your purposes.</p>
+<p>The system section specifies information about the molecular system and the ab initio basis set. Basis sets can be downloaded from the <a href="https://www.basissetexchange.org/">MolSSI basis set exchange</a> and modified to suit your purposes.</p>
 <p><b>Required</b> </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Keyword  </th><th class="markdownTableHeadNone">Valid options  </th><th class="markdownTableHeadNone">Description   </th></tr>
@@ -121,21 +111,20 @@ System</h1>
 atom2 x-coordinate y-coordinate z-coordinate ...
 </pre><p>Ghost centers with zero nuclear charge can be specified using the symbol "X".</p>
 <p>By default, units are assumed to be Angstroms.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Perturb_CAP</h1>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Projected_CAP</h1>
 <p>This section allows one to specify the parameters used to define the complex absorbing potential, the data read in from the electronic structure calculation, and the grid used for numerical integration.</p>
 <p>There are two key pieces of data which must be read in from the electronic structure package: the set of one particle transition densities between each pair of states (each has a dimension of NxN where N is the number of basis functions), and the zeroth order Hamiltonian (which has a dimension of MxM, where M is the number of electronic states computed by the package). In some cases, the zeroth order Hamiltonian can be read directly from the output file of the electronic structure package, but in other cases it may be easier to just specify the zeroth order hamiltonian manually (due to its small dimensionality). For the latter option, the 'h0_file' keyword must be used, and the value must point to a properly formatted file.</p>
-<p>A properly formatted zeroth order hamiltonian file can have one of two forms. The first is the diagonal form (where the zeroth order hamiltonian just consists of total energies on the diagonal, as is the case for EOM-CCSD), the word "Diagonal" must appear on the first line, followed by the energies, each on their own line. The second is the full form, in which the entire zeroth order hamiltonian is specified. The word "Full" must appear on the first line, followed by the matrix. The matrix is read in row-major order. See the <a href="https://github.com/gayverjr/opencap/blob/master/examples/opencap/heff.in">repository</a> for an example.</p>
-<p>We currently support two types of complex absorbing potentials; quadratic box-type potentials, and a quadratic "Voronoi isosurface" potential. Both types of CAP have their own set of parameters which must be defined. Numerical integration is performed with the aid of the <a href="https://github.com/dftlibs/numgrid">numgrid</a> package, which allocates the grid based on the molecular geometry and basis set. By default, a radial grid with precision 1e-14 is used, with an angular grid of 590 points. Both can optionally be adjusted to increase or decrease the size of the grid as needed.</p>
+<p>A properly formatted zeroth order hamiltonian file can have one of two forms. The first is the diagonal form (where the zeroth order hamiltonian just consists of total energies on the diagonal, as is the case for EOM-CCSD), the word "Diagonal" must appear on the first line, followed by the energies, each on their own line. The second is the full form, in which the entire zeroth order hamiltonian is specified. The word "Full" must appear on the first line, followed by the matrix. The matrix is read in row-major order. We currently support two types of complex absorbing potentials; quadratic box-type potentials, and a quadratic "Voronoi isosurface" potential. Both types of CAP have their own set of parameters which must be defined. Numerical integration is performed with the aid of the <a href="https://github.com/dftlibs/numgrid">numgrid</a> package, which allocates the grid based on the molecular geometry and basis set. By default, a radial grid with precision 1e-14 is used, with an angular grid of 590 points. Both can optionally be adjusted to increase or decrease the size of the grid as needed.</p>
 <p><b>Required</b> </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter">Keyword  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Description  </th><th class="markdownTableHeadNone">Valid options   </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">cap_type  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Type of absorbing potential  </td><td class="markdownTableBodyNone">'Box' or 'Voronoi'   </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter">Method  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Name of electronic structure method  </td><td class="markdownTableBodyNone">For OpenMolcas: MS-CASPT2, XMS-CASPT2   </td></tr>
+<td class="markdownTableBodyCenter">Method  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Name of electronic structure method  </td><td class="markdownTableBodyNone">MS-CASPT2, XMS-CASPT2, TDDFT, EOM, SC-NEVPT2, PC-NEVPT2   </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter">Package  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Name of electronic structure package  </td><td class="markdownTableBodyNone">OpenMolcas   </td></tr>
+<td class="markdownTableBodyCenter">Package  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Name of electronic structure package  </td><td class="markdownTableBodyNone">OpenMolcas, Q-Chem   </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter">Nstates  </td><td class="markdownTableBodyNone">int  </td><td class="markdownTableBodyNone">Number of electronic states  </td><td class="markdownTableBodyNone">2 or greater   </td></tr>
 </table>
@@ -146,6 +135,14 @@ Perturb_CAP</h1>
 <td class="markdownTableBodyNone">rassi_h5  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Relative or absolute path to rassi.h5 file containing TDMs.   </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">molcas_output  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Relative or absolute path to OpenMolcas output file. Required when h0_file keyword is unspecified.   </td></tr>
+</table>
+<p><b>QChem Interface</b> </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Keyword  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">qchem_fchk  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Relative or absolute path to qchem .fchk file containing TDMs.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">qchem_output  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Relative or absolute path to Q-Chem output file. Required when h0_file keyword is unspecified.   </td></tr>
 </table>
 <p><b>Box CAP</b></p>
 <p>A quadratic potential which encloses the system in a 3D rectangular box. Functional form:</p>
@@ -184,6 +181,19 @@ Perturb_CAP</h1>
 <td class="markdownTableBodyNone">angular_points  </td><td class="markdownTableBodyNone">int  </td><td class="markdownTableBodyNone">Number of angular ponts used for the grid. See <a href="https://github.com/dftlibs/numgrid">https://github.com/dftlibs/numgrid</a> for allowed numbers of points.  </td><td class="markdownTableBodyNone">590   </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">h0_file  </td><td class="markdownTableBodyNone">string  </td><td class="markdownTableBodyNone">Relative or absolute path to formatted zeroth order Hamiltonian file. Required when output from electronic structure package (e.g. molcas_output) is unspecified.  </td><td class="markdownTableBodyNone">""   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Trajectory</h1>
+<p>One can generate eigenvalue trajectories within OpenCAP using the $trajectory field. One can specify the range of \(\eta\) values to be explored, and for each state, the minimum of the logarithmic velocity will be printed in the output. States are tracked using eigenvector overlap. The entire trajectory can also be exported to a .data file using the save_trajectory keyword.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Keyword  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">eta_step  </td><td class="markdownTableBodyNone">float  </td><td class="markdownTableBodyNone">\(\eta\)-step size, in 1E-5 bohr   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">nsteps  </td><td class="markdownTableBodyNone">int  </td><td class="markdownTableBodyNone">Number of steps for eigenvalue trajectory   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">save_trajectory  </td><td class="markdownTableBodyNone">bool  </td><td class="markdownTableBodyNone">Set to true if you want to save the trajectory, it will be saved to a .data file.   </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md6"></a>
 References</h1>

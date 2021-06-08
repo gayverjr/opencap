@@ -81,7 +81,7 @@ $(function() {
 
 <p>Functions pertaining to reading the geometry and basis set from Molden. The format is detailed here: <a href="http://cheminf.cmbi.ru.nl/molden/molden_format.html">http://cheminf.cmbi.ru.nl/molden/molden_format.html</a>.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_atom_8h_source.html">Atom.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="_basis_set_8h_source.html">BasisSet.h</a>&quot;</code><br />
 </div>
 <p><a href="molden__parser_8h_source.html">Go to the source code of this file.</a></p>
@@ -121,6 +121,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Reads in basis set from molden file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>file location of molden file </td></tr>
+    <tr><td class="paramname">atoms</td><td>Ordered list of atoms in the system </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_basis_set.html" title="Object for storing basis set information.">BasisSet</a> specified by molden file </dd></dl>
 
 </div>
 </div>
@@ -139,6 +147,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Reads in geometry from molden file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>file location of molden file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Geometry specified by molden file </dd></dl>
 
 </div>
 </div>

@@ -83,14 +83,13 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Eigen/Dense&gt;</code><br />
 <code>#include &quot;<a class="el" href="_basis_set_8h_source.html">BasisSet.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_atom_8h_source.html">Atom.h</a>&quot;</code><br />
 </div>
 <p><a href="molcas__interface_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af975d4714166d6b267ad82ff894d5fa1"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt; &gt;, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#af975d4714166d6b267ad82ff894d5fa1">read_rassi_tdms</a> (std::string dmat_filename, <a class="el" href="class_basis_set.html">BasisSet</a> bs, size_t nstates)</td></tr>
-<tr class="separator:af975d4714166d6b267ad82ff894d5fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a698e5aaae1f9c5e99d6270791aa06b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a698e5aaae1f9c5e99d6270791aa06b8f">read_rassi_tdms</a> (std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;alpha_opdms, std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;beta_opdms, std::string dmat_filename, <a class="el" href="class_basis_set.html">BasisSet</a> bs, size_t nstates)</td></tr>
+<tr class="separator:a698e5aaae1f9c5e99d6270791aa06b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3aeff747db4733d37644cd017d5d86a4"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a3aeff747db4733d37644cd017d5d86a4">read_rassi_overlap</a> (std::string filename, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
 <tr class="separator:a3aeff747db4733d37644cd017d5d86a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f05adacb29a9666906917cebb4c56cb"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a6f05adacb29a9666906917cebb4c56cb">read_mscaspt2_heff</a> (size_t nstates, std::string filename)</td></tr>
@@ -99,6 +98,8 @@ Functions</h2></td></tr>
 <tr class="separator:a7b798ba792e0abe26b43c7b15344cd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984970b1bc4b08adc923a3c6c006c352"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a984970b1bc4b08adc923a3c6c006c352">read_geometry_from_rassi</a> (std::string filename)</td></tr>
 <tr class="separator:a984970b1bc4b08adc923a3c6c006c352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e0acbde94109daf13662ace83cfbc0a"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a4e0acbde94109daf13662ace83cfbc0a">read_nevpt2_heff</a> (size_t nstates, std::string filename, std::string method)</td></tr>
+<tr class="separator:a4e0acbde94109daf13662ace83cfbc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functions pertaining to the OpenMolcas interface. </p>
@@ -200,6 +201,49 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a4e0acbde94109daf13662ace83cfbc0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e0acbde94109daf13662ace83cfbc0a">&#9670;&nbsp;</a></span>read_nevpt2_heff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd read_nevpt2_heff </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nstates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>method</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Read in effective Hamiltonian from OpenMolcas output file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nstates</td><td>number of states </td></tr>
+    <tr><td class="paramname">filename</td><td>file location of the OpenMolcas output file. </td></tr>
+    <tr><td class="paramname">method</td><td>pc-nevpt or sc-nevpt2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Eigen matrix containing the effective Hamiltonian matrix. Dimension is MxM, where M is number of states. </dd></dl>
+
+</div>
+</div>
 <a id="a3aeff747db4733d37644cd017d5d86a4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3aeff747db4733d37644cd017d5d86a4">&#9670;&nbsp;</a></span>read_rassi_overlap()</h2>
 
@@ -236,15 +280,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af975d4714166d6b267ad82ff894d5fa1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af975d4714166d6b267ad82ff894d5fa1">&#9670;&nbsp;</a></span>read_rassi_tdms()</h2>
+<a id="a698e5aaae1f9c5e99d6270791aa06b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a698e5aaae1f9c5e99d6270791aa06b8f">&#9670;&nbsp;</a></span>read_rassi_tdms()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;std::vector&lt;std::vector&lt;Eigen::MatrixXd&gt; &gt;,2&gt; read_rassi_tdms </td>
+          <td class="memname">void read_rassi_tdms </td>
           <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>alpha_opdms</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; Eigen::MatrixXd &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>beta_opdms</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>dmat_filename</em>, </td>
         </tr>
@@ -269,13 +325,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Read in TDMs from OpenMolcas rassi.h5 file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">alpha_opdms</td><td>MxM vector of vectors containing Eigen matrices for opdms </td></tr>
+    <tr><td class="paramname">beta_opdms</td><td>MxM vector of vectors containing Eigen matrices for opdms </td></tr>
     <tr><td class="paramname">dmat_filename</td><td>file location of the rassi.h5 file. </td></tr>
     <tr><td class="paramname">bs</td><td><a class="el" href="class_basis_set.html" title="Object for storing basis set information.">BasisSet</a> of the system </td></tr>
     <tr><td class="paramname">nstates</td><td>Number of states </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An array of size 2, each entry holding a 2D vector corresponding to the transition densities in AO basis. The first entry is the alpha densities, the second the beta densities. </dd></dl>
 
 </div>
 </div>
