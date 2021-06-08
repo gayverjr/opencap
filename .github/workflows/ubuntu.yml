@@ -53,7 +53,7 @@ jobs:
           pip install codecov
           pip install .
           cd pyopencap
-          pytest --cov=. --cov-report=xml
+          pytest --cov=pyopencap --cov-report=xml
           cd ..
             
       - name: Upload reports

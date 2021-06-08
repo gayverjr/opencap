@@ -22,5 +22,5 @@
 """Root module of the package"""
 from .System import System
 from .CAP import CAP
-from . import analysis
-
+from pyopencap import analysis
+from pyopencap.analysis import *
