@@ -101,7 +101,7 @@ for each point along the trajectory.
 
 .. code-block:: python
 	
-	derivs = traj.get_derivatives()
+	derivs = traj.get_logarithmic_velocities()
 	plt.plot(traj.etas,derivs)
 	plt.show()
 

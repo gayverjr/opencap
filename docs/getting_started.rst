@@ -114,10 +114,11 @@ For more information, please see the documentation for the :class:`~pyopencap.an
 and :class:`~pyopencap.analysis.EigenvalueTrajectory` classes.
 
 **See more**
-Please see the notebooks in our repository for detailed examples which demonstrate the full 
+
+Please see the notebooks in our repository_ for detailed examples which demonstrate the full 
 functionality of PyOpenCAP.
 
-
+.. _repository: https://github.com/gayverjr/opencap/tree/main/examples/analysis
 
 
 
