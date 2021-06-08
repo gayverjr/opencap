@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,22 @@ SOFTWARE.
 /*
  * gto_ordering.cpp
  */
+
+#include "gto_ordering.h"
+
+#include <h5pp/h5pp.h>
+#include <math.h>
+#include <algorithm>
+#include <array>
+#include <Eigen/Dense>
+#include <iostream>
+#include <tuple>
+#include <vector>
+
 #include "BasisSet.h"
+#include "opencap_exception.h"
 #include "Shell.h"
 #include "utils.h"
-#include <array>
-#include <vector>
-#include <algorithm>
-#include <math.h>
-#include <tuple>
-#include "gto_ordering.h"
-#include "opencap_exception.h"
-#include <h5pp/h5pp.h>
-#include <iostream>
-#include <Eigen/Dense>
 
 
 //from:http://cheminf.cmbi.ru.nl/molden/molden_format.html

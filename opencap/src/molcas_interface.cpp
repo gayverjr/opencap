@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,23 @@ SOFTWARE.
 /*
  * molcas_interface.cpp
  */
-#include <algorithm>
-#include <iostream>
-#include <fstream>
+
 #include "molcas_interface.h"
+
+#include <h5pp/h5pp.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <Eigen/Dense>
+#include <fstream>
+#include <iostream>
+#include <unsupported/Eigen/CXX11/Tensor>
+
+#include "BasisSet.h"
+#include "gto_ordering.h"
 #include "opencap_exception.h"
 #include "utils.h"
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <h5pp/h5pp.h>
-#include "gto_ordering.h"
-#include "BasisSet.h"
-#include <unsupported/Eigen/CXX11/Tensor>
-#include <Eigen/Dense>
 
 template<typename T>
 using  MatrixType = Eigen::Matrix<T,Eigen::Dynamic, Eigen::Dynamic>;
@@ -292,6 +295,10 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		for (size_t i=0;i<nstates;i++)
 			ZERO_ORDER_H(i,i)+=E_shift;
 	}
+	else
+	{
+    	opencap_throw("Error: I couldn't read:" + filename);
+	}
 	return ZERO_ORDER_H;
 }
 
@@ -335,6 +342,10 @@ Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::stri
 				}
 			}
 		}
+	}
+	else
+	{
+    	opencap_throw("Error: I couldn't read:" + filename);
 	}
 	return ZERO_ORDER_H;
 }

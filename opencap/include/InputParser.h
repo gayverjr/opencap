@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,15 @@ SOFTWARE.
  */
 #ifndef INPUTPARSER_H_
 #define INPUTPARSER_H_
+
 #include <map>
-#include <tuple>
 #include <string>
+#include <tuple>
+#include <vector>
+
+#include "Atom.h"
 #include "System.h"
+
 
 
 /** Parses an input file.

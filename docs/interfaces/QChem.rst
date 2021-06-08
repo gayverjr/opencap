@@ -55,12 +55,14 @@ The following snippet can be used to read the data from a Q-Chem output and prop
     
 Generate and analyze eigenvalue trajectories
 -----------------------------------------------
-H0 and W can be used to construct a :class:`~pyopencap.analysis.CAPHamiltonian` object. 
+H0 and W, or the :class:`~pyopencap.CAP` object can be used to construct a :class:`~pyopencap.analysis.CAPHamiltonian` object. 
 
 .. code-block:: python
 
 	from pyopencap.analysis import CAPHamiltonian
 	CAPH = CAPHamiltonian(H0=H0,W=W_mat)
+	# equivalently
+	CAPH = CAPHamiltonian(pc=pc)
 
 Additionally, Q-Chem (starting from version 5.4) natively implements Projected CAP-EOM-CC and 
 Projected CAP-ADC methods, and prints the necessary matrices to the output. PyOpenCAP can parse 

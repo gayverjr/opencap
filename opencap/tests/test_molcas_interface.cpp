@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,13 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
-#include "System.h"
-#include "molcas_interface.h"
+#include <Eigen/Dense>
+
 #include "Atom.h"
 #include "BasisSet.h"
-#include <Eigen/Dense>
+#include "molcas_interface.h"
 #include "overlap.h"
+#include "System.h"
 #include "transforms.h"
 
 TEST(RASSI_SUITE, RASSI_GEOMETRY) {

@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,23 +19,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <iostream>
-#include <vector>
-#include "System.h"
-#include <chrono>
-#include <map>
-#include <iomanip>
 #include <algorithm>
-#include <string>
+#include <chrono>
 #include <cmath>
+#include <iomanip>
+#include <iostream>
 #include <limits>
-#include "InputParser.h"
+#include <map>
+#include <string>
+#include <vector>
+
 #include "Atom.h"
-#include "opencap_exception.h"
 #include "CAP.h"
+#include "date.h"
+#include "InputParser.h"
 #include "keywords.h"
 #include "molcas_interface.h"
-#include "date.h"
+#include "opencap_exception.h"
+#include "System.h"
 #include "TrajectoryAnalysis.h"
 
 int main(int argc, char **argv)

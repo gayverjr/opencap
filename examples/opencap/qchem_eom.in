@@ -1,0 +1,22 @@
+! eom-cc, analyze and export trajectory
+
+$system
+molecule qchem_fchk
+basis_file qchem_fchk
+$end
+
+$projected_cap
+method eom
+package qchem
+qchem_fchk qc_inp.fchk
+qchem_output qc_inp.out
+nstates 5
+CAP_TYPE Voronoi
+R_Cut  3.00
+$end
+
+$trajectory
+ETA_STEP 10
+NSTEPS 200
+save_trajectory true
+$end

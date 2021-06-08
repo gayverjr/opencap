@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,16 @@ SOFTWARE.
  */
 #ifndef GTO_ORDERING_H_
 #define GTO_ORDERING_H_
-#include "BasisSet.h"
+
 #include <Eigen/Dense>
 
-/** Ordering of cartesian gaussians in opencap standard form.
+#include "BasisSet.h"
+
+
+/** Ordering of cartesian gaussians in molden ordering.
 */
 std::vector<std::array<size_t,3>> opencap_carts_ordering(int l);
-/** Ordering of harmonic gaussians in opencap standard form.
+/** Ordering of harmonic gaussians in molden ordering.
  */
 std::vector<int> opencap_harmonic_ordering(int l);
 /* Get list of basis function IDs in OpenMolcas ordering.

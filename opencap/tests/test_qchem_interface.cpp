@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,13 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
-#include "System.h"
-#include "qchem_interface.h"
+#include <Eigen/Dense>
+
 #include "Atom.h"
 #include "BasisSet.h"
-#include <Eigen/Dense>
 #include "overlap.h"
+#include "qchem_interface.h"
+#include "System.h"
 #include "transforms.h"
 
 TEST(FCHK_SUITE, FCHK_GEOMETRY) {
@@ -92,14 +93,14 @@ TEST(FCHK_SUITE, FCHK_DMS)
 
 TEST(QCHEM_OUTPUT, PARSE_TDDFT)
 {
-    Eigen::MatrixXd tddft = read_qchem_tddft_energies(4,"tddft","../tests/qchem/tddft.out");
+    Eigen::MatrixXd tddft = read_qchem_tddft_energies(4,"../tests/qchem/tddft.out");
     ASSERT_EQ (tddft(0,0), -109.22753742);
 }
 
 TEST(QCHEM_OUTPUT, PARSE_EOM)
 {
-    Eigen::MatrixXd eomea = read_qchem_eom_energies(3, "eom", "../tests/qchem/EA.out"); 
-    Eigen::MatrixXd eomee = read_qchem_eom_energies(3, "eom", "../tests/qchem/EE.out");   
+    Eigen::MatrixXd eomea = read_qchem_eom_energies(3, "../tests/qchem/EA.out"); 
+    Eigen::MatrixXd eomee = read_qchem_eom_energies(3, "../tests/qchem/EE.out");   
     ASSERT_EQ (eomea(0,0), -108.90131733);
     ASSERT_EQ (eomee(0,0), -108.72192494); 
 }

@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,10 @@ SOFTWARE.
 // Copyright (c) 2016 Gideon Müller
 
 #include "opencap_exception.h"
+
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 void rethrow(const std::string & message, const char * file, unsigned int line)
 {

@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,16 @@ SOFTWARE.
 */
 
 /*! \file TrajectoryAnalysis.h
-     \brief Classes and structs for storing atomic data.
+     \brief Classes and structs for trajectory analysis. This is an experimental feature, and
+     thus is neither tested nor officially supported.
  */
 
+#include <cmath>
+#include <complex>
+#include <vector>
 #include <Eigen/Dense>
 #include <map>
-#include <complex>
-#include <cmath>
+
 
 struct root
 {
@@ -45,6 +48,11 @@ class EigenvalueTrajectory
 public:
 	std::vector<std::complex<double>> uncorrected_energies;
 	std::vector<std::complex<double>> corrected_energies;
+	std::complex<double> corr_opt=0.0;
+	std::complex<double> uc_opt=0.0;
+	float corr_opt_eta=0.0;
+	float uc_opt_eta=0.0;
+
 
 private:
 	root prev;
@@ -61,12 +69,12 @@ public:
 class CAPHamiltonian
 {
 public:
+	std::vector<EigenvalueTrajectory> trajectories;
 
 private:
 	Eigen::MatrixXd CAP_MAT;
 	Eigen::MatrixXd ZERO_ORDER_H;
 	std::vector<double> eta_list;
-	std::vector<EigenvalueTrajectory> trajectories;
 	bool do_output;
 	size_t nstates;
 	std::vector<std::vector<root>> all_roots;

@@ -1,0 +1,18 @@
+! initialize from rassi
+
+$system
+molecule molcas_rassi
+basis_file ../tests/openmolcas/xms_symm.rassi.h5
+$end
+
+$projected_cap
+method xms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/xms_symm.rassi.h5
+molcas_output ../tests/openmolcas/xms_symm.out
+nstates 4
+CAP_TYPE voronoi
+r_cut 3.00
+angular_points 110
+radial_precision 10
+$end

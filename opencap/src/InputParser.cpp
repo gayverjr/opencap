@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,21 @@ SOFTWARE.
  * InputParser.cpp
  */
 
-#include <map>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <string>
-#include <map>
-#include <list>
-#include <fstream>
-#include <tuple>
-#include <locale>
-#include "Atom.h"
 #include "InputParser.h"
-#include "opencap_exception.h"
+
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <locale>
+#include <map>
+#include <sstream>
+#include <string>
+#include <tuple>
+
+#include "Atom.h"
 #include "keywords.h"
+#include "opencap_exception.h"
 #include "System.h"
 #include "utils.h"
 

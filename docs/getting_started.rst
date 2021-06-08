@@ -95,6 +95,8 @@ W in the state basis as numpy matrices, it can be constructed as such:
 	eta_list = np.linspace(0,2000,101)
 	eta_list = eta_list * 1E-5
 	CAPH = CAPHamiltonian(H0=h0,W=mat)
+	# equivalently
+	CAPH = CAPHamiltonian(pc=pc)
 	CAPH.run_trajectory(eta_list,cap_lambda=0.0)
 	# track the 4th state
 	traj = CAPH.track_state(4,tracking="overlap")

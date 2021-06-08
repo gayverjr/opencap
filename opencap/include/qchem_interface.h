@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,10 @@ SOFTWARE.
  */
 #ifndef QCHEM_INTERFACE_H_
 #define QCHEM_INTERFACE_H_
+
 #include <Eigen/Dense>
 #include "BasisSet.h"
+
 /*! Reads in overlap matrix from Q-Chem fchk file.
     \param dmat_filename: file location of the Q-Chem .fchk file
     \param bs: BasisSet of system
@@ -34,11 +36,10 @@ SOFTWARE.
 Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs);
 /*! Read in energies from Q-Chem output file for EOM-EE/EA/IP methods
     \param nstates: number of states,
-    \param method: electronic structure method method,
-    \param output_file: qchem .fchk file location
+    \param output_file: qchem output file location
     \return Eigen matrix containing the diagonal H0 matrix. Dimension is MxM, where M is number of states.
 */
-Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string method,std::string output_file);
+Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string output_file);
 /* Reads geometry from Q-Chem fchk file.
   \param fchk_filename: qchem .fchk file location
   \return atoms: List of atoms in system
@@ -49,9 +50,21 @@ std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename);
      \return bs: BasisSet of system
  */
 BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms);
+/*! Read in TDMs from Q-Chem fchk file.
+    \param alpha_opdms: MxM vector of vectors containing Eigen matrices for opdms
+    \param beta_opdms: MxM vector of vectors containing Eigen matrices for opdms
+    \param fchk_filename: file location of the rassi.h5 file.
+    \param bs: BasisSet of the system
+    \param nstates: Number of states
+*/
 void qchem_read_dms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_dms,
 		std::vector<std::vector<Eigen::MatrixXd>> &beta_dms,
 		std::string fchk_filename,BasisSet &bs, size_t num_states);
-Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string method,std::string output_file);
+/*! Read in energies from Q-Chem output file for EOM-EE/EA/IP methods
+    \param nstates: number of states,
+    \param output_file: qchem output file location
+    \return Eigen matrix containing the diagonal H0 matrix. Dimension is MxM, where M is number of states.
+*/
+Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string output_file);
 
 #endif /* QCHEM_INTERFACE_H_*/

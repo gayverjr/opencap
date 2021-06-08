@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,19 +23,22 @@ SOFTWARE.
  * molden_parser.cpp
  *
  */
+
 #include "molden_parser.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
+
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <sstream>
 #include <string>
-#include "utils.h"
+
 #include "Atom.h"
 #include "BasisSet.h"
-#include "Shell.h"
 #include "opencap_exception.h"
-#include <map>
-#include <filesystem>
+#include "Shell.h"
+#include "utils.h"
 
 
 std::vector<Atom> read_geometry_from_molden(std::string filename)

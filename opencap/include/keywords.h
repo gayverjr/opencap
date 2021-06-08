@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,11 @@ SOFTWARE.
      \brief List of valid keywords
  */
 #pragma once
+
+#include <map>
 #include <string>
 #include <vector>
-#include "opencap_exception.h"
-#include <map>
+
 #ifndef INCLUDE_KEYWORDS_H_
 #define INCLUDE_KEYWORDS_H_
 

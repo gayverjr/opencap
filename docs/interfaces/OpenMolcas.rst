@@ -162,13 +162,15 @@ should be invoked before calling :func:`~pyopencap.CAP.compute_projected_cap`.
 
 
 Step 4: Generate and analyze eigenvalue trajectories
-----------------------------------------
-H0 and W can be used to construct a :class:`~pyopencap.CAP.analysis.CAPHamiltonian` object. 
+----------------------------------------------------
+H0 and W, or the :class:`~pyopencap.CAP` object can be used to construct a :class:`~pyopencap.CAP.analysis.CAPHamiltonian` object. 
 
 .. code-block:: python
 
 	from pyopencap.analysis import CAPHamiltonian
 	CAPH = CAPHamiltonian(H0=H0,W=W_mat)
+	# equivalently
+	CAPH = CAPHamiltonian(pc=pc)
 
 See the :ref:`analysis <analysis>` section for more details.
 

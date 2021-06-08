@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +22,35 @@ SOFTWARE.
 /*
  * CAP.cpp
  */
-#include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
+
 #include "CAP.h"
-#include "System.h"
-#include "BasisSet.h"
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
+
+#include <pybind11/eigen.h>
+#include <pybind11/pybind11.h>
 #include <algorithm>
 #include <chrono>
-#include "CAP.h"
-#include <string>
-#include <map>
-#include <list>
-#include "Atom.h"
-#include "utils.h"
-#include "transforms.h"
-#include "gto_ordering.h"
-#include "qchem_interface.h"
-#include "molcas_interface.h"
-#include "AOCAP.h"
-#include "overlap.h"
 #include <cmath>
-#include <limits>
-#include "opencap_exception.h"
 #include <Eigen/Dense>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <list>
+#include <map>
+#include <sstream>
+#include <string>
+
+#include "AOCAP.h"
+#include "Atom.h"
+#include "BasisSet.h"
+#include "gto_ordering.h"
+#include "molcas_interface.h"
+#include "opencap_exception.h"
+#include "overlap.h"
+#include "qchem_interface.h"
+#include "System.h"
+#include "transforms.h"
+#include "utils.h"
 
 
 CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
@@ -106,9 +108,9 @@ void CAP::read_in_zero_order_H()
 	else if (compare_strings(parameters["package"],"qchem") && parameters.find("qchem_output")!=parameters.end())
 	{
 		if(compare_strings(method,"eom"))
-			ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["method"],parameters["qchem_output"]);
+			ZERO_ORDER_H = read_qchem_eom_energies(nstates,parameters["qchem_output"]);
 		else if (compare_strings(method,"tddft"))
-			ZERO_ORDER_H = read_qchem_tddft_energies(nstates,parameters["method"],parameters["qchem_output"]);
+			ZERO_ORDER_H = read_qchem_tddft_energies(nstates,parameters["qchem_output"]);
 		else
 			opencap_throw("Error: unsupported Q-Chem method. Currently EOM and TDDFT are supported.");
 		std::string message = "Successfully read in zeroth order Hamiltonian from file:" + parameters["qchem_output"];
@@ -133,7 +135,7 @@ void CAP::read_in_zero_order_H()
 	}
 	else
 	{
-		std::string message = "Unable to find supported zeroth order Hamiltonian. Substituting zero matrix instead.";
+		std::string message = "No zeroth order Hamiltonian specified. Substituting zero matrix instead.";
 		if(python)
 			py::print(message);
 		else

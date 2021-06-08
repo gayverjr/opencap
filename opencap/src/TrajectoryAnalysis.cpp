@@ -1,14 +1,38 @@
+/*Copyright (c) 2021 James Gayvert
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 #include "TrajectoryAnalysis.h"
-#include <Eigen/Dense>
-#include <map>
-#include <iostream>
-#include <iomanip>
-#include <complex>
+
 #include <cmath>
-#include "utils.h"
-#include <string>
-#include <sstream>
+#include <complex>
+#include <Eigen/Dense>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <sstream>
+#include <string>
+
+
+#include "utils.h"
 
 void CAPHamiltonian::set_eta_list(std::map<std::string, std::string> params)
 {
@@ -58,7 +82,7 @@ void CAPHamiltonian::track_states()
 
 void CAPHamiltonian::save_trajectory()
 {
-	ofstream trajFile;
+	std::ofstream trajFile;
 	std::string data_finame = finame + ".data";
 	trajFile.open(data_finame);
     trajFile << std::left << std::setw(18) << std::setfill(' ')
@@ -97,11 +121,8 @@ void CAPHamiltonian::run_trajectory()
 
 EigenvalueTrajectory::EigenvalueTrajectory(std::vector<root> initial_states, size_t state_idx)
 {
-	for(auto v:initial_states)
-	{
-		if(real(v.eigv[state_idx]) == 1.0)
-			prev = v;
-	}
+	prev = initial_states[state_idx];
+	std::cout << prev.eigv << std::endl;
 	states.push_back(prev);
 	uncorrected_energies.push_back(prev.energy);
 	corrected_energies.push_back(prev.energy);
@@ -169,13 +190,18 @@ void EigenvalueTrajectory::analyze()
 		}
 	}
 
+
 	//uncorrected results
 	std::cout << "Results from uncorrected trajectory:" << std::endl;
 	std::cout << "Uncorrected energy: " << std::noshowpos << uncorrected_energies[min_idx] << std::endl;
 	std::cout << "Eta: " << states[min_idx].eta << " Logarithmic velocity: " << min_deriv << std::endl;
+	uc_opt_eta = states[min_idx].eta;
+	uc_opt = uncorrected_energies[min_idx];
 
 	// corrected results
 	std::cout << "Results from corrected trajectory:" << std::endl;
 	std::cout << "Corrected energy: " << std::noshowpos << corrected_energies[min_idx_corr] << std::endl;
 	std::cout << "Eta: " << states[min_idx_corr].eta << " Logarithmic velocity: " << min_deriv_corr << std::endl;
+	corr_opt_eta = states[min_idx].eta;
+	corr_opt = uncorrected_energies[min_idx];
 }

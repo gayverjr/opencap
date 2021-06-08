@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,16 @@ SOFTWARE.
 /*! \file AOCAP.h
      \brief Class for numerically integrating the %CAP matrix in AO basis.
  */
+
 #include <cstdlib>
-#include <string>
+#include <Eigen/Dense>
 #include <map>
+#include <string>
 #include <vector>
+
 #include "Atom.h"
 #include "BasisSet.h"
-#include <Eigen/Dense>
+
 #pragma once
 
 /*! \brief Class for numerically integrating the %CAP matrix in AO basis.
