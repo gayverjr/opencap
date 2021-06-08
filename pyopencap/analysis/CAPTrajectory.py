@@ -18,7 +18,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.'''
 
-
 import numpy as np
 from numpy import linalg as LA
 import warnings
@@ -26,15 +25,17 @@ import warnings
 # https://physics.nist.gov/cgi-bin/cuu/Value?hrev
 au2eV = 27.211386245988
 
-def _delete_indices(H0,W,exclude_states):
+
+def _delete_indices(H0, W, exclude_states):
     exclude_states = np.unique(exclude_states)
-    exclude_states = sorted(exclude_states,reverse=True)
+    exclude_states = sorted(exclude_states, reverse=True)
     for i in exclude_states:
-        H0 = np.delete(H0,i,axis=0)
-        H0 = np.delete(H0,i,axis=1)
-        W = np.delete(W,i,axis=0)
-        W = np.delete(W,i,axis=1)
-    return H0,W
+        H0 = np.delete(H0, i, axis=0)
+        H0 = np.delete(H0, i, axis=1)
+        W = np.delete(W, i, axis=0)
+        W = np.delete(W, i, axis=1)
+    return H0, W
+
 
 class Root():
     '''
@@ -49,7 +50,6 @@ class Root():
     eigvc: list of float
         Eigenvector for state
     '''
-
     def __init__(self, energy, eta, eigvc):
         '''
         Initializes root object.
@@ -66,6 +66,7 @@ class Root():
         self.eta = eta
         self.energy = energy
         self.eigvc = eigvc
+
 
 class EigenvalueTrajectory():
     '''
@@ -85,8 +86,7 @@ class EigenvalueTrajectory():
     etas: list of float
         List of CAP strengths in trajectory.
     '''
-
-    def __init__(self,state_idx,init_roots,tracking="overlap"):
+    def __init__(self, state_idx, init_roots, tracking="overlap"):
         '''
         Initializes EigenvalueTrajectory object, which tracks a state starting from the first diagonalization at eta = 0.
         
@@ -109,13 +109,14 @@ class EigenvalueTrajectory():
         elif tracking == "energy":
             self._add_state = self._energy_tracking
         else:
-            raise RuntimeError("Invalid choice of tracking. Choose either overlap or energy.")
+            raise RuntimeError(
+                "Invalid choice of tracking. Choose either overlap or energy.")
 
-    def _overlap_tracking(self,states):
+    def _overlap_tracking(self, states):
         maxo = 0.0
         state_idx = -1
         for st in states:
-            ov = np.abs(np.dot(st.eigvc,self._last.eigvc))
+            ov = np.abs(np.dot(st.eigvc, self._last.eigvc))
             if ov > maxo:
                 maxo = ov
                 cur = st
@@ -124,26 +125,32 @@ class EigenvalueTrajectory():
         self.uncorrected_energies.append(cur.energy)
         self.etas.append(cur.eta)
 
-    def _energy_tracking(self,states):
-        min= float("inf")
-        cur=-1
+    def _energy_tracking(self, states):
+        min = float("inf")
+        cur = -1
         for st in states:
-            if np.absolute(st.energy-self._last.energy)< min or cur==-1:
-                cur=st
-                min=np.absolute(st.energy-self._last.energy)
+            if np.absolute(st.energy - self._last.energy) < min or cur == -1:
+                cur = st
+                min = np.absolute(st.energy - self._last.energy)
         self._last = cur
         self.states.append(cur)
         self.uncorrected_energies.append(cur.energy)
         self.etas.append(cur.eta)
 
     def _calculate_corrected_energies(self):
-        derivs=list(np.gradient(self.uncorrected_energies)/np.gradient(self.etas))
+        derivs = list(
+            np.gradient(self.uncorrected_energies) / np.gradient(self.etas))
         # E_cor = E_uc - eta * dE/deta
-        for i in range(0,len(self.states)):
-            self.corrected_energies.append(self.uncorrected_energies[i]-self.etas[i]*derivs[i])
+        for i in range(0, len(self.states)):
+            self.corrected_energies.append(self.uncorrected_energies[i] -
+                                           self.etas[i] * derivs[i])
 
-
-    def find_eta_opt(self,corrected=False,start_idx=1,end_idx=-1,ref_energy=0.0, units="au"):
+    def find_eta_opt(self,
+                     corrected=False,
+                     start_idx=1,
+                     end_idx=-1,
+                     ref_energy=0.0,
+                     units="au"):
         '''
         Finds optimal cap strength parameter for eigenvalue trajectory, as defined by eta_opt = min|eta*dE/deta|.
         
@@ -170,28 +177,31 @@ class EigenvalueTrajectory():
             Optimal value of eta
 
         '''
-        if units=="au":
+        if units == "au":
             scaling_factor = 1.0
-        elif units=="eV":
+        elif units == "eV":
             scaling_factor = au2eV
         else:
             raise RuntimeError("Units should be either au or eV.")
         if corrected:
-            derivs=np.array(self.etas)*np.absolute(np.gradient(self.corrected_energies)/np.gradient(self.etas))
+            derivs = np.array(self.etas) * np.absolute(
+                np.gradient(self.corrected_energies) / np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             E = self.corrected_energies[opt_idx]
-            E = (E-ref_energy)*scaling_factor
-            return E,self.etas[opt_idx]
+            E = (E - ref_energy) * scaling_factor
+            return E, self.etas[opt_idx]
         else:
-            derivs=np.array(self.etas)*np.absolute(np.gradient(self.uncorrected_energies)/np.gradient(self.etas))
+            derivs = np.array(self.etas) * np.absolute(
+                np.gradient(self.uncorrected_energies) /
+                np.gradient(self.etas))
             min_val = np.min(derivs[start_idx:end_idx])
             opt_idx = list(derivs).index(min_val)
             E = self.uncorrected_energies[opt_idx]
-            E = (E-ref_energy)*scaling_factor
-            return E,self.etas[opt_idx]
+            E = (E - ref_energy) * scaling_factor
+            return E, self.etas[opt_idx]
 
-    def energies_ev(self,ref_energy,corrected=False):
+    def energies_ev(self, ref_energy, corrected=False):
         '''
         Returns excitation energies of all states in trajectory in eV with respect to specified reference energy.
     
@@ -213,10 +223,10 @@ class EigenvalueTrajectory():
         else:
             E_hartree = self.uncorrected_energies
         for E in E_hartree:
-            E_eV.append((E-ref_energy)*au2eV)
+            E_eV.append((E - ref_energy) * au2eV)
         return E_eV
-    
-    def get_energy(self,eta,corrected=False,ref_energy=0.0,units="au"):
+
+    def get_energy(self, eta, corrected=False, ref_energy=0.0, units="au"):
         '''
         Returns total energy at given value of eta. 
         
@@ -238,9 +248,9 @@ class EigenvalueTrajectory():
         E: float
             Energy at given value of eta
         '''
-        if units=="au":
+        if units == "au":
             scaling_factor = 1.0
-        elif units=="eV":
+        elif units == "eV":
             scaling_factor = au2eV
         else:
             raise RuntimeError("Invalid unit. Options are au or eV.")
@@ -251,11 +261,12 @@ class EigenvalueTrajectory():
             warnings.warn("Warning: "+str(eta) + " is not in the list of values for this trajectory." \
                 +" Defaulting to nearest value of " + str(self.etas[idx]))
         if corrected:
-            return (self.corrected_energies[idx]-ref_energy)*scaling_factor
+            return (self.corrected_energies[idx] - ref_energy) * scaling_factor
         else:
-            return (self.uncorrected_energies[idx]-ref_energy)*scaling_factor
+            return (self.uncorrected_energies[idx] -
+                    ref_energy) * scaling_factor
 
-    def get_logarithmic_velocities(self,corrected=False):
+    def get_logarithmic_velocities(self, corrected=False):
         '''
         Returns eta*dE/deta for each point on eigenvalue trajectory. 
 
@@ -275,7 +286,9 @@ class EigenvalueTrajectory():
             energies = self.corrected_energies
         else:
             energies = self.uncorrected_energies
-        return np.array(self.etas)*np.absolute(np.gradient(energies)/np.gradient(self.etas))
+        return np.array(self.etas) * np.absolute(
+            np.gradient(energies) / np.gradient(self.etas))
+
 
 class CAPHamiltonian():
     '''
@@ -300,16 +313,21 @@ class CAPHamiltonian():
     cap_lambda: float
         Real CAP strength used for continuum remover CAP. Set to 0.0 by default.
     '''
-
-    def _init_from_matrices(self,H0,W):
+    def _init_from_matrices(self, H0, W):
         H0 = np.array(H0)
         W = np.array(W)
         assert H0.shape == W.shape
         self._H0 = H0
         self._W = W
         self._nstates = len(H0)
-    
-    def __init__(self,pc=None,H0=None,W=None,output=None,irrep="",onset=""):
+
+    def __init__(self,
+                 pc=None,
+                 H0=None,
+                 W=None,
+                 output=None,
+                 irrep="",
+                 onset=""):
         '''
         Initializes CAPHamiltonian object from H0 and W matrix in state basis.
 
@@ -336,9 +354,9 @@ class CAPHamiltonian():
 
         '''
         if pc is not None:
-            self._init_from_matrices(pc.get_H(),pc.get_projected_cap())
+            self._init_from_matrices(pc.get_H(), pc.get_projected_cap())
         elif H0 is not None and W is not None:
-            self._init_from_matrices(H0,W)
+            self._init_from_matrices(H0, W)
         elif output is not None:
             with open(output, 'r') as file:
                 filedata = file.readlines()
@@ -347,161 +365,176 @@ class CAPHamiltonian():
                         self._init_from_opencap_output(output)
                         return
                     elif "Welcome to Q-Chem" in l:
-                        self._init_from_qchem_output(output,irrep,onset)
+                        self._init_from_qchem_output(output, irrep, onset)
                         return
-            raise RuntimeError("Only Q-Chem and OpenCAP outputs are supported.")
+            raise RuntimeError(
+                "Only Q-Chem and OpenCAP outputs are supported.")
         else:
-            raise RuntimeError("Error: Either pass a CAP object, H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file.")
+            raise RuntimeError(
+                "Error: Either pass a CAP object, H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file."
+            )
 
-    def _init_from_qchem_eomcc(self,output_file,irrep):
+    def _init_from_qchem_eomcc(self, output_file, irrep):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
         nstates = 0
-        for i in range(0,len(filedata)):
-            if "Performing Projected CAP-EOM calculation for " + str(irrep) in filedata[i]:
-                cur_idx = i+1
+        for i in range(0, len(filedata)):
+            if "Performing Projected CAP-EOM calculation for " + str(
+                    irrep) in filedata[i]:
+                cur_idx = i + 1
                 break
         if cur_idx == -1:
-            if not irrep=="":
-                raise RuntimeError("Error: could not find matrices for " + str(irrep) + " states in " + output_file)
+            if not irrep == "":
+                raise RuntimeError("Error: could not find matrices for " +
+                                   str(irrep) + " states in " + output_file)
             else:
-                raise RuntimeError("Error: could not find matrices in " + output_file)
-        nstates = int(filedata[cur_idx].split()[-2])     
-        while "zeroth order hamiltonian" not in filedata[cur_idx].lower() and cur_idx<len(filedata):
-            cur_idx+=1
-        cur_idx+=1
+                raise RuntimeError("Error: could not find matrices in " +
+                                   output_file)
+        nstates = int(filedata[cur_idx].split()[-2])
+        while "zeroth order hamiltonian" not in filedata[cur_idx].lower(
+        ) and cur_idx < len(filedata):
+            cur_idx += 1
+        cur_idx += 1
         H0 = []
-        for i in range(0,nstates):
+        for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            H0+=l1
-            cur_idx+=1
-        H0 = np.reshape(H0,(nstates,nstates))
-        cur_idx+=1
+            l1 = [float(x) for x in l1]
+            H0 += l1
+            cur_idx += 1
+        H0 = np.reshape(H0, (nstates, nstates))
+        cur_idx += 1
         W = []
-        for i in range(0,nstates):
+        for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            W+=l1
-            cur_idx+=1
-        W = np.reshape(W,(nstates,nstates))
+            l1 = [float(x) for x in l1]
+            W += l1
+            cur_idx += 1
+        W = np.reshape(W, (nstates, nstates))
         assert H0.shape == W.shape
         self._H0 = H0
         self._W = W
         self._nstates = len(H0)
 
-    def _init_from_qchem_adc(self,output_file,onset):
+    def _init_from_qchem_adc(self, output_file, onset):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
         found = False
-        for i in range(0,len(filedata)):
+        for i in range(0, len(filedata)):
             if "Hamiltonian subspace matrix" in filedata[i]:
-                cur_idx = i+2
+                cur_idx = i + 2
                 found = True
                 break
         if not found:
-            raise RuntimeError("Error: could not find matrices in " + output_file)
+            raise RuntimeError("Error: could not find matrices in " +
+                               output_file)
         H0 = []
         done = False
         nstates = 0
         while cur_idx < len(filedata) and not done:
             l1 = filedata[cur_idx].split()
             try:
-                l1= [float(x) for x in l1]
-                if len(l1)>0:
-                    H0+=l1
-                    cur_idx+=1
-                    nstates+=1
+                l1 = [float(x) for x in l1]
+                if len(l1) > 0:
+                    H0 += l1
+                    cur_idx += 1
+                    nstates += 1
                 else:
                     done = True
             except:
                 done = True
-        H0 = np.reshape(H0,(nstates,nstates))
+        H0 = np.reshape(H0, (nstates, nstates))
         found = False
-        for i in range(0,len(filedata)):
-            if "The imaginary part of the CAP subspace matrix, onset=" + str(onset) in filedata[i]:
-                cur_idx = i+2
+        for i in range(0, len(filedata)):
+            if "The imaginary part of the CAP subspace matrix, onset=" + str(
+                    onset) in filedata[i]:
+                cur_idx = i + 2
                 found = True
                 break
         if not found:
-            raise RuntimeError("Error: could not find matrices in " + output_file)
+            raise RuntimeError("Error: could not find matrices in " +
+                               output_file)
         W = []
         done = False
         nstates = 0
         while cur_idx < len(filedata) and not done:
             l1 = filedata[cur_idx].split()
             try:
-                l1= [float(x) for x in l1]
-                if len(l1)>0:
-                    W+=l1
-                    cur_idx+=1
-                    nstates+=1
+                l1 = [float(x) for x in l1]
+                if len(l1) > 0:
+                    W += l1
+                    cur_idx += 1
+                    nstates += 1
                 else:
                     done = True
             except:
                 done = True
-        W = np.reshape(W,(nstates,nstates))
+        W = np.reshape(W, (nstates, nstates))
         assert H0.shape == W.shape
         self._H0 = H0
         self._W = W
         self._nstates = len(H0)
 
-    def _init_from_qchem_output(self,output_file,irrep,onset):
+    def _init_from_qchem_output(self, output_file, irrep, onset):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
-        method=""
-        for i in range(0,len(filedata)):
+        method = ""
+        for i in range(0, len(filedata)):
             if "Performing Projected CAP-EOM calculation for " in filedata[i]:
-                method="eomcc"
+                method = "eomcc"
                 break
-            elif "The imaginary part of the CAP subspace matrix, onset=" in filedata[i]:
-                method="adc"
+            elif "The imaginary part of the CAP subspace matrix, onset=" in filedata[
+                    i]:
+                method = "adc"
                 break
-        if method=="eomcc":
-            self._init_from_qchem_eomcc(output_file,irrep)
-        elif method=="adc":
-            self._init_from_qchem_adc(output_file,onset)
+        if method == "eomcc":
+            self._init_from_qchem_eomcc(output_file, irrep)
+        elif method == "adc":
+            self._init_from_qchem_adc(output_file, onset)
         else:
             raise RuntimeError("Error: Incompatible Q-Chem output.")
 
-    def _init_from_opencap_output(self,output_file):
+    def _init_from_opencap_output(self, output_file):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
         nstates = 0
-        for i in range(0,len(filedata)):
+        for i in range(0, len(filedata)):
             if "Number of states" in filedata[i]:
                 cur_idx = i
                 nstates = int(filedata[cur_idx].split()[-1])
                 break
         if nstates == 0:
             raise RuntimeError("Error: incompatible output. 0 states found.")
-        cur_idx+=2
+        cur_idx += 2
         # zeroth order hamiltonian first
         H0 = []
-        for i in range(0,nstates):
+        for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            H0+=l1
-            cur_idx+=1
-        H0 = np.reshape(H0,(nstates,nstates))
-        cur_idx+=1
+            l1 = [float(x) for x in l1]
+            H0 += l1
+            cur_idx += 1
+        H0 = np.reshape(H0, (nstates, nstates))
+        cur_idx += 1
         # now CAP matrix
         W = []
-        for i in range(0,nstates):
+        for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
-            l1= [float(x) for x in l1]
-            W+=l1
-            cur_idx+=1
-        W = np.reshape(W,(nstates,nstates))
+            l1 = [float(x) for x in l1]
+            W += l1
+            cur_idx += 1
+        W = np.reshape(W, (nstates, nstates))
         assert H0.shape == W.shape
         self._H0 = H0
         self._W = W
         self._nstates = len(H0)
 
-    def run_trajectory(self,eta_list,cap_lambda=0.0,exclude_states=None,include_states=None):
+    def run_trajectory(self,
+                       eta_list,
+                       cap_lambda=0.0,
+                       exclude_states=None,
+                       include_states=None):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -522,14 +555,20 @@ class CAPHamiltonian():
 
         '''
         if exclude_states is not None and include_states is not None:
-            raise RuntimeError("Error: exclude_states and include_states keyword arguments are incompatible.")
+            raise RuntimeError(
+                "Error: exclude_states and include_states keyword arguments are incompatible."
+            )
         if exclude_states is not None:
-           self.H0,self.W = _delete_indices(self._H0,self._W,exclude_states)
-           self.nstates = len(self.H0)
+            self.H0, self.W = _delete_indices(self._H0, self._W,
+                                              exclude_states)
+            self.nstates = len(self.H0)
         elif include_states is not None:
-            all_states = [i for i in range(0,self._nstates)]
-            exclude_states = [item for item in all_states if item not in include_states]
-            self.H0,self.W = _delete_indices(self._H0,self._W,exclude_states)
+            all_states = [i for i in range(0, self._nstates)]
+            exclude_states = [
+                item for item in all_states if item not in include_states
+            ]
+            self.H0, self.W = _delete_indices(self._H0, self._W,
+                                              exclude_states)
             self.nstates = len(self.H0)
         else:
             self.H0 = self._H0
@@ -539,18 +578,18 @@ class CAPHamiltonian():
         self.total_energies = []
         self.cap_lambda = cap_lambda
         self.etas = []
-        for i in range(0,len(eta_list)):
-            eta=eta_list[i]
+        for i in range(0, len(eta_list)):
+            eta = eta_list[i]
             self.etas.append(eta)
             roots = []
-            CAPH = self.H0 +1.0j * eta * self.W - cap_lambda*self.W
-            eigv,eigvc=LA.eig(CAPH)
-            for j,eig in enumerate(eigv):
-                roots.append(Root(eigv[j],eta,eigvc[:,j]))
+            CAPH = self.H0 + 1.0j * eta * self.W - cap_lambda * self.W
+            eigv, eigvc = LA.eig(CAPH)
+            for j, eig in enumerate(eigv):
+                roots.append(Root(eigv[j], eta, eigvc[:, j]))
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 
-    def track_state(self,state_idx,tracking="overlap"):
+    def track_state(self, state_idx, tracking="overlap"):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -571,14 +610,17 @@ class CAPHamiltonian():
             Eigenvalue trajectory for further analysis.
         '''
         if len(self._all_roots) == 0:
-            raise RuntimeError("Nothing to track. Execute `run_trajectory` first.")
-        traj = EigenvalueTrajectory(state_idx,self._all_roots[0],tracking=tracking)
-        for i in range(1,len(self._all_roots)):
+            raise RuntimeError(
+                "Nothing to track. Execute `run_trajectory` first.")
+        traj = EigenvalueTrajectory(state_idx,
+                                    self._all_roots[0],
+                                    tracking=tracking)
+        for i in range(1, len(self._all_roots)):
             traj._add_state(self._all_roots[i])
         traj._calculate_corrected_energies()
         return traj
 
-    def energies_ev(self,ref_energy):
+    def energies_ev(self, ref_energy):
         '''
         Returns excitation energies of all calculated states in eV with respect to specified reference energy.
     
@@ -594,10 +636,10 @@ class CAPHamiltonian():
         '''
         E_eV = []
         for E in self.total_energies:
-            E_eV.append((E-ref_energy)*au2eV)
+            E_eV.append((E - ref_energy) * au2eV)
         return E_eV
 
-    def export(self,finame):
+    def export(self, finame):
         '''
         Exports Zeroth order Hamiltonian and CAP matrix to an OpenCAP formatted output file for further analysis. 
         Useful for saving the results of an expensive electronic structure calculation performed in a python environment.
@@ -611,11 +653,15 @@ class CAPHamiltonian():
         from pandas import DataFrame
         now = datetime.now()
         dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
-        with open(finame,'w') as f:
-            f.write("Welcome to OpenCAP: An open-source program for studying resonances in molecules.\n")
+        with open(finame, 'w') as f:
+            f.write(
+                "Welcome to OpenCAP: An open-source program for studying resonances in molecules.\n"
+            )
             f.write("OpenCAP output file generated on: " + dt_string + "\n")
-            f.write("Printing out matrices required for Projected CAP calculation.\n") 
-            f.write("Number of states: " + str(self._nstates) +"\n")   
+            f.write(
+                "Printing out matrices required for Projected CAP calculation.\n"
+            )
+            f.write("Number of states: " + str(self._nstates) + "\n")
             f.write("Zeroth order Hamiltonian\n")
             f.write(DataFrame(self._H0).to_string(index=False, header=False))
             f.write("\nCAP Matrix\n")

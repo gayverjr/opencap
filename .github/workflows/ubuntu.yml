@@ -12,10 +12,19 @@ jobs:
       matrix:
         python-version: [3.8]
     
+    
+    
     steps:
       - uses: actions/checkout@v2
         name: Check out repository
-    
+        
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2.1.1
+        with:
+            auto-activate-base: true
+            activate-environment: ""
+
+
       - name: Install system dependencies
         run: |
           sudo apt-get -y install libhdf5-serial-dev
@@ -35,6 +44,7 @@ jobs:
           
       - name: Build and test PyOpenCAP
         run: |
+          conda install -c psi4/label/dev psi4
           pip install pytest
           pip install pytest-cov
           pip install h5py
@@ -43,7 +53,7 @@ jobs:
           pip install codecov
           pip install .
           cd pyopencap
-          pytest --cov=. --cov-report=xml
+          pytest --cov=pyopencap --cov-report=xml
           cd ..
             
       - name: Upload reports
