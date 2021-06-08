@@ -2,7 +2,7 @@
 
 $system
 molecule qchem_fchk
-basis_file qchem_fchk
+basis_file qc_inp.fchk
 $end
 
 $projected_cap
