@@ -83,7 +83,7 @@ endif()
 
 if (BUILD_OPENCAP)
 message("Building OpenCAP executable.")
-find_package(PythonLibs 3 REQUIRED)
+find_package(Python ${PY_VERSION} REQUIRED)
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})
 target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX)
