@@ -16,8 +16,8 @@
 [lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
 [rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
 [rtd-url]: https://gayverjropencap.readthedocs.io/en/latest/?badge=latest
-[cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/master/graph/badge.svg
-[cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/master
+[cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/main/graph/badge.svg
+[cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/main
 [pypi-img]: https://badge.fury.io/py/pyopencap.svg
 [pypi-url]: https://pypi.org/project/pyopencap/
 [ghrel-img]: https://img.shields.io/github/v/release/gayverjr/opencap.svg
@@ -27,13 +27,13 @@ OpenCAP is an open-source application aimed at extending the capabilities of ele
 We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
-Please see the [examples](https://github.com/gayverjr/opencap/tree/master/examples) directory or the [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started on using the software.
+Please see the [examples](https://github.com/gayverjr/opencap/tree/main/examples) directory 
+to help get started on using the software. 
 
 For questions or support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.
 
 # Documentation
-Our documentation is currently under construction. We have separate documentation for the 
-command line version (which is aimed more at developers) and the Python API (which is aimed 
+We have separate documentation for the command line version (which is aimed more at developers) and the Python API (which is aimed 
 more at users).
 
 * Doxygen Documentation for C++ code: https://gayverjr.github.io/opencap/
@@ -95,7 +95,7 @@ To ensure that the installation was successful, return to your home directory, s
 
     import pyopencap
 
-See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/pyopencap) directory 
+See the [examples](https://github.com/gayverjr/opencap/tree/main/examples/pyopencap) directory 
 and our [tutorial](https://gayverjropencap.readthedocs.io/en/latest/tutorial.html) to help get you started.
 
 ## OpenCAP (command line version)
@@ -168,7 +168,7 @@ To run OpenCAP, specify an input file from the command line
 
     /path/to/opencap input_file.in 
 
-See the [examples](https://github.com/gayverjr/opencap/tree/master/examples/opencap) directory 
+See the [examples](https://github.com/gayverjr/opencap/tree/main/examples/opencap) directory 
 and our [documentation](https://gayverjr.github.io/opencap/input.html) to help get you started.
 
 
@@ -202,7 +202,7 @@ The following is included as part of the source distribution (no action required
 * [Date](https://github.com/HowardHinnant/date): Howard Hinnant's date and time library based on the C++11/14/17 <chrono> header
  
 # License
-OpenCAP and PyOpenCAP are distributed under the [MIT](https://github.com/gayverjr/opencap/blob/master/LICENSE) license. 
+OpenCAP and PyOpenCAP are distributed under the [MIT](https://github.com/gayverjr/opencap/blob/main/LICENSE) license. 
 
 [Numgrid](https://github.com/dftlibs/numgrid) is distributed under the Mozilla Public License 2.0. The 
 source code is available on [GitHub](https://github.com/dftlibs/numgrid).
@@ -210,4 +210,4 @@ source code is available on [GitHub](https://github.com/dftlibs/numgrid).
 # Acknowledgements
 This project is funded by the Molecular Sciences Software Institute.
 
-![MolSSI logo](https://github.com/gayverjr/OpenCAP/blob/master/images/molssi_logo.png)
+![MolSSI logo](https://github.com/gayverjr/OpenCAP/blob/main/images/molssi_logo.png)
