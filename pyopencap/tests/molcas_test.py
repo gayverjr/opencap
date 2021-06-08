@@ -1,4 +1,4 @@
-'''Copyright (c) 2020 James Gayvert
+'''Copyright (c) 2021 James Gayvert
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -18,60 +18,56 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.'''
 
-import pyopencap
-import numpy as np
-import h5py
-import os
-import sys
 
-destDir="../opencap/tests/openmolcas"
-cap_dict =
-{
+# Benchmark for OpenMolcas
+
+import pyopencap
+import os
+from pyopencap.analysis import CAPHamiltonian
+import numpy as np
+
+dest_dir = "../examples/analysis/N2/ref_outputs"
+RASSI_FILE = os.path.join(dest_dir,"xms.rassi.h5")
+OUTPUT_FILE = os.path.join(dest_dir,"xms.out")
+
+sys_dict = {
+    "molecule": "molcas_rassi",
+    "basis_file":RASSI_FILE
+}
+
+cap_dict ={
             "cap_type": "voronoi",
             "r_cut":"3.00",
             "Radial_precision": "14",
             "angular_points": "110"
 }
 
-def test_ms_caspt2():
-    sys_dict = {}
-    es_dict = {"method" : "ms-caspt2",
-"package": "openmolcas",
-"molcas_output":destDir+"/ms_spherical.out",
-"rassi_h5":destDir+"/ms_spherical.rassi.h5"}
-    pc = pyopencap.CAP(s1,cap_dict,16)
-    pc.read_data(es_dict2)
-    pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    W = pc.get_projected_cap()
-    h0 = pc.get_H()
+es_dict ={
+    "package":"openmolcas",
+    "method":"xms-caspt2",
+    "molcas_output":OUTPUT_FILE ,
+    "rassi_h5":RASSI_FILE
+}
 
-def test_molden():
-    pc = pyopencap.CAP(s2,cap_dict,3)
+def test_molcas():
+    sys = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(sys,cap_dict,10)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
     pc.compute_projected_cap()
-    W = pc.get_projected_cap()
-    h0 = pc.get_H()
-    assert 
+    from pyopencap.analysis import CAPHamiltonian
+    caph = CAPHamiltonian(pc=pc)
+    eta_list = np.linspace(0,1500,101)
+    eta_list = np.around(eta_list * 1E-5,decimals=5)
+    caph.run_trajectory(eta_list)
+    traj = caph.track_state(1,tracking="overlap")
+    uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.35465184,units="eV")
+    assert np.isclose(np.real(uc_energy),2.54772)
 
-def test_pc_nevpt2():
-    pc = pyopencap.CAP(s3,cap_dict,10)
-    pc.read_data(es_dict3)
-    pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    W = pc.get_projected_cap()
-    h0 = pc.get_H()
-    assert np.isclose(h0[0][0],-109.3332404495)
 
-def test_sc_nevpt2():
-    pc = pyopencap.CAP(s3,cap_dict,10)
-    pc.read_data(es_dict4)
-    pc.compute_ao_cap()
-    pc.compute_projected_cap()
-    W = pc.get_projected_cap()
-    h0 = pc.get_H()
-    assert np.isclose(h0[0][0],-109.3327110632)
+
+
+
 
 
 

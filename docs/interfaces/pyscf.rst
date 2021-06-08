@@ -158,6 +158,5 @@ Any module which one particle transition densities available can be supported.
 This includes all methods which can utilize the trans_rdm1 function, including but not limited to:
 
 * MRPT
-* CISD
 
 .. _ADCC: https://adc-connect.org

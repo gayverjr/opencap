@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,20 @@ SOFTWARE.
 /*
  * qchem_interface.cpp
  */
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <string>
+
 #include "qchem_interface.h"
-#include "opencap_exception.h"
-#include "gto_ordering.h"
-#include "utils.h"
-#include "BasisSet.h"
-#include <Eigen/Dense>
+
+#include <algorithm>
 #include <chrono>
+#include <Eigen/Dense>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "gto_ordering.h"
+#include "opencap_exception.h"
+#include "utils.h"
 
 
 void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
@@ -282,11 +284,10 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
 }
 
 
-Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string method,std::string output_file)
+Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string output_file)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H=Eigen::MatrixXd::Zero(nstates,nstates);
-	transform(method.begin(),method.end(),method.begin(),::toupper);
 	std::ifstream is(output_file);
     if (is.good())
     {
@@ -315,11 +316,10 @@ Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string method,std:
     return ZERO_ORDER_H;
 }
 
-Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string method,std::string output_file)
+Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string output_file)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
 	ZERO_ORDER_H=Eigen::MatrixXd::Zero(nstates,nstates);
-	transform(method.begin(),method.end(),method.begin(),::toupper);
 	std::ifstream is(output_file);
     if (is.good())
     {

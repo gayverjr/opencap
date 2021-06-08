@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,13 +19,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "Shell.h"
-#include <iostream>
-#include <vector>
-#include <map>
 #include <Eigen/Dense>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <vector>
+
 #include "opencap_exception.h"
+#include "Shell.h"
 
 static map<string, int> angmom_map = {{"S", 0}, {"P", 1}, {"D", 2},{"F",3},{"G",4}};
 double fact2(int n)

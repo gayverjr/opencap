@@ -1,11 +1,27 @@
+'''Copyright (c) 2021 James Gayvert
+    
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    '''
+
 import pyopencap
-import numpy as np
-import matplotlib.pyplot as plt
 from pyopencap.analysis import CAPHamiltonian
 
-ref_energy = -109.36009153
-eta_list = np.linspace(0,2000,101)
-eta_list = eta_list * 1E-5
 RASSI_FILE = "xms.out"
 OUTPUT_FILE = "xms.rassi.h5"
 
@@ -34,19 +50,5 @@ pc.compute_projected_cap()
 W = pc.get_projected_cap()
 h0 = pc.get_H()
 
-
 CAPH = CAPHamiltonian(H0=h0,W=W)
-CAPH.run_trajectory(eta_list)
-plt.plot(np.real(CAPH.energies_ev(ref_energy=ref_energy)),np.imag(CAPH.energies_ev(ref_energy=ref_energy)),'ro',label='Uncorrected Trajectory')
-plt.show()
-
-for i in range(0,CAPH.nstates):
-    traj = CAPH.track_state(i,tracking="overlap")
-    uc_energies = traj.energies_ev(ref_energy=ref_energy)
-    corr_energies = traj.energies_ev(ref_energy=ref_energy,corrected=True)
-    plt.plot(np.real(uc_energies),np.imag(uc_energies),'-ro',label="Uncorrected")
-    plt.plot(np.real(corr_energies),np.imag(corr_energies),'-bo',label="Corrected")
-    plt.title("State: " + str(i))
-    plt.legend()
-    plt.show()
 

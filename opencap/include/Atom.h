@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,11 @@ SOFTWARE.
 /*! \file Atom.h
      \brief Classes and structs for storing atomic data.
  */
-#include <vector>
+
 #include <array>
 #include <string>
+#include <vector>
+
 #pragma once
 using namespace std;
 

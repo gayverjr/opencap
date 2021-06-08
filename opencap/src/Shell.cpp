@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,13 +19,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "Shell.h"
+
+#include <math.h>
+#include <Eigen/Dense>
 #include <iostream>
 #include <vector>
-#include <math.h>
+
 #include "Atom.h"
-#include "Shell.h"
 #include "utils.h"
-#include <Eigen/Dense>
+
 using namespace std;
 
 Shell::Shell(int angmom, bool cart_flag,std::vector<double> exponents,

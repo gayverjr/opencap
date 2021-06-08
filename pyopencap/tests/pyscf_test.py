@@ -1,4 +1,4 @@
-'''Copyright (c) 2020 James Gayvert
+'''Copyright (c) 2021 James Gayvert
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,11 @@ import numpy as np
 import os
 import sys
 
-destDir="../opencap/tests/data"
-sys_dict = {"geometry":'''H        0.0     0.0     0.54981512
-    H        0.0     0.0     -0.54981512
-    X       0.0     0.0     0.0''',
-        "basis_file":destDir+"/pyscf_basis.bas",
-        "molecule": "inline"
+sys_dict = {
+    "molecule":"molden",
+    "basis_file":"molden_file.molden"
 }
+
 cap_dict = {
     "cap_type": "box",
         "cap_x":"6.00",
@@ -39,33 +37,24 @@ cap_dict = {
             "Radial_precision": "14",
             "angular_points": "110"
 }
-sys_dict2 = { "molecule": "molden", "basis_file": destDir+"/molden_file.molden"}
-
-H_bas = gto.basis.load(destDir+'/pyscf_basis.nw', 'H')
-X_bas = gto.basis.load(destDir+'/pyscf_basis.nw', 'O')
 mol = gto.M(
-            atom = 'H        0.0     0.0     0.54981512;\
-            H        0.0     0.0     -0.54981512;\
-            X       0.0     0.0     0.0',
-            basis = {'H': H_bas, 'X':X_bas}
+            atom = 'H        0.0     0.0     0.54981512; \
+            H        0.0     0.0     -0.54981512;',
+            basis = "cc-pvdz"
             )
 mol.build()
 myhf = scf.RHF(mol)
 myhf.kernel()
 
-def test_overlap():
+def test_from_molden():
+    tools.molden.from_scf(myhf,"molden_file.molden")
     s = pyopencap.System(sys_dict)
     pyscf_smat = scf.hf.get_ovlp(mol)
     s.check_overlap_mat(pyscf_smat,"pyscf")
-
-def test_from_molden():
-    tools.molden.from_scf(myhf,destDir+"/molden_file.molden")
-    s = pyopencap.System(sys_dict2)
-    pyscf_smat = scf.hf.get_ovlp(mol)
-    s.check_overlap_mat(pyscf_smat,"pyscf")
-    os.remove(destDir+"/molden_file.molden")
+    os.remove("molden_file.molden")
 
 def test_pyscf():
+    tools.molden.from_scf(myhf,"molden_file.molden")
     s = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(s,cap_dict,3)
     fs = fci.FCI(mol, myhf.mo_coeff)
@@ -77,3 +66,4 @@ def test_pyscf():
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao,i,j,"pyscf")
     pc.compute_projected_cap()
+    os.remove("molden_file.molden")

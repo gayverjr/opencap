@@ -1,4 +1,4 @@
-'''Copyright (c) 2020 James Gayvert
+'''Copyright (c) 2021 James Gayvert
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,31 +27,31 @@ eta_list = np.linspace(0,5000,101) * 1E-5
 ref_energy = -109.36195558
 
 def test_eomcc_parse():
-    CAPH = CAPHamiltonian(output=dest_dir+"/eomcc.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"))
     assert np.isclose(CAPH._H0[0][0],-1.09353e+02)
-    CAPH = CAPHamiltonian(output=dest_dir+"/eomcc.out",irrep="B2g")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B2g")
     assert np.isclose(CAPH._H0[0][0],-1.09313e+02)
     try:
-        CAPH = CAPHamiltonian(output=dest_dir+"/eomcc.out",irrep="B1g")
+        CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B1g")
     except:
         pass
 
 def test_adc_parse():
-    CAPH = CAPHamiltonian(output=dest_dir+"/adc.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"adc.out"))
     assert np.isclose(CAPH._W[0][0],-6.3724737e+01)
-    CAPH = CAPHamiltonian(output=dest_dir+"/adc.out",onset="4000")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"adc.out"),onset="4000")
     assert np.isclose(CAPH._W[0][0],-4.9669293e+01)
     try:
-        CAPH = CAPHamiltonian(output=dest_dir+"/adc.out",onset="1000")
+        CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"adc.out"),onset="1000")
     except:
         pass
 
 def test_opencap_parse():
-    CAPH = CAPHamiltonian(output=dest_dir+"/n2_opencap.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
     assert np.isclose(CAPH._W[0][0],-4.28708660e+01)
 
 def test_eta_opt():
-    CAPH = CAPHamiltonian(output=dest_dir+"/n2_opencap.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
     CAPH.run_trajectory(eta_list)
     traj = CAPH.track_state(1,tracking="overlap")
     uc_energy_au,uc_eta = traj.find_eta_opt(units="au")
@@ -73,21 +73,21 @@ def test_eta_opt():
     assert np.isclose(np.real(corr_energy_ev),2.59686)
 
 def test_exclude_states():
-    CAPH = CAPHamiltonian(output=dest_dir+"/n2_opencap.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
     CAPH.run_trajectory(eta_list,exclude_states=[3])
     assert CAPH.H0.shape == CAPH.W.shape == (4,4)
     assert np.isclose(CAPH.H0[3][3], -1.089933e+02)
     assert np.isclose(CAPH.W[3][3], -1.65280e+02)
 
 def test_include_states():
-    CAPH = CAPHamiltonian(output=dest_dir+"/n2_opencap.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
     CAPH.run_trajectory(eta_list,include_states=[0,1,2,4])
     assert CAPH.H0.shape == CAPH.W.shape == (4,4)
     assert np.isclose(CAPH.H0[3][3], -1.089933e+02)
     assert np.isclose(CAPH.W[3][3], -1.65280e+02)
 
 def test_export():
-    CAPH = CAPHamiltonian(output=dest_dir+"/n2_opencap.out")
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
     CAPH.export("test.out")
     CAPH2 = CAPHamiltonian(output="test.out")
     assert np.isclose(CAPH._H0[0][0],CAPH2._H0[0][0])

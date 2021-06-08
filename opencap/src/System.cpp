@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -62,7 +62,9 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 				parameters[pair.first]=pair.second;
 		}
 		bool bohr_coord;
-		std::istringstream do_bohr(params["bohr_coordinates"]);
+		std::string bohr_coods_params = params["bohr_coordinates"];
+		transform(bohr_coods_params.begin(),bohr_coods_params.end(),bohr_coods_params.begin(),::tolower);
+		std::istringstream do_bohr(bohr_coods_params);
 		do_bohr >> std::boolalpha >> bohr_coord;
 		if(!bohr_coord)
 		{

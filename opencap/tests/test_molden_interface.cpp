@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,40 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
-#include "molden_parser.h"
+
 #include "Atom.h"
 #include "BasisSet.h"
+#include "molden_parser.h"
 
 
-TEST(MOLDEN_PARSER, PARSE_GEOMETRY)
+TEST(MOLDEN_PARSER, PARSE_GEOMETRY_ANG)
 {
    std::vector<Atom> atms = read_geometry_from_molden("../tests/molden/H2.molden");
    ASSERT_EQ (atms.size(),4);
    ASSERT_EQ (atms[0].Z,0);
    ASSERT_NEAR(atms[0].coords[2],-1.398397332,0.00001);
-   atms = read_geometry_from_molden("../tests/molden/N2.molden");
+}
+
+TEST(MOLDEN_PARSER, PARSE_GEOMETRY_AU)
+{
+   std::vector<Atom> atms = read_geometry_from_molden("../tests/molden/N2.molden");
    ASSERT_EQ (atms.size(),2);
    ASSERT_EQ (atms[0].Z,7);
    ASSERT_EQ(atms[0].coords[2],1.03934937);
 }
 
-TEST(MOLDEN_PARSER, PARSE_BASIS)
+TEST(MOLDEN_PARSER, PARSE_BASIS_CART)
 {
    std::vector<Atom> atms = read_geometry_from_molden("../tests/molden/H2.molden");
    BasisSet bs = read_basis_from_molden("../tests/molden/H2.molden",atms);
    ASSERT_EQ (bs.Nshells,44);
    ASSERT_EQ (bs.Nbasis,124);
-   ASSERT_NEAR(atms[0].coords[2],-1.398397332,0.00001);
-   atms = read_geometry_from_molden("../tests/molden/N2.molden");
-   bs = read_basis_from_molden("../tests/molden/N2.molden",atms);
+}
+
+TEST(MOLDEN_PARSER, PARSE_BASIS_SPH)
+{
+   std::vector<Atom> atms = read_geometry_from_molden("../tests/molden/N2.molden");
+   BasisSet bs = read_basis_from_molden("../tests/molden/N2.molden",atms);
    ASSERT_EQ (bs.Nshells,12);
    ASSERT_EQ (bs.Nbasis,28);
 }

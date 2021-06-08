@@ -1,4 +1,4 @@
-'''Copyright (c) 2020 James Gayvert
+'''Copyright (c) 2021 James Gayvert
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ import numpy as np
 import os
 import sys
 
-dest_dir="../opencap/tests/data"
 cap_dict = {
     "cap_type": "box",
         "cap_x":"6.00",
@@ -33,7 +32,7 @@ cap_dict = {
             "Radial_precision": "14",
             "angular_points": "110"
 }
-molden_dict = { "molecule": "molden", "basis_file": dest_dir+'/h2.molden'}
+molden_dict = { "molecule": "molden", "basis_file": 'h2.molden'}
 
 mol = psi4.geometry("""
     H 0.0000000000 0.0000000000 0.3705000000
@@ -49,8 +48,8 @@ n_bas = S_mat.shape[0]
 so2ao = mints.petite_list().sotoao()
 
 def write_molden():
-    psi4.molden(wfn, dest_dir+'/h2.molden')
-    with open(dest_dir+'/h2.molden', "a") as myfile:
+    psi4.molden(wfn, 'h2.molden')
+    with open('h2.molden', "a") as myfile:
         myfile.write("\n [7F] \n")
 
 def test_from_molden():
@@ -58,7 +57,7 @@ def test_from_molden():
     write_molden()
     s = pyopencap.System(molden_dict)
     s.check_overlap_mat(S_mat,"psi4")
-    os.remove(dest_dir+'/h2.molden')
+    os.remove('h2.molden')
 
 def test_psi4():
     write_molden()
@@ -75,4 +74,4 @@ def test_psi4():
             if not i==j:
                 pc.add_tdm(opdm_ao.to_array(),j,i,"psi4")
     pc.compute_projected_cap()
-    os.remove(dest_dir+'/h2.molden')
+    os.remove('h2.molden')

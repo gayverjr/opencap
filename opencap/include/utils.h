@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,10 @@ SOFTWARE.
  */
 #ifndef UTILS_H_
 #define UTILS_H_
-#include "Shell.h"
-#include <map>
+
 #include <Eigen/Dense>
+#include <map>
+
 
 //useful constants
 #ifndef M_PIl

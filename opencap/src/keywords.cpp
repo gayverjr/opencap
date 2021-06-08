@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,17 @@ SOFTWARE.
 /*
  * keywords.cpp
  */
+
+#include "keywords.h"
+
+#include <algorithm>
+#include <iostream>
+#include <map>
 #include <string>
 #include <vector>
+
 #include "opencap_exception.h"
-#include "keywords.h"
 #include "utils.h"
-#include <algorithm>
-#include <string>
-#include <map>
-#include <iostream>
 
 bool check_keyword(std::string my_key,std::string my_section,std::string my_value)
 {
