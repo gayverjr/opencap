@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,22 @@ SOFTWARE.
  * molden_parser.cpp
  *
  */
+
 #include "molden_parser.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
+
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <sstream>
 #include <string>
-#include "utils.h"
+
 #include "Atom.h"
 #include "BasisSet.h"
-#include "Shell.h"
 #include "opencap_exception.h"
-#include <map>
+#include "Shell.h"
+#include "utils.h"
 
 
 std::vector<Atom> read_geometry_from_molden(std::string filename)
@@ -49,7 +53,7 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
 		//first get the number of atoms
     	std::string line, rest;
     	std::getline(is, line);
-		while(line.find("N_ATOMS")== std::string::npos)
+		while(line.find("N_ATOMS")== std::string::npos && (line.find("N_Atoms")== std::string::npos))
 		{
     		if (is.peek()==EOF)
     		{
@@ -71,7 +75,7 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
     		if (is.peek()==EOF)
     			opencap_throw("Error: Reached end of file before \"ATOMS\" section was found.");
 		}
-		if(line.find("Angs")!=std::string::npos)
+		if(line.find("Angs")!=std::string::npos || line.find("ANGS")!=std::string::npos)
 			angs = true;
 		std::getline(is,line);
 		while(line.find("[")==std::string::npos)
@@ -90,7 +94,13 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
 		}
 	}
 	if(n_atoms_found && num_atoms!=atoms.size())
+	{
 		opencap_throw("Error: Number of atoms found does not match those specified in \"N_ATOMS\" section.");
+	}
+	else if(atoms.size()==0)
+	{
+		opencap_throw("Error: No atoms found.");
+	}
 	return atoms;
 }
 

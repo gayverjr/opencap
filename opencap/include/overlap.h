@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,14 @@ SOFTWARE.
  */
 #ifndef OVERLAP_H_
 #define OVERLAP_H_
+
+#include <math.h>
+#include <Eigen/Dense>
 #include <iostream>
 #include <vector>
-#include <math.h>
-#include "Shell.h"
+
 #include "BasisSet.h"
-#include <Eigen/Dense>
+
 
 /** Overlap between pair of cartesian gaussian functions
 */

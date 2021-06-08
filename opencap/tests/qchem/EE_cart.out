@@ -2,82 +2,90 @@
      A Quantum Leap Into The Future Of Chemistry
 
 
- Q-Chem 5.3 (devel), Q-Chem, Inc., Pleasanton, CA (2020)
+ Q-Chem 5.4 (devel), Q-Chem, Inc., Pleasanton, CA (2021)
 
- Yihan Shao,  Zhengting Gan,  E. Epifanovsky,  A. T. B. Gilbert,  M. Wormit,  
- J. Kussmann,  A. W. Lange,  A. Behn,  Jia Deng,  Xintian Feng,  D. Ghosh,  
- M. Goldey,  P. R. Horn,  L. D. Jacobson,  I. Kaliman,  T. Kus,  A. Landau,  
- Jie Liu,  E. I. Proynov,  R. M. Richard,  R. P. Steele,  E. J. Sundstrom,  
- H. L. Woodcock III,  P. M. Zimmerman,  D. Zuev,  B. Alam,  B. Albrecht,  
- A. Aldossary,  E. Alguire,  S. A. Baeppler,  D. Barton,  Z. Benda,  
- Y. A. Bernard,  E. J. Berquist,  K. B. Bravaya,  H. Burton,  K. Carter-Fenk,  
- D. Casanova,  Chun-Min Chang,  Yunqing Chen,  A. Chien,  K. D. Closser,  
- M. P. Coons,  S. Coriani,  S. Dasgupta,  A. L. Dempwolff,  M. Diedenhofen,  
- Hainam Do,  R. G. Edgar,  Po-Tung Fang,  S. Faraji,  S. Fatehi,  
- Qingguo Feng,  J. Fosso-Tande,  J. Gayvert,  Qinghui Ge,  A. Ghysels,  
- G. Gidofalvi,  J. Gomes,  J. Gonthier,  S. Gulania,  A. Gunina,  D. Hait,  
- M. W. D. Hanson-Heine,  S. Hammes-Schiffer,  P. H. P. Harbach,  
- A. W. Hauser,  M. F. Herbst,  J. E. Herr,  E. G. Hohenstein,  Z. C. Holden,  
- S. Houck,  Kerwin Hui,  B. C. Huynh,  M. Ivanov,  T.-C. Jagau,  Hyunjun Ji,  
- B. Kaduk,  K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  K. Koh,  
- D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  A. Kunitsa,  
- Ka Un Lao,  A. Laurent,  K. V. Lawler,  Joonho Lee,  D. Lefrancois,  
- S. Lehtola,  D. S. Levine,  Yi-Pei Li,  You-Sheng Lin,  Fenglai Liu,  
- Kuan-Yu Liu,  E. Livshits,  M. Loipersberger,  A. Luenser,  P. Manohar,  
- E. Mansoor,  S. F. Manzer,  Shan-Ping Mao,  Yuezhi Mao,  N. Mardirossian,  
- A. V. Marenich,  T. Markovich,  L. A. Martinez-Martinez,  S. A. Maurer,  
- N. J. Mayhall,  S. C. McKenzie,  J.-M. Mewes,  P. Morgante,  A. F. Morrison,  
- J. W. Mullinax,  K. Nanda,  T. S. Nguyen-Beck,  R. Olivares-Amaya,  
- K. J. Oosterbaan,  J. A. Parkhill,  S. K. Paul,  F. Pavosevic,  Zheng Pei,  
- T. M. Perrine,  F. Plasser,  P. Pokhilko,  S. Prager,  A. Prociuk,  
- E. Ramos,  B. Rana,  D. R. Rehn,  F. Rob,  E. Rossomme,  M. Scheurer,  
- M. Schneider,  N. Sergueev,  S. M. Sharada,  S. Sharma,  W. Skomorowski,  
- D. W. Small,  T. Stauch,  C. J. Stein,  T. Stein,  Yu-Chuan Su,  
- S. P. Veccham,  Zhen Tao,  A. J. W. Thom,  A. Tkatchenko,  T. Tsuchimochi,  
- N. M. Tubman,  L. Vogt,  M. L. Vidal,  O. Vydrov,  M. A. Watson,  J. Wenzel,  
- M. de Wergifosse,  T. A. Wesolowski,  A. White,  J. Witte,  A. Yamada,  
- Jun Yang,  K. Yao,  S. Yeganeh,  S. R. Yost,  Zhi-Qiang You,  A. Zech,  
- Igor Ying Zhang,  Xing Zhang,  Yan Zhao,  Ying Zhu,  B. R. Brooks,  
- G. K. L. Chan,  C. J. Cramer,  M. S. Gordon,  W. J. Hehre,  A. Klamt,  
- M. W. Schmidt,  C. D. Sherrill,  D. G. Truhlar,  A. Aspuru-Guzik,  R. Baer,  
- A. T. Bell,  N. A. Besley,  Jeng-Da Chai,  A. E. DePrince, III,  
- R. A. DiStasio Jr.,  A. Dreuw,  B. D. Dunietz,  T. R. Furlani,  
- Chao-Ping Hsu,  Yousung Jung,  Jing Kong,  D. S. Lambrecht,  WanZhen Liang,  
- C. Ochsenfeld,  V. A. Rassolov,  L. V. Slipchenko,  J. E. Subotnik,  
- T. Van Voorhis,  J. M. Herbert,  A. I. Krylov,  P. M. W. Gill,  M. Head-Gordon
+ E. Epifanovsky,  A. T. B. Gilbert,  Xintian Feng,  Joonho Lee,  Yuezhi Mao,  
+ N. Mardirossian,  P. Pokhilko,  A. White,  M. Wormit,  M. P. Coons,  
+ A. L. Dempwolff,  Zhengting Gan,  D. Hait,  P. R. Horn,  L. D. Jacobson,  
+ I. Kaliman,  J. Kussmann,  A. W. Lange,  Ka Un Lao,  D. S. Levine,  Jie Liu,  
+ S. C. McKenzie,  A. F. Morrison,  K. Nanda,  F. Plasser,  D. R. Rehn,  
+ M. L. Vidal,  Zhi-Qiang You,  B. Alam,  B. Albrecht,  A. Aldossary,  
+ E. Alguire,  J. H. Andersen,  D. Barton,  K. Begam,  A. Behn,  
+ Y. A. Bernard,  E. J. Berquist,  H. Burton,  A. Carreras,  K. Carter-Fenk,  
+ R. Chakraborty,  A. Chien,  K. D. Closser,  V. Cofer-Shabica,  S. Dasgupta,  
+ Jia Deng,  M. Diedenhofen,  Hainam Do,  S. Ehlert,  Po-Tung Fang,  
+ S. Fatehi,  Qingguo Feng,  J. Gayvert,  Qinghui Ge,  G. Gidofalvi,  
+ M. Goldey,  J. Gomes,  C. Gonzalez-Espinoza,  S. Gulania,  A. Gunina,  
+ M. W. D. Hanson-Heine,  P. H. P. Harbach,  A. W. Hauser,  M. F. Herbst,  
+ M. Hernandez Vera,  M. Hodecker,  Z. C. Holden,  S. Houck,  Xunkun Huang,  
+ Kerwin Hui,  B. C. Huynh,  M. Ivanov,  Hyunjun Ji,  Hanjie Jiang,  B. Kaduk,  
+ S. Kaehler,  K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  Z. Koczor-Benda,  
+ Joong Hoon Koh,  D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  
+ K. Kue,  A. Kunitsa,  T. Kus,  A. Landau,  K. V. Lawler,  D. Lefrancois,  
+ S. Lehtola,  Rain Li,  Yi-Pei Li,  Jiashu Liang,  M. Liebenthal,  
+ Hung-Hsuan Lin,  You-Sheng Lin,  Fenglai Liu,  Kuan-Yu Liu,  
+ M. Loipersberger,  A. Luenser,  A. Manjanath,  P. Manohar,  E. Mansoor,  
+ S. F. Manzer,  Shan-Ping Mao,  A. V. Marenich,  T. Markovich,  S. Mason,  
+ S. A. Maurer,  P. F. McLaughlin,  M. F. S. J. Menger,  J.-M. Mewes,  
+ S. A. Mewes,  P. Morgante,  J. W. Mullinax,  T. S. Nguyen-Beck,  
+ K. J. Oosterbaan,  G. Paran,  Alexander C. Paul,  Suranjan K. Paul,  
+ F. Pavosevic,  Zheng Pei,  S. Prager,  E. I. Proynov,  E. Ramos,  B. Rana,  
+ A. E. Rask,  A. Rettig,  R. M. Richard,  F. Rob,  E. Rossomme,  T. Scheele,  
+ M. Scheurer,  M. Schneider,  N. Sergueev,  S. M. Sharada,  W. Skomorowski,  
+ D. W. Small,  E. J. Sundstrom,  T. Stauch,  C. J. Stein,  Yu-Chuan Su,  
+ S. P. Veccham,  Zhen Tao,  T. Tsuchimochi,  N. M. Tubman,  O. Vydrov,  
+ J. Wenzel,  M. de Wergifosse,  J. Witte,  A. Yamada,  K. Yao,  S. Yeganeh,  
+ S. R. Yost,  A. Zech,  Igor Ying Zhang,  Xing Zhang,  Yu Zhang,  Ying Zhu,  
+ D. Zuev,  A. Aspuru-Guzik,  A. T. Bell,  N. A. Besley,  K. B. Bravaya,  
+ B. R. Brooks,  D. Casanova,  Jeng-Da Chai,  S. Coriani,  C. J. Cramer,  
+ A. E. DePrince, III,  R. A. DiStasio Jr.,  A. Dreuw,  B. D. Dunietz,  
+ T. R. Furlani,  W. A. Goddard III,  S. Grimme,  S. Hammes-Schiffer,  
+ T. Head-Gordon,  W. J. Hehre,  Chao-Ping Hsu,  T.-C. Jagau,  Yousung Jung,  
+ A. Klamt,  Jing Kong,  D. S. Lambrecht,  WanZhen Liang,  N. J. Mayhall,  
+ C. W. McCurdy,  J. B. Neaton,  C. Ochsenfeld,  J. A. Parkhill,  R. Peverati,  
+ V. A. Rassolov,  Yihan Shao,  L. V. Slipchenko,  R. P. Steele,  
+ J. E. Subotnik,  A. J. W. Thom,  A. Tkatchenko,  D. G. Truhlar,  
+ T. Van Voorhis,  T. A. Wesolowski,  K. B. Whaley,  H. L. Woodcock III,  
+ P. M. Zimmerman,  S. Faraji,  P. M. W. Gill,  M. Head-GordonJ. M. Herbert,  
+ A. I. Krylov
 
  Contributors to earlier versions of Q-Chem not listed above: 
- R. D. Adamson,  B. Austin,  J. Baker,  G. J. O. Beran,  K. Brandhorst,  
- S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  C.-L. Cheng,  
+ R. D. Adamson,  B. Austin,  R. Baer,  J. Baker,  G. J. O. Beran,  
+ K. Brandhorst,  S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  
+ G. K. L. Chan,  Chun-Min Chang,  Yunqing Chen,  C.-L. Cheng,  
  Siu Hung Chien,  D. M. Chipman,  D. L. Crittenden,  H. Dachsel,  
- R. J. Doerksen,  A. D. Dutoi,  L. Fusti-Molnar,  W. A. Goddard III,  
- A. Golubeva-Zadorozhnaya,  S. R. Gwaltney,  G. Hawkins,  A. Heyden,  
- S. Hirata,  G. Kedziora,  F. J. Keil,  C. Kelley,  Jihan Kim,  R. A. King,  
- R. Z. Khaliullin,  P. P. Korambath,  W. Kurlancheek,  A. M. Lee,  M. S. Lee,  
- S. V. Levchenko,  Ching Yeh Lin,  D. Liotard,  R. C. Lochan,  I. Lotan,  
- P. E. Maslen,  N. Nair,  D. P. O'Neill,  D. Neuhauser,  E. Neuscamman,  
- C. M. Oana,  R. Olson,  B. Peters,  R. Peverati,  P. A. Pieniazek,  
- Y. M. Rhee,  J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  
- H. F. Schaefer III,  N. E. Schultz,  N. Shenvi,  A. C. Simmonett,  A. Sodt,  
- D. Stuck,  K. S. Thanthiriwatte,  V. Vanovschi,  Tao Wang,  A. Warshel,  
- C. F. Williams,  Q. Wu,  X. Xu,  W. Zhang
+ R. J. Doerksen,  A. D. Dutoi,  R. G. Edgar,  J. Fosso-Tande,  
+ L. Fusti-Molnar,  D. Ghosh,  A. Ghysels,  A. Golubeva-Zadorozhnaya,  
+ J. Gonthier,  M. S. Gordon,  S. R. Gwaltney,  G. Hawkins,  J. E. Herr,  
+ A. Heyden,  S. Hirata,  E. G. Hohenstein,  G. Kedziora,  F. J. Keil,  
+ C. Kelley,  Jihan Kim,  R. A. King,  R. Z. Khaliullin,  P. P. Korambath,  
+ W. Kurlancheek,  A. Laurent,  A. M. Lee,  M. S. Lee,  S. V. Levchenko,  
+ Ching Yeh Lin,  D. Liotard,  E. Livshits,  R. C. Lochan,  I. Lotan,  
+ L. A. Martinez-Martinez,  P. E. Maslen,  N. Nair,  D. P. O'Neill,  
+ D. Neuhauser,  E. Neuscamman,  C. M. Oana,  R. Olivares-Amaya,  R. Olson,  
+ T. M. Perrine,  B. Peters,  P. A. Pieniazek,  A. Prociuk,  Y. M. Rhee,  
+ J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  H. F. Schaefer III,  
+ M. W. Schmidt,  N. E. Schultz,  S. Sharma,  N. Shenvi,  C. D. Sherrill,  
+ A. C. Simmonett,  A. Sodt,  T. Stein,  D. Stuck,  K. S. Thanthiriwatte,  
+ V. Vanovschi,  L. Vogt,  Tao Wang,  A. Warshel,  M. A. Watson,  
+ C. F. Williams,  Q. Wu,  X. Xu,  Jun Yang,  W. Zhang,  Yan Zhao
 
  Please cite Q-Chem as follows:
  Y. Shao et al., Mol. Phys. 113, 184-215 (2015)
  DOI: 10.1080/00268976.2014.952696
 
- Q-Chem 5.3.0 for Intel X86 EM64T Linux
+ Q-Chem 5.4.0 for Intel X86 EM64T Linux
 
  Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
  http://arma.sourceforge.net/
 
- Q-Chem begins on Sat Aug  8 10:48:59 2020  
+ Q-Chem begins on Thu May 27 14:21:28 2021  
 
-Host: node12
+Host: node3
 0
 
-     Scratch files written to /scratch/gayverjr/EE_cart.2155430489.saved//
-Processing $rem in /home/gayverjr/qchem_james/qc53/config/preferences:
+     Scratch files written to /scratch/gayverjr/EE_cart.2734705233.saved//
+Processing $rem in /home/qcsoftware/qchem/builds/qc540rc/qchem/config/preferences:
 Processing $rem in /home/gayverjr/.qchemrc:
 Core orbitals will be frozen
 
@@ -175,7 +183,17 @@ $end
 
  Standard Electronic Orientation quadrupole field applied
  Nucleus-field energy     =    -0.0000000045 hartrees
- Guess MOs from core Hamiltonian diagonalization
+ ================ Generating on-the-fly SAD Guess ================
+Attempting to make child job directory: /scratch/gayverjr/EE_cart.2734705233.saved//Frg1/
+Creating input file /scratch/gayverjr/EE_cart.2734705233.saved/Frg1.input
+using default PutDataFrgm: nothing
+calling putenv with: QCSCRATCH=/scratch/gayverjr/EE_cart.2734705233.saved/ 
+Spawning Job For Fragment 0
+Done Job For Fragment 0
+calling putenv with: QCSCRATCH=/scratch/gayverjr 
+calling putenv with: QCTHREADS=16 
+ Time for running child jobs:  CPU 0.00 s  wall 1.49 s
+ ============= Method Specific SAD Guess Constructed =============
 
  -----------------------------------------------------------------------
   General SCF calculation program by
@@ -196,18 +214,17 @@ $end
  ---------------------------------------
   Cycle       Energy         DIIS error
  ---------------------------------------
-    1     -98.7898294706      1.57e-01  
-    2    -105.7994455831      8.95e-02  
-    3    -108.7950610799      1.15e-02  
-    4    -108.8448734454      2.40e-03  
-    5    -108.8480669814      3.43e-04  
-    6    -108.8481337217      3.03e-05  
-    7    -108.8481342433      2.77e-06  
-    8    -108.8481342469      2.98e-07  
-    9    -108.8481342470      4.81e-08  
-   10    -108.8481342470      4.82e-09  Convergence criterion met
+    1    -108.9979656305      9.03e-02  
+    2    -108.8348420090      6.22e-03  
+    3    -108.8474443762      1.46e-03  
+    4    -108.8480835255      3.19e-04  
+    5    -108.8481337561      3.42e-05  
+    6    -108.8481342405      3.82e-06  
+    7    -108.8481342469      4.66e-07  
+    8    -108.8481342470      4.69e-08  
+    9    -108.8481342470      3.11e-09  Convergence criterion met
  ---------------------------------------
- SCF time:   CPU 3.84s  wall 2.00s 
+ SCF time:   CPU 2.82s  wall 1.00s 
  SCF   energy in the final basis set =     -108.8481342470
  Total energy in the final basis set =     -108.8481342470
 
@@ -305,9 +322,9 @@ $end
 
  Import integrals:   CPU 0.00 s  wall 0.00 s
 
- Import integrals:   CPU 1.74 s  wall 0.24 s
+ Import integrals:   CPU 1.67 s  wall 0.25 s
 
- MP2 amplitudes:   CPU 1.07 s  wall 0.93 s
+ MP2 amplitudes:   CPU 1.05 s  wall 0.90 s
 
 Running a double precision version
            CCSD T amplitudes will be solved using DIIS.
@@ -338,9 +355,9 @@ End of double precision
  CCSD  T1^2 = 0.0029  T2^2 = 0.1048  Leading amplitudes:
 
  Amplitude    Orbitals with energies
-  0.0209       3 (Ag) A                  ->    4 (Ag) A                   
+ -0.0209       3 (Ag) A                  ->    4 (Ag) A                   
               -0.6090                          0.3572                     
-  0.0209       3 (Ag) B                  ->    4 (Ag) B                   
+ -0.0209       3 (Ag) B                  ->    4 (Ag) B                   
               -0.6090                          0.3572                     
   0.0139       1 (B2u) A                 ->    2 (B2u) A                  
               -0.6015                          0.9172                     
@@ -352,14 +369,6 @@ End of double precision
               -0.6015                          0.9172                     
 
  Amplitude    Orbitals with energies
- -0.0984       1 (B2u) A     1 (B2u) B   ->    1 (B3g) A     1 (B3g) B    
-              -0.6015       -0.6015            0.1826        0.1826       
-  0.0984       1 (B2u) A     1 (B2u) B   ->    1 (B3g) B     1 (B3g) A    
-              -0.6015       -0.6015            0.1826        0.1826       
-  0.0984       1 (B2u) B     1 (B2u) A   ->    1 (B3g) A     1 (B3g) B    
-              -0.6015       -0.6015            0.1826        0.1826       
- -0.0984       1 (B2u) B     1 (B2u) A   ->    1 (B3g) B     1 (B3g) A    
-              -0.6015       -0.6015            0.1826        0.1826       
  -0.0984       1 (B3u) A     1 (B3u) B   ->    1 (B2g) A     1 (B2g) B    
               -0.6015       -0.6015            0.1826        0.1826       
   0.0984       1 (B3u) A     1 (B3u) B   ->    1 (B2g) B     1 (B2g) A    
@@ -367,6 +376,14 @@ End of double precision
   0.0984       1 (B3u) B     1 (B3u) A   ->    1 (B2g) A     1 (B2g) B    
               -0.6015       -0.6015            0.1826        0.1826       
  -0.0984       1 (B3u) B     1 (B3u) A   ->    1 (B2g) B     1 (B2g) A    
+              -0.6015       -0.6015            0.1826        0.1826       
+ -0.0984       1 (B2u) A     1 (B2u) B   ->    1 (B3g) A     1 (B3g) B    
+              -0.6015       -0.6015            0.1826        0.1826       
+  0.0984       1 (B2u) A     1 (B2u) B   ->    1 (B3g) B     1 (B3g) A    
+              -0.6015       -0.6015            0.1826        0.1826       
+  0.0984       1 (B2u) B     1 (B2u) A   ->    1 (B3g) A     1 (B3g) B    
+              -0.6015       -0.6015            0.1826        0.1826       
+ -0.0984       1 (B2u) B     1 (B2u) A   ->    1 (B3g) B     1 (B3g) A    
               -0.6015       -0.6015            0.1826        0.1826       
 
  Computing CCSD intermediates for later calculations in double precision
@@ -391,7 +408,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
                                    CCSD Lambda converged.
 
- CCSD calculation:   CPU 51.14 s  wall 7.78 s
+ CCSD calculation:   CPU 49.18 s  wall 8.78 s
 
         Solving for EOMEE-CCSD B2g singlet states.
 
@@ -431,13 +448,13 @@ Running a double precision version
      Davidson procedure converged
 
  EOMEE transition 1/B2g
- Total energy = -108.76636951 a.u.  Excitation energy = 9.6030 eV.
+ Total energy = -108.76636950 a.u.  Excitation energy = 9.6030 eV.
  R0^2 = 0.0000  R1^2 = 0.9376  R2^2 = 0.0624  Res^2 = 5.61e-07
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
- -0.6767       3 (Ag) A                  ->    1 (B2g) A                  
- -0.6767       3 (Ag) B                  ->    1 (B2g) B                  
+  0.6767       3 (Ag) A                  ->    1 (B2g) A                  
+  0.6767       3 (Ag) B                  ->    1 (B2g) B                  
  -0.0943       3 (Ag) A                  ->    2 (B2g) A                  
  -0.0943       3 (Ag) B                  ->    2 (B2g) B                  
 
@@ -453,35 +470,35 @@ Running a double precision version
 
 
  EOMEE transition 2/B2g
- Total energy = -108.34176456 a.u.  Excitation energy = 21.1571 eV.
+ Total energy = -108.34176455 a.u.  Excitation energy = 21.1571 eV.
  R0^2 = 0.0000  R1^2 = 0.0000  R2^2 = 1.0000  Res^2 = 4.73e-06
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
- -0.3863       2 (B1u) A     1 (B2u) B   ->    1 (B2g) A     1 (B3g) B    
-  0.3863       2 (B1u) A     1 (B2u) B   ->    1 (B3g) B     1 (B2g) A    
- -0.3863       1 (B2u) A     2 (B1u) B   ->    1 (B3g) A     1 (B2g) B    
-  0.3863       1 (B2u) A     2 (B1u) B   ->    1 (B2g) B     1 (B3g) A    
-  0.3863       2 (B1u) B     1 (B2u) A   ->    1 (B3g) A     1 (B2g) B    
- -0.3863       2 (B1u) B     1 (B2u) A   ->    1 (B2g) B     1 (B3g) A    
-  0.3863       1 (B2u) B     2 (B1u) A   ->    1 (B2g) A     1 (B3g) B    
- -0.3863       1 (B2u) B     2 (B1u) A   ->    1 (B3g) B     1 (B2g) A    
-  0.3855       2 (B1u) A     1 (B2u) A   ->    1 (B2g) A     1 (B3g) A    
- -0.3855       2 (B1u) A     1 (B2u) A   ->    1 (B3g) A     1 (B2g) A    
- -0.3855       1 (B2u) A     2 (B1u) A   ->    1 (B2g) A     1 (B3g) A    
-  0.3855       1 (B2u) A     2 (B1u) A   ->    1 (B3g) A     1 (B2g) A    
-  0.3855       2 (B1u) B     1 (B2u) B   ->    1 (B2g) B     1 (B3g) B    
- -0.3855       2 (B1u) B     1 (B2u) B   ->    1 (B3g) B     1 (B2g) B    
- -0.3855       1 (B2u) B     2 (B1u) B   ->    1 (B2g) B     1 (B3g) B    
-  0.3855       1 (B2u) B     2 (B1u) B   ->    1 (B3g) B     1 (B2g) B    
-  0.3849       2 (B1u) A     1 (B2u) B   ->    1 (B3g) A     1 (B2g) B    
- -0.3849       2 (B1u) A     1 (B2u) B   ->    1 (B2g) B     1 (B3g) A    
-  0.3849       1 (B2u) A     2 (B1u) B   ->    1 (B2g) A     1 (B3g) B    
- -0.3849       1 (B2u) A     2 (B1u) B   ->    1 (B3g) B     1 (B2g) A    
- -0.3849       2 (B1u) B     1 (B2u) A   ->    1 (B2g) A     1 (B3g) B    
-  0.3849       2 (B1u) B     1 (B2u) A   ->    1 (B3g) B     1 (B2g) A    
- -0.3849       1 (B2u) B     2 (B1u) A   ->    1 (B3g) A     1 (B2g) B    
-  0.3849       1 (B2u) B     2 (B1u) A   ->    1 (B2g) B     1 (B3g) A    
+  0.3863       2 (B1u) A     1 (B2u) B   ->    1 (B2g) A     1 (B3g) B    
+ -0.3863       2 (B1u) A     1 (B2u) B   ->    1 (B3g) B     1 (B2g) A    
+  0.3863       1 (B2u) A     2 (B1u) B   ->    1 (B3g) A     1 (B2g) B    
+ -0.3863       1 (B2u) A     2 (B1u) B   ->    1 (B2g) B     1 (B3g) A    
+ -0.3863       2 (B1u) B     1 (B2u) A   ->    1 (B3g) A     1 (B2g) B    
+  0.3863       2 (B1u) B     1 (B2u) A   ->    1 (B2g) B     1 (B3g) A    
+ -0.3863       1 (B2u) B     2 (B1u) A   ->    1 (B2g) A     1 (B3g) B    
+  0.3863       1 (B2u) B     2 (B1u) A   ->    1 (B3g) B     1 (B2g) A    
+ -0.3855       2 (B1u) A     1 (B2u) A   ->    1 (B2g) A     1 (B3g) A    
+  0.3855       2 (B1u) A     1 (B2u) A   ->    1 (B3g) A     1 (B2g) A    
+  0.3855       1 (B2u) A     2 (B1u) A   ->    1 (B2g) A     1 (B3g) A    
+ -0.3855       1 (B2u) A     2 (B1u) A   ->    1 (B3g) A     1 (B2g) A    
+ -0.3855       2 (B1u) B     1 (B2u) B   ->    1 (B2g) B     1 (B3g) B    
+  0.3855       2 (B1u) B     1 (B2u) B   ->    1 (B3g) B     1 (B2g) B    
+  0.3855       1 (B2u) B     2 (B1u) B   ->    1 (B2g) B     1 (B3g) B    
+ -0.3855       1 (B2u) B     2 (B1u) B   ->    1 (B3g) B     1 (B2g) B    
+ -0.3849       2 (B1u) A     1 (B2u) B   ->    1 (B3g) A     1 (B2g) B    
+  0.3849       2 (B1u) A     1 (B2u) B   ->    1 (B2g) B     1 (B3g) A    
+ -0.3849       1 (B2u) A     2 (B1u) B   ->    1 (B2g) A     1 (B3g) B    
+  0.3849       1 (B2u) A     2 (B1u) B   ->    1 (B3g) B     1 (B2g) A    
+  0.3849       2 (B1u) B     1 (B2u) A   ->    1 (B2g) A     1 (B3g) B    
+ -0.3849       2 (B1u) B     1 (B2u) A   ->    1 (B3g) B     1 (B2g) A    
+  0.3849       1 (B2u) B     2 (B1u) A   ->    1 (B3g) A     1 (B2g) B    
+ -0.3849       1 (B2u) B     2 (B1u) A   ->    1 (B2g) B     1 (B3g) A    
 
               Summary of significant orbitals:
 
@@ -504,8 +521,8 @@ Running a double precision version
  Amplitude    Transitions between orbitals
  -0.6532       3 (Ag) A                  ->    2 (B2g) A                  
  -0.6532       3 (Ag) B                  ->    2 (B2g) B                  
-  0.0940       2 (Ag) A                  ->    1 (B2g) A                  
-  0.0940       2 (Ag) B                  ->    1 (B2g) B                  
+ -0.0940       2 (Ag) A                  ->    1 (B2g) A                  
+ -0.0940       2 (Ag) B                  ->    1 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -543,7 +560,7 @@ Running a double precision version
 
  Excited state properties for  EOMEE-CCSD transition 1/B2g
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 38.323035 (XX 8.332990, YY 7.305279, ZZ 22.684767)
+ R-squared (a.u.): 38.323035 (XX 8.332990, YY 7.305278, ZZ 22.684767)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -569,11 +586,11 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -0.000000
    Number of electrons:                   14.000000
-     Center of electronic charge [Ang]: [ -0.000000,   0.000000,   0.000000]
+     Center of electronic charge [Ang]: [ -0.000000,  -0.000000,   0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [  0.000000,  -0.000000,  -0.000000]
+     Cartesian components [D]:          [  0.000000,   0.000000,  -0.000000]
    RMS size of the density [Ang]:         0.875522
      Cartesian components [Ang]:        [  0.408261,   0.382257,   0.673603]
  
@@ -606,11 +623,11 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -0.000000
    Number of electrons:                   14.000000
-     Center of electronic charge [Ang]: [  0.000000,   0.000000,  -0.000000]
+     Center of electronic charge [Ang]: [ -0.000000,  -0.000000,  -0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [ -0.000000,  -0.000000,   0.000000]
+     Cartesian components [D]:          [  0.000000,   0.000000,   0.000000]
    RMS size of the density [Ang]:         0.885341
      Cartesian components [Ang]:        [  0.406127,   0.381651,   0.687919]
  
@@ -643,16 +660,16 @@ State OPDM analysis using libwa module will be excecuted
  Multipole moment analysis of the density matrix
    Molecular charge:                      -0.000000
    Number of electrons:                   14.000000
-     Center of electronic charge [Ang]: [  0.000000,   0.000000,   0.000000]
+     Center of electronic charge [Ang]: [ -0.000000,   0.000000,  -0.000000]
    Total nuclear charge:                  14.000000
      Center of nuclear charge [Ang]:    [  0.000000,   0.000000,   0.000000]
    Dipole moment [D]:                     0.000000
-     Cartesian components [D]:          [ -0.000000,  -0.000000,  -0.000000]
+     Cartesian components [D]:          [  0.000000,  -0.000000,   0.000000]
    RMS size of the density [Ang]:         0.946941
      Cartesian components [Ang]:        [  0.489336,   0.409168,   0.699877]
  
 
- EOMEE-CCSD calculation:   CPU 154.03 s  wall 25.84 s
+ EOMEE-CCSD calculation:   CPU 145.79 s  wall 27.41 s
 
 
  Start computing the transition properties
@@ -660,6 +677,7 @@ State OPDM analysis using libwa module will be excecuted
  ------------------------------------------------------------------------------
  State A: eomee_ccsd/rhfref/singlets: 1/B2g
  State B: eomee_ccsd/rhfref/singlets: 2/B2g
+ Energy GAP = 0.424605 a.u. = 11.554095 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -667,6 +685,15 @@ State OPDM analysis using libwa module will be excecuted
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.000367;   B->A: 0.000147
    ||gamma^AB||*||gamma^BA||: 0.000000
@@ -683,6 +710,7 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  ------------------------------------------------------------------------------
  State A: eomee_ccsd/rhfref/singlets: 1/B2g
  State B: eomee_ccsd/rhfref/singlets: 3/B2g
+ Energy GAP = 0.529896 a.u. = 14.419215 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -690,6 +718,15 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.686728;   B->A: 0.685749
    ||gamma^AB||*||gamma^BA||: 0.470923
@@ -702,9 +739,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  
  Exciton analysis of the transition density matrix
    Trans. dipole moment [D]:             0.000000
-     Cartesian components [D]:         [ -0.000000,   0.000000,  -0.000000]
-   <r_h> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
-   <r_e> [Ang]:                        [  0.000000,  -0.000000,   0.000000]
+     Cartesian components [D]:         [ -0.000000,  -0.000000,  -0.000000]
+   <r_h> [Ang]:                        [ -0.000000,   0.000000,   0.000000]
+   <r_e> [Ang]:                        [ -0.000000,   0.000000,  -0.000000]
    |<r_e - r_h>| [Ang]:                  0.000000
    Hole size [Ang]:                      1.126248
      Cartesian components [Ang]:       [  0.675973,   0.399683,   0.807310]
@@ -720,6 +757,7 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  ------------------------------------------------------------------------------
  State A: eomee_ccsd/rhfref/singlets: 2/B2g
  State B: eomee_ccsd/rhfref/singlets: 3/B2g
+ Energy GAP = 0.105291 a.u. = 2.865120 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -727,6 +765,15 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.000088;   B->A: 0.000199
    ||gamma^AB||*||gamma^BA||: 0.000000
@@ -743,9 +790,9 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
 
  All requested transition properties have been computed
 
- Transition Properties:   CPU 5.54 s  wall 0.92 s
+ Transition Properties:   CPU 4.38 s  wall 1.01 s
 
- Total ccman2 time:   CPU 216.22 s  wall 36.34 s
+ Total ccman2 time:   CPU 205.12 s  wall 39.08 s
 
 
  --------------------------------------------------------------
@@ -805,28 +852,25 @@ State analysis of transition OPDM (A->B) using libwa module will be excecuted
     Charge (ESU x 10^10)
                 -0.0000
     Dipole Moment (Debye)
-         X       0.0000      Y      -0.0000      Z       0.0000
+         X      -0.0000      Y      -0.0000      Z       0.0000
        Tot       0.0000
     Quadrupole Moments (Debye-Ang)
-        XX      -9.9496     XY       0.0000     YY      -9.9496
-        XZ       0.0000     YZ      -0.0000     ZZ     -11.5996
+        XX      -9.9496     XY      -0.0000     YY      -9.9496
+        XZ       0.0000     YZ       0.0000     ZZ     -11.5996
     Octopole Moments (Debye-Ang^2)
-       XXX       0.0000    XXY      -0.0000    XYY       0.0000
-       YYY      -0.0000    XXZ      -0.0000    XYZ      -0.0000
-       YYZ       0.0000    XZZ       0.0000    YZZ      -0.0000
+       XXX      -0.0000    XXY       0.0000    XYY       0.0000
+       YYY      -0.0000    XXZ       0.0000    XYZ       0.0000
+       YYZ      -0.0000    XZZ      -0.0000    YZZ       0.0000
        ZZZ       0.0000
     Hexadecapole Moments (Debye-Ang^3)
-      XXXX      -7.3116   XXXY       0.0000   XXYY      -2.4372
-      XYYY       0.0000   YYYY      -7.3116   XXXZ       0.0000
-      XXYZ      -0.0000   XYYZ       0.0000   YYYZ      -0.0000
-      XXZZ      -5.6635   XYZZ       0.0000   YYZZ      -5.6635
+      XXXX      -7.3116   XXXY      -0.0000   XXYY      -2.4372
+      XYYY      -0.0000   YYYY      -7.3116   XXXZ       0.0000
+      XXYZ       0.0000   XYYZ       0.0000   YYYZ       0.0000
+      XXZZ      -5.6635   XYZZ      -0.0000   YYZZ      -5.6635
       XZZZ       0.0000   YZZZ       0.0000   ZZZZ     -29.8618
  -----------------------------------------------------------------
-Archival summary:
-1\1\node12\SP\ProcedureUnspecified\BasisUnspecified\2h1\gayverjr\SatAug810:49:382020SatAug810:49:382020\0\\#,ProcedureUnspecified,BasisUnspecified,\\0,1\N\Gh,1,1.039\N,2,1.039,1,180\\HF=-108.848134\\@
-
- Total job time:  39.04s(wall), 225.11s(cpu) 
- Sat Aug  8 10:49:38 2020
+ Total job time:  43.43s(wall), 212.94s(cpu) 
+ Thu May 27 14:22:12 2021
 
         *************************************************************
         *                                                           *

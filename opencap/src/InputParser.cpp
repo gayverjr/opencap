@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,21 @@ SOFTWARE.
  * InputParser.cpp
  */
 
-#include <map>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <string>
-#include <map>
-#include <list>
-#include <fstream>
-#include <tuple>
-#include <locale>
-#include "Atom.h"
 #include "InputParser.h"
-#include "opencap_exception.h"
+
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <locale>
+#include <map>
+#include <sstream>
+#include <string>
+#include <tuple>
+
+#include "Atom.h"
 #include "keywords.h"
+#include "opencap_exception.h"
 #include "System.h"
 #include "utils.h"
 
@@ -80,6 +79,8 @@ std::vector<Atom> parse_geometry(std::string input_file)
 void parse_section(std::string input_file,std::map<std::string,std::string> &parameters,
 		std::string section_name)
 {
+	bool section_found = false;
+	bool end_found = false;
 	std::ifstream is(input_file);
 	if (is.good())
 	{
@@ -87,13 +88,19 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 		while (std::getline(is, line))
 		{
 			if(compare_strings(line,"$"+section_name))
+			{
+				section_found = true;
 				break;
+			}
 		}
 		while (!is.eof())
 		{
 			std::getline(is, line);
 			if (compare_strings(line,"$end"))
+			{
+				end_found = true;
 				break;
+			}
 			else
 			{
 				if (line[0] != '!')
@@ -110,6 +117,13 @@ void parse_section(std::string input_file,std::map<std::string,std::string> &par
 			}
 			}
 		}
+	if(section_found)
+		parameters[section_name]="true";
+	else
+		return;
+	if(!end_found)
+		opencap_throw("Error: missing a $end for the " + section_name + " section." );
+
 }
 
 System get_System(std::string input_file, std::map<std::string,std::string> params)
@@ -117,7 +131,7 @@ System get_System(std::string input_file, std::map<std::string,std::string> para
 	//first check that we've got what we need to at least try to construct a system
 	if (params.find("molecule")==params.end())
 		opencap_throw("Missing required keyword: molecule. Please choose one of the following: qchem_fchk, "
-				"molcas_rassi,read, molden");
+				"molcas_rassi,inline, molden");
 	if(params.find("basis_file")==params.end())
 		opencap_throw("Error: Need to specify a basis set file using the basis_file keyword.");
 	//geometry
@@ -135,19 +149,11 @@ std::tuple<System,std::map<std::string,std::string>> parse_input(std::string inp
 	System my_sys;
 	try
 	{
-		//parse job section
-		parse_section(input_file,parameters,"job");
-		//parse system
 		parse_section(input_file,parameters,"system");
-		if(compare_strings(parameters["jobtype"],"perturb_cap"))
-		{
-			//parse cap_parameters
-			parse_section(input_file,parameters,"perturb_cap");
-		}
-		else
-			opencap_throw("Invalid jobtype: \'" + parameters["jobtype"]);
+		parse_section(input_file,parameters,"projected_cap");
+		parse_section(input_file,parameters,"trajectory");
 		my_sys = get_System(input_file,get_params_for_field(parameters,"system"));
-        
+
 	}
 	catch (exception &e)
 	{

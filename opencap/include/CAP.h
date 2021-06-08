@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,14 @@ SOFTWARE.
 /*! \file CAP.h
      \brief Class which handles computing the %CAP matrix.
  */
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
-#include "opencap_exception.h"
-#include "System.h"
-#include "AOCAP.h"
+
 #include <pybind11/eigen.h>
+#include <pybind11/numpy.h>
+#include <pybind11/pybind11.h>
 #include <Eigen/Dense>
+
+#include "System.h"
+
 
 #ifndef INCLUDE_CAP_H_
 #define INCLUDE_CAP_H_
@@ -78,7 +79,7 @@ public:
 	void compute_ao_cap();
 	/** Computes %CAP in state basis
 	 */
-	void compute_perturb_cap();
+	void compute_projected_cap();
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method(std::map<std::string,std::string> params);
@@ -87,17 +88,16 @@ public:
 	void run();
 	/** Constructor for Python.
 	 *\param my_sys: System object
-	 *\param num_states: number of states
-	 *\param gto_ordering: Name of electronic structure package
 	 *\param dict: Python dictionary containing parameters
+	 *\param num_states: number of states
 	 */
-	CAP(System my_sys,py::dict dict,size_t num_states,std::string gto_ordering);
+	CAP(System my_sys,py::dict dict,size_t num_states);
 	/** Returns CAP matrix in AO basis.
 	 */
 	Eigen::MatrixXd get_ao_cap();
 	/** Returns CAP matrix in wave function basis.
 	 */
-	Eigen::MatrixXd get_perturb_cap();
+	Eigen::MatrixXd get_projected_cap();
 	/** Returns zeroth order Hamiltonian.
 	 */
 	Eigen::MatrixXd get_H();

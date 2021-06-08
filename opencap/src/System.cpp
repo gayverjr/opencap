@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,12 @@ System::System(std::vector<Atom> geometry,std::map<std::string, std::string> par
 			if(parameters.find(pair.first)==parameters.end())
 				parameters[pair.first]=pair.second;
 		}
-		if(compare_strings(parameters["bohr_coordinates"],"false"))
+		bool bohr_coord;
+		std::string bohr_coods_params = params["bohr_coordinates"];
+		transform(bohr_coods_params.begin(),bohr_coods_params.end(),bohr_coods_params.begin(),::tolower);
+		std::istringstream do_bohr(bohr_coods_params);
+		do_bohr >> std::boolalpha >> bohr_coord;
+		if(!bohr_coord)
 		{
 			for (size_t i=0;i<atoms.size();i++)
 				atoms[i].ang_to_bohr();
@@ -116,7 +121,7 @@ System::System(py::dict dict)
 	else if(compare_strings(parameters["molecule"],"inline"))
 	{
 		if(parameters.find("geometry")==parameters.end())
-			opencap_throw("Error: Need to specify geometry string when molecule is set to \"read.\"");
+			opencap_throw("Error: Need to specify geometry string when molecule is set to \"inline.\"");
 		atoms = parse_geometry_string(parameters["geometry"]);
 		if(parameters.find("bohr_coordinates")== parameters.end() || compare_strings(parameters["bohr_coordinates"],"false"))
 		{
@@ -225,7 +230,6 @@ void System::renormalize_overlap(Eigen::MatrixXd smat)
 			}
 		}
 	}
-
 }
 
 bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::string basis_file)
@@ -244,8 +248,10 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	}
 	else if(compare_strings(ordering,"qchem"))
 		ids = get_qchem_ids(bs);
-	else if(compare_strings(ordering,"opencap"))
+	else if(compare_strings(ordering,"molden"))
 		ids = bs.bf_ids;
+	else if(compare_strings(ordering,"psi4"))
+		ids = get_psi4_ids(bs);
 	else
 		opencap_throw(ordering +" ordering is not supported.");
 	to_opencap_ordering(smat,bs,ids);
@@ -257,7 +263,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 			if (abs(smat(i,j)-OVERLAP_MAT(i,j))>1E-5)
 			{
 				conflicts = true;
-				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-10) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-10) )
+				if( (abs(smat(i,j))<1E-10 && abs(OVERLAP_MAT(i,j))>1E-6) || (abs(smat(i,j))>1E-10 && abs(OVERLAP_MAT(i,j))<1E-6) )
 				{
 					opencap_throw("Error: The dimensions of the overlap matrices match, but the elements do not. "
 							"Verify that your basis is specified properly, or use a different type of input. If the "

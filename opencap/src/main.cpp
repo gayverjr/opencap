@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,28 +19,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <iostream>
-#include <vector>
-#include "System.h"
-#include <chrono>
-#include <map>
-#include <iomanip>
 #include <algorithm>
-#include <string>
+#include <chrono>
 #include <cmath>
+#include <iomanip>
+#include <iostream>
 #include <limits>
-#include "InputParser.h"
+#include <map>
+#include <string>
+#include <vector>
+
 #include "Atom.h"
-#include "opencap_exception.h"
 #include "CAP.h"
+#include "date.h"
+#include "InputParser.h"
 #include "keywords.h"
 #include "molcas_interface.h"
-#include "date.h"
+#include "opencap_exception.h"
+#include "System.h"
+#include "TrajectoryAnalysis.h"
 
 int main(int argc, char **argv)
 {
 	std::cout<< "Welcome to OpenCAP: An open-source program for studying resonances in molecules." << std::endl
-			 << "Version 1.0.3" << std::endl
+			 << "Version 1.1.0" << std::endl
 			 << "Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license." << std::endl
 			 << "For questions and support, please visit: https://github.com/gayverjr/opencap"
 			 <<  std::endl;
@@ -51,13 +53,13 @@ int main(int argc, char **argv)
 		{
 			std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input(input_filename);
 			std::map<std::string,std::string> params = std::get<1>(inp_data);
-			if(params["jobtype"] == "perturb_cap")
+			if(params["projected_cap"] == "true")
 			{
-				std::cout << std::endl << "Starting perturbative CAP calculation." << std::endl;
+				std::cout << std::endl << "Starting Projected CAP calculation." << std::endl;
 				auto t_start = std::chrono::high_resolution_clock::now();
-				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"perturb_cap"));
+				CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
 				pc.run();
-				std::cout << "Printing out matrices required for Perturbative CAP calculation." << std::endl;
+				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;
 				std::cout << "Zeroth order Hamiltonian" << std::endl;
 				std::cout << pc.ZERO_ORDER_H << std::endl;
@@ -65,6 +67,11 @@ int main(int argc, char **argv)
 				std::cout << std::setprecision(8) << std::scientific << pc.CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
 				std::cout << std::fixed << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
+				if(params["trajectory"]=="true")
+				{
+					CAPHamiltonian caph(pc.ZERO_ORDER_H,pc.CAP_MAT,get_params_for_field(params,"trajectory"),input_filename);
+					caph.run_trajectory();
+				}
 				// print time
 			    using namespace date;
 			    using namespace std::chrono;

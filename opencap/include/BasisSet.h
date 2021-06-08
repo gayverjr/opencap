@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,13 @@ SOFTWARE.
      \brief Classes and structs for storing basis set data.
  */
 #pragma once
-#include <vector>
-#include "Atom.h"
+
 #include <map>
-#include "Shell.h"
 #include <string>
+#include <vector>
+
+#include "Shell.h"
+
 using namespace std;
 
 

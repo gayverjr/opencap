@@ -1,0 +1,735 @@
+                  Welcome to Q-Chem
+     A Quantum Leap Into The Future Of Chemistry
+
+
+ Q-Chem 5.3 (devel), Q-Chem, Inc., Pleasanton, CA (2020)
+
+ Yihan Shao,  Zhengting Gan,  E. Epifanovsky,  A. T. B. Gilbert,  M. Wormit,  
+ J. Kussmann,  A. W. Lange,  A. Behn,  Jia Deng,  Xintian Feng,  D. Ghosh,  
+ M. Goldey,  P. R. Horn,  L. D. Jacobson,  I. Kaliman,  T. Kus,  A. Landau,  
+ Jie Liu,  E. I. Proynov,  R. M. Richard,  R. P. Steele,  E. J. Sundstrom,  
+ H. L. Woodcock III,  P. M. Zimmerman,  D. Zuev,  B. Alam,  B. Albrecht,  
+ A. Aldossary,  E. Alguire,  S. A. Baeppler,  D. Barton,  Z. Benda,  
+ Y. A. Bernard,  E. J. Berquist,  K. B. Bravaya,  H. Burton,  K. Carter-Fenk,  
+ D. Casanova,  Chun-Min Chang,  Yunqing Chen,  A. Chien,  K. D. Closser,  
+ M. P. Coons,  S. Coriani,  S. Dasgupta,  A. L. Dempwolff,  M. Diedenhofen,  
+ Hainam Do,  R. G. Edgar,  Po-Tung Fang,  S. Faraji,  S. Fatehi,  
+ Qingguo Feng,  J. Fosso-Tande,  J. Gayvert,  Qinghui Ge,  A. Ghysels,  
+ G. Gidofalvi,  J. Gomes,  J. Gonthier,  S. Gulania,  A. Gunina,  D. Hait,  
+ M. W. D. Hanson-Heine,  S. Hammes-Schiffer,  P. H. P. Harbach,  
+ A. W. Hauser,  M. F. Herbst,  J. E. Herr,  E. G. Hohenstein,  Z. C. Holden,  
+ S. Houck,  Kerwin Hui,  B. C. Huynh,  M. Ivanov,  T.-C. Jagau,  Hyunjun Ji,  
+ B. Kaduk,  K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  K. Koh,  
+ D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  A. Kunitsa,  
+ Ka Un Lao,  A. Laurent,  K. V. Lawler,  Joonho Lee,  D. Lefrancois,  
+ S. Lehtola,  D. S. Levine,  Yi-Pei Li,  You-Sheng Lin,  Fenglai Liu,  
+ Kuan-Yu Liu,  E. Livshits,  M. Loipersberger,  A. Luenser,  A. Manjanath,  
+ P. Manohar,  E. Mansoor,  S. F. Manzer,  Shan-Ping Mao,  Yuezhi Mao,  
+ N. Mardirossian,  A. V. Marenich,  T. Markovich,  L. A. Martinez-Martinez,  
+ S. A. Maurer,  N. J. Mayhall,  S. C. McKenzie,  J.-M. Mewes,  P. Morgante,  
+ A. F. Morrison,  J. W. Mullinax,  K. Nanda,  T. S. Nguyen-Beck,  
+ R. Olivares-Amaya,  K. J. Oosterbaan,  J. A. Parkhill,  S. K. Paul,  
+ F. Pavosevic,  Zheng Pei,  T. M. Perrine,  F. Plasser,  P. Pokhilko,  
+ S. Prager,  A. Prociuk,  E. Ramos,  B. Rana,  D. R. Rehn,  F. Rob,  
+ E. Rossomme,  M. Scheurer,  M. Schneider,  N. Sergueev,  S. M. Sharada,  
+ S. Sharma,  W. Skomorowski,  D. W. Small,  T. Stauch,  C. J. Stein,  
+ T. Stein,  Yu-Chuan Su,  S. P. Veccham,  Zhen Tao,  A. J. W. Thom,  
+ A. Tkatchenko,  T. Tsuchimochi,  N. M. Tubman,  L. Vogt,  M. L. Vidal,  
+ O. Vydrov,  M. A. Watson,  J. Wenzel,  M. de Wergifosse,  T. A. Wesolowski,  
+ A. White,  J. Witte,  A. Yamada,  Jun Yang,  K. Yao,  S. Yeganeh,  
+ S. R. Yost,  Zhi-Qiang You,  A. Zech,  Igor Ying Zhang,  Xing Zhang,  
+ Yan Zhao,  Ying Zhu,  B. R. Brooks,  G. K. L. Chan,  C. J. Cramer,  
+ M. S. Gordon,  W. J. Hehre,  A. Klamt,  M. W. Schmidt,  C. D. Sherrill,  
+ D. G. Truhlar,  A. Aspuru-Guzik,  R. Baer,  A. T. Bell,  N. A. Besley,  
+ Jeng-Da Chai,  A. E. DePrince, III,  R. A. DiStasio Jr.,  A. Dreuw,  
+ B. D. Dunietz,  T. R. Furlani,  Chao-Ping Hsu,  Yousung Jung,  Jing Kong,  
+ D. S. Lambrecht,  WanZhen Liang,  C. Ochsenfeld,  V. A. Rassolov,  
+ L. V. Slipchenko,  J. E. Subotnik,  T. Van Voorhis,  J. M. Herbert,  
+ A. I. Krylov,  P. M. W. Gill,  M. Head-Gordon
+
+ Contributors to earlier versions of Q-Chem not listed above: 
+ R. D. Adamson,  B. Austin,  J. Baker,  G. J. O. Beran,  K. Brandhorst,  
+ S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  C.-L. Cheng,  
+ Siu Hung Chien,  D. M. Chipman,  D. L. Crittenden,  H. Dachsel,  
+ R. J. Doerksen,  A. D. Dutoi,  L. Fusti-Molnar,  W. A. Goddard III,  
+ A. Golubeva-Zadorozhnaya,  S. R. Gwaltney,  G. Hawkins,  A. Heyden,  
+ S. Hirata,  G. Kedziora,  F. J. Keil,  C. Kelley,  Jihan Kim,  R. A. King,  
+ R. Z. Khaliullin,  P. P. Korambath,  W. Kurlancheek,  A. M. Lee,  M. S. Lee,  
+ S. V. Levchenko,  Ching Yeh Lin,  D. Liotard,  R. C. Lochan,  I. Lotan,  
+ P. E. Maslen,  N. Nair,  D. P. O'Neill,  D. Neuhauser,  E. Neuscamman,  
+ C. M. Oana,  R. Olson,  B. Peters,  R. Peverati,  P. A. Pieniazek,  
+ Y. M. Rhee,  J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  
+ H. F. Schaefer III,  N. E. Schultz,  N. Shenvi,  A. C. Simmonett,  A. Sodt,  
+ D. Stuck,  K. S. Thanthiriwatte,  V. Vanovschi,  Tao Wang,  A. Warshel,  
+ C. F. Williams,  Q. Wu,  X. Xu,  W. Zhang
+
+ Please cite Q-Chem as follows:
+ Y. Shao et al., Mol. Phys. 113, 184-215 (2015)
+ DOI: 10.1080/00268976.2014.952696
+
+ Q-Chem 5.3.2 for Intel X86 EM64T Linux
+
+ Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
+ http://arma.sourceforge.net/
+
+ Q-Chem begins on Thu May 13 16:52:47 2021  
+
+Host: node12
+0
+
+     Scratch files written to /scratch/gayverjr/adc.3257043855.saved//
+Processing $rem in /home/qcsoftware/qchem/builds/qc532_projcap/qchem/config/preferences:
+Processing $rem in /home/gayverjr/.qchemrc:
+
+Checking the input file for inconsistencies... 	...done.
+
+--------------------------------------------------------------
+User input:
+--------------------------------------------------------------
+$molecule
+0	1
+N	 0.0	 0.0	 0.548756750
+N	 0.0	 0.0	 -0.548756750
+Gh	 0.0	 0.0	 0.0
+$end
+
+$rem
+JOBTYPE	 sp
+METHOD   ADC(2)
+BASIS    gen
+ADC_CAP   1
+CAP_TYPE 2
+CAP_X   3000
+CAP_X_STEP 1000
+CAP_X_END  4000
+EA_STATES	[0,0,5,0,0,0,0,0]
+MEM_TOTAL        100000
+XC_GRID  000099000590
+$end
+
+$basis
+N	0
+aug-cc-pvtz
+****
+Gh	0
+S   1   1.00
+      0.0288000              1.0000000
+S   1   1.00
+      0.0144000              1.0000000
+S   1   1.00
+      0.0072000              1.0000000
+P   1   1.00
+      0.0245500              1.0000000 
+P   1   1.00
+      0.0122750              1.0000000 
+P   1   1.00
+      0.0061375              1.0000000
+D   1   1.00
+      0.0755000              1.0000000 
+D   1   1.00
+      0.0377500              1.0000000 
+D   1   1.00
+      0.0188750              1.0000000
+****
+$end
+--------------------------------------------------------------
+ ----------------------------------------------------------------
+             Standard Nuclear Orientation (Angstroms)
+    I     Atom           X                Y                Z
+ ----------------------------------------------------------------
+    1      N       0.0000000000     0.0000000000     0.5487567500
+    2      N       0.0000000000     0.0000000000    -0.5487567500
+    3      GH      0.0000000000     0.0000000000     0.0000000000
+ ----------------------------------------------------------------
+ Molecular Point Group                 D2h   NOp =  8
+ Largest Abelian Subgroup              D2h   NOp =  8
+ Nuclear Repulsion Energy =          23.62584454 hartrees
+ There are        7 alpha and        7 beta electrons
+ Requested basis set is non-standard
+ There are 37 shells and 119 basis functions
+ Total memory of 100000 MB is distributed as follows: 
+   MEM_STATIC is set to 192 MB
+   QALLOC/CCMAN JOB total memory use is  99808 MB
+ Warning: actual memory use might exceed 100000 MB
+
+ Total QAlloc Memory Limit 100000 MB
+ Mega-Array Size       188 MB
+ MEM_STATIC part       192 MB
+
+                       Distance Matrix (Angstroms)
+             N (  1)   N (  2)
+   N (  2)  1.097514
+   GH(  3)  0.548757  0.548757
+
+ A cutoff of  1.0D-11 yielded    703 shell pairs
+ There are      7347 function pairs (     10218 Cartesian)
+ Smallest overlap matrix eigenvalue = 3.78E-05
+
+ Scale SEOQF with 1.000000e-02/1.000000e-02/1.000000e-02
+
+ Standard Electronic Orientation quadrupole field applied
+ Guess MOs from core Hamiltonian diagonalization
+ A restricted Hartree-Fock SCF calculation will be
+ performed using Pulay DIIS extrapolation
+ SCF converges when DIIS error is below 1.0E-08
+ using 16 threads for integral computing
+ -------------------------------------------------------
+ OpenMP Integral computing Module                
+ Release: version 2.0, May 2017, Q-Chem Inc. Pleasanton 
+ -------------------------------------------------------
+ ---------------------------------------
+  Cycle       Energy         DIIS Error
+ ---------------------------------------
+    1     -93.7857707969      1.12E-01
+    2     -84.3041729540      4.25E-02
+    3    -106.9291911011      3.88E-02
+    4    -108.2729703787      2.11E-02
+    5    -108.9611612507      3.04E-03
+    6    -108.9846712480      3.08E-04
+    7    -108.9848631085      3.58E-05
+    8    -108.9848672606      9.86E-06
+    9    -108.9848674702      8.02E-07
+   10    -108.9848674711      1.38E-07
+   11    -108.9848674716      1.10E-08
+   12    -108.9848674711      1.15E-09 Convergence criterion met
+ ---------------------------------------
+ SCF time:  CPU 11.20 s  wall 0.96 s
+ SCF   energy in the final basis set = -108.98486747
+ Total energy in the final basis set = -108.98486747
+================================================================================
+|                                                                              |
+|                                 A D C  M A N                                 |
+|                                                                              |
+ ------------------------------------------------------------------------------ 
+|                                                                              |
+| Components:                                                                  |
+|                                                                              |
+| - libvmm - 1.3-trunk                                                         |
+|   Authors:                                                                   |
+|   Evgeny Epifanovsky, Ilya Kaliman                                           |
+|                                                                              |
+| - libtensor - 2.5-trunk                                                      |
+|   Authors:                                                                   |
+|   Evgeny Epifanovsky, Michael Wormit, Dmitry Zuev, Sam Manzer,               |
+|   Ilya Kaliman                                                               |
+|                                                                              |
+| - libwfa - 1.1-trunk                                                         |
+|   Authors:                                                                   |
+|   Felix Plasser, Stefanie Mewes (Baeppler), Benjamin Thomitzni,              |
+|   Michael Wormit, Feng Chen, Anna I. Krylov, Pavel Pokhilko                  |
+|                                                                              |
+| - libadc - 1.1-trunk                                                         |
+|   Authors:                                                                   |
+|   Michael Wormit, Adrian L. Dempwolff, Philipp H. P. Harbach,                |
+|   Caroline Krauter, Dirk Rehn, Matthias Schneider, Jan Wenzel                |
+|                                                                              |
+| - adcman - 2.6-trunk                                                         |
+|   Authors:                                                                   |
+|   Michael Wormit, Adrian L. Dempwolff, Philipp H. P. Harbach,                |
+|   Caroline Krauter, Daniel Lefrancois, Jan-Michael Mewes, Dirk Rehn,         |
+|   Matthias Schneider, Jan Wenzel, Andreas Dreuw                              |
+|                                                                              |
+| Authors of earlier versions of ADCMAN:                                       |
+| Andreas Dreuw, Jan Hendrik Starcke, Dirk Rehn, Michael Wormit                |
+|                                                                              |
+================================================================================
+
+
+ Alpha MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.635  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.009   0.012   0.012   0.012   0.041   0.041   0.041   0.042
+  4 Ag    2 B3u   2 B2u   3 B1u   3 B3u   3 B2u   4 B1u   5 Ag                 
+  0.049   0.049   0.051   0.054   0.054   0.104   0.106   0.106
+  1 B2g   1 B3g   6 Ag    7 Ag    1 B1g   5 B1u   4 B3u   4 B2u                
+  0.118   0.119   0.119   0.140   0.157   0.157   0.173   0.173
+  8 Ag    2 B2g   2 B3g   9 Ag   10 Ag    2 B1g   3 B2g   3 B3g                
+  0.203   0.262   0.262   0.279   0.305   0.316   0.316   0.331
+  6 B1u   5 B3u   5 B2u  11 Ag   12 Ag    4 B2g   4 B3g   7 B1u                
+  0.354   0.354   0.531   0.542   0.542   0.580   0.582   0.582
+ 13 Ag    3 B1g  14 Ag    5 B2g   5 B3g   8 B1u   1 Au    9 B1u                
+  0.583   0.583   0.650   0.715   0.715   0.719   0.719   0.789
+  6 B3u   6 B2u  15 Ag   16 Ag    4 B1g   6 B2g   6 B3g  10 B1u                
+  0.847   0.847   1.095   1.157   1.227   1.227   1.308   1.372
+  7 B3u   7 B2u  11 B1u  17 Ag    7 B2g   7 B3g  18 Ag    8 B2u                
+  1.372   1.477   1.477   1.548   1.548   1.571   1.571   1.667
+  8 B3u   9 B3u   9 B2u  19 Ag    5 B1g   2 Au   12 B1u  13 B1u                
+  1.720   1.720   1.777   1.777   1.821   1.821   1.826   2.002
+  8 B2g   8 B3g  20 Ag    6 B1g   9 B2g   9 B3g  21 Ag   14 B1u                
+  2.161   2.161   2.317   2.317   2.600   2.600   2.771   3.107
+ 10 B3u  10 B2u   3 Au   15 B1u  10 B2g  10 B3g  16 B1u  22 Ag                 
+  3.389   3.389   4.048   4.364   4.364   4.447   4.447   4.529
+ 11 B3u  11 B2u  23 Ag   11 B2g  11 B3g  24 Ag    7 B1g  12 B3u                
+  4.529   4.562   4.661   4.661   4.737   5.043   5.043   5.157
+ 12 B2u  17 B1u  13 B2u  13 B3u  25 Ag   12 B2g  12 B3g   4 Au                 
+  5.157   5.202   5.226   5.226   5.532   5.532   5.595   5.595
+ 18 B1u  19 B1u  26 Ag    8 B1g  13 B2g  13 B3g  14 B3u  14 B2u                
+  5.747   5.747   6.773   6.807   6.900   6.900  11.488  19.321
+  5 Au   20 B1u  21 B1u  27 Ag   14 B2g  14 B3g  28 Ag   22 B1u                
+
+ Beta MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.635  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.009   0.012   0.012   0.012   0.041   0.041   0.041   0.042
+  4 Ag    2 B3u   2 B2u   3 B1u   3 B3u   3 B2u   4 B1u   5 Ag                 
+  0.049   0.049   0.051   0.054   0.054   0.104   0.106   0.106
+  1 B2g   1 B3g   6 Ag    7 Ag    1 B1g   5 B1u   4 B3u   4 B2u                
+  0.118   0.119   0.119   0.140   0.157   0.157   0.173   0.173
+  8 Ag    2 B2g   2 B3g   9 Ag   10 Ag    2 B1g   3 B2g   3 B3g                
+  0.203   0.262   0.262   0.279   0.305   0.316   0.316   0.331
+  6 B1u   5 B3u   5 B2u  11 Ag   12 Ag    4 B2g   4 B3g   7 B1u                
+  0.354   0.354   0.531   0.542   0.542   0.580   0.582   0.582
+ 13 Ag    3 B1g  14 Ag    5 B2g   5 B3g   8 B1u   1 Au    9 B1u                
+  0.583   0.583   0.650   0.715   0.715   0.719   0.719   0.789
+  6 B3u   6 B2u  15 Ag   16 Ag    4 B1g   6 B2g   6 B3g  10 B1u                
+  0.847   0.847   1.095   1.157   1.227   1.227   1.308   1.372
+  7 B3u   7 B2u  11 B1u  17 Ag    7 B2g   7 B3g  18 Ag    8 B2u                
+  1.372   1.477   1.477   1.548   1.548   1.571   1.571   1.667
+  8 B3u   9 B3u   9 B2u  19 Ag    5 B1g   2 Au   12 B1u  13 B1u                
+  1.720   1.720   1.777   1.777   1.821   1.821   1.826   2.002
+  8 B2g   8 B3g  20 Ag    6 B1g   9 B2g   9 B3g  21 Ag   14 B1u                
+  2.161   2.161   2.317   2.317   2.600   2.600   2.771   3.107
+ 10 B3u  10 B2u   3 Au   15 B1u  10 B2g  10 B3g  16 B1u  22 Ag                 
+  3.389   3.389   4.048   4.364   4.364   4.447   4.447   4.529
+ 11 B3u  11 B2u  23 Ag   11 B2g  11 B3g  24 Ag    7 B1g  12 B3u                
+  4.529   4.562   4.661   4.661   4.737   5.043   5.043   5.157
+ 12 B2u  17 B1u  13 B2u  13 B3u  25 Ag   12 B2g  12 B3g   4 Au                 
+  5.157   5.202   5.226   5.226   5.532   5.532   5.595   5.595
+ 18 B1u  19 B1u  26 Ag    8 B1g  13 B2g  13 B3g  14 B3u  14 B2u                
+  5.747   5.747   6.773   6.807   6.900   6.900  11.488  19.321
+  5 Au   20 B1u  21 B1u  27 Ag   14 B2g  14 B3g  28 Ag   22 B1u                
+
+--------------------------------------------------------------------------------
+                                   HF Summary                                   
+--------------------------------------------------------------------------------
+  Energy:                                                 -108.9848674711 a.u.
+  Dip. moment [a.u.]:                  [   0.000000,    0.000000,   -0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [   7.729124,    7.729124,   23.713963]
+  Total <r^2> [a.u.]:                                                39.172212
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+                                 MP(2) Summary                                  
+--------------------------------------------------------------------------------
+  MP energy contribution:                                   -0.4100631454 a.u.
+  Total energy:                                           -109.3949306165 a.u.
+  Dip. moment [a.u.]:                  [  -0.000000,   -0.000000,   -0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [   7.574057,    7.574057,   23.762089]
+  Total <r^2> [a.u.]:                                                38.910203
+--------------------------------------------------------------------------------
+  Starting Davidson for electron-attached states of irrep B2g ... 
+--------------------------------------------------------------------------------
+   It NVec Conv  Avg. Norm  Max. Norm  Conv. states           Remark
+--------------------------------------------------------------------------------
+         5    0  1.365e-01  4.529e-01  0.0495 n n n n n       Guess.
+    1   10    0  1.726e-02  5.185e-02  0.0483 n n n n n       
+    2   15    0  6.440e-03  2.214e-02  0.0483 n n n n n       
+    3   20    0  3.245e-04  1.109e-03  0.0483 n n n n n       
+    4   25    0  8.698e-06  3.352e-05  0.0483 n n n n n       
+    5   10    2  6.390e-07  2.484e-06  0.0483 y n y n n       Subspace collapsed.
+    6   15    5  4.600e-08  1.882e-07  0.0483 y y y y y       Converged.
+--------------------------------------------------------------------------------
+  Davidson Summary: 
+ ------------------------------------------------------------
+  State  0: electron attachment energy =   0.0483 a.u.   (converged)
+  State  1: electron attachment energy =   0.0897 a.u.   (converged)
+  State  2: electron attachment energy =   0.1503 a.u.   (converged)
+  State  3: electron attachment energy =   0.2985 a.u.   (converged)
+  State  4: electron attachment energy =   0.5179 a.u.   (converged)
+ ------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+                        Electron-Attached State Summary
+--------------------------------------------------------------------------------
+
+  Electron-attached state 1 (B2g)                                  [converged]
+  ----------------------------------------------------------------------------
+  Term symbol:  1 (2) B2g                                   R^2 =  1.23374e-08
+
+  Total energy:                                           -109.3466705012 a.u.
+  Electron attachment energy:                                      1.313225 eV
+
+  Pole strength:                                                      0.997688
+
+  Dip. moment [a.u.]:                  [  -0.000000,   -0.000000,    0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [  62.631710,   25.950137,   81.089758]
+  Total <r^2> [a.u.]:                                               169.671605
+
+  V1^2 = 0.9983, V2^2 = 0.0017
+
+  Important amplitudes:
+       occ i       vir a        vir b           v   
+    -------------------------------------------------
+                               1 (B2g) B     -0.9957
+                               2 (B2g) B      0.0707
+    -------------------------------------------------
+  ----------------------------------------------------------------------------
+
+
+  Electron-attached state 2 (B2g)                                  [converged]
+  ----------------------------------------------------------------------------
+  Term symbol:  2 (2) B2g                                   R^2 =  8.22803e-08
+
+  Total energy:                                           -109.3052492904 a.u.
+  Electron attachment energy:                                      2.440353 eV
+
+  Pole strength:                                                      0.942334
+
+  Dip. moment [a.u.]:                  [  -0.000000,   -0.000000,   -0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [  20.887987,   12.474896,   37.708133]
+  Total <r^2> [a.u.]:                                                71.071015
+
+  V1^2 = 0.9609, V2^2 = 0.0391
+
+  Important amplitudes:
+       occ i       vir a        vir b           v   
+    -------------------------------------------------
+                               2 (B2g) B      0.8891
+                               3 (B2g) B      0.3925
+    -------------------------------------------------
+  ----------------------------------------------------------------------------
+
+
+  Electron-attached state 3 (B2g)                                  [converged]
+  ----------------------------------------------------------------------------
+  Term symbol:  3 (2) B2g                                   R^2 =  5.96915e-08
+
+  Total energy:                                           -109.2446359914 a.u.
+  Electron attachment energy:                                      4.089725 eV
+
+  Pole strength:                                                      0.980636
+
+  Dip. moment [a.u.]:                  [  -0.000000,   -0.000000,    0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [  45.574964,   20.402343,   57.403073]
+  Total <r^2> [a.u.]:                                               123.380381
+
+  V1^2 = 0.9861, V2^2 = 0.0139
+
+  Important amplitudes:
+       occ i       vir a        vir b           v   
+    -------------------------------------------------
+                               3 (B2g) B     -0.8909
+                               2 (B2g) B      0.4282
+    -------------------------------------------------
+  ----------------------------------------------------------------------------
+
+
+  Electron-attached state 4 (B2g)                                  [converged]
+  ----------------------------------------------------------------------------
+  Term symbol:  4 (2) B2g                                   R^2 =  8.36594e-08
+
+  Total energy:                                           -109.0964603832 a.u.
+  Electron attachment energy:                                      8.121788 eV
+
+  Pole strength:                                                      0.983168
+
+  Dip. moment [a.u.]:                  [   0.000000,   -0.000000,   -0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [  35.850366,   17.123166,   50.862502]
+  Total <r^2> [a.u.]:                                               103.836034
+
+  V1^2 = 0.9856, V2^2 = 0.0144
+
+  Important amplitudes:
+       occ i       vir a        vir b           v   
+    -------------------------------------------------
+                               4 (B2g) B     -0.9789
+                               3 (B2g) B      0.1364
+    -------------------------------------------------
+  ----------------------------------------------------------------------------
+
+
+  Electron-attached state 5 (B2g)                                  [converged]
+  ----------------------------------------------------------------------------
+  Term symbol:  5 (2) B2g                                   R^2 =  1.88213e-07
+
+  Total energy:                                           -108.8770248860 a.u.
+  Electron attachment energy:                                     14.092932 eV
+
+  Pole strength:                                                      0.974269
+
+  Dip. moment [a.u.]:                  [   0.000000,    0.000000,   -0.000000]
+  Total dipole [Debye]:                                               0.000000
+  <r^2> [a.u.]:                        [  23.086839,   12.885679,   40.177997]
+  Total <r^2> [a.u.]:                                                76.150515
+
+  V1^2 = 0.9755, V2^2 = 0.0245
+
+  Important amplitudes:
+       occ i       vir a        vir b           v   
+    -------------------------------------------------
+                               5 (B2g) B     -0.9768
+                               4 (B2g) B      0.0965
+    -------------------------------------------------
+  ----------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+                               Transition Summary                               
+--------------------------------------------------------------------------------
+
+  Transition from electron-attached state   1 to electron-attached state   2:
+  -------------------------------------------------------
+  Transition:  1 (2) B2g  ->  2 (2) B2g
+  Excitation energy:                                               1.127128 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,    0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [ -16.588884,   -5.444291,  -17.158881]
+
+  Transition from electron-attached state   1 to electron-attached state   3:
+  -------------------------------------------------------
+  Transition:  1 (2) B2g  ->  3 (2) B2g
+  Excitation energy:                                               2.776500 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [  -0.000000,   -0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [ -14.414180,   -4.843434,  -16.685235]
+
+  Transition from electron-attached state   2 to electron-attached state   3:
+  -------------------------------------------------------
+  Transition:  2 (2) B2g  ->  3 (2) B2g
+  Excitation energy:                                               1.649372 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,   -0.000000,    0.000000]
+  <i|r^2|0> [a.u.]:                    [  16.284176,    5.178761,   14.808120]
+
+  Transition from electron-attached state   1 to electron-attached state   4:
+  -------------------------------------------------------
+  Transition:  1 (2) B2g  ->  4 (2) B2g
+  Excitation energy:                                               6.808564 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,   -0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [   1.805578,    0.574022,    7.135948]
+
+  Transition from electron-attached state   2 to electron-attached state   4:
+  -------------------------------------------------------
+  Transition:  2 (2) B2g  ->  4 (2) B2g
+  Excitation energy:                                               5.681435 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,   -0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [  -3.458255,   -1.334161,   -2.575434]
+
+  Transition from electron-attached state   3 to electron-attached state   4:
+  -------------------------------------------------------
+  Transition:  3 (2) B2g  ->  4 (2) B2g
+  Excitation energy:                                               4.032063 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [  -0.000000,    0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [ -18.513021,   -6.048931,  -13.678920]
+
+  Transition from electron-attached state   1 to electron-attached state   5:
+  -------------------------------------------------------
+  Transition:  1 (2) B2g  ->  5 (2) B2g
+  Excitation energy:                                              12.779707 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [  -0.000000,    0.000000,    0.000000]
+  <i|r^2|0> [a.u.]:                    [   2.840986,    0.917458,   -4.057461]
+
+  Transition from electron-attached state   2 to electron-attached state   5:
+  -------------------------------------------------------
+  Transition:  2 (2) B2g  ->  5 (2) B2g
+  Excitation energy:                                              11.652579 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,    0.000000,    0.000000]
+  <i|r^2|0> [a.u.]:                    [   1.179423,    0.222197,   -1.244489]
+
+  Transition from electron-attached state   3 to electron-attached state   5:
+  -------------------------------------------------------
+  Transition:  3 (2) B2g  ->  5 (2) B2g
+  Excitation energy:                                              10.003207 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,    0.000000,   -0.000000]
+  <i|r^2|0> [a.u.]:                    [   2.562325,    0.964962,   -2.025208]
+
+  Transition from electron-attached state   4 to electron-attached state   5:
+  -------------------------------------------------------
+  Transition:  4 (2) B2g  ->  5 (2) B2g
+  Excitation energy:                                               5.971144 eV
+  Osc. strength:                                                      0.000000
+  Trans. dip. moment [a.u.]:           [   0.000000,    0.000000,    0.000000]
+  <i|r^2|0> [a.u.]:                    [  -7.828584,   -2.508933,  -10.152330]
+
+--------------------------------------------------------------------------------
+************************************************************
+The Hamiltonian subspace matrix:
+************************************************************
+4.82601153343786629e-02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 8.96813261402947398e-02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 1.50294625047826619e-01 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 2.98470233336532498e-01 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 5.17905730489638505e-01
+
+************************************************************
+************************************************************
+The real part of the CAP subspace matrix, onset=3000:
+************************************************************
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+
+************************************************************
+************************************************************
+The imaginary part of the CAP subspace matrix, onset=3000:
+************************************************************
+-6.37247379804480332e+01 2.29987038593286606e+01 2.50687481388118023e+01 -7.38841829345637802e+00 1.49246399841553384e-01
+2.29987038593286606e+01 -1.21965024559851116e+01 -1.85230510595950726e+01 7.27082379319275862e+00 -2.84702904266778023e-01
+2.50687481388118023e+01 -1.85230510595950726e+01 -3.79882572499624160e+01 2.22033841801456866e+01 -3.49818811349135661e+00
+-7.38841829345637802e+00 7.27082379319275862e+00 2.22033841801456866e+01 -2.53048932428330779e+01 1.00507943417990084e+01
+1.49246399841553384e-01 -2.84702904266778023e-01 -3.49818811349135661e+00 1.00507943417990084e+01 -9.88458540381870954e+00
+
+************************************************************
+************************************************************
+The real part of the CAP subspace matrix, onset=4000:
+************************************************************
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+
+************************************************************
+************************************************************
+The imaginary part of the CAP subspace matrix, onset=4000:
+************************************************************
+-4.96692933294606362e+01 1.88790070565479731e+01 2.19933634867900096e+01 -7.08107069513883047e+00 2.86171874131855852e-01
+1.88790070565479731e+01 -9.36719763320665422e+00 -1.45164622135916890e+01 6.58173997781470899e+00 -5.63931664973787439e-01
+2.19933634867900096e+01 -1.45164622135916890e+01 -2.88495290563526545e+01 1.80142452029797369e+01 -3.57620602145301625e+00
+-7.08107069513883047e+00 6.58173997781470899e+00 1.80142452029797369e+01 -1.84338413225258364e+01 7.63650966194885239e+00
+2.86171874131855852e-01 -5.63931664973787439e-01 -3.57620602145301625e+00 7.63650966194885239e+00 -6.23129385702405347e+00
+
+************************************************************
+  Time of ADC calculation:  CPU 94.83 s  wall 11.66 s
+================================================================================
+
+ --------------------------------------------------------------
+             Orbital Energies (a.u.) and Symmetries
+ --------------------------------------------------------------
+
+ Alpha MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.635  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.009   0.012   0.012   0.012   0.041   0.041   0.041   0.042
+  4 Ag    2 B3u   2 B2u   3 B1u   3 B3u   3 B2u   4 B1u   5 Ag                 
+  0.049   0.049   0.051   0.054   0.054   0.104   0.106   0.106
+  1 B2g   1 B3g   6 Ag    7 Ag    1 B1g   5 B1u   4 B3u   4 B2u                
+  0.118   0.119   0.119   0.140   0.157   0.157   0.173   0.173
+  8 Ag    2 B2g   2 B3g   9 Ag   10 Ag    2 B1g   3 B2g   3 B3g                
+  0.203   0.262   0.262   0.279   0.305   0.316   0.316   0.331
+  6 B1u   5 B3u   5 B2u  11 Ag   12 Ag    4 B2g   4 B3g   7 B1u                
+  0.354   0.354   0.531   0.542   0.542   0.580   0.582   0.582
+ 13 Ag    3 B1g  14 Ag    5 B2g   5 B3g   8 B1u   1 Au    9 B1u                
+  0.583   0.583   0.650   0.715   0.715   0.719   0.719   0.789
+  6 B3u   6 B2u  15 Ag   16 Ag    4 B1g   6 B2g   6 B3g  10 B1u                
+  0.847   0.847   1.095   1.157   1.227   1.227   1.308   1.372
+  7 B3u   7 B2u  11 B1u  17 Ag    7 B2g   7 B3g  18 Ag    8 B2u                
+  1.372   1.477   1.477   1.548   1.548   1.571   1.571   1.667
+  8 B3u   9 B3u   9 B2u  19 Ag    5 B1g   2 Au   12 B1u  13 B1u                
+  1.720   1.720   1.777   1.777   1.821   1.821   1.826   2.002
+  8 B2g   8 B3g  20 Ag    6 B1g   9 B2g   9 B3g  21 Ag   14 B1u                
+  2.161   2.161   2.317   2.317   2.600   2.600   2.771   3.107
+ 10 B3u  10 B2u   3 Au   15 B1u  10 B2g  10 B3g  16 B1u  22 Ag                 
+  3.389   3.389   4.048   4.364   4.364   4.447   4.447   4.529
+ 11 B3u  11 B2u  23 Ag   11 B2g  11 B3g  24 Ag    7 B1g  12 B3u                
+  4.529   4.562   4.661   4.661   4.737   5.043   5.043   5.157
+ 12 B2u  17 B1u  13 B2u  13 B3u  25 Ag   12 B2g  12 B3g   4 Au                 
+  5.157   5.202   5.226   5.226   5.532   5.532   5.595   5.595
+ 18 B1u  19 B1u  26 Ag    8 B1g  13 B2g  13 B3g  14 B3u  14 B2u                
+  5.747   5.747   6.773   6.807   6.900   6.900  11.488  19.321
+  5 Au   20 B1u  21 B1u  27 Ag   14 B2g  14 B3g  28 Ag   22 B1u                
+
+ Beta MOs, Restricted
+ -- Occupied --                  
+-15.685 -15.682  -1.472  -0.780  -0.635  -0.614  -0.614
+  1 Ag    1 B1u   2 Ag    2 B1u   3 Ag    1 B3u   1 B2u                        
+ -- Virtual --                   
+  0.009   0.012   0.012   0.012   0.041   0.041   0.041   0.042
+  4 Ag    2 B3u   2 B2u   3 B1u   3 B3u   3 B2u   4 B1u   5 Ag                 
+  0.049   0.049   0.051   0.054   0.054   0.104   0.106   0.106
+  1 B2g   1 B3g   6 Ag    7 Ag    1 B1g   5 B1u   4 B3u   4 B2u                
+  0.118   0.119   0.119   0.140   0.157   0.157   0.173   0.173
+  8 Ag    2 B2g   2 B3g   9 Ag   10 Ag    2 B1g   3 B2g   3 B3g                
+  0.203   0.262   0.262   0.279   0.305   0.316   0.316   0.331
+  6 B1u   5 B3u   5 B2u  11 Ag   12 Ag    4 B2g   4 B3g   7 B1u                
+  0.354   0.354   0.531   0.542   0.542   0.580   0.582   0.582
+ 13 Ag    3 B1g  14 Ag    5 B2g   5 B3g   8 B1u   1 Au    9 B1u                
+  0.583   0.583   0.650   0.715   0.715   0.719   0.719   0.789
+  6 B3u   6 B2u  15 Ag   16 Ag    4 B1g   6 B2g   6 B3g  10 B1u                
+  0.847   0.847   1.095   1.157   1.227   1.227   1.308   1.372
+  7 B3u   7 B2u  11 B1u  17 Ag    7 B2g   7 B3g  18 Ag    8 B2u                
+  1.372   1.477   1.477   1.548   1.548   1.571   1.571   1.667
+  8 B3u   9 B3u   9 B2u  19 Ag    5 B1g   2 Au   12 B1u  13 B1u                
+  1.720   1.720   1.777   1.777   1.821   1.821   1.826   2.002
+  8 B2g   8 B3g  20 Ag    6 B1g   9 B2g   9 B3g  21 Ag   14 B1u                
+  2.161   2.161   2.317   2.317   2.600   2.600   2.771   3.107
+ 10 B3u  10 B2u   3 Au   15 B1u  10 B2g  10 B3g  16 B1u  22 Ag                 
+  3.389   3.389   4.048   4.364   4.364   4.447   4.447   4.529
+ 11 B3u  11 B2u  23 Ag   11 B2g  11 B3g  24 Ag    7 B1g  12 B3u                
+  4.529   4.562   4.661   4.661   4.737   5.043   5.043   5.157
+ 12 B2u  17 B1u  13 B2u  13 B3u  25 Ag   12 B2g  12 B3g   4 Au                 
+  5.157   5.202   5.226   5.226   5.532   5.532   5.595   5.595
+ 18 B1u  19 B1u  26 Ag    8 B1g  13 B2g  13 B3g  14 B3u  14 B2u                
+  5.747   5.747   6.773   6.807   6.900   6.900  11.488  19.321
+  5 Au   20 B1u  21 B1u  27 Ag   14 B2g  14 B3g  28 Ag   22 B1u                
+ --------------------------------------------------------------
+
+          Ground-State Mulliken Net Atomic Charges
+
+     Atom                 Charge (a.u.)
+  ----------------------------------------
+      1 N                    -0.060738
+      2 N                    -0.060738
+      3 GH                    0.121477
+  ----------------------------------------
+  Sum of atomic charges =     0.000000
+
+ -----------------------------------------------------------------
+                    Cartesian Multipole Moments
+ -----------------------------------------------------------------
+    Charge (ESU x 10^10)
+                 0.0000
+    Dipole Moment (Debye)
+         X       0.0000      Y       0.0000      Z      -0.0000
+       Tot       0.0000
+    Quadrupole Moments (Debye-Ang)
+        XX     -10.3959     XY      -0.0000     YY     -10.3959
+        XZ       0.0000     YZ       0.0000     ZZ     -11.6464
+    Octopole Moments (Debye-Ang^2)
+       XXX       0.0000    XXY      -0.0000    XYY       0.0000
+       YYY      -0.0000    XXZ      -0.0000    XYZ      -0.0000
+       YYZ      -0.0000    XZZ       0.0000    YZZ      -0.0000
+       ZZZ      -0.0000
+    Hexadecapole Moments (Debye-Ang^3)
+      XXXX      -9.3164   XXXY      -0.0000   XXYY      -3.1055
+      XYYY      -0.0000   YYYY      -9.3164   XXXZ      -0.0000
+      XXYZ       0.0000   XYYZ      -0.0000   YYYZ       0.0000
+      XXZZ      -6.3215   XYZZ      -0.0000   YYZZ      -6.3215
+      XZZZ      -0.0000   YZZZ       0.0000   ZZZZ     -31.5642
+ -----------------------------------------------------------------
+Archival summary:
+1\1\node12\SP\HF\BasisUnspecified\2h1\gayverjr\ThuMay1316:53:342021ThuMay1316:53:342021\0\\#,HF,BasisUnspecified,\\0,1\N\Gh,1,0.548757\N,2,0.548757,1,180\\HF=-108.984867\\@
+
+ Total job time:  47.10s(wall), 143.49s(cpu) 
+ Thu May 13 16:53:34 2021
+
+        *************************************************************
+        *                                                           *
+        *  Thank you very much for using Q-Chem.  Have a nice day.  *
+        *                                                           *
+        *************************************************************
+
+

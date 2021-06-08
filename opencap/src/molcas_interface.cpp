@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,23 @@ SOFTWARE.
 /*
  * molcas_interface.cpp
  */
-#include <algorithm>
-#include <iostream>
-#include <fstream>
+
 #include "molcas_interface.h"
+
+#include <h5pp/h5pp.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <Eigen/Dense>
+#include <fstream>
+#include <iostream>
+#include <unsupported/Eigen/CXX11/Tensor>
+
+#include "BasisSet.h"
+#include "gto_ordering.h"
 #include "opencap_exception.h"
 #include "utils.h"
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <h5pp/h5pp.h>
-#include "gto_ordering.h"
-#include "BasisSet.h"
-#include <unsupported/Eigen/CXX11/Tensor>
-#include <Eigen/Dense>
 
 template<typename T>
 using  MatrixType = Eigen::Matrix<T,Eigen::Dynamic, Eigen::Dynamic>;
@@ -50,7 +53,9 @@ Eigen::Map<const Eigen::MatrixXd> reshape (const Eigen::VectorXd& b, const uint 
     return Eigen::Map<const Eigen::MatrixXd>(b.data(), n, m);
 }
 
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string filename,BasisSet bs,size_t nstates)
+void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
+		std::vector<std::vector<Eigen::MatrixXd>> &beta_opdms,
+		std::string filename, BasisSet bs,size_t nstates)
 {
 	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	//first lets check if the dimensions are correct
@@ -63,8 +68,6 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 	auto nsym = file.readAttribute<long>("NSYM", "/");
 	//now lets load the densities
 	Eigen::Tensor<double,3> rass_data, spin_dens;
-	std::vector<std::vector<Eigen::MatrixXd>> alpha_opdms;
-	std::vector<std::vector<Eigen::MatrixXd>> beta_opdms;
 	try
 	{
 		file.readDataset(rass_data,"SFS_TRANSITION_DENSITIES");
@@ -175,7 +178,9 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
 			beta_opdms.push_back(beta_state_row);
 		}
     }
-    //symmetric, for some reason molcas does this wrong
+
+    std::cout << "Warning: CAP matrix is assumed to be symmetric." << std::endl;
+    //symmetrize
     for (size_t i=0;i<d[0];i++)
     {
     	for(size_t j=0;j<i;j++)
@@ -187,7 +192,6 @@ std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::str
     if(alpha_opdms.size()!=nstates)
     	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
     			+ std::to_string(nstates) + " states were specified.");
-    return {alpha_opdms,beta_opdms};
 }
 
 Eigen::MatrixXd read_rassi_overlap(std::string filename,BasisSet bs)
@@ -291,8 +295,61 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		for (size_t i=0;i<nstates;i++)
 			ZERO_ORDER_H(i,i)+=E_shift;
 	}
+	else
+	{
+    	opencap_throw("Error: I couldn't read:" + filename);
+	}
 	return ZERO_ORDER_H;
 }
+
+Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)
+{
+	std::string line_to_find;
+	if(compare_strings(method,"pc-nevpt2"))
+		line_to_find = "Zero + second order effective Hamiltonian (PC)";
+	else if(compare_strings(method,"sc-nevpt2"))
+		line_to_find = "Zero + second order Effective Hamiltonian (SC)";
+	else
+		opencap_throw("Either pc-nevpt2 or sc-nevpt2 should be selected.");
+	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
+	ZERO_ORDER_H= Eigen::MatrixXd::Zero(nstates,nstates);
+	std::ifstream is(filename);
+	if (is.good())
+	{
+		std::string line, rest;
+		std::getline(is,line);
+		while (line.find(line_to_find)== std::string::npos && is.peek()!=EOF)
+			std::getline(is,line);
+		if(is.peek()==EOF)
+			opencap_throw("Error: Unable to find QD-NEVPT2 effective Hamiltonian.");
+		std::getline(is,line);
+		std::getline(is,line);
+		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
+		for (size_t i=1;i<=num_groups;i++)
+		{
+			std::getline(is,line);
+			for (size_t j=1;j<=nstates;j++)
+			{
+				std::getline(is,line);
+				std::vector<std::string> tokens = split(line,' ');
+				size_t row_idx = std::stoul(tokens[0]);
+				for(size_t k=1;k<tokens.size();k++)
+				{
+					size_t col_idx = k-1+(i-1)*5;
+					if(col_idx>=ZERO_ORDER_H.cols() || row_idx-1 >= ZERO_ORDER_H.rows())
+						opencap_throw("Error: State index of out bounds. There is a problem with the OpenMolcas output file. Exiting...");
+					ZERO_ORDER_H(row_idx-1,col_idx)=std::stod(tokens[k]);
+				}
+			}
+		}
+	}
+	else
+	{
+    	opencap_throw("Error: I couldn't read:" + filename);
+	}
+	return ZERO_ORDER_H;
+}
+
 
 std::vector<Atom> read_geometry_from_rassi(std::string filename)
 {

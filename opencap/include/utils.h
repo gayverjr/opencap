@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,10 @@ SOFTWARE.
  */
 #ifndef UTILS_H_
 #define UTILS_H_
-#include "Shell.h"
-#include <map>
+
 #include <Eigen/Dense>
+#include <map>
+
 
 //useful constants
 #ifndef M_PIl
@@ -60,14 +61,51 @@ std::vector<std::string> split(const std::string& s, char delimiter);
  * \param matrix_elements: list of lower triangular matrix elements in row-major order
  * \param opdm: matrix to be populated
 */
+
+/*
 void fill_LT(std::vector<double> matrix_elements, Eigen::MatrixXd &opdm);
 /*! Populates matrix given full list of elements in row major order
  * \param matrix_elements: list of all matrix elements in row-major order
  * \param opdm: matrix to be populated
 */
+/*
 void fill_mat(std::vector<double> &matrix_elements, Eigen::MatrixXd &opdm);
 /*! Converts fortran-style d floats to e c-style floats.
  */
+
+
+template <typename T>
+void fill_mat(std::vector<T> &matrix_elements, Eigen::MatrixXd &opdm)
+{
+	size_t vec_idx = 0;
+	for (size_t row_idx=0;row_idx<opdm.rows();row_idx++)
+	{
+		for (size_t col_idx=0;col_idx<opdm.cols();col_idx++)
+		{
+			opdm(row_idx,col_idx) = matrix_elements[vec_idx];
+			vec_idx++;
+		}
+	}
+}
+
+template <typename T>
+void fill_LT(std::vector<T> matrix_elements, Eigen::MatrixXd &opdm)
+{
+	size_t vec_idx = 0;
+	size_t row_idx = 0;
+	while(row_idx<opdm.rows() && vec_idx<matrix_elements.size())
+	{
+		//elements are added to each column <= row index
+		for (size_t col_idx=0;col_idx<=row_idx;col_idx++)
+		{
+			opdm(row_idx,col_idx) = matrix_elements[vec_idx];
+			opdm(col_idx,row_idx) = matrix_elements[vec_idx];
+			vec_idx++;
+		}
+		row_idx++;
+	}
+}
+
 void fortran_dfloats_to_efloats(std::string &str);
 /*! Converts angular momentum letter(s,p,d etc.) to quantum number l
  */
@@ -81,5 +119,8 @@ bool is_number(const std::string &s);
 /*! Checks if the string is a letter
  */
 bool is_letter(const std::string &s);
+/*! Reads formatted matrix from .txt file
+ */
+Eigen::MatrixXd read_matrix(size_t N, std::string filename);
 
 #endif /* UTILS_H_ */

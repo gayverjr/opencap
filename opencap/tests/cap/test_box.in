@@ -1,0 +1,26 @@
+! initialize from rassi
+
+$system
+molecule molcas_rassi
+basis_file ../tests/openmolcas/xms_symm.rassi.h5
+$end
+
+$projected_cap
+method xms-caspt2
+package openmolcas
+rassi_h5 ../tests/openmolcas/xms_symm.rassi.h5
+molcas_output ../tests/openmolcas/xms_symm.out
+nstates 4
+CAP_TYPE box
+CAP_X 2.76
+CAP_Y 2.76
+CAP_Z 4.88
+ANGULAR_POINTS 110
+RADIAL_PRECISION 10
+$end
+
+$trajectory
+eta_step 10
+nsteps 100
+save_trajectory true
+$end

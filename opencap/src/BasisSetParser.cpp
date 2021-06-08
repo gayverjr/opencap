@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,28 @@ SOFTWARE.
 /*
  * BasisSetParser.cpp
  */
+
 #include "BasisSetParser.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
+
 #include <algorithm>
-#include <string>
-#include <map>
+#include <fstream>
+#include <iostream>
 #include <list>
-#include "utils.h"
+#include <map>
+#include <sstream>
+#include <string>
+
+#include "opencap_exception.h"
 #include "Shell.h"
+#include "utils.h"
 
 BasisSetParser::BasisSetParser(std::map<std::string, std::string> parameters)
 {
+
 	cart_bf = parameters["cart_bf"];
     transform(cart_bf.begin(),cart_bf.end(),cart_bf.begin(),::toupper);
+    for (int i = 0; i < cart_bf.length(); i++)
+    	shell2angmom(std::string(1,cart_bf[i]));
 	basis_file = parameters["basis_file"];
 }
 

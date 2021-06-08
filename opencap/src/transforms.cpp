@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,17 @@ SOFTWARE.
  * transforms.cpp
  *
  */
+
+#include <math.h>
+#include <algorithm>
+#include <array>
+#include <Eigen/Dense>
+#include <vector>
+
 #include "BasisSet.h"
+#include "gto_ordering.h"
 #include "Shell.h"
 #include "utils.h"
-#include <array>
-#include <vector>
-#include <algorithm>
-#include <math.h>
-#include "gto_ordering.h"
-#include <Eigen/Dense>
 
 void uniform_cart_norm(Eigen::MatrixXd &my_mat, BasisSet &bs)
 {
