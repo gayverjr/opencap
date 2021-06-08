@@ -666,3 +666,15 @@ class CAPHamiltonian():
             f.write(DataFrame(self._H0).to_string(index=False, header=False))
             f.write("\nCAP Matrix\n")
             f.write(DataFrame(self._W).to_string(index=False, header=False))
+
+    def __str__(self):
+        ''' Returns formatted matrices.
+        '''
+        from pandas import DataFrame
+        my_str = "Zeroth order Hamiltonian\n"
+        my_str += DataFrame(self._H0).to_string(index=False, header=False)
+        my_str+= "\nCAP Matrix\n"
+        my_str+= DataFrame(self._W).to_string(index=False, header=False)
+        return my_str
+
+

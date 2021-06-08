@@ -1,8 +1,8 @@
 ! explicit geometry and basis, cartesian functions
 
 $geometry
-N  0  0   1.039
-N  0  0   -1.039
+N  0  0   1.037
+N  0  0   -1.037
 X  0  0   0.0
 $end
 
@@ -14,15 +14,11 @@ basis_file basis.bas
 $end
 
 $projected_cap
-method xms-caspt2
-package openmolcas
-rassi_h5 cart.rassi.h5
-molcas_output cart.out
-nstates 10
-CAP_TYPE box
-CAP_X 2.76
-CAP_Y 2.76
-CAP_Z 4.88
-Radial_precision  14
-Angular_points    110
+method eom
+package qchem
+qchem_fchk qc_inp.fchk
+h0_file heff_diag.in
+nstates 5
+CAP_TYPE Voronoi
+R_Cut  3.00
 $end

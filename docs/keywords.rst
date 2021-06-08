@@ -158,6 +158,9 @@ using the OpenMolcas and Q-Chem interfaces.
 +---------------+------------------------------------------------------------------------------------------------------+
 | molcas_output | Path to OpenMolcas output file.                                                                      |
 +---------------+------------------------------------------------------------------------------------------------------+
+| h0_file       | Path to Zeroth order Hamiltonian file. Can be full matrix or diagonal.                               |
+|               |  See https://github.com/gayverjr/opencap/tree/main/examples/opencap                                  |
++---------------+------------------------------------------------------------------------------------------------------+
 | package       | "OpenMolcas" or "QChem"                                                                              |
 +---------------+------------------------------------------------------------------------------------------------------+
 | rassi_h5      | Path to OpenMolcas rassi.h5 file.                                                                    |
@@ -171,7 +174,8 @@ Example:
 
 .. code-block:: python
 	
-    es_dict = {"method" : "ms-caspt2",
+    es_dict = { "package": "openmolcas",
+    "method" : "ms-caspt2",
            "molcas_output":"path/to/output.out",
            "rassi_h5":"path/to/rassi.h5"}
     pc.read_data(es_dict)

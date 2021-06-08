@@ -470,7 +470,7 @@ void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string
 
 void CAP::read_electronic_structure_data(py::dict dict)
 {
-	std::vector<std::string> valid_keywords = {"method","qchem_output","rassi_h5","qchem_fchk","molcas_output","package"};
+	std::vector<std::string> valid_keywords = {"method","qchem_output","rassi_h5","qchem_fchk","molcas_output","package","h0_file"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)
     {
