@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,22 +19,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <vector>
 #include "BasisSet.h"
-#include "Atom.h"
+
 #include <math.h>
 #include <algorithm>
-#include <string>
-#include <map>
+#include <array>
+#include <iostream>
+#include <limits>
 #include <list>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "Atom.h"
+#include "BasisSetParser.h"
+#include "gto_ordering.h"
+#include "opencap_exception.h"
 #include "Shell.h"
 #include "utils.h"
-#include <array>
-#include <limits>
-#include <iostream>
-#include "BasisSetParser.h"
-#include "opencap_exception.h"
-#include "gto_ordering.h"
 
 
 bool shell_id::operator==(const shell_id& other)

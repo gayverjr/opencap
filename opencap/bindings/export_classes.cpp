@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,11 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				"atom index,shell number,l,m")
 		;
     py::class_<CAP>(m, "CAP")
-		.def(py::init<System,py::dict,size_t,std::string>(),"Constructs CAP object.")
+		.def(py::init<System,py::dict,size_t>(),"Constructs CAP object.")
     	.def("get_ao_cap",&CAP::get_ao_cap, "Returns CAP matrix in AO basis.")
-    	.def("get_perturb_cap",&CAP::get_perturb_cap, "Returns CAP matrix in state basis.")
+    	.def("get_projected_cap",&CAP::get_projected_cap, "Returns CAP matrix in state basis.")
     	.def("compute_ao_cap",&CAP::compute_ao_cap, "Computes CAP matrix in AO basis.")
-    	.def("compute_perturb_cap",&CAP::compute_perturb_cap, "Computes CAP matrix in state basis using"
+    	.def("compute_projected_cap",&CAP::compute_projected_cap, "Computes CAP matrix in state basis using"
     			" transition density matrices.")
 		.def("get_H",&CAP::get_H, "Returns zeroth order Hamiltonian read from file.")
 		.def("add_tdm",  &CAP::add_tdm,py::arg("tdm"),

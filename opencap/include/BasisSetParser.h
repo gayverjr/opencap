@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,11 @@ SOFTWARE.
 /*! \file BasisSetParser.h
      \brief Class for parsing basis set files.
  */
-#include <string>
+
 #include <map>
+#include <string>
+#include <vector>
+
 #include "Shell.h"
 
 #ifndef BASISSETPARSER_H_
@@ -54,14 +57,14 @@ public:
 	/*! Read in basis set from file.
 	    \return Mapping of atomic symbol to a list of shells corresponding to that atom in the basis set.
 	*/
-	map<string,std::vector<Shell>> read_basis();
+	std::map<std::string,std::vector<Shell>> read_basis();
 
 
 private:
 	/*! Read in basis set from file.
 	    \return Mapping of atomic symbol to a list of shells corresponding to that atom in the basis set.
 	*/
-	map<string,std::vector<Shell>> read_basis_file();
+	std::map<std::string,std::vector<Shell>> read_basis_file();
 
 };
 

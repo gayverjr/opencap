@@ -1,0 +1,83 @@
+Welcome to OpenCAP: An open-source program for studying resonances in molecules.
+Version 1.0.3
+Developed by James Gayvert and Ksenia Bravaya. Distributed under the MIT license.
+For questions and support, please visit: https://github.com/gayverjr/opencap
+
+Starting Projected CAP calculation.
+Number of basis functions:119
+Successfully read in zeroth order Hamiltonian from file:n2.out
+Reading densities from file:n2.fchk
+Warning: CAP matrix is assumed to be symmetric.
+Done.
+Verified overlap matrix.
+Calculating CAP matrix in AO basis using 16 threads.
+Radial precision: 1.00e-14 Angular points: 590
+Grid for atom 1 has: 148 radial points, 590 angular points, 87320 total points.
+Grid for atom 2 has: 148 radial points, 590 angular points, 87320 total points.
+Grid for atom 3 has: 98 radial points, 590 angular points, 57820 total points.
+Integration time:1.568084
+Printing out matrices required for Projected CAP calculation.
+Number of states: 5
+Zeroth order Hamiltonian
+-1.0931353915e+02  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00 -1.0926810571e+02  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00 -1.0921019423e+02  0.0000000000e+00  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00  0.0000000000e+00 -1.0906263866e+02  0.0000000000e+00
+ 0.0000000000e+00  0.0000000000e+00  0.0000000000e+00  0.0000000000e+00 -1.0899332184e+02
+CAP matrix
+-4.28708660e+01 -1.61085031e+01 -1.85490136e+01  6.02367884e+00 -6.49863494e-02
+-1.61085031e+01 -8.72121017e+00 -1.31654572e+01  6.21719387e+00  3.78971817e-02
+-1.85490136e+01 -1.31654572e+01 -2.49862522e+01  1.58165480e+01 -2.12838591e-01
+ 6.02367884e+00  6.21719387e+00  1.58165480e+01 -1.64054368e+01 -1.51809220e-01
+-6.49863494e-02  3.78971817e-02 -2.12838591e-01 -1.51809220e-01 -1.65280759e+02
+Wall time:1.89226577
+---------------------
+Trajectory Analysis:
+--------------------
+Results for state:0
+----------------------
+Results from uncorrected trajectory:
+Uncorrected energy: (-109.30518909,-0.04571157)
+Eta: 0.00100000 Logarithmic velocity: 0.05305576
+Results from corrected trajectory:
+Corrected energy: (-109.25729542,0.00487207)
+Eta: 0.04990000 Logarithmic velocity: 0.00488912
+----------------------
+Results for state:1
+----------------------
+Results from uncorrected trajectory:
+Uncorrected energy: (-109.26503298,-0.00719902)
+Eta: 0.00740000 Logarithmic velocity: 0.00197667
+Results from corrected trajectory:
+Corrected energy: (-109.26653564,-0.00429681)
+Eta: 0.01680000 Logarithmic velocity: 0.00109958
+----------------------
+Results for state:2
+----------------------
+Results from uncorrected trajectory:
+Uncorrected energy: (-109.21489978,-0.02444134)
+Eta: 0.00100000 Logarithmic velocity: 0.02493672
+Results from corrected trajectory:
+Corrected energy: (-109.20631554,-0.00092917)
+Eta: 0.00100000 Logarithmic velocity: 0.00947717
+----------------------
+Results for state:3
+----------------------
+Results from uncorrected trajectory:
+Uncorrected energy: (-109.06462129,-0.01609887)
+Eta: 0.00100000 Logarithmic velocity: 0.01596984
+Results from corrected trajectory:
+Corrected energy: (-109.06108691,-0.00044488)
+Eta: 0.00100000 Logarithmic velocity: 0.00355474
+----------------------
+Results for state:4
+----------------------
+Results from uncorrected trajectory:
+Uncorrected energy: (-108.99332204,-0.16528098)
+Eta: 0.00100000 Logarithmic velocity: 0.16528115
+Results from corrected trajectory:
+Corrected energy: (-108.99332254,0.00000006)
+Eta: 0.04970000 Logarithmic velocity: 0.00000005
+----------------------
+Job finished: 2021-05-13 16:13:00
+Thank you for using OpenCAP!

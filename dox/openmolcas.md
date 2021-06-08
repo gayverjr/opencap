@@ -16,10 +16,10 @@ setting "basis_file" to a basis set file specified in Psi4 format. Basis sets ca
 __Relevant keywords__
 | Keyword    | Valid options                     | Description                                                                                                                                                                                                                                                                                      |
 |------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| molecule   | molden,rassi_h5,inline            | Specifies which format to read the molecular geometry. If "inline" is chosen, the "$geometry" section is also required.                                                                                                                                                                          |
+| molecule   | molden,rassi_h5,inline,qchem_fchk | Specifies which format to read the molecular geometry. If "inline" is chosen, the "$geometry" section is also required.                                                                                                                                                                          |
 | basis_file | path to basis file                | Specifies the path to the basis file. When "molecule" is set to "molden","rassi_h5", or "qchem_fchk", this keyword should be set to a path to a file of the specified type. When "molecule" is set to  "inline", this keyword should be set to a path to a basis set file formatted in "Psi4" style. |
 
-CAP
+Projected CAP
 =============
 
 The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated
@@ -34,14 +34,14 @@ titled $JOBNAME.rassi.h5.
 	 TRD1
 
 OpenCAP uses these densities to compute the 
-%CAP matrix elements in state basis, which is required to perform perturbative %CAP 
+%CAP matrix elements in state basis, which is required to perform projected %CAP 
 calculations.
 
 In addition to the one particle densities, OpenCAP also requires a zeroth order Hamiltonian.
 For a proper description of correlation, an effective Hamiltonian from a multi-state 
 second order perturbation theory method is required. OpenCAP is capable of reading the 
 effective Hamiltonian from OpenMolcas outputs for the following methods: 
-MS-CASPT2,XMS-CASPT2.
+MS-CASPT2,XMS-CASPT2,SC-NEVPT2,PC-NEVPT2.
 
 __Relevant keywords__
 | Keyword | Type | Description |
@@ -55,15 +55,14 @@ __Example input__
 
     $system
     molecule molden
-    basis_file nosymm.rasscf.molden
+    basis_file xms.rasscf.molden
     $end
 
-    $perturb_cap
-    method ms-caspt2
+    $projected_cap
+    method xms-caspt2
     package openmolcas
-    rassi_h5 nosymm.rassi.h5
-    h0_file heff.in
-    !molcas_output nosymm.out
+    rassi_h5 xms.rassi.h5
+    molcas_output xms.out
     nstates 10
     CAP_TYPE box
     CAP_X 2.76
@@ -72,10 +71,3 @@ __Example input__
     Radial_precision  14
     Angular_points    110
     $end
-
-    $job
-    title MS-CASPT2(5,10) with 10 states for N2-, symmetry turned off
-    jobtype perturb_cap
-    $end
-    
-More inputs are available in our [repository](https://github.com/gayverjr/opencap/tree/master/examples/opencap).

@@ -148,16 +148,23 @@ to numerical integration [Sommerfeld2015]_.
 The :func:`~pyopencap.CAP.read_data` function is able to parse the zeroth order Hamiltonian
 and load the densities when supplied with an appropriate formatted dictionary. All keywords
 must be specified to use this function. Currently, this is only supported for calculations
-using the OpenMolcas interface.
+using the OpenMolcas and Q-Chem interfaces.
 
 +---------------+------------------------------------------------------------------------------------------------------+
 | Keyword       | Description                                                                                          |
 +---------------+------------------------------------------------------------------------------------------------------+
-| method        | Electronic structure method used in the calculation. Valid options are "MS-CASPT2" and "XMS-CASPT2". |
+| method        | Electronic structure method used in the calculation. Valid options are "MS-CASPT2" and "XMS-CASPT2", |
+|               | "EOM", and "TDDFT".                                                                                  |
 +---------------+------------------------------------------------------------------------------------------------------+
 | molcas_output | Path to OpenMolcas output file.                                                                      |
 +---------------+------------------------------------------------------------------------------------------------------+
+| package       | "OpenMolcas" or "QChem"                                                                              |
++---------------+------------------------------------------------------------------------------------------------------+
 | rassi_h5      | Path to OpenMolcas rassi.h5 file.                                                                    |
++---------------+------------------------------------------------------------------------------------------------------+
+| qchem_output  | Path to Q-Chem output file.                                                                          |
++---------------+------------------------------------------------------------------------------------------------------+
+| qchem_fchk    | Path to Q-Chem .fchk file.                                                                           |
 +---------------+------------------------------------------------------------------------------------------------------+
 
 Example:
@@ -170,6 +177,6 @@ Example:
     pc.read_data(es_dict)
 
 References
-==========
+-----------------
 .. [Sommerfeld2015] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.
 

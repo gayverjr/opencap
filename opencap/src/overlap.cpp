@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,15 +19,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "overlap.h"
+
+#include <math.h>
+#include <cstdlib>
+#include <Eigen/Dense>
 #include <iostream>
 #include <vector>
-#include <math.h>
-#include "overlap.h"
-#include <cstdlib>
-#include "utils.h"
-#include "BasisSet.h"
+
 #include "gto_ordering.h"
-#include <Eigen/Dense>
+#include "utils.h"
 
 //overlap between pair of gaussians
 double gauss_integral(double exp_a,std::array<size_t, 3> cart_a,std::array<double,3> coord_a,

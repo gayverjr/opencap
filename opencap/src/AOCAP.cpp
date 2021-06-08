@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,23 @@ SOFTWARE.
 /*
  * AOCAP.cpp
  */
-#include "BasisSet.h"
-#include <numgrid.h>
-#include "utils.h"
-#include "gto_ordering.h"
+
 #include "AOCAP.h"
-#include <chrono>
+
+#include <numgrid.h>
 #include <omp.h>
+#include <chrono>
 #include <ctime>
+#include <Eigen/Dense>
 #include <iomanip>
+#include <iostream>
 #include <thread>
 #include <vector>
-#include <iostream>
+
+#include "BasisSet.h"
+#include "gto_ordering.h"
 #include "opencap_exception.h"
-#include <Eigen/Dense>
+#include "utils.h"
 
 AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -117,7 +120,6 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 
 void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double result = 0;

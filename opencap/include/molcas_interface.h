@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,23 @@ SOFTWARE.
 /*! \file molcas_interface.h
      \brief Functions pertaining to the OpenMolcas interface.
  */
+
 #include <Eigen/Dense>
 #include "BasisSet.h"
-#include "Atom.h"
+
 #ifndef MOLCAS_INTERFACE_H_
 #define MOLCAS_INTERFACE_H_
 
 /*! Read in TDMs from OpenMolcas rassi.h5 file.
+    \param alpha_opdms: MxM vector of vectors containing Eigen matrices for opdms
+    \param beta_opdms: MxM vector of vectors containing Eigen matrices for opdms
     \param dmat_filename: file location of the rassi.h5 file.
     \param bs: BasisSet of the system
     \param nstates: Number of states
-    \return An array of size 2, each entry holding a 2D vector corresponding to the transition densities in AO basis.
-     The first entry is the alpha densities, the second the beta densities.
 */
-std::array<std::vector<std::vector<Eigen::MatrixXd>>,2> read_rassi_tdms(std::string dmat_filename, BasisSet bs,size_t nstates);
+void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
+		std::vector<std::vector<Eigen::MatrixXd>> &beta_opdms,
+		std::string dmat_filename, BasisSet bs,size_t nstates);
 /*! Read in overlap matrix from OpenMolcas rassi.h5 file.
     \param filename: String file location of the rassi.h5 file.
     \param bs: BasisSet of the system
@@ -59,4 +62,11 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms);
  * \return Geometry specified by rassi.h5 file
 */
 std::vector<Atom> read_geometry_from_rassi(std::string filename);
+/*! Read in effective Hamiltonian from OpenMolcas output file.
+    \param nstates: number of states
+    \param filename: file location of the OpenMolcas output file.
+    \param method: pc-nevpt or sc-nevpt2
+    \return Eigen matrix containing the effective Hamiltonian matrix. Dimension is MxM, where M is number of states.
+*/
+Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method);
 #endif /* MOLCAS_INTERFACE_H_ */

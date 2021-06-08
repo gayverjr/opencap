@@ -1,4 +1,4 @@
-'''Copyright (c) 2020 James Gayvert
+'''Copyright (c) 2021 James Gayvert
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -19,13 +19,11 @@
     SOFTWARE.'''
 
 import pyopencap
+import os 
 import numpy as np
-import h5py
-import os
-import sys
 
-destDir="../opencap/tests/qchem"
 
+dest_dir = "../examples/analysis/N2/ref_outputs"
 cap_dict = {
             "cap_type": "box",
             "cap_x":"2.76",
@@ -35,67 +33,38 @@ cap_dict = {
             "angular_points": "110"
 }
 
-def test_EE():
-    sys_dict = {"molecule": "qchem_fchk",
-"basis_file": destDir+"/EE.fchk"}
-    es_dict = {"method" : "EOMEE",
-        "qchem_output":destDir+"/EE.out",
-            "qchem_fchk":destDir+"/EE.fchk",
+dest_dir = "../examples/analysis/N2/ref_outputs"
+FCHK_FILE = os.path.join(dest_dir,"qc_inp.fchk")
+OUTPUT_FILE = os.path.join(dest_dir,"qc_inp.out")
+
+sys_dict = {
+    "molecule": "qchem_fchk",
+    "basis_file":FCHK_FILE
 }
-    s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
+
+es_dict ={
+    "package":"qchem",
+    "method":"eom",
+    "qchem_output":OUTPUT_FILE,
+    "qchem_fchk":FCHK_FILE,
+}
+
+def test_qchem():
+    sys = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(sys,cap_dict,5)
     pc.read_data(es_dict)
     pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
+    pc.compute_projected_cap()
+    W = pc.get_projected_cap()
     h0 = pc.get_H()
-
-def test_EA():
-    sys_dict = {"molecule": "qchem_fchk",
-"basis_file": destDir+"/EA.fchk"}
-    es_dict = {"method" : "EOMEA",
-        "qchem_output":destDir+"/EA.out",
-            "qchem_fchk":destDir+"/EA.fchk",
-}
-    s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
-    pc.read_data(es_dict)
-    pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
-    h0 = pc.get_H()
-
-def test_IP():
-    sys_dict = {"molecule": "qchem_fchk",
-"basis_file": destDir+"/IP.fchk"}
-    es_dict = {"method" : "EOMIP",
-        "qchem_output":destDir+"/IP.out",
-            "qchem_fchk":destDir+"/IP.fchk",
-}
-    s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
-    pc.read_data(es_dict)
-    pc.compute_ao_cap()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
-    h0 = pc.get_H()
-
-def test_EE_cart():
-    sys_dict = {"molecule": "qchem_fchk",
-"basis_file": destDir+"/EE_cart.fchk"}
-    es_dict = {"method" : "EOMEE",
-        "qchem_output":destDir+"/EE_cart.out",
-            "qchem_fchk":destDir+"/EE_cart.fchk",
-}
-    s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3,"qchem")
-    pc.read_data(es_dict)
-    pc.compute_ao_cap()
-    pc.renormalize()
-    pc.compute_perturb_cap()
-    mat=pc.get_perturb_cap()
-    h0 = pc.get_H()
-
+    from pyopencap.analysis import CAPHamiltonian
+    caph = CAPHamiltonian(H0=h0,W=W)
+    eta_list = np.linspace(0,5000,101)
+    eta_list = np.around(eta_list * 1E-5,decimals=5)
+    caph.run_trajectory(eta_list)
+    traj = caph.track_state(1,tracking="overlap")
+    corr_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.36195558,corrected=True,units="eV")
+    assert np.isclose(np.real(corr_energy),2.59667)
 
 
 

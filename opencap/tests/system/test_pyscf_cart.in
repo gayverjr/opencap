@@ -1,0 +1,5 @@
+$system
+molecule molden
+basis_file ../tests/system/cart.molden
+cart_bf spdfg
+$end

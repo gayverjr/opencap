@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,9 @@ SOFTWARE.
  */
 #ifndef TRANSFORMS_H_
 #define TRANSFORMS_H_
-#include "BasisSet.h"
+
 #include <Eigen/Dense>
+
 
 /* Transforms matrix from cartesian to spherical harmonic representation.
  */

@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,26 @@ SOFTWARE.
      \brief Functions pertaining to reading the geometry and basis set from Molden.
      The format is detailed here: http://cheminf.cmbi.ru.nl/molden/molden_format.html
  */
-#include "Atom.h"
-#include "BasisSet.h"
 
 
 #ifndef INCLUDE_MOLDEN_PARSER_H_
 #define INCLUDE_MOLDEN_PARSER_H_
 
+#include <string>
 
+#include "BasisSet.h"
+
+
+/*! Reads in geometry from molden file.
+ * \param filename: file location of molden file
+ * \return Geometry specified by molden file
+*/
 std::vector<Atom> read_geometry_from_molden(std::string filename);
+/*! Reads in basis set from molden file.
+ *  \param filename: file location of molden file
+ *  \param atoms: Ordered list of atoms in the system
+ *  \return BasisSet specified by molden file
+*/
 BasisSet read_basis_from_molden(std::string filename,std::vector<Atom> atoms);
 
 

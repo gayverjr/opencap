@@ -1,4 +1,4 @@
-/*Copyright (c) 2020 James Gayvert
+/*Copyright (c) 2021 James Gayvert
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,45 +22,48 @@ SOFTWARE.
 /*
  * keywords.cpp
  */
+
+#include "keywords.h"
+
+#include <algorithm>
+#include <iostream>
+#include <map>
 #include <string>
 #include <vector>
+
 #include "opencap_exception.h"
-#include "keywords.h"
 #include "utils.h"
-#include <algorithm>
-#include <string>
-#include <map>
-#include <iostream>
 
 bool check_keyword(std::string my_key,std::string my_section,std::string my_value)
 {
 	std::transform(my_key.begin(), my_key.end(), my_key.begin(), ::tolower);
 	std::vector<open_key> open_keys
 	{
-		{"title","job"},
-		{"jobtype","job"},
+		{"eta_step","trajectory"},
+		{"nsteps","trajectory"},
+		{"save_trajectory","trajectory"},
 		{"basis_file","system"},
-		{"method","perturb_cap"},
-		{"nstates","perturb_cap"},
-		{"molcas_output","perturb_cap"},
-		{"rassi_h5","perturb_cap"},
-		{"h0_file","perturb_cap"},
-		{"qchem_output","perturb_cap"},
-		{"qchem_fchk","perturb_cap"},
-		{"cap_x","perturb_cap"},
-		{"cap_y","perturb_cap"},
-		{"cap_z","perturb_cap"},
-		{"r_cut","perturb_cap"},
-		{"radial_precision","perturb_cap"},
-		{"angular_points","perturb_cap"},
+		{"method","projected_cap"},
+		{"nstates","projected_cap"},
+		{"molcas_output","projected_cap"},
+		{"rassi_h5","projected_cap"},
+		{"h0_file","projected_cap"},
+		{"qchem_output","projected_cap"},
+		{"qchem_fchk","projected_cap"},
+		{"cap_x","projected_cap"},
+		{"cap_y","projected_cap"},
+		{"cap_z","projected_cap"},
+		{"r_cut","projected_cap"},
+		{"radial_precision","projected_cap"},
+		{"angular_points","projected_cap"},
+		{"cart_bf","system"}
 	};
 	std::vector<closed_key> closed_keys
 	{
-		{"package","perturb_cap",{"openmolcas","qchem"}},
-		{"cap_type","perturb_cap",{"box","voronoi"}},
+		{"package","projected_cap",{"openmolcas","qchem"}},
+		{"cap_type","projected_cap",{"box","voronoi"}},
 		{"molecule","system",{"inline","molden","qchem_fchk","molcas_rassi"}},
 		{"bohr_coordinates","system",{"true","false"}},
-		{"cart_bf","system",{"d","df","dfg","f","fg","g"}},
 	};
 
 	for(auto key:open_keys)
