@@ -29,6 +29,7 @@ import numpy as np
 dest_dir = "../examples/analysis/N2/ref_outputs"
 RASSI_FILE = os.path.join(dest_dir,"xms.rassi.h5")
 OUTPUT_FILE = os.path.join(dest_dir,"xms.out")
+h0_file = "../examples/opencap/heff.in"
 
 sys_dict = {
     "molecule": "molcas_rassi",
@@ -49,6 +50,13 @@ es_dict ={
     "rassi_h5":RASSI_FILE
 }
 
+es_dict2 ={
+    "package":"openmolcas",
+    "method":"xms-caspt2",
+    "h0_file":h0_file,
+    "rassi_h5":RASSI_FILE
+}
+
 def test_molcas():
     sys = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(sys,cap_dict,10)
@@ -63,6 +71,14 @@ def test_molcas():
     traj = caph.track_state(1,tracking="overlap")
     uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.35465184,units="eV")
     assert np.isclose(np.real(uc_energy),2.54772)
+
+def test_heff():
+    sys = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(sys,cap_dict,10)
+    pc.read_data(es_dict2)
+    h0 = pc.get_H()
+    assert np.isclose(h0[0][0],-109.312105)
+
 
 
 

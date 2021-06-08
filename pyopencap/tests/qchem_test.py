@@ -23,7 +23,6 @@ import os
 import numpy as np
 
 
-dest_dir = "../examples/analysis/N2/ref_outputs"
 cap_dict = {
             "cap_type": "box",
             "cap_x":"2.76",
@@ -36,6 +35,7 @@ cap_dict = {
 dest_dir = "../examples/analysis/N2/ref_outputs"
 FCHK_FILE = os.path.join(dest_dir,"qc_inp.fchk")
 OUTPUT_FILE = os.path.join(dest_dir,"qc_inp.out")
+h0_file = "../examples/opencap/heff_diag.in"
 
 sys_dict = {
     "molecule": "qchem_fchk",
@@ -46,6 +46,13 @@ es_dict ={
     "package":"qchem",
     "method":"eom",
     "qchem_output":OUTPUT_FILE,
+    "qchem_fchk":FCHK_FILE,
+}
+
+es_dict2 ={
+    "package":"qchem",
+    "method":"eom",
+    "h0_file":h0_file,
     "qchem_fchk":FCHK_FILE,
 }
 
@@ -66,6 +73,12 @@ def test_qchem():
     corr_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.36195558,corrected=True,units="eV")
     assert np.isclose(np.real(corr_energy),2.59667)
 
+def test_heff():
+    sys = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(sys,cap_dict,5)
+    pc.read_data(es_dict2)
+    h0 = pc.get_H()
+    assert np.isclose(h0[0][0],-109.313539)
 
 
 

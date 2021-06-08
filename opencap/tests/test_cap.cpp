@@ -102,6 +102,14 @@ TEST(CAP,TEST_TRAJ)
    SUCCEED();
 }
 
+TEST(CAP,TEST_IMPORTH)
+{
+    auto h0_full = read_matrix(10,"../tests/cap/heff.in");
+    ASSERT_EQ(h0_full(0,0),-109.312105);
+    auto h0_diag = read_matrix(5,"../tests/cap/heff_diag.in");
+    ASSERT_EQ(h0_diag(0,0),-109.313539);
+}
+
 int main(int argc, char **argv) 
 {
   ::testing::InitGoogleTest(&argc, argv);
