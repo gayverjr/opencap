@@ -65,7 +65,7 @@ the key "molecule", and the path to the file must be set as the value to the key
 .. code-block:: python
 
 	sys_dict = {"molecule": "molcas_rassi","basis_file": "path/to/rassi.h5"}
-	my_system = pycap.System(sys_dict)
+	my_system = pyopencap.System(sys_dict)
 	
 *Molden*
 
@@ -76,7 +76,7 @@ path to the file must be set as the value to the key "basis_file". Here is an ex
 .. code-block:: python
 
 	sys_dict = {"molecule": "molden","basis_file": "path/to/file.molden"}
-	my_system = pycap.System(sys_dict)
+	my_system = pyopencap.System(sys_dict)
 
 *Inline(not recommended)*
 
@@ -97,7 +97,7 @@ functions are supported.
             		"basis_file":"path/to/basis.bas",
             		"cart_bf":"d",
             		"bohr_coordinates:": "true"}
-    my_system = pycap.System(sys_dict)	
+    my_system = pyopencap.System(sys_dict)	
 
 .. _BSE: https://www.basissetexchange.org/
 
@@ -117,7 +117,8 @@ the CAP parameters.
             	"cap_z":"4.88",
             	"Radial_precision": "14",
             	"angular_points": "110"}
-    pc = pyopencap.CAP(my_system,cap_dict,10)
+    nstates = 10
+    pc = pyopencap.CAP(my_system,cap_dict,nstates)
 
 Before we can compute the CAP matrix in the state basis, we must load in the density matrices.
 The best way is to use the :func:`~pyopencap.CAP.read_data` function. 
