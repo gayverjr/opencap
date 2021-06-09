@@ -122,7 +122,6 @@ void CAPHamiltonian::run_trajectory()
 EigenvalueTrajectory::EigenvalueTrajectory(std::vector<root> initial_states, size_t state_idx)
 {
 	prev = initial_states[state_idx];
-	std::cout << prev.eigv << std::endl;
 	states.push_back(prev);
 	uncorrected_energies.push_back(prev.energy);
 	corrected_energies.push_back(prev.energy);

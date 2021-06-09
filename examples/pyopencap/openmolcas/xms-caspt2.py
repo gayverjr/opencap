@@ -21,9 +21,10 @@
 
 import pyopencap
 from pyopencap.analysis import CAPHamiltonian
+import numpy as np
 
-RASSI_FILE = "xms.out"
-OUTPUT_FILE = "xms.rassi.h5"
+OUTPUT_FILE = "../../analysis/N2/ref_outputs/xms.out"
+RASSI_FILE = "../../analysis/N2/ref_outputs/xms.rassi.h5"
 
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
@@ -51,4 +52,23 @@ W = pc.get_projected_cap()
 h0 = pc.get_H()
 
 CAPH = CAPHamiltonian(H0=h0,W=W)
+eta_list = np.linspace(0,1500,101)
+eta_list = np.around(eta_list * 1E-5,decimals=5)
+CAPH.run_trajectory(eta_list)
+ref_energy = -109.35465184
+traj = CAPH.track_state(1,tracking="overlap")
+# Find optimal value of eta
+uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")
+# start_idx and end_idx for search use python slice notation (i.e. [start_idx:end_idx]).
+corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10,end_idx=-1,ref_energy=ref_energy,units="eV")
+uc_energy_au = traj.get_energy(eta_opt,units="au")
+corr_energy_au = traj.get_energy(eta_opt,units="au",corrected=True)
+print("Uncorrected:")
+print(uc_energy)
+print(uc_energy_au)
+print(eta_opt)
+print("Corrected:")
+print(corr_energy)
+print(corr_energy_au)
+print(corr_eta_opt)
 

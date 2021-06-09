@@ -22,22 +22,23 @@
 # Analyze Q-Chem output and checkpoint file
 import pyopencap
 from pyopencap.analysis import CAPHamiltonian
+import numpy as np
 
 sys_dict = {"molecule":  "qchem_fchk",
-            "basis_file": "qc_inp.fchk"
+    "basis_file": "../../analysis/N2/ref_outputs/qc_inp.fchk"
 }
 
 cap_dict = {
-            "cap_type": "box",
-            "cap_x":"2.76",
-            "cap_y":"2.76",
-            "cap_z":"4.88"
+    "cap_type": "voronoi",
+        "r_cut":"3.00",
+            "radial_precision":"14",
+            "angular_points":"590"
 }
 
 es_dict = { "package": "qchem",
-            "method" : "eom",
-           "qchem_output":"qc_inp.out",
-           "qchem_fchk":"qc_inp.fchk",
+    "method" : "eom",
+        "qchem_output":"../../analysis/N2/ref_outputs/qc_inp.out",
+            "qchem_fchk":"../../analysis/N2/ref_outputs/qc_inp.fchk",
 }
 
 s = pyopencap.System(sys_dict)
@@ -48,7 +49,26 @@ pc.compute_projected_cap()
 W = pc.get_projected_cap()
 H0 = pc.get_H()
 
-CAPH = CAPHamiltonian(CAP=pc)
+CAPH = CAPHamiltonian(pc=pc)
+eta_list = np.linspace(0,5000,101)
+eta_list = np.around(eta_list * 1E-5,decimals=5)
+CAPH.run_trajectory(eta_list)
+traj = CAPH.track_state(1,tracking="energy")
+ref_energy = -109.36195558
+# Find optimal value of eta
+uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")
+# start_idx and end_idx for search use python slice notation (i.e. [start_idx:end_idx]).
+corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10,end_idx=-1,ref_energy=ref_energy,units="eV")
+uc_energy_au = traj.get_energy(eta_opt,units="au")
+corr_energy_au = traj.get_energy(eta_opt,units="au",corrected=True)
+print("Uncorrected:")
+print(uc_energy)
+print(uc_energy_au)
+print(eta_opt)
+print("Corrected:")
+print(corr_energy)
+print(corr_energy_au)
+print(corr_eta_opt)
 
 
 
