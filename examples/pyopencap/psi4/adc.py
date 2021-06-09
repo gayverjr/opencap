@@ -110,7 +110,7 @@ def basisspec_psi4_yo__anonymous03952cbd(mol, role):
         S   1   1.00
         0.0072000              1.0000000
         S   1   1.00
-        1.00D-08               1.0000000
+        1.00E-08               1.0000000
         P   1   1.00
         0.0245500              1.0000000
         P   1   1.00
@@ -157,14 +157,14 @@ pc.compute_ao_cap()
 # ground state energy
 state = adcc.adc2(wfn, n_singlets=1)
 E_0 = E + state.ground_state.energy_correction(2)
-print("E_0:" + str(E_0),flush=True)
+print("MP2 energy of neutral:" + str(E_0))
 
 # now starting anion calculation, starting from UHF reference
 mol = psi4.geometry("""
     -1 2
-    Gh(He) 0.0000000000 0.0000000000 0.000
     N 0.0000000000 0.0000000000 0.548756750
     N 0.0000000000 0.0000000000 -0.548756750
+    Gh(He) 0.0000000000 0.0000000000 0.000
     Symmetry C1
     """)
 psi4.qcdb.libmintsbasisset.basishorde['ANONYMOUS03952CBD'] = basisspec_psi4_yo__anonymous03952cbd
@@ -174,6 +174,8 @@ E, wfn = psi4.energy('scf', return_wfn=True)
 
 state = adcc.adc2(wfn, n_states=nstates)
 print(state.describe())
+E_0 = E + state.ground_state.energy_correction(2)
+print("MP2 energy of anion:" + str(E_0))
 
 h0 = np.zeros((nstates,nstates))
 for i in range(0,len(h0)):

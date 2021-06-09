@@ -33,8 +33,8 @@ import time
 
 start = time.time()
 
-sys_dict = {"geometry":'''N        0.0     0.0     0.54981512
-    N        0.0     0.0     -0.54981512
+sys_dict = {"geometry":'''    N 0.0000000000 0.0000000000 0.548756750
+    N 0.0000000000 0.0000000000 -0.548756750
     X       0.0     0.0     0.0''',
         "basis_file":"n2.bas",
         "molecule": "inline"
@@ -56,8 +56,8 @@ pc = pyopencap.CAP(s,cap_dict,nstates)
 ghost_bas = gto.basis.load('n2.nw', 'X')
 N_bas = gto.basis.load('n2.nw', 'N')
 mol = gto.M(
-            atom = 'N        0.0     0.0     0.54981512; \
-            N        0.0     0.0     -0.54981512;        \
+            atom = '    N 0.0000000000 0.0000000000 0.548756750;\
+            N 0.0000000000 0.0000000000 -0.548756750;\
             ghost      0.0     0.0     0.0',
             basis = {'N': N_bas, 'ghost': ghost_bas} )
 mol.build()
@@ -82,6 +82,7 @@ scfres.kernel()
 
 # now run adc
 state = adcc.adc2(scfres, n_states=nstates)
+print(state.describe())
 E_0 = scfres.energy_tot() + state.ground_state.energy_correction(2)
 print("MP2 energy of anion:" + str(E_0))
 
