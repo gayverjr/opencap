@@ -70,7 +70,7 @@ def test_molcas():
     caph.run_trajectory(eta_list)
     traj = caph.track_state(1,tracking="overlap")
     uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.35465184,units="eV")
-    assert np.isclose(np.real(uc_energy),2.54772)
+    assert np.isclose(np.real(uc_energy),2.55488)
 
 def test_heff():
     sys = pyopencap.System(sys_dict)
@@ -78,7 +78,6 @@ def test_heff():
     pc.read_data(es_dict2)
     h0 = pc.get_H()
     assert np.isclose(h0[0][0],-109.312105)
-
 
 
 
