@@ -28,9 +28,11 @@ other operators in a wave function basis, which consists of individually optimiz
 expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to
 compute and export one particle transition density matrices between each pair of states. 
 When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file 
-titled $JOBNAME.rassi.h5. 
+titled $JOBNAME.rassi.h5. When the 'HEFF' keyword is activated, the densities for (X)-MS-rotated CASSCF 
+wave functions are exported (note: RASSI must be invoked after a multi-state CASPT2 calculation for this to work). 
 
 	 &RASSI
+	 HEFF
 	 TRD1
 
 OpenCAP uses these densities to compute the 

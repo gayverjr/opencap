@@ -92,18 +92,41 @@ W in the state basis as numpy matrices, it can be constructed as such:
 .. code-block:: python
 	
 	from pyopencap.analysis.CAPTrajectory import CAPHamiltonian	
-	eta_list = np.linspace(0,2000,101)
-	eta_list = eta_list * 1E-5
+	eta_list = np.linspace(0,5000,101)
+	eta_list = np.around(eta_list * 1E-5,decimals=5)
 	CAPH = CAPHamiltonian(H0=h0,W=mat)
 	# equivalently
 	CAPH = CAPHamiltonian(pc=pc)
 	CAPH.run_trajectory(eta_list,cap_lambda=0.0)
-	# track the 4th state
-	traj = CAPH.track_state(4,tracking="overlap")
 	
+One can easily plot the eigenvalue spectrum in au or eV (relative to a given reference energy) as follows:
+
+.. code-block:: python
+	
+	# total energies
+	plt.plot(np.real(CAPH.total_energies),np.imag(CAPH.total_energies),'ro')
+	plt.show()
+	# excitation energies
+	plt.plot(np.real(CAPH.energies_ev(ref_energy)),np.imag(CAPH.energies_ev(ref_energy)),'ro')
+	plt.show()
+
+To analyze a given trajectory, use :func:`~pyopencap.analysis.CAPHamiltonian.track_state`
+
+.. code-block:: python
+
+	traj = CAPH.track_state(1,tracking="overlap")
+
 `traj` is now a :class:`~pyopencap.analysis.EigenvalueTrajectory` object, which 
-contains helpful functions for analysis. For example, one can find the optimal value of the CAP 
-strength parameter (and therefore, best estimate of resonance position and width) for uncorrected/corrected trajectories:
+contains helpful functions for analysis. One can plot raw and corrected trajectories:
+
+.. code-block:: python
+
+	plt.plot(np.real(traj.energies_ev(ref_energy)),np.imag(traj.energies_ev(ref_energy)),'-ro')
+	plt.plot(np.real(traj.energies_ev(ref_energy,corrected=True)),np.imag(traj.energies_ev(ref_energy,corrected=True)),'-bo')
+
+There are also functions to help find the optimal value of the CAP strength parameter 
+(and therefore, best estimate of resonance position and width) 
+for uncorrected/corrected trajectories:
 
 .. code-block:: python
 

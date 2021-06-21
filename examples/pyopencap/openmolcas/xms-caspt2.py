@@ -29,6 +29,7 @@ RASSI_FILE = "../../analysis/N2/ref_outputs/xms.rassi.h5"
 sys_dict = {"molecule": "molcas_rassi",
 "basis_file": RASSI_FILE}
 
+
 cap_dict = {
             "cap_type": "box",
             "cap_x":"2.76",
@@ -52,10 +53,10 @@ W = pc.get_projected_cap()
 h0 = pc.get_H()
 
 CAPH = CAPHamiltonian(H0=h0,W=W)
-eta_list = np.linspace(0,1500,101)
+eta_list = np.linspace(0,5000,101)
 eta_list = np.around(eta_list * 1E-5,decimals=5)
 CAPH.run_trajectory(eta_list)
-ref_energy = -109.35465184
+ref_energy = -109.35456424
 traj = CAPH.track_state(1,tracking="overlap")
 # Find optimal value of eta
 uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")
@@ -71,4 +72,15 @@ print("Corrected:")
 print(corr_energy)
 print(corr_energy_au)
 print(corr_eta_opt)
+
+import matplotlib.pyplot as plt
+
+plt.plot(np.real(CAPH.energies_ev(ref_energy)),np.imag(CAPH.energies_ev(ref_energy)),'ro')
+plt.show()
+
+plt.plot(np.real(traj.energies_ev(ref_energy)),np.imag(traj.energies_ev(ref_energy)),'-ro')
+plt.plot(np.real(traj.energies_ev(ref_energy,corrected=True)),np.imag(traj.energies_ev(ref_energy,corrected=True)),'-bo')
+plt.plot(np.real(corr_energy),np.imag(corr_energy),"g*",markersize=20)
+plt.plot(np.real(uc_energy),np.imag(uc_energy),"g*",markersize=20)
+plt.show()
 

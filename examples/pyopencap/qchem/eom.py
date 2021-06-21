@@ -50,7 +50,7 @@ W = pc.get_projected_cap()
 H0 = pc.get_H()
 
 CAPH = CAPHamiltonian(pc=pc)
-eta_list = np.linspace(0,5000,101)
+eta_list = np.linspace(0,5000,201)
 eta_list = np.around(eta_list * 1E-5,decimals=5)
 CAPH.run_trajectory(eta_list)
 traj = CAPH.track_state(1,tracking="energy")
@@ -69,6 +69,17 @@ print("Corrected:")
 print(corr_energy)
 print(corr_energy_au)
 print(corr_eta_opt)
+
+import matplotlib.pyplot as plt
+
+plt.plot(np.real(CAPH.energies_ev(ref_energy)),np.imag(CAPH.energies_ev(ref_energy)),'ro')
+plt.show()
+
+plt.plot(np.real(traj.energies_ev(ref_energy)),np.imag(traj.energies_ev(ref_energy)),'-ro')
+plt.plot(np.real(traj.energies_ev(ref_energy,corrected=True)),np.imag(traj.energies_ev(ref_energy,corrected=True)),'-bo')
+plt.plot(np.real(corr_energy),np.imag(corr_energy),"g*",markersize=20)
+plt.plot(np.real(uc_energy),np.imag(uc_energy),"g*",markersize=20)
+plt.show()
 
 
 

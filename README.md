@@ -24,10 +24,10 @@
 [ghrel-url]: https://github.com/gayverjr/opencap
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
-We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas) and [Pyscf](https://github.com/pyscf/pyscf) packages to 
+We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas), [Pyscf](https://github.com/pyscf/pyscf), [Q-Chem](https://www.q-chem.com/), and [PSI4](https://psicode.org/) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
-Please see the [examples](https://github.com/gayverjr/opencap/tree/main/examples) directory 
+Please see the [examples](https://github.com/gayverjr/opencap/tree/main/examples) directory or our [Getting Started Page](https://gayverjropencap.readthedocs.io/en/latest/getting_started.html)
 to help get started on using the software. 
 
 For questions or support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.

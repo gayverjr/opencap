@@ -90,8 +90,8 @@ the excitation energies in eV with respect to specified reference energy.
 	import matplotlib.pyplot as plt
 	UC_ev = traj.energies_ev(ref_energy)
 	Corr_ev = traj.energies_ev(ref_energy,corrected=True)
-	plt.plot(np.real(UC_ev),np.imag(CAPH.energies_ev(UC_ev),'ro', label='Uncorrected')
-	plt.plot(np.real(Corr_ev),np.imag(CAPH.energies_ev(Corr_ev),'ro', label='Corrected')
+	plt.plot(np.real(UC_ev),np.imag(UC_ev),'ro', label='Uncorrected')
+	plt.plot(np.real(Corr_ev),np.imag(Corr_ev),'ro', label='Corrected')
 	plt.show()
 
 :func:`~pyopencap.analysis.EigenvalueTrajectory.get_logarithmic_velocities` returns the value of 

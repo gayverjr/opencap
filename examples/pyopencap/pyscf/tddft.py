@@ -23,7 +23,6 @@ SOFTWARE.
 CAP/TDA-TDDFT(omegaB97XD) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh].
 '''
 
-import adcc
 import numpy as np
 from pyscf import gto,scf,tools,tdscf
 import pyopencap
@@ -52,8 +51,7 @@ def tda_density_matrix(td, state1, state2):
     
     # Add CIS contribution
     nocc = cis_t1.shape[0]
-    # Note that dm_oo and dm_vv correspond to spin-up contribution. "*2" to
-    # include the spin-down contribution
+    # Note that dm_oo and dm_vv correspond to spin-up contribution.
     dm[:nocc,:nocc] += dm_oo
     dm[nocc:,nocc:] += dm_vv
     
@@ -76,10 +74,9 @@ def tda_density_matrix(td, state1, state2):
     
     # Add CIS contribution
     nocc = cis_t1.shape[0]
-    # Note that dm_oo and dm_vv correspond to spin-up contribution. "*2" to
-    # include the spin-down contribution
-    dm[:nocc,:nocc] += dm_oo * 2
-    dm[nocc:,nocc:] += dm_vv * 2
+    # Note that dm_oo and dm_vv correspond to spin-up contribution.
+    dm[:nocc,:nocc] += dm_oo
+    dm[nocc:,nocc:] += dm_vv
     
     # Transform density matrix to AO basis
     mo = mf.mo_coeff[1]
