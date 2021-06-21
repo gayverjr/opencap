@@ -16,7 +16,7 @@
 [lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
 [rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
 [rtd-url]: https://gayverjropencap.readthedocs.io/en/latest/?badge=latest
-[cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/main/graph/badge.svg
+[cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/main/graph/badge.svg?token=V9quaajaZ1
 [cov-url]: https://codecov.io/gh/gayverjr/opencap/branch/main
 [pypi-img]: https://badge.fury.io/py/pyopencap.svg
 [pypi-url]: https://pypi.org/project/pyopencap/

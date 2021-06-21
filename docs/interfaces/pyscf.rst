@@ -58,13 +58,14 @@ the CAP parameters.
 
 .. code-block:: python
 
+    nstates = 10
     cap_dict = {"cap_type": "box",
             	"cap_x":"2.76",
             	"cap_y":"2.76",
             	"cap_z":"4.88",
             	"Radial_precision": "14",
             	"angular_points": "110"}
-    pc = pyopencap.CAP(my_system,cap_dict,10)
+    pc = pyopencap.CAP(my_system,cap_dict,nstates)
     
 Step 2: Passing the density matrices
 ------------------------------------

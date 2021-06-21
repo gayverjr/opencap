@@ -26,14 +26,15 @@ requires a :class:`~pyopencap.System` object, a dictionary containing the CAP pa
 and the number of states.
 
 .. code-block:: python
-
+	
+	nstates = 10
     cap_dict = {"cap_type": "box",
             "cap_x":"2.76",
             "cap_y":"2.76",
             "cap_z":"4.88",
             "Radial_precision": "14",
             "angular_points": "110"}
-    pc = pyopencap.CAP(s,cap_dict,10,)
+    pc = pyopencap.CAP(s,cap_dict,nstates)
     
 **Parsing electronic structure data from file**
 

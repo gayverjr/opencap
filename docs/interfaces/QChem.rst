@@ -41,7 +41,8 @@ The following snippet can be used to read the data from a Q-Chem output and prop
             	"cap_z":"4.88",
             	"Radial_precision": "14",
             	"angular_points": "110"}
-    pc = pyopencap.CAP(my_system,cap_dict,10)
+    nstates = 10
+    pc = pyopencap.CAP(my_system,cap_dict,nstates)
     # read in densities
 	es_dict = {"method" : "eom",
 	           "package": "qchem",
