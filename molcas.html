@@ -86,7 +86,8 @@ System</h1>
 </table>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Projected CAP</h1>
-<p>The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated in the OpenMolcas reference, RASSI "computes matrix elements of the Hamiltonian and other operators in a wave function basis, which consists of individually optimized CI expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to compute and export one particle transition density matrices between each pair of states. When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file titled $JOBNAME.rassi.h5. When the 'HEFF' keyword is activated, the densities for (X)-MS-rotated CASSCF wave functions are exported (note: RASSI must be invoked after a multi-state CASPT2 calculation for this to work). </p><pre class="fragment"> &amp;RASSI
+<p>The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated in the OpenMolcas reference, RASSI "computes matrix elements of the Hamiltonian and other operators in a wave function basis, which consists of individually optimized CI expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to compute and export one particle transition density matrices between each pair of states. When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file titled $JOBNAME.rassi.h5. When using XMS-CASPT2, RMS-CASPT2, or other variants which utilize rotated CASSCF wave functions, the HEFF keyword should be activated, however, HEFF should not be used in conjunction with conventional MS-CASPT2. RASSI must be invoked after a multi-state CASPT2 calculation for the HEFF keyword to work.</p>
+<pre class="fragment"> &amp;RASSI
  HEFF
  TRD1
 </pre><p>OpenCAP uses these densities to compute the CAP matrix elements in state basis, which is required to perform projected CAP calculations.</p>
