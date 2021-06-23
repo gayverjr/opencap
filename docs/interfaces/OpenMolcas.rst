@@ -4,7 +4,7 @@ OpenMolcas
 OpenMolcas_ is an open-source quantum chemistry package which specializes 
 in multiconfigurational approaches to electronic structure. OpenMolcas can be used in tandem 
 with PyOpenCAP to perform complex absorbing potential (extended)multi-state complete active 
-space second order perturbation theory [**CAP/(X)MS-CASPT2**] calculations, which have been 
+space second order perturbation theory [**CAP/MS-CASPT2**] calculations, which have been 
 shown to yield accurate energies and lifetimes for metastable electronic states. 
 Here, we outline the steps of performing these calculations using OpenMolcas and PyOpenCAP. 
 Some suggested readings are provided at the bottom of the page.
@@ -13,10 +13,12 @@ Some suggested readings are provided at the bottom of the page.
 Step 1: Running OpenMolcas calculation
 ----------------------------------------
 To generate the one-particle densities required to construct the CAP matrix, the RASSI 
-module must be executed with the TRD1 and HEFF keywords activated. This keyword saves one-particle 
-transition density matrices between each pair of XMS-rotated RASSCF states as well as the one-particle 
-density matrices for each state to a file titled $Jobname.rassi.h5. Note that RASSI must be 
-invoked after multi-state CASPT2 for the HEFF keyword to work.
+module must be executed with the TRD1 keyword activated. When using XMS-CASPT2, RMS-CASPT2, 
+or other variants which utilize rotated CASSCF wave functions, the HEFF keyword should be activated, 
+however, HEFF should not be used in conjunction with conventional MS-CASPT2. Note that 
+RASSI must be invoked after multi-state CASPT2 for the HEFF keyword to work. 
+RASSI will save transition density matrices between each pair of (rotated or original) 
+CASSCF states as well as the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
 
 **Export transition densities with RASSI**
 
@@ -26,10 +28,10 @@ invoked after multi-state CASPT2 for the HEFF keyword to work.
 	 TRD1
 	 HEFF
 
-**Generate effective Hamiltonian with (X)MS-CASPT2**
+**Generate effective Hamiltonian with MS-CASPT2**
 
-The (X)MS-CASPT2 approach is required to generate an appropriate zeroth Hamiltonian for the 
-projected CAP method. To activate (X)MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
+The MS-CASPT2 approach is required to generate an appropriate zeroth Hamiltonian for the 
+projected CAP method. To activate MS-CASPT2 in OpenMolcas, use the Multistate keyword in the CASPT2 
 module.
 
 .. code-block:: bash
@@ -127,7 +129,7 @@ The best way is to use the :func:`~pyopencap.CAP.read_data` function.
 As shown below, we define a dictionary which contains the following keys: "package"(openmolcas), "method" 
 (electronic structure method chosen), "rassi_h5"(density matrices), and "molcas_output"(output file containing effective Hamiltonian).
 The effective Hamiltonian can be retrieved using the :func:`~pyopencap.CAP.get_H` function of the :class:`~pyopencap.CAP` object. 
-Currently, only effective Hamiltonians from (X)MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
+Currently, only effective Hamiltonians from MS-CASPT2 calculations can be parsed from an OpenMolcas output file. 
 
 .. code-block:: python
 	

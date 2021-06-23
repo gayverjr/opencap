@@ -28,8 +28,11 @@ other operators in a wave function basis, which consists of individually optimiz
 expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to
 compute and export one particle transition density matrices between each pair of states. 
 When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file 
-titled $JOBNAME.rassi.h5. When the 'HEFF' keyword is activated, the densities for (X)-MS-rotated CASSCF 
-wave functions are exported (note: RASSI must be invoked after a multi-state CASPT2 calculation for this to work). 
+titled $JOBNAME.rassi.h5. When using XMS-CASPT2, RMS-CASPT2, 
+or other variants which utilize rotated CASSCF wave functions, the HEFF keyword should be activated, 
+however, HEFF should not be used in conjunction with conventional MS-CASPT2. 
+RASSI must be invoked after a multi-state CASPT2 calculation for the HEFF keyword to work. 
+
 
 	 &RASSI
 	 HEFF
