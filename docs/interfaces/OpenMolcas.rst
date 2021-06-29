@@ -14,11 +14,10 @@ Step 1: Running OpenMolcas calculation
 ----------------------------------------
 To generate the one-particle densities required to construct the CAP matrix, the RASSI 
 module must be executed with the TRD1 keyword activated. When using XMS-CASPT2, RMS-CASPT2, 
-or other variants which utilize rotated CASSCF wave functions, the HEFF keyword should be activated, 
-however, HEFF should not be used in conjunction with conventional MS-CASPT2. Note that 
-RASSI must be invoked after multi-state CASPT2 for the HEFF keyword to work. 
-RASSI will save transition density matrices between each pair of (rotated or original) 
-CASSCF states as well as the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
+or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will 
+be rotated into the original CASSCF basis using the rotation matrix provided in the output. 
+RASSI will save transition density matrices between each pair of CASSCF states as well as 
+the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
 
 **Export transition densities with RASSI**
 
@@ -26,7 +25,6 @@ CASSCF states as well as the one-particle density matrices for each state to a f
 
 	 &RASSI
 	 TRD1
-	 HEFF
 
 **Generate effective Hamiltonian with MS-CASPT2**
 

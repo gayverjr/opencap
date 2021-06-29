@@ -243,10 +243,42 @@ Eigen::MatrixXd read_rassi_overlap(std::string filename,BasisSet bs)
 	}
 }
 
+Eigen::MatrixXd read_rotation_matrix(size_t nstates, std::ifstream &is)
+{
+	Eigen::MatrixXd rotation_matrix(nstates,nstates);
+	rotation_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
+	std::string line, rest;
+	size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
+	for (size_t i=1;i<=num_groups;i++)
+	{
+		std::getline(is,line);
+        if(i>1)
+            std::getline(is,line);
+		for (size_t j=1;j<=nstates;j++)
+		{
+			std::getline(is,line);
+			std::vector<std::string> tokens = split(line,' ');
+			size_t row_idx = std::stoul(tokens[0]);
+			for(size_t k=1;k<tokens.size();k++)
+			{
+				size_t col_idx = k-1+(i-1)*5;
+				if(col_idx>=rotation_matrix.cols() || row_idx-1 >= rotation_matrix.rows())
+					opencap_throw("Error: State index of out bounds. There is a problem with the OpenMolcas output file. Exiting...");
+				rotation_matrix(row_idx-1,col_idx)=std::stod(tokens[k]);
+			}
+		}
+	}
+	return rotation_matrix;
+}
+
 Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
+	Eigen::MatrixXd rotation_matrix(nstates,nstates);
 	ZERO_ORDER_H= Eigen::MatrixXd::Zero(nstates,nstates);
+	rotation_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
+	for (size_t i=0;i<nstates;i++)
+		rotation_matrix(i,i)=1.0;
 	std::ifstream is(filename);
 	if (is.good())
 	{
@@ -260,7 +292,15 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 					"output file, but " + std::to_string(nstates) +" states were specified in the input. "
 							"Exiting...");
 		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos && is.peek()!=EOF)
+		{
 			std::getline(is,line);
+			if (line.find("H0 eigenvectors:")!= std::string::npos)
+			{
+				std::cout << "Warning: rotating effective Hamiltonian into basis "
+						  << "of original CASCI states." << std::endl;
+				rotation_matrix = read_rotation_matrix(nstates,is);
+			}
+		}
 		if (is.peek()==EOF)
 			opencap_throw("Error: Reached end of file before MULTI-STATE CASPT2 SECTION.");
 		//get diagonal shift
@@ -299,7 +339,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	{
     	opencap_throw("Error: I couldn't read:" + filename);
 	}
-	return ZERO_ORDER_H;
+	return rotation_matrix*ZERO_ORDER_H*rotation_matrix.transpose();
 }
 
 Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)

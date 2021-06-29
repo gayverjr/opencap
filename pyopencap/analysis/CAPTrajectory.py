@@ -663,18 +663,20 @@ class CAPHamiltonian():
             )
             f.write("Number of states: " + str(self._nstates) + "\n")
             f.write("Zeroth order Hamiltonian\n")
-            f.write(DataFrame(self._H0).to_string(index=False, header=False))
+            f.write(DataFrame(self._H0).to_string(index=False, header=False,float_format='%.15g'))
             f.write("\nCAP Matrix\n")
-            f.write(DataFrame(self._W).to_string(index=False, header=False))
+            f.write(DataFrame(self._W).to_string(index=False, header=False,float_format='%.15g'))
 
     def __str__(self):
         ''' Returns formatted matrices.
         '''
         from pandas import DataFrame
+        import pandas
+        pandas.set_option("display.precision", 15)
         my_str = "Zeroth order Hamiltonian\n"
-        my_str += DataFrame(self._H0).to_string(index=False, header=False)
+        my_str += DataFrame(self._H0).to_string(index=False, header=False,float_format='%.15g')
         my_str+= "\nCAP Matrix\n"
-        my_str+= DataFrame(self._W).to_string(index=False, header=False)
+        my_str+= DataFrame(self._W).to_string(index=False, header=False,float_format='%.15g')
         return my_str
 
 
