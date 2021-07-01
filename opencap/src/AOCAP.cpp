@@ -25,6 +25,8 @@ SOFTWARE.
 
 #include "AOCAP.h"
 
+#include "grid_radial.h"
+#include "bragg.h"
 #include <numgrid.h>
 #include <omp.h>
 #include <chrono>
@@ -34,6 +36,8 @@ SOFTWARE.
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <cmath>
+#include <limits>
 
 #include "BasisSet.h"
 #include "gto_ordering.h"
@@ -164,14 +168,58 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
     int max_num_angular_points = angular_points;
 	for(size_t i=0;i<num_atoms;i++)
 	{
-		//allocate and create grid
-		context_t *context = numgrid_new_atom_grid(radial_precision,
+        
+        // check radial parameters
+        double alpha_max = bs.alpha_max(atoms[i]);
+        std::vector<double> alpha_min = bs.alpha_min(atoms[i]);
+        double r_inner = get_r_inner(radial_precision,
+                                     alpha_max * 2.0); // factor 2.0 to match DIRAC
+        double h = std::numeric_limits<float>::max();
+        double r_outer = 0.0;
+        for (int l = 0; l <= bs.max_L(); l++)
+        {
+            if (alpha_min[l] > 0.0)
+            {
+                r_outer =
+                std::max(r_outer,
+                         get_r_outer(radial_precision,
+                                     alpha_min[l],
+                                     l,
+                                     4.0 * get_bragg_angstrom(nuc_charges[i])));
+                if(r_outer < r_inner)
+                {
+                    std::cout << "Warning: r_outer < r_inner, so grid for Atom " << i << " cannot be allocated for this basis set. Alpha min for angular momentum "
+                    << l << " is: " << alpha_min[l] << ". We'll set alpha_min to 0.01 for this angular momentum." << std::endl;
+                    alpha_min[l] = 0.01;
+                    
+                }
+                else
+                {
+                    h = std::min(h,
+                                 get_h(radial_precision, l, 0.1 * (r_outer - r_inner)));
+                    if(r_outer < h)
+                    {
+                        std::cout << "Warning: r_outer < h, so grid for Atom " << i << " cannot be allocated for this basis set. Alpha min for angular momentum "
+                        << l << " is: " << alpha_min[l] << ". We'll set alpha_min to 0.01 for this angular momentum."<<std::endl;
+                        alpha_min[l] = 0.01;
+                    }
+                }
+            }
+        }
+        double min_alpha = *std::max_element(alpha_min.begin(), alpha_min.end());
+        if (alpha_max < min_alpha)
+        {
+            std::cout << "Warning: alpha_max is: " << alpha_max << ", which is less than alpha_min. Resetting it to:"
+            << min_alpha << std::endl;
+            alpha_max = min_alpha;
+        }
+        context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,
 		                                 max_num_angular_points,
 		                                 nuc_charges[i],
 		                                 bs.alpha_max(atoms[i]),
 		                                 bs.max_L(),
-		                                 &bs.alpha_min(atoms[i])[0]);
+		                                 alpha_min.data());
 		int num_points = numgrid_get_num_grid_points(context);
         double *grid_x_bohr = new double[num_points];
         double *grid_y_bohr = new double[num_points];
