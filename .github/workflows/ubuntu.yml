@@ -47,7 +47,7 @@ jobs:
           conda install -c psi4/label/dev psi4
           pip install pytest
           pip install pytest-cov
-          pip install h5py
+          pip install h5py==3.2.1
           pip install numpy
           pip install pyscf
           pip install codecov
