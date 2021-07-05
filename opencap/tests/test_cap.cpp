@@ -43,10 +43,10 @@ TEST(CAP, TEST_VORONOI)
    std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input("../tests/cap/test_voronoi.in");
 	std::map<std::string,std::string> params = std::get<1>(inp_data); 
    CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc.compute_ao_cap();
+   pc.integrate_cap();
    params["r_cut"] = "4.00";
    CAP pc2(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc2.compute_ao_cap();
+   pc2.integrate_cap();
    ASSERT_NE(pc2.AO_CAP_MAT.sum(),pc.AO_CAP_MAT.sum());
 }
 
@@ -55,10 +55,10 @@ TEST(CAP, TEST_BOX)
    std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input("../tests/cap/test_box.in");
 	std::map<std::string,std::string> params = std::get<1>(inp_data); 
    CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc.compute_ao_cap();
+   pc.integrate_cap();
    params["cap_z"] = "5.00";
    CAP pc2(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc2.compute_ao_cap();
+   pc2.integrate_cap();
    ASSERT_NE(pc2.AO_CAP_MAT.sum(),pc.AO_CAP_MAT.sum());
 }
 
@@ -67,14 +67,14 @@ TEST(CAP, TEST_GRID)
    std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input("../tests/cap/test_box.in");
 	std::map<std::string,std::string> params = std::get<1>(inp_data); 
    CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc.compute_ao_cap();
+   pc.integrate_cap();
    params["radial_precision"] = "12";
    CAP pc2(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc2.compute_ao_cap();
+   pc2.integrate_cap();
    ASSERT_NE(pc2.AO_CAP_MAT.sum(),pc.AO_CAP_MAT.sum());
    params["angular_points"] = "350";
    CAP pc3(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
-   pc3.compute_ao_cap();
+   pc3.integrate_cap();
    ASSERT_NE(pc2.AO_CAP_MAT.sum(),pc3.AO_CAP_MAT.sum());
 }
 

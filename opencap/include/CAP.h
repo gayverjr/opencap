@@ -74,9 +74,12 @@ public:
 	 *  \param params: Map of parameters
 	 */
 	CAP(System &my_sys,std::map<std::string, std::string> params);
-	/** Computes %CAP in AO basis
+	/** Computes %CAP in AO basis using parameters in given python dictionary
 	 */
-	void compute_ao_cap();
+	void compute_ao_cap(py::dict dict);
+    /** Computes %CAP in AO basis 
+     */
+    void integrate_cap();
 	/** Computes %CAP in state basis
 	 */
 	void compute_projected_cap();
@@ -94,7 +97,7 @@ public:
 	CAP(System my_sys,py::dict dict,size_t num_states);
 	/** Returns CAP matrix in AO basis.
 	 */
-	Eigen::MatrixXd get_ao_cap();
+    Eigen::MatrixXd get_ao_cap(std::string ordering="",std::string basis_file="");
 	/** Returns CAP matrix in wave function basis.
 	 */
 	Eigen::MatrixXd get_projected_cap();

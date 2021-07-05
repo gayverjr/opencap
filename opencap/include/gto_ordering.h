@@ -52,6 +52,9 @@ std::vector<bf_id> get_pyscf_ids(BasisSet &bs);
  * which describe the ordering of the original basis set.
  */
 void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet &bs,std::vector<bf_id> input_ids);
+/* Re-orders a matrix from ordering of original_ids to the ordering given by input_ids.
+ */
+void reorder_matrix(Eigen::MatrixXd &mat,std::vector<bf_id> &original_ids,std::vector<bf_id> &final_ids);
 
 
 #endif /* GTO_ORDERING_H_ */

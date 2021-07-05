@@ -81,7 +81,6 @@ CAP::CAP(System my_sys, py::dict dict, size_t num_states)
     		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
 		params[key]=value;
     }
-    AOCAP cap_integrator(system.atoms,params);
 	for (auto item: params)
 		parameters[item.first]=item.second;
 	system = my_sys;
@@ -196,7 +195,7 @@ void CAP::read_in_dms()
 void CAP::compute_projected_cap()
 {
 	if (AO_CAP_MAT.cols()==0)
-		compute_ao_cap();
+		integrate_cap();
 	verify_data();
 	Eigen::MatrixXd CAP_matrix(nstates,nstates);
 	CAP_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
@@ -213,23 +212,44 @@ void CAP::compute_projected_cap()
 	CAP_MAT = CAP_matrix;
 }
 
-void CAP::compute_ao_cap()
+void CAP::integrate_cap()
 {
     AOCAP cap_integrator(system.atoms,parameters);
-	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
-	cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
-	auto start = std::chrono::high_resolution_clock::now();
-	cap_integrator.compute_ao_cap_mat(cap_mat,system.bs);
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto total_time = std::chrono::duration<double>(stop-start).count();
-	if(python)
-		py::print("Integration time:"+std::to_string(total_time));
-	else
-		std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
-	uniform_cart_norm(cap_mat,system.bs);
-	Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
-	cart2spherical(cap_mat,cap_spherical,system.bs);
-	AO_CAP_MAT = cap_spherical;
+    Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
+    cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
+    auto start = std::chrono::high_resolution_clock::now();
+    cap_integrator.compute_ao_cap_mat(cap_mat,system.bs);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto total_time = std::chrono::duration<double>(stop-start).count();
+    if(python)
+    py::print("Integration time:"+std::to_string(total_time));
+    else
+    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+    uniform_cart_norm(cap_mat,system.bs);
+    Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
+    cart2spherical(cap_mat,cap_spherical,system.bs);
+    AO_CAP_MAT = cap_spherical;
+}
+
+void CAP::compute_ao_cap(py::dict dict)
+{
+    std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
+        "r_cut","radial_precision","angular_points"};
+    py::print("Redefining CAP parameters...\n");
+    std::map<std::string, std::string> params;
+    python = true;
+    for (auto item : dict)
+    {
+        std::string key = py::str(item.first).cast<std::string>();
+        std::string value = py::str(item.second).cast<std::string>();
+        transform(key.begin(),key.end(),key.begin(),::tolower);
+        if (std::find(valid_keywords.begin(),valid_keywords.end(),key)==valid_keywords.end())
+            opencap_throw("Invalid key in dictionary:`" + key + "'\n");
+        params[key]=value;
+    }
+    for (auto item: params)
+        parameters[item.first]=item.second;
+    integrate_cap();
 }
 
 void CAP::check_overlap_matrix()
@@ -338,7 +358,7 @@ void CAP::run()
 	{
 		if (parameters.find("ignore_overlap")==parameters.end()||parameters["ignore_overlap"]=="false")
 			check_overlap_matrix();
-		compute_ao_cap();
+		integrate_cap();
         renormalize();
 		compute_projected_cap();
 	}
@@ -375,9 +395,34 @@ void CAP::verify_data()
 	}
 }
 
-Eigen::MatrixXd CAP::get_ao_cap()
+Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
 {
-	return AO_CAP_MAT;
+    if (AO_CAP_MAT.cols()==0)
+        integrate_cap();
+    if(ordering!="")
+    {
+        Eigen::MatrixXd reordered_cap = AO_CAP_MAT;
+        std::vector<bf_id> ids;
+        if(compare_strings(ordering,"pyscf"))
+        ids = get_pyscf_ids(system.bs);
+        else if(compare_strings(ordering,"openmolcas"))
+        {
+            if(basis_file=="")
+            opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+                          "specified with the basis_file optional argument.");
+            ids = get_molcas_ids(system.bs,basis_file);
+        }
+        else if(compare_strings(ordering,"qchem"))
+            ids = get_qchem_ids(system.bs);
+        else if(compare_strings(ordering,"psi4"))
+            ids = get_psi4_ids(system.bs);
+        else
+            opencap_throw("Error: " + ordering +" is unsupported.");
+        reorder_matrix(reordered_cap,system.bs.bf_ids,ids);
+        return reordered_cap;
+    }
+    return AO_CAP_MAT;
+    
 }
 
 Eigen::MatrixXd CAP::get_projected_cap()
