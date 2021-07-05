@@ -179,14 +179,15 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 		}
     }
 
-    std::cout << "Warning: CAP matrix is assumed to be symmetric." << std::endl;
+    std::cout << "Warning: TDM M-->N is assumed to be conjugate transpose of "
+    << "TDM N-->M where M>N" << std::endl;
     //symmetrize
     for (size_t i=0;i<d[0];i++)
     {
     	for(size_t j=0;j<i;j++)
     	{
-    		alpha_opdms[i][j]= alpha_opdms[j][i];
-    		beta_opdms[i][j]= beta_opdms[j][i];
+    		alpha_opdms[i][j]= alpha_opdms[j][i].adjoint();
+    		beta_opdms[i][j]= beta_opdms[j][i].adjoint();
     	}
     }
     if(alpha_opdms.size()!=nstates)

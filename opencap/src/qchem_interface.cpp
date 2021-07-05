@@ -95,6 +95,7 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
 						beta_opdms[i][i]=st_opdm;
     			}
 		}
+        is.seekg (0, ios::beg);
     	for(size_t i=0;i<ntdm;i++)
     	{
 			//alpha first, then beta
@@ -138,15 +139,16 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
     //symmetrize
     if(ntdm == lt_tdm)
     {
-        std::cout << "Warning: CAP matrix is assumed to be symmetric." << std::endl;
+        std::cout << "Warning: TDM M-->N is assumed to be conjugate transpose of "
+        << "TDM N-->M where M>N" << std::endl;
     	size_t dm_idx = 0;
     	for(size_t i=0;i<nstates;i++)
     	{
     		for(size_t j=i+1;j<nstates;j++)
     		{
     			alpha_opdms[i][j] = alpha_tdms[dm_idx];
-    			alpha_opdms[j][i] = alpha_tdms[dm_idx];
-    			beta_opdms[i][j] = beta_tdms[dm_idx];
+    			alpha_opdms[j][i] = alpha_tdms[dm_idx].adjoint();
+    			beta_opdms[i][j] = beta_tdms[dm_idx].adjoint();
     			beta_opdms[j][i] = beta_tdms[dm_idx];
 				dm_idx++;
     		}

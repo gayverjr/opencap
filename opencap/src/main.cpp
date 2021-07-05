@@ -62,9 +62,9 @@ int main(int argc, char **argv)
 				std::cout << "Printing out matrices required for Projected CAP calculation." << std::endl;
 				std::cout << "Number of states: " << pc.nstates << std::endl;
 				std::cout << "Zeroth order Hamiltonian" << std::endl;
-				std::cout << pc.ZERO_ORDER_H << std::endl;
+				std::cout << std::setprecision(17)<< pc.ZERO_ORDER_H << std::endl;
 				std::cout << "CAP matrix" << std::endl;
-				std::cout << std::setprecision(8) << std::scientific << pc.CAP_MAT << std::endl;
+				std::cout << std::setprecision(17) << std::scientific << pc.CAP_MAT << std::endl;
 				auto t_end = std::chrono::high_resolution_clock::now();
 				std::cout << std::fixed << "Wall time:" << std::chrono::duration<double>(t_end-t_start).count() << std::endl;
 				if(params["trajectory"]=="true")
