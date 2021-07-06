@@ -305,10 +305,14 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		//get diagonal shift
 		for (size_t i=1;i<=3;i++)
 			std::getline(is,line);
-		std::vector<std::string> split_line = split(line,' ');
-		double E_shift = std::stod(split_line[split_line.size()-1]);
-		for(size_t i=1;i<=2;i++)
-			std::getline(is,line);
+        double E_shift = 0.0;
+        if(line.find("Output diagonal")!=std::string::npos)
+        {
+            std::vector<std::string> split_line = split(line,' ');
+            E_shift = std::stod(split_line[split_line.size()-1]);
+            for(size_t i=1;i<=2;i++)
+                std::getline(is,line);
+        }
 		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
 		for (size_t i=1;i<=num_groups;i++)
 		{
