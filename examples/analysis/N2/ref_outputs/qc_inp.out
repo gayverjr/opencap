@@ -80,12 +80,12 @@
  Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
  http://arma.sourceforge.net/
 
- Q-Chem begins on Mon Jul  5 16:00:42 2021  
+ Q-Chem begins on Tue Jul  6 01:02:17 2021  
 
- Host: node13
-0
+node8
+ Host: 0
 
-     Scratch files written to /scratch/gayverjr/qc_inp.4083069400.saved//
+     Scratch files written to /home/gayverjr/qc_inp.3316877304.saved//
  Processing $rem in /home/gayverjr/qchem_james/gayverjr/config/preferences:
  Processing $rem in /home/gayverjr/.qchemrc:
  Core orbitals will be frozen
@@ -184,15 +184,15 @@ $end
 
  Standard Electronic Orientation quadrupole field applied
  ================ Generating on-the-fly SAD Guess ================
-Attempting to make child job directory: /scratch/gayverjr/qc_inp.4083069400.saved//Frg1/
-Creating input file /scratch/gayverjr/qc_inp.4083069400.saved/Frg1.input
+Attempting to make child job directory: /home/gayverjr/qc_inp.3316877304.saved//Frg1/
+Creating input file /home/gayverjr/qc_inp.3316877304.saved/Frg1.input
 using default PutDataFrgm: nothing
-calling putenv with: QCSCRATCH=/scratch/gayverjr/qc_inp.4083069400.saved/ 
+calling putenv with: QCSCRATCH=/home/gayverjr/qc_inp.3316877304.saved/ 
 Spawning Job For Fragment 0
 Done Job For Fragment 0
-calling putenv with: QCSCRATCH=/scratch/gayverjr 
+calling putenv with: QCSCRATCH=/home/gayverjr 
 calling putenv with: QCTHREADS=16 
- Time for running child jobs:  CPU 0.00 s  wall 1.71 s
+ Time for running child jobs:  CPU 0.00 s  wall 2.10 s
  ============= Method Specific SAD Guess Constructed =============
  Guess from on-the-fly superposition of atomic densities
  Warning: Energy on first SCF cycle will be non-variational
@@ -217,18 +217,18 @@ calling putenv with: QCTHREADS=16
   Cycle       Energy         DIIS error
  ---------------------------------------
     1    -109.0819715855      3.96e-02  
-    2    -108.9709264484      2.73e-03  
-    3    -108.9838508529      8.27e-04  
-    4    -108.9847856741      1.79e-04  
-    5    -108.9848665296      2.12e-05  
-    6    -108.9848674513      2.43e-06  
-    7    -108.9848674704      5.26e-07  
-    8    -108.9848674721      5.53e-08  
-    9    -108.9848674714      3.39e-09  Convergence criterion met
+    2    -108.9709264497      2.73e-03  
+    3    -108.9838508533      8.27e-04  
+    4    -108.9847856758      1.79e-04  
+    5    -108.9848665301      2.12e-05  
+    6    -108.9848674499      2.43e-06  
+    7    -108.9848674702      5.26e-07  
+    8    -108.9848674723      5.53e-08  
+    9    -108.9848674707      3.42e-09  Convergence criterion met
  ---------------------------------------
- SCF time:   CPU 8.56s  wall 1.00s 
- SCF   energy in the final basis set =     -108.9848674714
- Total energy in the final basis set =     -108.9848674714
+ SCF time:   CPU 10.18s  wall 1.00s 
+ SCF   energy in the final basis set =     -108.9848674707
+ Total energy in the final basis set =     -108.9848674707
  CAP matrix will be calculated and saved for subsequent use
 
 
@@ -357,9 +357,9 @@ calling putenv with: QCTHREADS=16
 
  Import integrals:   CPU 0.00 s  wall 0.00 s
 
- Import integrals:   CPU 17.47 s  wall 1.63 s
+ Import integrals:   CPU 18.39 s  wall 5.78 s
 
- MP2 amplitudes:   CPU 1.89 s  wall 1.62 s
+ MP2 amplitudes:   CPU 1.80 s  wall 1.53 s
 
 Running a double precision version
            CCSD T amplitudes will be solved using DIIS.
@@ -390,13 +390,13 @@ End of double precision
  CCSD  T1^2 = 0.0034  T2^2 = 0.1224  Leading amplitudes:
 
  Amplitude    Orbitals with energies
- -0.0158       1 (B2u) A                 ->    7 (B2u) A                  
+  0.0158       1 (B2u) A                 ->    7 (B2u) A                  
               -0.6145                          0.8471                     
- -0.0158       1 (B2u) B                 ->    7 (B2u) B                  
+  0.0158       1 (B2u) B                 ->    7 (B2u) B                  
               -0.6145                          0.8471                     
- -0.0158       1 (B3u) A                 ->    7 (B3u) A                  
+  0.0158       1 (B3u) A                 ->    7 (B3u) A                  
               -0.6145                          0.8471                     
- -0.0158       1 (B3u) B                 ->    7 (B3u) B                  
+  0.0158       1 (B3u) B                 ->    7 (B3u) B                  
               -0.6145                          0.8471                     
 
  Amplitude    Orbitals with energies
@@ -439,7 +439,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
                                    CCSD Lambda converged.
 
- CCSD calculation:   CPU 92.17 s  wall 15.68 s
+ CCSD calculation:   CPU 85.94 s  wall 15.18 s
 
         Solving for EOMEA-CCSD/MP2 B2g transitions.
 
@@ -486,7 +486,7 @@ Running a double precision version
   0.9969       infty       ->    1 (B2g) B                  
  -0.0576       infty       ->    2 (B2g) B                  
  -0.0345       infty       ->    3 (B2g) B                  
-  0.0074       infty       ->    4 (B2g) B                  
+ -0.0074       infty       ->    4 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -503,10 +503,10 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
-  0.9028       infty       ->    2 (B2g) B                  
-  0.3586       infty       ->    3 (B2g) B                  
+ -0.9028       infty       ->    2 (B2g) B                  
+ -0.3586       infty       ->    3 (B2g) B                  
  -0.0735       infty       ->    4 (B2g) B                  
-  0.0705       infty       ->    1 (B2g) B                  
+ -0.0705       infty       ->    1 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -525,8 +525,8 @@ Running a double precision version
  Amplitude    Transitions between orbitals
  -0.9054       infty       ->    3 (B2g) B                  
   0.3904       infty       ->    2 (B2g) B                  
-  0.0826       infty       ->    4 (B2g) B                  
-  0.0309       infty       ->    5 (B2g) B                  
+ -0.0826       infty       ->    4 (B2g) B                  
+ -0.0309       infty       ->    5 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -538,14 +538,14 @@ Running a double precision version
 
 
  EOMEA transition 4/B2g
- Total energy = -109.06263866 a.u.  Excitation energy = 8.1448 eV.
+ Total energy = -109.06263865 a.u.  Excitation energy = 8.1448 eV.
  R1^2 = 0.9779  R2^2 = 0.0221  Res^2 = 2.08e-06
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
- -0.9760       infty       ->    4 (B2g) B                  
+  0.9760       infty       ->    4 (B2g) B                  
  -0.1314       infty       ->    3 (B2g) B                  
- -0.0634       infty       ->    5 (B2g) B                  
+  0.0634       infty       ->    5 (B2g) B                  
  -0.0503       infty       ->    2 (B2g) B                  
 
               Summary of significant orbitals:
@@ -589,8 +589,8 @@ Running a double precision version
  -0.1780       1 (B3u) B   ->    2 (B3u) B     2 (B2g) B    
   0.1711       1 (B2u) A   ->    2 (B3u) A     4 (B3g) B    
  -0.1711       1 (B2u) A   ->    4 (B3g) B     2 (B3u) A    
-  0.1701       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
- -0.1701       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
+ -0.1701       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
+  0.1701       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
 
               Summary of significant orbitals:
 
@@ -672,7 +672,7 @@ Running a double precision version
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
  Traces of the OPDMs: Tr(AA) 7.000000, Tr(BB) 8.000000
 
- EOMEA-CCSD calculation:   CPU 159.34 s  wall 24.72 s
+ EOMEA-CCSD calculation:   CPU 152.75 s  wall 24.12 s
 
 
  Start computing the transition properties
@@ -716,10 +716,10 @@ Running a double precision version
  Electronic circular dichroism (ECD):
  Transition dipole moment/angular momentum:
    A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
-   Rotatory strength, length gauge (a.u.): -0.000000
+   Rotatory strength, length gauge (a.u.): 0.000000
  Transition linear momentum/angular momentum:
    A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
-   Rotatory strength, velocity gauge (a.u.): -0.000000
+   Rotatory strength, velocity gauge (a.u.): 0.000000
 
  Norm of one-particle transition density matrix:
    A->B: 0.990110;   B->A: 0.988056
@@ -860,7 +860,7 @@ Running a double precision version
  Electronic circular dichroism (ECD):
  Transition dipole moment/angular momentum:
    A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
-   Rotatory strength, length gauge (a.u.): 0.000000
+   Rotatory strength, length gauge (a.u.): -0.000000
  Transition linear momentum/angular momentum:
    A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
    Rotatory strength, velocity gauge (a.u.): -0.000000
@@ -920,41 +920,43 @@ Running a double precision version
 
  All requested transition properties have been computed
 
- Transition Properties:   CPU 48.11 s  wall 6.10 s
+ Transition Properties:   CPU 48.07 s  wall 6.07 s
 
 Starting Projected CAP calculation.
 Generating CAP matrix for 5 roots.
 Performing Projected CAP-EOM calculation for B2g states.
+Number of states: 5
 Zeroth order Hamiltonian:
--1.09313539150279126e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 -1.09268105704828386e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194231720152e+02 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638655738709e+02 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321833390056e+02
+-1.09313539149422965e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 -1.09268105703783405e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194230788531e+02 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638654825903e+02 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321832528608e+02
 CAP matrix:
--6.43320114718645186e+01 -2.28430248055482608e+01 -2.45874154920982662e+01 -7.38002692845320585e+00 -8.36062033469555238e-02
--2.31496362285254627e+01 -1.28943265277246493e+01 -1.91269074686501099e+01 -7.91814315487295506e+00 7.06215449524687788e-02
--2.46908042705479254e+01 -1.89592915940812539e+01 -3.70053626719361120e+01 -2.19356688359479683e+01 -2.92995489112670204e-01
--7.37868757232404882e+00 -7.82099464317743998e+00 -2.18383741219584913e+01 -2.51518069862964495e+01 1.62073156718517297e-01
--7.76233257284532491e-02 5.60048322451839539e-02 -2.61959839101100489e-01 1.02984061242977043e-01 -1.90113834075081456e+02
+-6.43320115070664684e+01 2.28430248035369097e+01 -2.45874154695594704e+01 -7.38002692755450074e+00 -8.36062029622509084e-02
+2.31496362252348717e+01 -1.28943265583815094e+01 1.91269074927089129e+01 7.91814318208500456e+00 -7.06215436561696969e-02
+-2.46908042486222215e+01 1.89592916195601866e+01 -3.70053626181531570e+01 -2.19356688189791029e+01 -2.92995488597240616e-01
+-7.37868757151586596e+00 7.82099467051445529e+00 -2.18383741046094606e+01 -2.51518069789726972e+01 1.62073158420289659e-01
+-7.76233254429508912e-02 -5.60048311880850525e-02 -2.61959838912993404e-01 1.02984063673616233e-01 -1.90113834142546693e+02
 Trajectory will be saved to B2g_traj.out
 Done with B2g states.
  Trajectory ran in:   CPU 0.00 s  wall 0.00 s
 Total Projected CAP Hamiltonian:
+Number of states: 5
 Zeroth order Hamiltonian:
--1.09313539150279126e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 -1.09268105704828386e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194231720152e+02 0.00000000000000000e+00 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638655738709e+02 0.00000000000000000e+00
-0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321833390056e+02
+-1.09313539149422965e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 -1.09268105703783405e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194230788531e+02 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638654825903e+02 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321832528608e+02
 CAP matrix:
--6.43320114718645186e+01 -2.28430248055482608e+01 -2.45874154920982662e+01 -7.38002692845320585e+00 -8.36062033469555238e-02
--2.31496362285254627e+01 -1.28943265277246493e+01 -1.91269074686501099e+01 -7.91814315487295506e+00 7.06215449524687788e-02
--2.46908042705479254e+01 -1.89592915940812539e+01 -3.70053626719361120e+01 -2.19356688359479683e+01 -2.92995489112670204e-01
--7.37868757232404882e+00 -7.82099464317743998e+00 -2.18383741219584913e+01 -2.51518069862964495e+01 1.62073156718517297e-01
--7.76233257284532491e-02 5.60048322451839539e-02 -2.61959839101100489e-01 1.02984061242977043e-01 -1.90113834075081456e+02
-Densities have been written to file for further analysis.
- Total ccman2 time:   CPU 344.36 s  wall 53.07 s
+-6.43320115070664684e+01 2.28430248035369097e+01 -2.45874154695594704e+01 -7.38002692755450074e+00 -8.36062029622509084e-02
+2.31496362252348717e+01 -1.28943265583815094e+01 1.91269074927089129e+01 7.91814318208500456e+00 -7.06215436561696969e-02
+-2.46908042486222215e+01 1.89592916195601866e+01 -3.70053626181531570e+01 -2.19356688189791029e+01 -2.92995488597240616e-01
+-7.37868757151586596e+00 7.82099467051445529e+00 -2.18383741046094606e+01 -2.51518069789726972e+01 1.62073158420289659e-01
+-7.76233254429508912e-02 -5.60048311880850525e-02 -2.61959838912993404e-01 1.02984063673616233e-01 -1.90113834142546693e+02
+Densities have been written to checkpoint file for further analysis.
+ Total ccman2 time:   CPU 335.81 s  wall 56.56 s
 
 
  --------------------------------------------------------------
@@ -1046,25 +1048,25 @@ Densities have been written to file for further analysis.
     Charge (ESU x 10^10)
                  0.0000
     Dipole Moment (Debye)
-         X      -0.0000      Y      -0.0000      Z       0.0000
+         X       0.0000      Y      -0.0000      Z      -0.0000
        Tot       0.0000
     Quadrupole Moments (Debye-Ang)
         XX     -10.3959     XY      -0.0000     YY     -10.3959
         XZ       0.0000     YZ       0.0000     ZZ     -11.6464
     Octopole Moments (Debye-Ang^2)
-       XXX       0.0000    XXY      -0.0000    XYY      -0.0000
-       YYY      -0.0000    XXZ       0.0000    XYZ      -0.0000
-       YYZ       0.0000    XZZ       0.0000    YZZ      -0.0000
-       ZZZ       0.0000
+       XXX       0.0000    XXY      -0.0000    XYY       0.0000
+       YYY      -0.0000    XXZ      -0.0000    XYZ      -0.0000
+       YYZ      -0.0000    XZZ       0.0000    YZZ      -0.0000
+       ZZZ      -0.0000
     Hexadecapole Moments (Debye-Ang^3)
-      XXXX      -9.3164   XXXY       0.0000   XXYY      -3.1055
-      XYYY       0.0000   YYYY      -9.3164   XXXZ      -0.0000
+      XXXX      -9.3164   XXXY      -0.0000   XXYY      -3.1055
+      XYYY      -0.0000   YYYY      -9.3164   XXXZ      -0.0000
       XXYZ       0.0000   XYYZ      -0.0000   YYYZ       0.0000
-      XXZZ      -6.3215   XYZZ       0.0000   YYZZ      -6.3215
+      XXZZ      -6.3215   XYZZ      -0.0000   YYZZ      -6.3215
       XZZZ      -0.0000   YZZZ       0.0000   ZZZZ     -31.5642
  -----------------------------------------------------------------
- Total job time:  57.95s(wall), 361.19s(cpu) 
- Mon Jul  5 16:01:40 2021
+ Total job time:  62.54s(wall), 351.96s(cpu) 
+ Tue Jul  6 01:03:20 2021
 
         *************************************************************
         *                                                           *

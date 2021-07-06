@@ -31,10 +31,13 @@ def test_eomcc_parse():
     assert np.isclose(CAPH._H0[0][0],-1.09353e+02)
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B2g")
     assert np.isclose(CAPH._H0[0][0],-1.09313e+02)
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="all")
+    assert len(CAPH._H0)==10
     try:
         CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B1g")
     except:
         pass
+
 
 def test_adc_parse():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"adc.out"))

@@ -2,87 +2,95 @@
      A Quantum Leap Into The Future Of Chemistry
 
 
- Q-Chem 5.3 (devel), Q-Chem, Inc., Pleasanton, CA (2020)
+ Q-Chem 5.4 (devel), Q-Chem, Inc., Pleasanton, CA (2021)
 
- Yihan Shao,  Zhengting Gan,  E. Epifanovsky,  A. T. B. Gilbert,  M. Wormit,  
- J. Kussmann,  A. W. Lange,  A. Behn,  Jia Deng,  Xintian Feng,  D. Ghosh,  
- M. Goldey,  P. R. Horn,  L. D. Jacobson,  I. Kaliman,  T. Kus,  A. Landau,  
- Jie Liu,  E. I. Proynov,  R. M. Richard,  R. P. Steele,  E. J. Sundstrom,  
- H. L. Woodcock III,  P. M. Zimmerman,  D. Zuev,  B. Alam,  B. Albrecht,  
- A. Aldossary,  E. Alguire,  S. A. Baeppler,  D. Barton,  Z. Benda,  
- Y. A. Bernard,  E. J. Berquist,  K. B. Bravaya,  H. Burton,  K. Carter-Fenk,  
- D. Casanova,  Chun-Min Chang,  Yunqing Chen,  A. Chien,  K. D. Closser,  
- M. P. Coons,  S. Coriani,  S. Dasgupta,  A. L. Dempwolff,  M. Diedenhofen,  
- Hainam Do,  R. G. Edgar,  Po-Tung Fang,  S. Faraji,  S. Fatehi,  
- Qingguo Feng,  J. Fosso-Tande,  J. Gayvert,  Qinghui Ge,  A. Ghysels,  
- G. Gidofalvi,  J. Gomes,  J. Gonthier,  S. Gulania,  A. Gunina,  D. Hait,  
- M. W. D. Hanson-Heine,  S. Hammes-Schiffer,  P. H. P. Harbach,  
- A. W. Hauser,  M. F. Herbst,  J. E. Herr,  E. G. Hohenstein,  Z. C. Holden,  
- S. Houck,  Kerwin Hui,  B. C. Huynh,  M. Ivanov,  T.-C. Jagau,  Hyunjun Ji,  
- B. Kaduk,  K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  K. Koh,  
- D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  A. Kunitsa,  
- Ka Un Lao,  A. Laurent,  K. V. Lawler,  Joonho Lee,  D. Lefrancois,  
- S. Lehtola,  D. S. Levine,  Yi-Pei Li,  You-Sheng Lin,  Fenglai Liu,  
- Kuan-Yu Liu,  E. Livshits,  M. Loipersberger,  A. Luenser,  A. Manjanath,  
- P. Manohar,  E. Mansoor,  S. F. Manzer,  Shan-Ping Mao,  Yuezhi Mao,  
- N. Mardirossian,  A. V. Marenich,  T. Markovich,  L. A. Martinez-Martinez,  
- S. A. Maurer,  N. J. Mayhall,  S. C. McKenzie,  J.-M. Mewes,  P. Morgante,  
- A. F. Morrison,  J. W. Mullinax,  K. Nanda,  T. S. Nguyen-Beck,  
- R. Olivares-Amaya,  K. J. Oosterbaan,  J. A. Parkhill,  S. K. Paul,  
- F. Pavosevic,  Zheng Pei,  T. M. Perrine,  F. Plasser,  P. Pokhilko,  
- S. Prager,  A. Prociuk,  E. Ramos,  B. Rana,  D. R. Rehn,  F. Rob,  
- E. Rossomme,  M. Scheurer,  M. Schneider,  N. Sergueev,  S. M. Sharada,  
- S. Sharma,  W. Skomorowski,  D. W. Small,  T. Stauch,  C. J. Stein,  
- T. Stein,  Yu-Chuan Su,  S. P. Veccham,  Zhen Tao,  A. J. W. Thom,  
- A. Tkatchenko,  T. Tsuchimochi,  N. M. Tubman,  L. Vogt,  M. L. Vidal,  
- O. Vydrov,  M. A. Watson,  J. Wenzel,  M. de Wergifosse,  T. A. Wesolowski,  
- A. White,  J. Witte,  A. Yamada,  Jun Yang,  K. Yao,  S. Yeganeh,  
- S. R. Yost,  Zhi-Qiang You,  A. Zech,  Igor Ying Zhang,  Xing Zhang,  
- Yan Zhao,  Ying Zhu,  B. R. Brooks,  G. K. L. Chan,  C. J. Cramer,  
- M. S. Gordon,  W. J. Hehre,  A. Klamt,  M. W. Schmidt,  C. D. Sherrill,  
- D. G. Truhlar,  A. Aspuru-Guzik,  R. Baer,  A. T. Bell,  N. A. Besley,  
- Jeng-Da Chai,  A. E. DePrince, III,  R. A. DiStasio Jr.,  A. Dreuw,  
- B. D. Dunietz,  T. R. Furlani,  Chao-Ping Hsu,  Yousung Jung,  Jing Kong,  
- D. S. Lambrecht,  WanZhen Liang,  C. Ochsenfeld,  V. A. Rassolov,  
- L. V. Slipchenko,  J. E. Subotnik,  T. Van Voorhis,  J. M. Herbert,  
- A. I. Krylov,  P. M. W. Gill,  M. Head-Gordon
+ E. Epifanovsky,  A. T. B. Gilbert,  Xintian Feng,  Joonho Lee,  Yuezhi Mao,  
+ N. Mardirossian,  P. Pokhilko,  A. White,  M. Wormit,  M. P. Coons,  
+ A. L. Dempwolff,  Zhengting Gan,  D. Hait,  P. R. Horn,  L. D. Jacobson,  
+ I. Kaliman,  J. Kussmann,  A. W. Lange,  Ka Un Lao,  D. S. Levine,  Jie Liu,  
+ S. C. McKenzie,  A. F. Morrison,  K. Nanda,  F. Plasser,  D. R. Rehn,  
+ M. L. Vidal,  Zhi-Qiang You,  Ying Zhu,  B. Alam,  B. Albrecht,  
+ A. Aldossary,  E. Alguire,  J. H. Andersen,  D. Barton,  K. Begam,  A. Behn,  
+ Y. A. Bernard,  E. J. Berquist,  H. Burton,  A. Carreras,  K. Carter-Fenk,  
+ R. Chakraborty,  A. D. Chien,  K. D. Closser,  V. Cofer-Shabica,  
+ S. Dasgupta,  Jia Deng,  M. de Wergifosse,  M. Diedenhofen,  Hainam Do,  
+ S. Ehlert,  Po-Tung Fang,  S. Fatehi,  Qingguo Feng,  J. Gayvert,  
+ Qinghui Ge,  G. Gidofalvi,  M. Goldey,  J. Gomes,  C. Gonzalez-Espinoza,  
+ S. Gulania,  A. Gunina,  M. W. D. Hanson-Heine,  P. H. P. Harbach,  
+ A. W. Hauser,  M. F. Herbst,  M. Hernandez Vera,  M. Hodecker,  
+ Z. C. Holden,  S. Houck,  Xunkun Huang,  Kerwin Hui,  B. C. Huynh,  
+ M. Ivanov,  Hyunjun Ji,  Hanjie Jiang,  B. Kaduk,  S. Kaehler,  
+ K. Khistyaev,  Jaehoon Kim,  P. Klunzinger,  Z. Koczor-Benda,  
+ Joong Hoon Koh,  D. Kosenkov,  L. Koulias,  T. Kowalczyk,  C. M. Krauter,  
+ K. Kue,  A. Kunitsa,  T. Kus,  A. Landau,  K. V. Lawler,  D. Lefrancois,  
+ S. Lehtola,  Rain Li,  Yi-Pei Li,  Jiashu Liang,  M. Liebenthal,  
+ Hung-Hsuan Lin,  You-Sheng Lin,  Fenglai Liu,  Kuan-Yu Liu,  
+ M. Loipersberger,  A. Luenser,  A. Manjanath,  P. Manohar,  E. Mansoor,  
+ S. F. Manzer,  Shan-Ping Mao,  A. V. Marenich,  T. Markovich,  S. Mason,  
+ S. A. Maurer,  P. F. McLaughlin,  M. F. S. J. Menger,  J.-M. Mewes,  
+ S. A. Mewes,  P. Morgante,  J. W. Mullinax,  T. S. Nguyen-Beck,  
+ K. J. Oosterbaan,  G. Paran,  Alexander C. Paul,  Suranjan K. Paul,  
+ F. Pavosevic,  Zheng Pei,  S. Prager,  E. I. Proynov,  E. Ramos,  B. Rana,  
+ A. E. Rask,  A. Rettig,  R. M. Richard,  F. Rob,  E. Rossomme,  T. Scheele,  
+ M. Scheurer,  M. Schneider,  N. Sergueev,  S. M. Sharada,  W. Skomorowski,  
+ D. W. Small,  C. J. Stein,  Yu-Chuan Su,  E. J. Sundstrom,  Zhen Tao,  
+ J. Thirman,  T. Tsuchimochi,  N. M. Tubman,  S. P. Veccham,  O. Vydrov,  
+ J. Wenzel,  J. Witte,  A. Yamada,  Kun Yao,  S. Yeganeh,  S. R. Yost,  
+ A. Zech,  Igor Ying Zhang,  Xing Zhang,  Yu Zhang,  D. Zuev,  
+ A. Aspuru-Guzik,  A. T. Bell,  N. A. Besley,  K. B. Bravaya,  B. R. Brooks,  
+ D. Casanova,  Jeng-Da Chai,  S. Coriani,  C. J. Cramer,  
+ A. E. DePrince, III,  R. A. DiStasio Jr.,  A. Dreuw,  B. D. Dunietz,  
+ T. R. Furlani,  W. A. Goddard III,  S. Grimme,  S. Hammes-Schiffer,  
+ T. Head-Gordon,  W. J. Hehre,  Chao-Ping Hsu,  T.-C. Jagau,  Yousung Jung,  
+ A. Klamt,  Jing Kong,  D. S. Lambrecht,  WanZhen Liang,  N. J. Mayhall,  
+ C. W. McCurdy,  J. B. Neaton,  C. Ochsenfeld,  J. A. Parkhill,  R. Peverati,  
+ V. A. Rassolov,  Yihan Shao,  L. V. Slipchenko,  T. Stauch,  R. P. Steele,  
+ J. E. Subotnik,  A. J. W. Thom,  A. Tkatchenko,  D. G. Truhlar,  
+ T. Van Voorhis,  T. A. Wesolowski,  K. B. Whaley,  H. L. Woodcock III,  
+ P. M. Zimmerman,  S. Faraji,  P. M. W. Gill,  M. Head-Gordon,  
+ J. M. Herbert,  A. I. Krylov
 
  Contributors to earlier versions of Q-Chem not listed above: 
- R. D. Adamson,  B. Austin,  J. Baker,  G. J. O. Beran,  K. Brandhorst,  
- S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  C.-L. Cheng,  
+ R. D. Adamson,  B. Austin,  R. Baer,  J. Baker,  G. J. O. Beran,  
+ K. Brandhorst,  S. T. Brown,  E. F. C. Byrd,  A. K. Chakraborty,  
+ G. K. L. Chan,  Chun-Min Chang,  Yunqing Chen,  C.-L. Cheng,  
  Siu Hung Chien,  D. M. Chipman,  D. L. Crittenden,  H. Dachsel,  
- R. J. Doerksen,  A. D. Dutoi,  L. Fusti-Molnar,  W. A. Goddard III,  
- A. Golubeva-Zadorozhnaya,  S. R. Gwaltney,  G. Hawkins,  A. Heyden,  
- S. Hirata,  G. Kedziora,  F. J. Keil,  C. Kelley,  Jihan Kim,  R. A. King,  
- R. Z. Khaliullin,  P. P. Korambath,  W. Kurlancheek,  A. M. Lee,  M. S. Lee,  
- S. V. Levchenko,  Ching Yeh Lin,  D. Liotard,  R. C. Lochan,  I. Lotan,  
- P. E. Maslen,  N. Nair,  D. P. O'Neill,  D. Neuhauser,  E. Neuscamman,  
- C. M. Oana,  R. Olson,  B. Peters,  R. Peverati,  P. A. Pieniazek,  
- Y. M. Rhee,  J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  
- H. F. Schaefer III,  N. E. Schultz,  N. Shenvi,  A. C. Simmonett,  A. Sodt,  
- D. Stuck,  K. S. Thanthiriwatte,  V. Vanovschi,  Tao Wang,  A. Warshel,  
- C. F. Williams,  Q. Wu,  X. Xu,  W. Zhang
+ R. J. Doerksen,  A. D. Dutoi,  R. G. Edgar,  J. Fosso-Tande,  
+ L. Fusti-Molnar,  D. Ghosh,  A. Ghysels,  A. Golubeva-Zadorozhnaya,  
+ J. Gonthier,  M. S. Gordon,  S. R. Gwaltney,  G. Hawkins,  J. E. Herr,  
+ A. Heyden,  S. Hirata,  E. G. Hohenstein,  G. Kedziora,  F. J. Keil,  
+ C. Kelley,  Jihan Kim,  R. A. King,  R. Z. Khaliullin,  P. P. Korambath,  
+ W. Kurlancheek,  A. Laurent,  A. M. Lee,  M. S. Lee,  S. V. Levchenko,  
+ Ching Yeh Lin,  D. Liotard,  E. Livshits,  R. C. Lochan,  I. Lotan,  
+ L. A. Martinez-Martinez,  P. E. Maslen,  N. Nair,  D. P. O'Neill,  
+ D. Neuhauser,  E. Neuscamman,  C. M. Oana,  R. Olivares-Amaya,  R. Olson,  
+ T. M. Perrine,  B. Peters,  P. A. Pieniazek,  A. Prociuk,  Y. M. Rhee,  
+ J. Ritchie,  M. A. Rohrdanz,  E. Rosta,  N. J. Russ,  H. F. Schaefer III,  
+ M. W. Schmidt,  N. E. Schultz,  S. Sharma,  N. Shenvi,  C. D. Sherrill,  
+ A. C. Simmonett,  A. Sodt,  T. Stein,  D. Stuck,  K. S. Thanthiriwatte,  
+ V. Vanovschi,  L. Vogt,  Tao Wang,  A. Warshel,  M. A. Watson,  
+ C. F. Williams,  Q. Wu,  X. Xu,  Jun Yang,  W. Zhang,  Yan Zhao
 
  Please cite Q-Chem as follows:
  Y. Shao et al., Mol. Phys. 113, 184-215 (2015)
  DOI: 10.1080/00268976.2014.952696
 
- Q-Chem 5.3.2 for Intel X86 EM64T Linux
+ Q-Chem 5.4.0 for Intel X86 EM64T Linux
 
  Parts of Q-Chem use Armadillo 9.800.1 (Horizon Scraper).
  http://arma.sourceforge.net/
 
- Q-Chem begins on Thu May 13 11:47:08 2021  
+ Q-Chem begins on Tue Jul  6 08:48:48 2021  
 
-Host: node10
-0
+node8
+ Host: 0
 
-     Scratch files written to /scratch/gayverjr/eom.3111351643.saved//
-Processing $rem in /home/qcsoftware/qchem/builds/qc532_projcap/qchem/config/preferences:
-Processing $rem in /home/gayverjr/.qchemrc:
-Core orbitals will be frozen
+     Scratch files written to /scratch/gayverjr/eomcc.2637673103.saved//
+ Processing $rem in /home/gayverjr/qchem_james/gayverjr/config/preferences:
+ Processing $rem in /home/gayverjr/.qchemrc:
+ Core orbitals will be frozen
 
-Checking the input file for inconsistencies... 	...done.
+ Checking the input file for inconsistencies... 	...done.
 
 --------------------------------------------------------------
 User input:
@@ -98,10 +106,8 @@ $rem
 JOBTYPE	 sp
 METHOD	 eom-ccsd
 BASIS	 gen
-GUI	 2 
 EA_STATES	[5,0,5,0,0,0,0,0]
 complex_ccman 1
-MEM_TOTAL        100000
 XC_GRID  000099000590
 $end
 
@@ -154,12 +160,12 @@ $end
  There are        7 alpha and        7 beta electrons
  Requested basis set is non-standard
  There are 37 shells and 119 basis functions
- Total memory of 100000 MB is distributed as follows: 
+ Total memory of 2000 MB is distributed as follows: 
    MEM_STATIC is set to 192 MB
-   QALLOC/CCMAN JOB total memory use is  99808 MB
- Warning: actual memory use might exceed 100000 MB
+   QALLOC/CCMAN JOB total memory use is  1808 MB
+ Warning: actual memory use might exceed 2000 MB
 
- Total QAlloc Memory Limit 100000 MB
+ Total QAlloc Memory Limit   2000 MB
  Mega-Array Size       188 MB
  MEM_STATIC part       192 MB
 
@@ -175,7 +181,19 @@ $end
  Scale SEOQF with 1.000000e-02/1.000000e-02/1.000000e-02
 
  Standard Electronic Orientation quadrupole field applied
- Guess MOs from core Hamiltonian diagonalization
+ ================ Generating on-the-fly SAD Guess ================
+Attempting to make child job directory: /scratch/gayverjr/eomcc.2637673103.saved//Frg1/
+Creating input file /scratch/gayverjr/eomcc.2637673103.saved/Frg1.input
+using default PutDataFrgm: nothing
+calling putenv with: QCSCRATCH=/scratch/gayverjr/eomcc.2637673103.saved/ 
+Spawning Job For Fragment 0
+Done Job For Fragment 0
+calling putenv with: QCSCRATCH=/scratch/gayverjr 
+calling putenv with: QCTHREADS=16 
+ Time for running child jobs:  CPU 0.00 s  wall 1.56 s
+ ============= Method Specific SAD Guess Constructed =============
+ Guess from on-the-fly superposition of atomic densities
+ Warning: Energy on first SCF cycle will be non-variational
 
  -----------------------------------------------------------------------
   General SCF calculation program by
@@ -188,7 +206,7 @@ $end
  using 16 threads for integral computing
  -------------------------------------------------------
  OpenMP Integral computing Module                
- Release: version 2.0, May 2017, Q-Chem Inc. Pleasanton 
+ Release: version 1.0, May 2013, Q-Chem Inc. Pittsburgh 
  -------------------------------------------------------
  A restricted SCF calculation will be
  performed using DIIS
@@ -196,22 +214,19 @@ $end
  ---------------------------------------
   Cycle       Energy         DIIS error
  ---------------------------------------
-    1     -93.7855397959      1.12e-01  
-    2     -84.3041702616      4.25e-02  
-    3    -106.9291820520      3.88e-02  
-    4    -108.2729659318      2.11e-02  
-    5    -108.9611610029      3.04e-03  
-    6    -108.9846712490      3.08e-04  
-    7    -108.9848631096      3.58e-05  
-    8    -108.9848672620      9.86e-06  
-    9    -108.9848674691      8.02e-07  
-   10    -108.9848674722      1.38e-07  
-   11    -108.9848674702      1.10e-08  
-   12    -108.9848674704      1.17e-09  Convergence criterion met
+    1    -109.0819715855      3.96e-02  
+    2    -108.9709264491      2.73e-03  
+    3    -108.9838508523      8.27e-04  
+    4    -108.9847856743      1.79e-04  
+    5    -108.9848665292      2.12e-05  
+    6    -108.9848674500      2.43e-06  
+    7    -108.9848674708      5.26e-07  
+    8    -108.9848674712      5.53e-08  
+    9    -108.9848674726      3.39e-09  Convergence criterion met
  ---------------------------------------
- SCF time:   CPU 17.48s  wall 2.00s 
- SCF   energy in the final basis set =     -108.9848674704
- Total energy in the final basis set =     -108.9848674704
+ SCF time:   CPU 9.50s  wall 2.00s 
+ SCF   energy in the final basis set =     -108.9848674726
+ Total energy in the final basis set =     -108.9848674726
  CAP matrix will be calculated and saved for subsequent use
 
 
@@ -243,7 +258,7 @@ $end
  ------------------------------------------------------------------------------
 
 
- Allocating and initializing 99808MB of RAM...
+ Allocating and initializing 1808MB of RAM...
  Calculation will run on 16 cores.
 
 
@@ -340,9 +355,9 @@ $end
 
  Import integrals:   CPU 0.00 s  wall 0.00 s
 
- Import integrals:   CPU 17.55 s  wall 1.69 s
+ Import integrals:   CPU 17.76 s  wall 1.66 s
 
- MP2 amplitudes:   CPU 1.91 s  wall 1.57 s
+ MP2 amplitudes:   CPU 1.86 s  wall 1.60 s
 
 Running a double precision version
            CCSD T amplitudes will be solved using DIIS.
@@ -373,13 +388,13 @@ End of double precision
  CCSD  T1^2 = 0.0034  T2^2 = 0.1224  Leading amplitudes:
 
  Amplitude    Orbitals with energies
-  0.0158       1 (B3u) A                 ->    7 (B3u) A                  
+ -0.0158       1 (B2u) A                 ->    7 (B2u) A                  
               -0.6145                          0.8471                     
-  0.0158       1 (B3u) B                 ->    7 (B3u) B                  
+ -0.0158       1 (B2u) B                 ->    7 (B2u) B                  
               -0.6145                          0.8471                     
-  0.0158       1 (B2u) A                 ->    7 (B2u) A                  
+ -0.0158       1 (B3u) A                 ->    7 (B3u) A                  
               -0.6145                          0.8471                     
-  0.0158       1 (B2u) B                 ->    7 (B2u) B                  
+ -0.0158       1 (B3u) B                 ->    7 (B3u) B                  
               -0.6145                          0.8471                     
 
  Amplitude    Orbitals with energies
@@ -422,7 +437,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
                                    CCSD Lambda converged.
 
- CCSD calculation:   CPU 74.95 s  wall 12.61 s
+ CCSD calculation:   CPU 90.39 s  wall 14.99 s
 
         Solving for EOMEA-CCSD/MP2 Ag transitions.
 
@@ -446,15 +461,15 @@ Running a double precision version
      Davidson procedure converged
 
  EOMEA transition 1/Ag
- Total energy = -109.35364073 a.u.  Excitation energy = 0.2263 eV.
+ Total energy = -109.35364074 a.u.  Excitation energy = 0.2263 eV.
  R1^2 = 0.9992  R2^2 = 0.0008  Res^2 = 2.12e-07
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
  -0.9989       infty       ->    4 (Ag) B                   
   0.0355       infty       ->    5 (Ag) B                   
-  0.0132       infty       ->    8 (Ag) B                   
-  0.0039       infty       ->    12 (Ag) B                  
+ -0.0132       infty       ->    8 (Ag) B                   
+ -0.0039       infty       ->    12 (Ag) B                  
 
               Summary of significant orbitals:
 
@@ -471,10 +486,10 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
-  0.9967       infty       ->    5 (Ag) B                   
+ -0.9967       infty       ->    5 (Ag) B                   
   0.0411       infty       ->    8 (Ag) B                   
-  0.0374       infty       ->    4 (Ag) B                   
- -0.0258       infty       ->    6 (Ag) B                   
+ -0.0374       infty       ->    4 (Ag) B                   
+  0.0258       infty       ->    6 (Ag) B                   
 
               Summary of significant orbitals:
 
@@ -494,7 +509,7 @@ Running a double precision version
  -0.9993       infty       ->    6 (Ag) B                   
  -0.0267       infty       ->    5 (Ag) B                   
  -0.0116       infty       ->    9 (Ag) B                   
-  0.0059       infty       ->    8 (Ag) B                   
+ -0.0059       infty       ->    8 (Ag) B                   
 
               Summary of significant orbitals:
 
@@ -506,12 +521,12 @@ Running a double precision version
 
 
  EOMEA transition 4/Ag
- Total energy = -109.30853593 a.u.  Excitation energy = 1.4536 eV.
+ Total energy = -109.30853594 a.u.  Excitation energy = 1.4536 eV.
  R1^2 = 0.9997  R2^2 = 0.0003  Res^2 = 6.96e-06
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
- -0.9998       infty       ->    7 (Ag) B                   
+  0.9998       infty       ->    7 (Ag) B                   
   0.0066       infty       ->    10 (Ag) B                  
  -0.0034       infty       ->    13 (Ag) B                  
  -0.0018       infty       ->    16 (Ag) B                  
@@ -526,14 +541,14 @@ Running a double precision version
 
 
  EOMEA transition 5/Ag
- Total energy = -109.24943035 a.u.  Excitation energy = 3.0620 eV.
+ Total energy = -109.24943034 a.u.  Excitation energy = 3.0620 eV.
  R1^2 = 0.9941  R2^2 = 0.0059  Res^2 = 9.44e-07
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
  -0.9936       infty       ->    8 (Ag) B                   
-  0.0528       infty       ->    9 (Ag) B                   
-  0.0455       infty       ->    5 (Ag) B                   
+ -0.0528       infty       ->    9 (Ag) B                   
+ -0.0455       infty       ->    5 (Ag) B                   
  -0.0315       infty       ->    12 (Ag) B                  
 
               Summary of significant orbitals:
@@ -545,7 +560,6 @@ Running a double precision version
                36      Vir  Beta       12 (Ag)      0.3045
 
 
- EEs and amplitudes of EOMEA can not be exported to fchk file
 Running a double precision version
       EOMEA-CCSD/MP2 left amplitudes will be solved using Davidson.
         Amplitudes will be solved using MOM  algorithm.
@@ -566,7 +580,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 1/Ag
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 232.557855 (XX 73.657354, YY 73.657354, ZZ 85.243147)
+ R-squared (a.u.): 232.557848 (XX 73.657351, YY 73.657351, ZZ 85.243147)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -574,7 +588,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 2/Ag
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 207.813181 (XX 66.087629, YY 66.087629, ZZ 75.637922)
+ R-squared (a.u.): 207.813177 (XX 66.087627, YY 66.087627, ZZ 75.637923)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -582,7 +596,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 3/Ag
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 173.212173 (XX 36.074641, YY 36.074643, ZZ 101.062889)
+ R-squared (a.u.): 173.212167 (XX 36.074642, YY 36.074643, ZZ 101.062881)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -590,7 +604,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 4/Ag
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 161.979259 (XX 60.336668, YY 60.336666, ZZ 41.305925)
+ R-squared (a.u.): 161.979258 (XX 60.336667, YY 60.336666, ZZ 41.305925)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -598,7 +612,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 5/Ag
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 152.380116 (XX 47.826557, YY 47.826557, ZZ 56.727002)
+ R-squared (a.u.): 152.380104 (XX 47.826554, YY 47.826554, ZZ 56.726996)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -646,10 +660,10 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
-  0.9969       infty       ->    1 (B2g) B                  
+ -0.9969       infty       ->    1 (B2g) B                  
  -0.0576       infty       ->    2 (B2g) B                  
  -0.0345       infty       ->    3 (B2g) B                  
-  0.0074       infty       ->    4 (B2g) B                  
+ -0.0074       infty       ->    4 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -666,8 +680,8 @@ Running a double precision version
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
-  0.9028       infty       ->    2 (B2g) B                  
-  0.3586       infty       ->    3 (B2g) B                  
+ -0.9028       infty       ->    2 (B2g) B                  
+ -0.3586       infty       ->    3 (B2g) B                  
  -0.0735       infty       ->    4 (B2g) B                  
   0.0705       infty       ->    1 (B2g) B                  
 
@@ -688,7 +702,7 @@ Running a double precision version
  Amplitude    Transitions between orbitals
  -0.9054       infty       ->    3 (B2g) B                  
   0.3904       infty       ->    2 (B2g) B                  
-  0.0826       infty       ->    4 (B2g) B                  
+ -0.0826       infty       ->    4 (B2g) B                  
   0.0309       infty       ->    5 (B2g) B                  
 
               Summary of significant orbitals:
@@ -701,15 +715,15 @@ Running a double precision version
 
 
  EOMEA transition 4/B2g
- Total energy = -109.06263865 a.u.  Excitation energy = 8.1448 eV.
+ Total energy = -109.06263866 a.u.  Excitation energy = 8.1448 eV.
  R1^2 = 0.9779  R2^2 = 0.0221  Res^2 = 2.08e-06
  Conv-d = yes
 
  Amplitude    Transitions between orbitals
  -0.9760       infty       ->    4 (B2g) B                  
- -0.1314       infty       ->    3 (B2g) B                  
- -0.0634       infty       ->    5 (B2g) B                  
- -0.0503       infty       ->    2 (B2g) B                  
+  0.1314       infty       ->    3 (B2g) B                  
+  0.0634       infty       ->    5 (B2g) B                  
+  0.0503       infty       ->    2 (B2g) B                  
 
               Summary of significant orbitals:
 
@@ -721,7 +735,7 @@ Running a double precision version
 
 
  EOMEA transition 5/B2g
- Total energy = -108.99332184 a.u.  Excitation energy = 10.0310 eV.
+ Total energy = -108.99332183 a.u.  Excitation energy = 10.0310 eV.
  R1^2 = 0.0002  R2^2 = 0.9998  Res^2 = 3.72e-06
  Conv-d = yes
 
@@ -752,8 +766,8 @@ Running a double precision version
   0.1780       1 (B3u) B   ->    2 (B3u) B     2 (B2g) B    
  -0.1711       1 (B2u) A   ->    2 (B3u) A     4 (B3g) B    
   0.1711       1 (B2u) A   ->    4 (B3g) B     2 (B3u) A    
- -0.1701       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
-  0.1701       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
+  0.1701       1 (B3u) A   ->    2 (B3u) A     4 (B2g) B    
+ -0.1701       1 (B3u) A   ->    4 (B2g) B     2 (B3u) A    
 
               Summary of significant orbitals:
 
@@ -776,7 +790,6 @@ Running a double precision version
                9       Vir  Beta        2 (B3u)      0.0118
 
 
- EEs and amplitudes of EOMEA can not be exported to fchk file
 Running a double precision version
       EOMEA-CCSD/MP2 left amplitudes will be solved using Davidson.
         Amplitudes will be solved using MOM  algorithm.
@@ -797,7 +810,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 1/B2g
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 170.957673 (XX 63.199343, YY 26.212437, ZZ 81.545894)
+ R-squared (a.u.): 170.957673 (XX 63.199343, YY 26.212436, ZZ 81.545894)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -805,7 +818,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 2/B2g
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 73.587084 (XX 21.974070, YY 13.026510, ZZ 38.586504)
+ R-squared (a.u.): 73.587085 (XX 21.974070, YY 13.026511, ZZ 38.586504)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -813,7 +826,7 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 3/B2g
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 121.762922 (XX 44.820031, YY 20.302132, ZZ 56.640760)
+ R-squared (a.u.): 121.762921 (XX 44.820030, YY 20.302131, ZZ 56.640760)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
@@ -829,13 +842,13 @@ Running a double precision version
 
  Excited state properties for  EOMEA-CCSD transition 5/B2g
  Dipole moment (a.u.): 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
- R-squared (a.u.): 336.503419 (XX 185.508216, YY 66.964393, ZZ 84.030811)
+ R-squared (a.u.): 336.503416 (XX 185.508213, YY 66.964392, ZZ 84.030810)
  Gauge origin (a.u.): (0.000000, 0.000000, 0.000000)
  Angular momentum (a.u.) against gauge origin: 
  (X 0.000000i, Y 0.000000i, Z 0.000000i)
  Traces of the OPDMs: Tr(AA) 7.000000, Tr(BB) 8.000000
 
- EOMEA-CCSD calculation:   CPU 198.13 s  wall 28.86 s
+ EOMEA-CCSD calculation:   CPU 237.65 s  wall 35.34 s
 
 
  Start computing the transition properties
@@ -843,6 +856,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 2/Ag
+ Energy GAP = 0.030914 a.u. = 0.841216 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -850,6 +864,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.998264;   B->A: 0.998014
    ||gamma^AB||*||gamma^BA||: 0.996281
@@ -857,6 +880,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 3/Ag
+ Energy GAP = 0.041947 a.u. = 1.141434 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -864,6 +888,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.999224;   B->A: 0.999240
    ||gamma^AB||*||gamma^BA||: 0.998464
@@ -871,6 +904,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 4/Ag
+ Energy GAP = 0.045105 a.u. = 1.227365 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -878,6 +912,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.999326;   B->A: 0.999384
    ||gamma^AB||*||gamma^BA||: 0.998711
@@ -885,6 +928,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 5/Ag
+ Energy GAP = 0.104210 a.u. = 2.835711 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -892,6 +936,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.996638;   B->A: 0.995820
    ||gamma^AB||*||gamma^BA||: 0.992471
@@ -899,6 +952,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 1/B2g
+ Energy GAP = 0.040102 a.u. = 1.091220 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -906,6 +960,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y -0.068389i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.069256i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.998746;   B->A: 0.998681
    ||gamma^AB||*||gamma^BA||: 0.997429
@@ -913,13 +976,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.085535 a.u. = 2.327528 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.068867i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.068075i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.068867i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.068075i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.978405;   B->A: 0.972692
    ||gamma^AB||*||gamma^BA||: 0.951687
@@ -927,6 +1000,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.143447 a.u. = 3.903380 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -934,6 +1008,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y -0.047897i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.045492i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.990203;   B->A: 0.988083
    ||gamma^AB||*||gamma^BA||: 0.978402
@@ -941,13 +1024,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.291002 a.u. = 7.918574 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y -0.023822i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.025940i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y 0.023822i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.025940i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.988792;   B->A: 0.986469
    ||gamma^AB||*||gamma^BA||: 0.975413
@@ -955,13 +1048,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/Ag
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.360319 a.u. = 9.804782 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.000979i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.000941i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.000979i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.000941i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.019346;   B->A: 0.018290
    ||gamma^AB||*||gamma^BA||: 0.000354
@@ -969,6 +1072,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 3/Ag
+ Energy GAP = 0.011033 a.u. = 0.300218 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -976,6 +1080,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.998141;   B->A: 0.998404
    ||gamma^AB||*||gamma^BA||: 0.996548
@@ -983,6 +1096,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 4/Ag
+ Energy GAP = 0.014191 a.u. = 0.386149 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -990,6 +1104,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.998242;   B->A: 0.998550
    ||gamma^AB||*||gamma^BA||: 0.996795
@@ -997,6 +1120,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 5/Ag
+ Energy GAP = 0.073296 a.u. = 1.994495 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1004,6 +1128,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.995704;   B->A: 0.995133
    ||gamma^AB||*||gamma^BA||: 0.990858
@@ -1011,13 +1144,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 1/B2g
+ Energy GAP = 0.009187 a.u. = 0.250004 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.068634i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.068704i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.068633i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.068704i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.997692;   B->A: 0.997870
    ||gamma^AB||*||gamma^BA||: 0.995566
@@ -1025,6 +1168,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.054621 a.u. = 1.486312 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1032,6 +1176,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.237876i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.237675i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.978424;   B->A: 0.972756
    ||gamma^AB||*||gamma^BA||: 0.951768
@@ -1039,13 +1192,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.112532 a.u. = 3.062164 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.030470i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.035891i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.030470i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.035891i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.989522;   B->A: 0.987574
    ||gamma^AB||*||gamma^BA||: 0.977226
@@ -1053,13 +1216,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.260088 a.u. = 7.077358 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.065688i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.061571i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.061570i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.988074;   B->A: 0.985956
    ||gamma^AB||*||gamma^BA||: 0.974198
@@ -1067,6 +1240,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/Ag
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.329405 a.u. = 8.963566 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1074,6 +1248,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.003067i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.003022i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.022611;   B->A: 0.021047
    ||gamma^AB||*||gamma^BA||: 0.000476
@@ -1081,6 +1264,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 4/Ag
+ Energy GAP = 0.003158 a.u. = 0.085931 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1088,6 +1272,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.999469;   B->A: 0.999511
    ||gamma^AB||*||gamma^BA||: 0.998981
@@ -1095,6 +1288,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 5/Ag
+ Energy GAP = 0.062263 a.u. = 1.694277 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1102,6 +1296,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.996746;   B->A: 0.995919
    ||gamma^AB||*||gamma^BA||: 0.992678
@@ -1109,6 +1312,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 1/B2g
+ Energy GAP = 0.001845 a.u. = 0.050214 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1116,6 +1320,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y -1.709759i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 1.709691i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.998879;   B->A: 0.998803
    ||gamma^AB||*||gamma^BA||: 0.997684
@@ -1123,13 +1336,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.043588 a.u. = 1.186094 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y -0.186262i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.190316i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y 0.186262i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.190316i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.978210;   B->A: 0.972592
    ||gamma^AB||*||gamma^BA||: 0.951400
@@ -1137,6 +1360,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.101500 a.u. = 2.761946 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1144,6 +1368,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.087117i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.088791i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.990217;   B->A: 0.988123
    ||gamma^AB||*||gamma^BA||: 0.978456
@@ -1151,13 +1384,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.249055 a.u. = 6.777140 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y -0.010603i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.010430i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y 0.010603i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.010430i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.988797;   B->A: 0.986479
    ||gamma^AB||*||gamma^BA||: 0.975427
@@ -1165,13 +1408,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/Ag
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.318372 a.u. = 8.663348 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.000022i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.000131i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.000022i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.000131i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.015825;   B->A: 0.014923
    ||gamma^AB||*||gamma^BA||: 0.000236
@@ -1179,6 +1432,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 5/Ag
+ Energy GAP = 0.059106 a.u. = 1.608346 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1186,6 +1440,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.996905;   B->A: 0.996028
    ||gamma^AB||*||gamma^BA||: 0.992945
@@ -1193,13 +1456,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 1/B2g
+ Energy GAP = 0.005003 a.u. = 0.136144 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y -0.982009i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.983558i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y 0.982009i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.983558i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.999025;   B->A: 0.998905
    ||gamma^AB||*||gamma^BA||: 0.997931
@@ -1207,6 +1480,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.040430 a.u. = 1.100163 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1214,6 +1488,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y -0.061450i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.061351i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.978414;   B->A: 0.972708
    ||gamma^AB||*||gamma^BA||: 0.951711
@@ -1221,13 +1504,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.098342 a.u. = 2.676015 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.150125i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.151175i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.150125i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.151175i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.990393;   B->A: 0.988238
    ||gamma^AB||*||gamma^BA||: 0.978743
@@ -1235,6 +1528,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.245897 a.u. = 6.691209 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1242,6 +1536,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.073415i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.073183i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.988940;   B->A: 0.986567
    ||gamma^AB||*||gamma^BA||: 0.975656
@@ -1249,6 +1552,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/Ag
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.315214 a.u. = 8.577417 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1256,6 +1560,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000747i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.000769i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.016185;   B->A: 0.015276
    ||gamma^AB||*||gamma^BA||: 0.000247
@@ -1263,13 +1576,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 5/Ag
  State B: eomea_ccsd/b: 1/B2g
+ Energy GAP = 0.064109 a.u. = 1.744490 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y -0.086947i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y 0.087678i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y 0.086947i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y -0.087678i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.995516;   B->A: 0.996259
    ||gamma^AB||*||gamma^BA||: 0.991791
@@ -1277,6 +1600,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 5/Ag
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.018675 a.u. = 0.508183 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1284,6 +1608,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y -0.250431i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.247254i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.977957;   B->A: 0.972727
    ||gamma^AB||*||gamma^BA||: 0.951285
@@ -1291,13 +1624,23 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 5/Ag
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.039236 a.u. = 1.067669 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
  Oscillator strength (a.u.): 0.000000
  Transition angular momentum against gauge origin (a.u.):
-   A->B:  (X 0.000000i, Y 0.372429i, Z 0.000000i)
-   B->A:  (X 0.000000i, Y -0.368490i, Z 0.000000i)
+   A->B:  (X 0.000000i, Y -0.372429i, Z 0.000000i)
+   B->A:  (X 0.000000i, Y 0.368489i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.987931;   B->A: 0.986492
    ||gamma^AB||*||gamma^BA||: 0.974585
@@ -1305,6 +1648,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 5/Ag
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.186792 a.u. = 5.082863 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1312,6 +1656,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.239267i, Z 0.000000i)
    B->A:  (X 0.000000i, Y -0.245629i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.986271;   B->A: 0.984688
    ||gamma^AB||*||gamma^BA||: 0.971170
@@ -1319,6 +1672,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 5/Ag
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.256109 a.u. = 6.969071 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1326,6 +1680,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000013i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000291i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.026755;   B->A: 0.025076
    ||gamma^AB||*||gamma^BA||: 0.000671
@@ -1333,6 +1696,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/B2g
  State B: eomea_ccsd/b: 2/B2g
+ Energy GAP = 0.045433 a.u. = 1.236308 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1340,6 +1704,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.979004;   B->A: 0.973386
    ||gamma^AB||*||gamma^BA||: 0.952949
@@ -1347,6 +1720,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/B2g
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.103345 a.u. = 2.812160 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1354,6 +1728,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.990110;   B->A: 0.988056
    ||gamma^AB||*||gamma^BA||: 0.978284
@@ -1361,6 +1744,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/B2g
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.250900 a.u. = 6.827354 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1368,6 +1752,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.988526;   B->A: 0.986276
    ||gamma^AB||*||gamma^BA||: 0.974959
@@ -1375,6 +1768,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 1/B2g
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.320217 a.u. = 8.713561 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1382,6 +1776,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.104646;   B->A: 0.106976
    ||gamma^AB||*||gamma^BA||: 0.011195
@@ -1389,6 +1792,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/B2g
  State B: eomea_ccsd/b: 3/B2g
+ Energy GAP = 0.057911 a.u. = 1.575852 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1396,6 +1800,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): 0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.979421;   B->A: 0.982745
    ||gamma^AB||*||gamma^BA||: 0.962521
@@ -1403,6 +1816,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/B2g
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.205467 a.u. = 5.591046 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1410,6 +1824,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.972327;   B->A: 0.975944
    ||gamma^AB||*||gamma^BA||: 0.948937
@@ -1417,6 +1840,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 2/B2g
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.274784 a.u. = 7.477254 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1424,6 +1848,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.528346;   B->A: 0.534517
    ||gamma^AB||*||gamma^BA||: 0.282410
@@ -1431,6 +1864,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/B2g
  State B: eomea_ccsd/b: 4/B2g
+ Energy GAP = 0.147556 a.u. = 4.015194 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1438,6 +1872,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.981473;   B->A: 0.981412
    ||gamma^AB||*||gamma^BA||: 0.963229
@@ -1445,6 +1888,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 3/B2g
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.216872 a.u. = 5.901402 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1452,6 +1896,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): 0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.262234;   B->A: 0.267949
    ||gamma^AB||*||gamma^BA||: 0.070265
@@ -1459,6 +1912,7 @@ Running a double precision version
  ------------------------------------------------------------------------------
  State A: eomea_ccsd/b: 4/B2g
  State B: eomea_ccsd/b: 5/B2g
+ Energy GAP = 0.069317 a.u. = 1.886208 eV
  Transition dipole moment (a.u.):
    A->B: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
    B->A: 0.000000 (X 0.000000, Y 0.000000, Z 0.000000)
@@ -1466,6 +1920,15 @@ Running a double precision version
  Transition angular momentum against gauge origin (a.u.):
    A->B:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
    B->A:  (X 0.000000i, Y 0.000000i, Z 0.000000i)
+
+ Electronic circular dichroism (ECD):
+ Transition dipole moment/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, length gauge (a.u.): -0.000000
+ Transition linear momentum/angular momentum:
+   A->B->A:  (X 0.000000, Y 0.000000, Z 0.000000)
+   Rotatory strength, velocity gauge (a.u.): -0.000000
+
  Norm of one-particle transition density matrix:
    A->B: 0.122663;   B->A: 0.124679
    ||gamma^AB||*||gamma^BA||: 0.015294
@@ -1473,44 +1936,69 @@ Running a double precision version
 
  All requested transition properties have been computed
 
- Transition Properties:   CPU 153.04 s  wall 20.10 s
+ Transition Properties:   CPU 199.59 s  wall 25.86 s
 
 Starting Projected CAP calculation.
+Generating CAP matrix for 10 roots.
 Performing Projected CAP-EOM calculation for Ag states.
-Generating CAP matrix for 5 roots.
+Number of states: 5
 Zeroth order Hamiltonian:
--1.0935364073e+02 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 -1.0932272664e+02 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 -1.0931169383e+02 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 -1.0930853593e+02 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 -1.0924943035e+02
+-1.09353640735290369e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 -1.09322726641065003e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 -1.09311693826295226e+02 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09308535936098394e+02 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09249430343557222e+02
 CAP matrix:
--1.1306060595e+02 7.3397771243e+01 -2.5476921369e+00 9.2142193992e-08 2.0396205404e+01
-7.3404184464e+01 -9.9327965989e+01 5.7724376746e+00 8.5303035661e-08 -5.5949477738e+01
--2.5260521434e+00 5.7680079625e+00 -6.4789112214e+01 -2.4782228952e-08 1.5559295365e+00
-9.2196586982e-08 8.4555051160e-08 -2.5215833504e-08 -6.2796174413e+01 -6.1472142442e-08
-2.0399516232e+01 -5.5947559023e+01 1.5590417298e+00 -6.1707493782e-08 -6.0740111716e+01
+-1.13060600703007523e+02 -7.33977697791316359e+01 -2.54770094389506596e+00 5.70832506023613090e-08 -2.03962053334541054e+01
+-7.34041829868513531e+01 -9.93279632207431007e+01 -5.77243774645217567e+00 9.74420399561578852e-08 -5.59494756573612193e+01
+-2.52606094930974034e+00 -5.76800807913269509e+00 -6.47891081450513724e+01 1.08271928548957224e-08 -1.55592397487779222e+00
+5.70704205622564361e-08 9.74940153205256325e-08 1.08965352967512058e-08 -6.27961740779584616e+01 3.24299869333504638e-08
+-2.03995161552170146e+01 -5.59475569635990269e+01 -1.55903618922518317e+00 3.22511209472563015e-08 -6.07401049614265744e+01
 Trajectory will be saved to Ag_traj.out
 Done with Ag states.
- Trajectory ran in:   CPU 0.34 s  wall 0.04 s
+ Trajectory ran in:   CPU 0.00 s  wall 0.00 s
 Performing Projected CAP-EOM calculation for B2g states.
-Generating CAP matrix for 5 roots.
+Number of states: 5
 Zeroth order Hamiltonian:
--1.0931353915e+02 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 -1.0926810571e+02 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 -1.0921019423e+02 0.0000000000e+00 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 -1.0906263865e+02 0.0000000000e+00
-0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 0.0000000000e+00 -1.0899332184e+02
+-1.09313539151653998e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 -1.09268105706662269e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194233535347e+02 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638658211512e+02 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321834708723e+02
 CAP matrix:
--6.4332011752e+01 -2.2843024345e+01 -2.4587415846e+01 -7.3800269975e+00 -8.3606202544e-02
--2.3149635777e+01 -1.2894325728e+01 -1.9126906891e+01 -7.9181427530e+00 7.0621530506e-02
--2.4690804617e+01 -1.8959291003e+01 -3.7005363240e+01 -2.1935668905e+01 -2.9299547673e-01
--7.3786876404e+00 -7.8209942411e+00 -2.1838374196e+01 -2.5151806959e+01 1.6207317780e-01
--7.7623324702e-02 5.6004818181e-02 -2.6195982693e-01 1.0298407768e-01 -1.9011383657e+02
+-6.43320115019477470e+01 2.28430248487709378e+01 -2.45874155415852726e+01 7.38002683132849313e+00 8.36062015595081393e-02
+2.31496362749178743e+01 -1.28943265022345610e+01 1.91269074657651288e+01 -7.91814305968894683e+00 7.06215507712796980e-02
+-2.46908043187619270e+01 1.89592915880009798e+01 -3.70053628605395133e+01 2.19356688241912856e+01 2.92995485632791319e-01
+7.37868747517482326e+00 -7.82099454850795173e+00 2.18383741115708361e+01 -2.51518069418940513e+01 1.62073144822209719e-01
+7.76233238204720039e-02 5.60048374419106765e-02 2.61959834989587748e-01 1.02984048700618308e-01 -1.90113833941621152e+02
 Trajectory will be saved to B2g_traj.out
 Done with B2g states.
- Trajectory ran in:   CPU 0.32 s  wall 0.04 s
- Total ccman2 time:   CPU 465.69 s  wall 67.15 s
+ Trajectory ran in:   CPU 0.00 s  wall 0.00 s
+Total Projected CAP Hamiltonian:
+Number of states: 10
+Zeroth order Hamiltonian:
+-1.09353640735290369e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 -1.09322726641065003e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 -1.09311693826295226e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09308535936098394e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09249430343557222e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09313539151653998e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09268105706662269e+02 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09210194233535347e+02 0.00000000000000000e+00 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.09062638658211512e+02 0.00000000000000000e+00
+0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 0.00000000000000000e+00 -1.08993321834708723e+02
+CAP matrix:
+-1.13060600703007523e+02 -7.33977697791316359e+01 -2.54770094389506596e+00 5.70832506023613090e-08 -2.03962053334541054e+01 1.88266210717097371e-11 3.07758454405306381e-10 -1.37262821542923607e-10 2.45692071326147073e-11 2.22370421470995146e-12
+-7.34041829868513531e+01 -9.93279632207431007e+01 -5.77243774645217567e+00 9.74420399561578852e-08 -5.59494756573612193e+01 3.76626860008277447e-11 8.74464941836492624e-10 -4.12656430748012417e-10 5.36063585770126259e-11 5.53072723595278070e-12
+-2.52606094930974034e+00 -5.76800807913269509e+00 -6.47891081450513724e+01 1.08271928548957224e-08 -1.55592397487779222e+00 4.78318773639515231e-12 4.53114123972059883e-11 -5.89998008471481749e-11 8.21326387788309777e-11 1.45255736167984872e-12
+5.70704205622564361e-08 9.74940153205256325e-08 1.08965352967512058e-08 -6.27961740779584616e+01 3.24299869333504638e-08 6.30106259976749607e-15 -9.52195993952751396e-14 -2.67785144916872536e-13 -2.46410013916454372e-13 1.01946672763278061e-14
+-2.03995161552170146e+01 -5.59475569635990269e+01 -1.55903618922518317e+00 3.22511209472563015e-08 -6.07401049614265744e+01 5.30092966194201323e-10 6.58828123888463242e-10 1.00587928620655409e-10 -1.78295892280917723e-10 4.28717730226028271e-12
+1.82597606425582495e-11 3.53616025120469992e-11 4.77136394793355322e-12 7.30934282203948711e-15 5.28387528826186178e-10 -6.43320115019477470e+01 2.28430248487709378e+01 -2.45874155415852726e+01 7.38002683132849313e+00 8.36062015595081393e-02
+3.07764567633975144e-10 8.74449453696667102e-10 4.57669162516198419e-11 -8.96846854962908343e-14 6.53925702460442641e-10 2.31496362749178743e+01 -1.28943265022345610e+01 1.91269074657651288e+01 -7.91814305968894683e+00 7.06215507712796980e-02
+-1.40230896428175223e-10 -4.22083973299742896e-10 -5.96486883572451290e-11 -2.64310118082601692e-13 9.33504987056714990e-11 -2.46908043187619270e+01 1.89592915880009798e+01 -3.70053628605395133e+01 2.19356688241912856e+01 2.92995485632791319e-01
+2.27619630202981428e-11 4.92240734644485155e-11 8.19304093115239916e-11 -2.42819669876435646e-13 -1.84142428182328368e-10 7.37868747517482326e+00 -7.82099454850795173e+00 2.18383741115708361e+01 -2.51518069418940513e+01 1.62073144822209719e-01
+2.09076260882804082e-12 5.17424619530993391e-12 1.38781982123646992e-12 9.19674810335590240e-15 4.00891367200928470e-12 7.76233238204720039e-02 5.60048374419106765e-02 2.61959834989587748e-01 1.02984048700618308e-01 -1.90113833941621152e+02
+ Total ccman2 time:   CPU 570.50 s  wall 82.10 s
 
 
  --------------------------------------------------------------
@@ -1592,7 +2080,7 @@ Done with B2g states.
   ----------------------------------------
       1 N                    -0.060738
       2 N                    -0.060738
-      3 GH                    0.121477
+      3 GH                    0.121476
   ----------------------------------------
   Sum of atomic charges =     0.000000
 
@@ -1608,9 +2096,9 @@ Done with B2g states.
         XX     -10.3959     XY      -0.0000     YY     -10.3959
         XZ       0.0000     YZ       0.0000     ZZ     -11.6464
     Octopole Moments (Debye-Ang^2)
-       XXX       0.0000    XXY      -0.0000    XYY       0.0000
-       YYY      -0.0000    XXZ       0.0000    XYZ      -0.0000
-       YYZ       0.0000    XZZ       0.0000    YZZ      -0.0000
+       XXX       0.0000    XXY       0.0000    XYY       0.0000
+       YYY      -0.0000    XXZ      -0.0000    XYZ      -0.0000
+       YYZ      -0.0000    XZZ       0.0000    YZZ      -0.0000
        ZZZ      -0.0000
     Hexadecapole Moments (Debye-Ang^3)
       XXXX      -9.3164   XXXY      -0.0000   XXYY      -3.1055
@@ -1619,11 +2107,8 @@ Done with B2g states.
       XXZZ      -6.3215   XYZZ      -0.0000   YYZZ      -6.3215
       XZZZ      -0.0000   YZZZ       0.0000   ZZZZ     -31.5642
  -----------------------------------------------------------------
-Archival summary:
-1\1\node10\SP\ProcedureUnspecified\BasisUnspecified\2h1\gayverjr\ThuMay1311:48:472021ThuMay1311:48:472021\0\\#,ProcedureUnspecified,BasisUnspecified,\\0,1\N\Gh,1,0.548757\N,2,0.548757,1,180\\HF=-108.984867\\@
-
- Total job time:  98.84s(wall), 519.18s(cpu) 
- Thu May 13 11:48:47 2021
+ Total job time:  86.54s(wall), 585.91s(cpu) 
+ Tue Jul  6 08:50:15 2021
 
         *************************************************************
         *                                                           *

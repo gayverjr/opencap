@@ -348,7 +348,7 @@ class CAPHamiltonian():
         output: str: default=None
             Path to Q-Chem or OpenCAP output file.
         irrep: str: default=None
-            Title of irreducible representation of state of interest. Only compatible with Q-Chem projected CAP-EOM-CC outputs.
+            Title of irreducible representation of state of interest. Only compatible with Q-Chem projected CAP-EOM-CC outputs. Set to 'all' to include all symmetries in CAP projection.
         onset: str: default=None
             Title of CAP onset. Only compatible with Q-Chem projected CAP-ADC outputs.
 
@@ -379,11 +379,17 @@ class CAPHamiltonian():
             filedata = file.readlines()
         cur_idx = -1
         nstates = 0
-        for i in range(0, len(filedata)):
-            if "Performing Projected CAP-EOM calculation for " + str(
-                    irrep) in filedata[i]:
-                cur_idx = i + 1
-                break
+        if irrep=="all":
+            for i in range(0, len(filedata)):
+                if "Total Projected CAP Hamiltonian" in filedata[i]:
+                    cur_idx = i + 1
+                    break
+        else:
+            for i in range(0, len(filedata)):
+                if "Performing Projected CAP-EOM calculation for " + str(
+                        irrep) in filedata[i]:
+                    cur_idx = i + 1
+                    break
         if cur_idx == -1:
             if not irrep == "":
                 raise RuntimeError("Error: could not find matrices for " +
@@ -391,11 +397,8 @@ class CAPHamiltonian():
             else:
                 raise RuntimeError("Error: could not find matrices in " +
                                    output_file)
-        nstates = int(filedata[cur_idx].split()[-2])
-        while "zeroth order hamiltonian" not in filedata[cur_idx].lower(
-        ) and cur_idx < len(filedata):
-            cur_idx += 1
-        cur_idx += 1
+        nstates = int(filedata[cur_idx].split()[-1])
+        cur_idx +=2
         H0 = []
         for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
