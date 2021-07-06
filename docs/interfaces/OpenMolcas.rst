@@ -36,8 +36,6 @@ module.
 
 	&CASPT2
 	Multistate = all
-	# or
-	Xmultistate = all
 
 Step 2: Importing the data to PyOpenCAP
 ---------------------------------------

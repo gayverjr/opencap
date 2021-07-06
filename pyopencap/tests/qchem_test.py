@@ -21,6 +21,7 @@
 import pyopencap
 import os 
 import numpy as np
+from pyopencap.analysis import CAPHamiltonian
 
 
 cap_dict = {
@@ -69,6 +70,7 @@ def test_qchem():
     pc.compute_projected_cap()
     W2 = pc.get_projected_cap()
     assert not W[0][0] == W2[0][0]
+    CAPH = CAPHamiltonian(pc=pc)
 
 def test_heff():
     sys = pyopencap.System(sys_dict)

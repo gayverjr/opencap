@@ -102,6 +102,21 @@ TEST(CAP,TEST_TRAJ)
    SUCCEED();
 }
 
+TEST(CAP,BAD_DIFFUSE)
+{
+    std::tuple<System,std::map<std::string,std::string>> inp_data = parse_input("../tests/cap/test_bad_diffuse.in");
+    std::map<std::string,std::string> params = std::get<1>(inp_data);
+    CAP pc(std::get<0>(inp_data),get_params_for_field(params,"projected_cap"));
+    try
+    {
+        pc.integrate_cap();
+    }
+    catch (const std::exception&)
+    {
+        SUCCEED();
+    }
+}
+
 TEST(CAP,TEST_IMPORTH)
 {
     auto h0_full = read_matrix(10,"../tests/cap/heff.in");

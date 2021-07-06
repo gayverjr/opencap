@@ -188,30 +188,16 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                                      4.0 * get_bragg_angstrom(nuc_charges[i])));
                 if(r_outer < r_inner)
                 {
-                    std::cout << "Warning: r_outer < r_inner, so grid for Atom " << i << " cannot be allocated for this basis set. Alpha min for angular momentum "
-                    << l << " is: " << alpha_min[l] << ". We'll set alpha_min to 0.01 for this angular momentum." << std::endl;
-                    alpha_min[l] = 0.01;
-                    
+                    opencap_throw("Error: r_outer < r_inner, grid cannot be allocated for this basis.");
                 }
                 else
                 {
                     h = std::min(h,
                                  get_h(radial_precision, l, 0.1 * (r_outer - r_inner)));
                     if(r_outer < h)
-                    {
-                        std::cout << "Warning: r_outer < h, so grid for Atom " << i << " cannot be allocated for this basis set. Alpha min for angular momentum "
-                        << l << " is: " << alpha_min[l] << ". We'll set alpha_min to 0.01 for this angular momentum."<<std::endl;
-                        alpha_min[l] = 0.01;
-                    }
+                        opencap_throw("Error: r_outer < h, grid cannot be allocated for this basis.");
                 }
             }
-        }
-        double min_alpha = *std::max_element(alpha_min.begin(), alpha_min.end());
-        if (alpha_max < min_alpha)
-        {
-            std::cout << "Warning: alpha_max is: " << alpha_max << ", which is less than alpha_min. Resetting it to:"
-            << min_alpha << std::endl;
-            alpha_max = min_alpha;
         }
         context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,

@@ -63,6 +63,7 @@ def test_molcas():
     pc.read_data(es_dict)
     pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
+    CAPH = CAPHamiltonian(pc=pc)
     
 
 def test_heff():
