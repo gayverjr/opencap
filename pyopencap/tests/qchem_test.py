@@ -32,6 +32,8 @@ cap_dict = {
             "angular_points": "110"
 }
 
+cap_dict2 = {"cap_type": "voronoi","r_cut":"3.00"}
+
 dest_dir = "../examples/analysis/N2/ref_outputs"
 FCHK_FILE = os.path.join(dest_dir,"qc_inp.fchk")
 OUTPUT_FILE = os.path.join(dest_dir,"qc_inp.out")
@@ -60,18 +62,13 @@ def test_qchem():
     sys = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(sys,cap_dict,5)
     pc.read_data(es_dict)
-    pc.compute_ao_cap()
+    pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
     W = pc.get_projected_cap()
-    h0 = pc.get_H()
-    from pyopencap.analysis import CAPHamiltonian
-    caph = CAPHamiltonian(H0=h0,W=W)
-    eta_list = np.linspace(0,5000,101)
-    eta_list = np.around(eta_list * 1E-5,decimals=5)
-    caph.run_trajectory(eta_list)
-    traj = caph.track_state(1,tracking="overlap")
-    corr_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.36195558,corrected=True,units="eV")
-    assert np.isclose(np.real(corr_energy),2.59667)
+    pc.compute_ao_cap(cap_dict2)
+    pc.compute_projected_cap()
+    W2 = pc.get_projected_cap()
+    assert not W[0][0] == W2[0][0]
 
 def test_heff():
     sys = pyopencap.System(sys_dict)

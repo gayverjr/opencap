@@ -35,7 +35,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		.def(py::init<py::dict>(),py::arg("sys_dict"),"Constructs System object from python dictionary.")
 		.def("get_overlap_mat",&System::get_overlap_mat,"Returns overlap matrix.")
 		.def("check_overlap_mat",&System::check_overlap_mat,py::arg("smat"),
-				py::arg("ordering") ="",py::arg("basis_file") = "","Compares input overlap matrix to "
+				py::arg("ordering"),py::arg("basis_file") = "","Compares input overlap matrix to "
 						"internal overlap to check basis set ordering.")
 		.def("get_basis_ids",&System::get_basis_ids,"Returns a string of the basis function ids. "
 				"Each ID has the following format:"
@@ -43,7 +43,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		;
     py::class_<CAP>(m, "CAP")
 		.def(py::init<System,py::dict,size_t>(),py::arg("system"),py::arg("cap_dict"),py::arg("nstates"),"Constructs CAP object from system, cap dictionary, and number of states.")
-        .def("get_ao_cap",&CAP::get_ao_cap,py::arg("ordering"),py::arg("basis_file") = "","Returns CAP matrix in AO basis.")
+        .def("get_ao_cap",&CAP::get_ao_cap,py::arg("ordering")="",py::arg("basis_file") = "","Returns CAP matrix in AO basis.")
     	.def("get_projected_cap",&CAP::get_projected_cap, "Returns CAP matrix in state basis.")
     	.def("compute_ao_cap",&CAP::compute_ao_cap,py::arg("cap_dict"), "Computes CAP matrix in AO basis.")
     	.def("compute_projected_cap",&CAP::compute_projected_cap, "Computes CAP matrix in state basis using"

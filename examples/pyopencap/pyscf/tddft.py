@@ -109,7 +109,7 @@ cap_dict = {
 }
 
 
-nstates = 40
+nstates = 30
 pc = pyopencap.CAP(s,cap_dict,nstates)
 xc_func = 'WB97XD'
 

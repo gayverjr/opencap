@@ -16,68 +16,35 @@
     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.'''
-
-
-# Benchmark for OpenMolcas
+    SOFTWARE.
+    '''
+    
+# Analyze OpenCAP output file, view eigenvalue trajectory
 
 import pyopencap
-import os
 from pyopencap.analysis import CAPHamiltonian
 import numpy as np
+import argparse
+import matplotlib.pyplot as plt
 
-dest_dir = "../examples/analysis/N2/ref_outputs"
-RASSI_FILE = os.path.join(dest_dir,"xms.rassi.h5")
-OUTPUT_FILE = os.path.join(dest_dir,"xms.out")
-h0_file = "../examples/opencap/heff.in"
-
-sys_dict = {
-    "molecule": "molcas_rassi",
-    "basis_file":RASSI_FILE
-}
-
-cap_dict ={
-            "cap_type": "voronoi",
-            "r_cut":"3.00",
-            "Radial_precision": "14",
-            "angular_points": "110"
-}
-
-es_dict ={
-    "package":"openmolcas",
-    "method":"xms-caspt2",
-    "molcas_output":OUTPUT_FILE ,
-    "rassi_h5":RASSI_FILE
-}
-
-es_dict2 ={
-    "package":"openmolcas",
-    "method":"ms-caspt2",
-    "h0_file":h0_file,
-    "rassi_h5":RASSI_FILE
-}
-
-def test_molcas():
-    sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys,cap_dict,10)
-    pc.read_data(es_dict)
-    pc.compute_ao_cap(cap_dict)
-    pc.compute_projected_cap()
-    
-
-def test_heff():
-    sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys,cap_dict,10)
-    pc.read_data(es_dict2)
-    h0 = pc.get_H()
-    print(h0[0][0])
-    assert np.isclose(h0[0][0],-109.312105)
+parser = argparse.ArgumentParser(description='Process OpenCAP output file.')
+parser.add_argument('output_file',help='OpenCAP output file')
+args = parser.parse_args()
 
 
+CAPH = CAPHamiltonian(output=args.output_file)
+eta_list = np.linspace(0,5000,101)
+eta_list = np.around(eta_list * 1E-5,decimals=5)
+CAPH.run_trajectory(eta_list)
+plt.plot(np.real(CAPH.total_energies),np.imag(CAPH.total_energies),'ro')
+plt.show()
 
-
-
-
-
-
-
+for i in range(0,CAPH.nstates):
+	traj = CAPH.track_state(i,tracking="overlap")
+	uc_energy, eta_opt = traj.find_eta_opt(start_idx=10)
+	corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10)
+	plt.plot(np.real(traj.uncorrected_energies),np.imag(traj.uncorrected_energies),'-ro')
+	plt.plot(np.real(traj.corrected_energies),np.imag(traj.corrected_energies),'-bo')
+	plt.plot(np.real(corr_energy),np.imag(corr_energy),"g*",markersize=20)
+	plt.plot(np.real(uc_energy),np.imag(uc_energy),"g*",markersize=20)
+	plt.show()

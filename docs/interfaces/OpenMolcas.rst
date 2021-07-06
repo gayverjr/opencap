@@ -38,15 +38,6 @@ module.
 	Multistate = all
 	# or
 	Xmultistate = all
-	
-**Reference energy**
-
-There are multiple strategies for obtaining the reference energy used to define the resonance 
-position. For anionic resonances, one such strategy is to add an additional diffuse orbital to the active space in order to
-mimic ionization, which obtains the resonance and the ground state of the neutral molecule 
-in a single calculation [Kunitsa2017]_. Another strategy is to calculate the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 
-anionic state [Phung2020]_.  
-
 
 Step 2: Importing the data to PyOpenCAP
 ---------------------------------------
