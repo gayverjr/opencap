@@ -47,7 +47,6 @@ es_dict = { "package": "openmolcas",
 s = pyopencap.System(sys_dict)
 pc = pyopencap.CAP(s,cap_dict,10)
 pc.read_data(es_dict)
-pc.compute_ao_cap()
 pc.compute_projected_cap()
 W = pc.get_projected_cap()
 h0 = pc.get_H()
@@ -56,7 +55,7 @@ CAPH = CAPHamiltonian(H0=h0,W=W)
 eta_list = np.linspace(0,5000,101)
 eta_list = np.around(eta_list * 1E-5,decimals=5)
 CAPH.run_trajectory(eta_list)
-ref_energy = -109.35456424
+ref_energy = -109.36219955
 traj = CAPH.track_state(1,tracking="overlap")
 # Find optimal value of eta
 uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")

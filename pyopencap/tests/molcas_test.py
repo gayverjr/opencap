@@ -52,7 +52,7 @@ es_dict ={
 
 es_dict2 ={
     "package":"openmolcas",
-    "method":"xms-caspt2",
+    "method":"ms-caspt2",
     "h0_file":h0_file,
     "rassi_h5":RASSI_FILE
 }
@@ -61,22 +61,17 @@ def test_molcas():
     sys = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(sys,cap_dict,10)
     pc.read_data(es_dict)
-    pc.compute_ao_cap()
+    pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
-    from pyopencap.analysis import CAPHamiltonian
-    caph = CAPHamiltonian(pc=pc)
-    eta_list = np.linspace(0,1500,101)
-    eta_list = np.around(eta_list * 1E-5,decimals=5)
-    caph.run_trajectory(eta_list)
-    traj = caph.track_state(1,tracking="overlap")
-    uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=-109.35465184,units="eV")
-    assert np.isclose(np.real(uc_energy),2.275666)
+    CAPH = CAPHamiltonian(pc=pc)
+    
 
 def test_heff():
     sys = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(sys,cap_dict,10)
     pc.read_data(es_dict2)
     h0 = pc.get_H()
+    print(h0[0][0])
     assert np.isclose(h0[0][0],-109.312105)
 
 

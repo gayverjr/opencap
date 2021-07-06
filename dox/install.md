@@ -60,7 +60,7 @@ passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
     cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 
 For Mac users on **MacOS 10.13 High Sierra** or earlier, the Apple Clang provided by XCode 
-**will not work**. We suggest installing the latest version of GCC (currently 10.2) 
+**will not work**. We suggest installing the latest version of GCC
 from [Homebrew](https://brew.sh/), and then setting proper environment 
 variables for CMake:
 

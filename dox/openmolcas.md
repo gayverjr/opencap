@@ -22,8 +22,15 @@ __Relevant keywords__
 Projected CAP
 =============
 
-The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated in the OpenMolcas reference, RASSI "computes matrix elements of the Hamiltonian and other operators in a wave function basis, which consists of individually optimized CI expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to compute and export one particle transition density matrices between each pair of states. When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file titled $JOBNAME.rassi.h5. In a future update, when using XMS-CASPT2, RMS-CASPT2, or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will be rotated into the original CASSCF basis using the rotation matrix provided in the output. For now, only MS-CASPT2 works as intended.
-
+The key to the OpenMolcas interface is the RAS State Interaction program (RASSI). As stated
+in the OpenMolcas reference, RASSI "computes matrix elements of the Hamiltonian and 
+other operators in a wave function basis, which consists of individually optimized CI 
+expansions from the RASSCF program". Of crucial importance to us is that RASSI is able to
+compute and export one particle transition density matrices between each pair of states. 
+When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file 
+titled $JOBNAME.rassi.h5. When using XMS-CASPT2, RMS-CASPT2, 
+or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will 
+be rotated into the original CASSCF basis using the rotation matrix provided in the output.
 
 	 &RASSI
 	 TRD1

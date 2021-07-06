@@ -122,14 +122,13 @@ cap_dict = {
             "cap_z":"6.7",
 }
 pc = pyopencap.CAP(s,cap_dict,nstates)
-pc.compute_ao_cap()
 
 psi4.set_options({"opdm":True,"num_roots":nstates,"tdm":True,"dipmom":True})
 ci_energy, ci_wfn = psi4.energy('FCI', return_wfn=True)
 h0 = np.zeros((nstates,nstates))
 for i in range(0,nstates):
     var_str = 'CI ROOT ' + str(i) + ' TOTAL ENERGY'
-    h0[i][i] = float(psi4.get_variable(var_str))
+    h0[i][i] = float(psi4.variable(var_str))
 
 
 mo_coeff = ci_wfn.Ca()
@@ -141,7 +140,7 @@ for i in range(0,nstates):
         opdm_ao.remove_symmetry(opdm_so,so2ao)
         pc.add_tdm(opdm_ao.to_array(),i,j,"psi4")
         if not i==j:
-            pc.add_tdm(opdm_ao.to_array(),j,i,"psi4")
+            pc.add_tdm(opdm_ao.to_array().conj().T,j,i,"psi4")
 
 '''
 For C1 symmetry, the following snippet will work:
@@ -152,7 +151,7 @@ for i in range(0,nstates):
         opdm_ao = psi4.core.triplet(mo_coeff, opdm_mo, mo_coeff, False, False, True)
         pc.add_tdm(opdm_ao.to_array(),i,j,"psi4")
         if not i==j:
-            pc.add_tdm(opdm_ao.to_array(),j,i,"psi4")
+            pc.add_tdm(opdm_ao.to_array().conj().T,j,i,"psi4")
 '''
 
 pc.compute_projected_cap()

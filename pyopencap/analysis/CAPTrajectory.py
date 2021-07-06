@@ -348,7 +348,7 @@ class CAPHamiltonian():
         output: str: default=None
             Path to Q-Chem or OpenCAP output file.
         irrep: str: default=None
-            Title of irreducible representation of state of interest. Only compatible with Q-Chem projected CAP-EOM-CC outputs.
+            Title of irreducible representation of state of interest. Only compatible with Q-Chem projected CAP-EOM-CC outputs. Set to 'all' to include all symmetries in CAP projection.
         onset: str: default=None
             Title of CAP onset. Only compatible with Q-Chem projected CAP-ADC outputs.
 
@@ -374,7 +374,7 @@ class CAPHamiltonian():
                 "Error: Either pass a CAP object, H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file."
             )
 
-    def _init_from_qchem_eomcc(self, output_file, irrep):
+    def _init_from_qchem_eomcc_old(self, output_file, irrep):
         with open(output_file, 'r') as file:
             filedata = file.readlines()
         cur_idx = -1
@@ -396,6 +396,57 @@ class CAPHamiltonian():
         ) and cur_idx < len(filedata):
             cur_idx += 1
         cur_idx += 1
+        H0 = []
+        for i in range(0, nstates):
+            l1 = filedata[cur_idx].split()
+            l1 = [float(x) for x in l1]
+            H0 += l1
+            cur_idx += 1
+        H0 = np.reshape(H0, (nstates, nstates))
+        cur_idx += 1
+        W = []
+        for i in range(0, nstates):
+            l1 = filedata[cur_idx].split()
+            l1 = [float(x) for x in l1]
+            W += l1
+            cur_idx += 1
+        W = np.reshape(W, (nstates, nstates))
+        assert H0.shape == W.shape
+        self._H0 = H0
+        self._W = W
+        self._nstates = len(H0)
+
+    def _init_from_qchem_eomcc(self, output_file, irrep):
+        try:
+            self._init_from_qchem_eomcc_new(output_file, irrep)
+        except ValueError as e:
+            self._init_from_qchem_eomcc_old(output_file, irrep)
+
+    def _init_from_qchem_eomcc_new(self, output_file, irrep):
+        with open(output_file, 'r') as file:
+            filedata = file.readlines()
+        cur_idx = -1
+        nstates = 0
+        if irrep=="all":
+            for i in range(0, len(filedata)):
+                if "Total Projected CAP Hamiltonian" in filedata[i]:
+                    cur_idx = i + 1
+                    break
+        else:
+            for i in range(0, len(filedata)):
+                if "Performing Projected CAP-EOM calculation for " + str(
+                        irrep) in filedata[i]:
+                    cur_idx = i + 1
+                    break
+        if cur_idx == -1:
+            if not irrep == "":
+                raise RuntimeError("Error: could not find matrices for " +
+                                   str(irrep) + " states in " + output_file)
+            else:
+                raise RuntimeError("Error: could not find matrices in " +
+                                   output_file)
+        nstates = int(filedata[cur_idx].split()[-1])
+        cur_idx +=2
         H0 = []
         for i in range(0, nstates):
             l1 = filedata[cur_idx].split()
@@ -663,18 +714,20 @@ class CAPHamiltonian():
             )
             f.write("Number of states: " + str(self._nstates) + "\n")
             f.write("Zeroth order Hamiltonian\n")
-            f.write(DataFrame(self._H0).to_string(index=False, header=False))
+            f.write(DataFrame(self._H0).to_string(index=False, header=False,float_format='%.15g'))
             f.write("\nCAP Matrix\n")
-            f.write(DataFrame(self._W).to_string(index=False, header=False))
+            f.write(DataFrame(self._W).to_string(index=False, header=False,float_format='%.15g'))
 
     def __str__(self):
         ''' Returns formatted matrices.
         '''
         from pandas import DataFrame
+        import pandas
+        pandas.set_option("display.precision", 15)
         my_str = "Zeroth order Hamiltonian\n"
-        my_str += DataFrame(self._H0).to_string(index=False, header=False)
+        my_str += DataFrame(self._H0).to_string(index=False, header=False,float_format='%.15g')
         my_str+= "\nCAP Matrix\n"
-        my_str+= DataFrame(self._W).to_string(index=False, header=False)
+        my_str+= DataFrame(self._W).to_string(index=False, header=False,float_format='%.15g')
         return my_str
 
 

@@ -57,6 +57,8 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 		std::vector<std::vector<Eigen::MatrixXd>> &beta_opdms,
 		std::string filename, BasisSet bs,size_t nstates)
 {
+    alpha_opdms = std::vector< std::vector<Eigen::MatrixXd>>(nstates, std::vector<Eigen::MatrixXd> (nstates));
+    beta_opdms = std::vector< std::vector<Eigen::MatrixXd>>(nstates, std::vector<Eigen::MatrixXd> (nstates));
 	h5pp::File file(filename, h5pp::FilePermission::READONLY);
 	//first lets check if the dimensions are correct
 	std::vector<long> nbas_vec = file.readAttribute<std::vector<long>>("NBAS","/");
@@ -94,6 +96,9 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 		//now lets loop over the matrices
 		for(long i=0;i<d[0];i++)
 		{
+            if(d[0]!=nstates)
+                opencap_throw("Error: Found " + std::to_string(d[0]) + " states in RASSI file, but "
+                          + std::to_string(nstates) + " states were specified.");
 			std::vector<Eigen::MatrixXd> alpha_state_row;
 			std::vector<Eigen::MatrixXd> beta_state_row;
 			for (long j=0;j<d[1];j++)
@@ -132,7 +137,7 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 					elements_index+=n_elements;
 					bf_index+= nbas_vec[isym];
 				}
-
+                
 				//step 4: desymmetrize
 				Eigen::MatrixXd desym_dmat = desym_mat * dmat * desym_mat.transpose();
 				Eigen::MatrixXd desym_spin = desym_mat * spin * desym_mat.transpose();
@@ -143,11 +148,9 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 				beta_opdm = 0.5*(desym_dmat-desym_spin);
 				to_opencap_ordering(alpha_opdm,bs,get_molcas_ids(bs,filename));
 				to_opencap_ordering(beta_opdm,bs,get_molcas_ids(bs,filename));
-				alpha_state_row.push_back(alpha_opdm);
-				beta_state_row.push_back(beta_opdm);
+                alpha_opdms[i][j] = alpha_opdm;
+                beta_opdms[i][j] = beta_opdm;
 			}
-			alpha_opdms.push_back(alpha_state_row);
-			beta_opdms.push_back(beta_state_row);
 		}
 
     }
@@ -156,8 +159,9 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 		//now lets loop over the matrices
 		for(long i=0;i<d[0];i++)
 		{
-			std::vector<Eigen::MatrixXd> alpha_state_row;
-			std::vector<Eigen::MatrixXd> beta_state_row;
+            if(d[0]!=nstates)
+            opencap_throw("Error: Found " + std::to_string(d[0]) + " states in RASSI file, but "
+                          + std::to_string(nstates) + " states were specified.");
 			for (long j=0;j<d[1];j++)
 			{
 				Eigen::array<long,3> offset = {i,j,0};    //Starting point
@@ -171,27 +175,22 @@ void read_rassi_tdms(std::vector<std::vector<Eigen::MatrixXd>> &alpha_opdms,
 				beta_opdm = 0.5*(dmt_mat-spin_mat);
 				to_opencap_ordering(alpha_opdm,bs,get_molcas_ids(bs,filename));
 				to_opencap_ordering(beta_opdm,bs,get_molcas_ids(bs,filename));
-				alpha_state_row.push_back(alpha_opdm);
-				beta_state_row.push_back(beta_opdm);
+                alpha_opdms[i][j] = alpha_opdm;
+                beta_opdms[i][j] = beta_opdm;
 			}
-			alpha_opdms.push_back(alpha_state_row);
-			beta_opdms.push_back(beta_state_row);
 		}
     }
 
-    std::cout << "Warning: CAP matrix is assumed to be symmetric." << std::endl;
-    //symmetrize
-    for (size_t i=0;i<d[0];i++)
+    std::cout << "Warning: TDM M-->N is assumed to be conjugate transpose of "
+    << "TDM N-->M where M>N" << std::endl;
+    for (size_t i=0;i<nstates;i++)
     {
-    	for(size_t j=0;j<i;j++)
+    	for(size_t j=i+1;j<nstates;j++)
     	{
-    		alpha_opdms[i][j]= alpha_opdms[j][i];
-    		beta_opdms[i][j]= beta_opdms[j][i];
+    		alpha_opdms[j][i]= alpha_opdms[i][j].adjoint();
+    		beta_opdms[j][i]= beta_opdms[i][j].adjoint();
     	}
     }
-    if(alpha_opdms.size()!=nstates)
-    	opencap_throw("Error: Found " + std::to_string(alpha_opdms.size()) + " states in RASSI file, but "
-    			+ std::to_string(nstates) + " states were specified.");
 }
 
 Eigen::MatrixXd read_rassi_overlap(std::string filename,BasisSet bs)
@@ -243,10 +242,42 @@ Eigen::MatrixXd read_rassi_overlap(std::string filename,BasisSet bs)
 	}
 }
 
+Eigen::MatrixXd read_rotation_matrix(size_t nstates, std::ifstream &is)
+{
+	Eigen::MatrixXd rotation_matrix(nstates,nstates);
+	rotation_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
+	std::string line, rest;
+	size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
+	for (size_t i=1;i<=num_groups;i++)
+	{
+		std::getline(is,line);
+        if(i>1)
+            std::getline(is,line);
+		for (size_t j=1;j<=nstates;j++)
+		{
+			std::getline(is,line);
+			std::vector<std::string> tokens = split(line,' ');
+			size_t row_idx = std::stoul(tokens[0]);
+			for(size_t k=1;k<tokens.size();k++)
+			{
+				size_t col_idx = k-1+(i-1)*5;
+				if(col_idx>=rotation_matrix.cols() || row_idx-1 >= rotation_matrix.rows())
+					opencap_throw("Error: State index of out bounds. There is a problem with the OpenMolcas output file. Exiting...");
+				rotation_matrix(row_idx-1,col_idx)=std::stod(tokens[k]);
+			}
+		}
+	}
+	return rotation_matrix;
+}
+
 Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
+	Eigen::MatrixXd rotation_matrix(nstates,nstates);
 	ZERO_ORDER_H= Eigen::MatrixXd::Zero(nstates,nstates);
+	rotation_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
+	for (size_t i=0;i<nstates;i++)
+		rotation_matrix(i,i)=1.0;
 	std::ifstream is(filename);
 	if (is.good())
 	{
@@ -260,16 +291,28 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 					"output file, but " + std::to_string(nstates) +" states were specified in the input. "
 							"Exiting...");
 		while (line.find("MULTI-STATE CASPT2 SECTION")== std::string::npos && is.peek()!=EOF)
+		{
 			std::getline(is,line);
+			if (line.find("H0 eigenvectors:")!= std::string::npos)
+			{
+				std::cout << "Warning: rotating effective Hamiltonian into basis "
+						  << "of original CASCI states." << std::endl;
+				rotation_matrix = read_rotation_matrix(nstates,is);
+			}
+		}
 		if (is.peek()==EOF)
 			opencap_throw("Error: Reached end of file before MULTI-STATE CASPT2 SECTION.");
 		//get diagonal shift
 		for (size_t i=1;i<=3;i++)
 			std::getline(is,line);
-		std::vector<std::string> split_line = split(line,' ');
-		double E_shift = std::stod(split_line[split_line.size()-1]);
-		for(size_t i=1;i<=2;i++)
-			std::getline(is,line);
+        double E_shift = 0.0;
+        if(line.find("Output diagonal")!=std::string::npos)
+        {
+            std::vector<std::string> split_line = split(line,' ');
+            E_shift = std::stod(split_line[split_line.size()-1]);
+            for(size_t i=1;i<=2;i++)
+                std::getline(is,line);
+        }
 		size_t num_groups = nstates%5==0 ? nstates/5 : nstates/5+1;
 		for (size_t i=1;i<=num_groups;i++)
 		{
@@ -299,7 +342,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	{
     	opencap_throw("Error: I couldn't read:" + filename);
 	}
-	return ZERO_ORDER_H;
+	return rotation_matrix*ZERO_ORDER_H*rotation_matrix.transpose();
 }
 
 Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)

@@ -31,10 +31,26 @@ def test_eomcc_parse():
     assert np.isclose(CAPH._H0[0][0],-1.09353e+02)
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B2g")
     assert np.isclose(CAPH._H0[0][0],-1.09313e+02)
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc_old.out"),irrep="B2g")
+    assert np.isclose(CAPH._H0[0][0],-1.09313e+02)
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="all")
+    assert len(CAPH._H0)==10
     try:
         CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"),irrep="B1g")
     except:
         pass
+
+def test_energies_ev():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory(eta_list)
+    assert np.isclose(np.real(CAPH.energies_ev(ref_energy=ref_energy)[0]),1.3174781)
+    traj = CAPH.track_state(1,tracking="overlap")
+    assert np.isclose(np.real(traj.energies_ev(ref_energy=ref_energy)[0]),2.55378)
+
+def test_init_from_matrices():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"eomcc.out"))
+    CAPH2 = CAPHamiltonian(H0=CAPH._H0,W=CAPH._W)
+    assert CAPH._nstates == CAPH2._nstates
 
 def test_adc_parse():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"adc.out"))
@@ -71,6 +87,12 @@ def test_eta_opt():
     assert np.isclose(np.real(corr_energy_au), -109.26652)
     assert np.isclose(np.real(uc_energy_ev),2.6381)
     assert np.isclose(np.real(corr_energy_ev),2.59686)
+
+def test_energies_ev():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory(eta_list)
+    traj = CAPH.track_state(1,tracking="overlap")
+
 
 def test_exclude_states():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))

@@ -62,7 +62,7 @@ For Linux users, any compiler which fully supports the C++17 standard should wor
 compiler.
 
 For Mac users, as of MacOS 10.15 Catalina, the Apple Clang provided by XCode **will not work** due to missing standard 
-library features. We suggest installing the latest version of GCC (currently 10.2) 
+library features. We suggest installing the latest version of GCC
 from [Homebrew](https://brew.sh/), and then setting the following 
 environment variables before attempting to build from source:
 

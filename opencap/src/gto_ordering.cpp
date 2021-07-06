@@ -447,3 +447,24 @@ void to_opencap_ordering(Eigen::MatrixXd &mat,BasisSet &bs,std::vector<bf_id> in
 	// permute indices: P^T * A * P
 	mat = per_mat.transpose()* mat * per_mat;
 }
+
+void reorder_matrix(Eigen::MatrixXd &mat,std::vector<bf_id> &original_ids,std::vector<bf_id> &final_ids)
+{
+    std::vector<std::tuple<int,int>> swap_indices;
+    for(size_t i=0;i<original_ids.size();i++)
+    {
+        for(size_t j=0;j<original_ids.size();j++)
+        {
+            if(original_ids[i]==final_ids[j])
+            {
+                swap_indices.push_back(std::make_tuple(i,j));
+            }
+        }
+    }
+    Eigen::MatrixXd per_mat(original_ids.size(),original_ids.size());
+    per_mat= Eigen::MatrixXd::Zero(original_ids.size(),original_ids.size());
+    for(auto t:swap_indices)
+    per_mat(std::get<0>(t),std::get<1>(t))=1;
+    // permute indices: P^T * A * P
+    mat = per_mat.transpose()* mat * per_mat;
+}

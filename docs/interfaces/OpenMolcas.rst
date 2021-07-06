@@ -13,12 +13,11 @@ Some suggested readings are provided at the bottom of the page.
 Step 1: Running OpenMolcas calculation
 ----------------------------------------
 To generate the one-particle densities required to construct the CAP matrix, the RASSI 
-module must be executed with the TRD1 keyword activated. In a future update, when using XMS-CASPT2, RMS-CASPT2, 
-or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian 
-will be rotated into the original CASSCF basis using the rotation matrix provided in the output.
-For now, only MS-CASPT2 works as intended. RASSI will save transition density matrices 
-between each pair of CASSCF states as well as the one-particle density matrices for 
-each state to a file titled $Jobname.rassi.h5.
+module must be executed with the TRD1 keyword activated. When using XMS-CASPT2, RMS-CASPT2, 
+or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will 
+be rotated into the original CASSCF basis using the rotation matrix provided in the output. 
+RASSI will save transition density matrices between each pair of CASSCF states as well as 
+the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
 
 **Export transition densities with RASSI**
 
@@ -26,7 +25,6 @@ each state to a file titled $Jobname.rassi.h5.
 
 	 &RASSI
 	 TRD1
-	 HEFF
 
 **Generate effective Hamiltonian with MS-CASPT2**
 
@@ -38,17 +36,6 @@ module.
 
 	&CASPT2
 	Multistate = all
-	# or
-	Xmultistate = all
-	
-**Reference energy**
-
-There are multiple strategies for obtaining the reference energy used to define the resonance 
-position. For anionic resonances, one such strategy is to add an additional diffuse orbital to the active space in order to
-mimic ionization, which obtains the resonance and the ground state of the neutral molecule 
-in a single calculation [Kunitsa2017]_. Another strategy is to calculate the ground state of the neutral molecule with CASCI/CASPT2 using the optimized orbitals of the 
-anionic state [Phung2020]_.  
-
 
 Step 2: Importing the data to PyOpenCAP
 ---------------------------------------

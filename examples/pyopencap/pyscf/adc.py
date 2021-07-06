@@ -104,7 +104,7 @@ for i in range(0,nstates):
         tdm_alpha = tdm_alpha.to_ndarray()
         tdm_beta = tdm_beta.to_ndarray()
         pc.add_tdms(tdm_alpha,tdm_beta,i,i+j+1,"pyscf")
-        pc.add_tdms(tdm_alpha,tdm_beta,i+j+1,i,"pyscf")
+        pc.add_tdms(tdm_alpha.conj().T,tdm_beta.conj().T,i+j+1,i,"pyscf")
 pc.compute_projected_cap()
 W=pc.get_projected_cap()
 
