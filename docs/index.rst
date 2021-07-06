@@ -30,7 +30,7 @@ Supported Methods
 
 * EOM-CC
 * FCI
-* MS-CASPT2 and variants
+* MS-CASPT2 (coming soon: extended variants)
 * TDDFT
 * ADC (through ADCC_)
 
