@@ -20,6 +20,7 @@ var searchData=
   ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
   ['renormalize',['renormalize',['../class_c_a_p.html#a44418607711388fe1eff7c24eaea862c',1,'CAP']]],
   ['renormalize_5fcap',['renormalize_cap',['../class_c_a_p.html#a9a3b039717e5efc12ab79611c2ebf220',1,'CAP']]],
+  ['reorder_5fmatrix',['reorder_matrix',['../gto__ordering_8h.html#a1be410242e1ab8e24613f5dd373c1833',1,'gto_ordering.h']]],
   ['rethrow',['rethrow',['../opencap__exception_8h.html#a71d5ae19a92787828e520c259a220bc1',1,'opencap_exception.h']]],
   ['root',['root',['../structroot.html',1,'root'],['../structroot.html#af6b60366e51ae138d8974ad8d264166c',1,'root::root(double new_eta, std::complex&lt; double &gt; new_energy, Eigen::VectorXcd new_eigv)'],['../structroot.html#af347b3a2e0204d68f419f929ce2b3698',1,'root::root()']]],
   ['run',['run',['../class_c_a_p.html#aad3e344aed1e6343f4eefe879018d138',1,'CAP']]],

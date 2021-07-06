@@ -86,8 +86,10 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a641a258d4520b6c5fe3552b6705ec4d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a641a258d4520b6c5fe3552b6705ec4d4">CAP</a> (<a class="el" href="class_system.html">System</a> &amp;my_sys, std::map&lt; std::string, std::string &gt; params)</td></tr>
 <tr class="separator:a641a258d4520b6c5fe3552b6705ec4d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeb1a29cfb49daa6739671b2c3d06055"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#adeb1a29cfb49daa6739671b2c3d06055">compute_ao_cap</a> ()</td></tr>
-<tr class="separator:adeb1a29cfb49daa6739671b2c3d06055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac366e63f9b900213b562e5a4b2540e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ac366e63f9b900213b562e5a4b2540e10">compute_ao_cap</a> (py::dict dict)</td></tr>
+<tr class="separator:ac366e63f9b900213b562e5a4b2540e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ee43dcd0338cd10bdd1d0097f80e411"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a9ee43dcd0338cd10bdd1d0097f80e411">integrate_cap</a> ()</td></tr>
+<tr class="separator:a9ee43dcd0338cd10bdd1d0097f80e411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a9beb4988e8602ea4d6cfcd9955e0e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a7a9beb4988e8602ea4d6cfcd9955e0e2">compute_projected_cap</a> ()</td></tr>
 <tr class="separator:a7a9beb4988e8602ea4d6cfcd9955e0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6be7bd9d33b029cbb55f7868ee96e5f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a6be7bd9d33b029cbb55f7868ee96e5f3">verify_method</a> (std::map&lt; std::string, std::string &gt; params)</td></tr>
@@ -96,8 +98,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aad3e344aed1e6343f4eefe879018d138"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac38fdd376475aabb561062b31e91909b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ac38fdd376475aabb561062b31e91909b">CAP</a> (<a class="el" href="class_system.html">System</a> my_sys, py::dict dict, size_t num_states)</td></tr>
 <tr class="separator:ac38fdd376475aabb561062b31e91909b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae19562f14ae458ee4238692ae436a4e2"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ae19562f14ae458ee4238692ae436a4e2">get_ao_cap</a> ()</td></tr>
-<tr class="separator:ae19562f14ae458ee4238692ae436a4e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa197e99174740f1740bff0aed281bc1"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#aaa197e99174740f1740bff0aed281bc1">get_ao_cap</a> (std::string ordering=&quot;&quot;, std::string basis_file=&quot;&quot;)</td></tr>
+<tr class="separator:aaa197e99174740f1740bff0aed281bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a046f71efec5ed19fe5a5c600ffb9811c">get_projected_cap</a> ()</td></tr>
 <tr class="separator:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab58b63de35d393d4dc2c6a1ebb11a2b9"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ab58b63de35d393d4dc2c6a1ebb11a2b9">get_H</a> ()</td></tr>
@@ -338,8 +340,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adeb1a29cfb49daa6739671b2c3d06055"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeb1a29cfb49daa6739671b2c3d06055">&#9670;&nbsp;</a></span>compute_ao_cap()</h2>
+<a id="ac366e63f9b900213b562e5a4b2540e10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac366e63f9b900213b562e5a4b2540e10">&#9670;&nbsp;</a></span>compute_ao_cap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -347,12 +349,13 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void CAP::compute_ao_cap </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">py::dict&#160;</td>
+          <td class="paramname"><em>dict</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Computes CAP in AO basis </p>
+<p>Computes CAP in AO basis using parameters in given python dictionary </p>
 
 </div>
 </div>
@@ -374,8 +377,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae19562f14ae458ee4238692ae436a4e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae19562f14ae458ee4238692ae436a4e2">&#9670;&nbsp;</a></span>get_ao_cap()</h2>
+<a id="aaa197e99174740f1740bff0aed281bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa197e99174740f1740bff0aed281bc1">&#9670;&nbsp;</a></span>get_ao_cap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,8 +386,19 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">Eigen::MatrixXd CAP::get_ao_cap </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ordering</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>basis_file</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -425,6 +439,24 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Returns <a class="el" href="class_c_a_p.html" title="Class which handles computing the CAP matrix.">CAP</a> matrix in wave function basis. </p>
+
+</div>
+</div>
+<a id="a9ee43dcd0338cd10bdd1d0097f80e411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ee43dcd0338cd10bdd1d0097f80e411">&#9670;&nbsp;</a></span>integrate_cap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAP::integrate_cap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes CAP in AO basis </p>
 
 </div>
 </div>
