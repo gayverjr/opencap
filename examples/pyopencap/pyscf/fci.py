@@ -76,7 +76,6 @@ for i in range(0,len(e)):
 
 # compute CAP
 pc = pyopencap.CAP(s,cap_dict,nstates)
-pc.compute_ao_cap()
 for i in range(0,len(fs.ci)):
     for j in range(0,len(fs.ci)):
         dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)

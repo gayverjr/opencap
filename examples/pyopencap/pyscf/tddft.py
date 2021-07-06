@@ -139,7 +139,7 @@ for i in range(0,nstates):
         dm1_alpha,dm1_beta = tda_density_matrix(mytd,i,j)
         pc.add_tdms(dm1_alpha,dm1_beta,i,j,"pyscf")
         if not i==j:
-            pc.add_tdms(dm1_alpha,dm1_beta,j,i,"pyscf")
+            pc.add_tdms(dm1_alpha.conj().T,dm1_beta.conj().T,j,i,"pyscf")
 
 pc.compute_projected_cap()
 W=pc.get_projected_cap()

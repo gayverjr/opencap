@@ -21,7 +21,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
-
+#include <limits>
 #include "Atom.h"
 #include "BasisSet.h"
 #include "molcas_interface.h"
@@ -107,7 +107,8 @@ TEST(MOLCAS_OUTPUT, PARSE_CASPT2)
     Eigen::MatrixXd xmscaspt2 = read_mscaspt2_heff(4, "../tests/openmolcas/xms_nosymm.out"); 
     Eigen::MatrixXd mscaspt2 = read_mscaspt2_heff(4, "../tests/openmolcas/cart.out");   
     ASSERT_EQ (mscaspt2(0,0), -109.29238639);
-    ASSERT_EQ (xmscaspt2(0,0), -109.25671012); 
+    //rotated matrix
+    ASSERT_NEAR (xmscaspt2(3,3), -108.858019,0.00001);
 }
 
 int main(int argc, char **argv) {

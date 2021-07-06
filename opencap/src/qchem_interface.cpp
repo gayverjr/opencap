@@ -136,7 +136,6 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
     	}
     }
     is.close();
-    //symmetrize
     if(ntdm == lt_tdm)
     {
         std::cout << "Warning: TDM M-->N is assumed to be conjugate transpose of "

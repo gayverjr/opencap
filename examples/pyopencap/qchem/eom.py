@@ -44,7 +44,6 @@ es_dict = { "package": "qchem",
 s = pyopencap.System(sys_dict)
 pc = pyopencap.CAP(s,cap_dict,5)
 pc.read_data(es_dict)
-pc.compute_ao_cap()
 pc.compute_projected_cap()
 W = pc.get_projected_cap()
 H0 = pc.get_H()
