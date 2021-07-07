@@ -148,7 +148,7 @@ should be invoked before calling :func:`~pyopencap.CAP.compute_projected_cap`.
 
 .. code-block:: python
 
-    pc.compute_ao_cap()
+    pc.compute_ao_cap(cap_dict)
     pc.renormalize()
     pc.compute_projected_cap()
 
@@ -172,7 +172,7 @@ The following methods have been benchmarked, and the :func:`~pyopencap.CAP.read_
 output files to obtain the zeroth order Hamiltonian.
 
 * MS-CASPT2
-* XMS-CASPT2
+* XMS-CASPT2 and variants
 
 Untested (use at your own risk!)
 --------------------------------

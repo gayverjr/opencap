@@ -99,7 +99,7 @@ that the densities are represented in AO basis before passing to PyOpenCAP using
             opdm_ao.remove_symmetry(opdm_so,so2ao)
             pc.add_tdm(opdm_ao.to_array(),i,j,"psi4")
             if not i==j:
-                pc.add_tdm(opdm_ao.to_array(),j,i,"psi4")
+                pc.add_tdm(opdm_ao.to_array().conj().T,j,i,"psi4")
 
 Please see the PSI4_ documentation for more details, or our repository for an example.
 

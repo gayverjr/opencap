@@ -127,7 +127,7 @@ should be invoked before calling :func:`~pyopencap.CAP.compute_projected_cap`.
 
 .. code-block:: python
 
-    pc.compute_ao_cap()
+    pc.compute_ao_cap(cap_dict)
     pc.renormalize_cap(pyscf_smat,"pyscf")
     pc.compute_projected_cap()
 
