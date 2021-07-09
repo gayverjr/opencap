@@ -77,7 +77,6 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 // DOI: 10.1021/acs.jctc.5b00465
 void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
-    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double atom_distances[num_atoms];
@@ -166,6 +165,7 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
     //double radial_precision = radial_precision;
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
+	#pragma omp parallel for
 	for(size_t i=0;i<num_atoms;i++)
 	{
         
@@ -199,6 +199,7 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                 }
             }
         }
+		auto t_start = std::chrono::high_resolution_clock::now();
         context_t *context = numgrid_new_atom_grid(radial_precision,
 		                                 min_num_angular_points,
 		                                 max_num_angular_points,
@@ -223,8 +224,6 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_z_bohr,
                            grid_w);
         int num_radial_points = numgrid_get_num_radial_grid_points(context);
-    	std::cout << "Grid for atom " + std::to_string(i+1) + " has: " << num_radial_points << " radial points, "
-                  << angular_points << " angular points, " << num_points << " total points." << std::endl;
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
 }

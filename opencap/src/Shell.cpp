@@ -115,7 +115,6 @@ double Shell::evaluate(double x, double y, double z, size_t lx, size_t ly, size_
 
 void Shell::evaluate_on_grid(double* x, double* y, double* z, int num_points,size_t lx,size_t ly, size_t lz, Eigen::Ref<Eigen::VectorXd> v)
 {
-    #pragma omp parallel for
 	for (size_t i=0;i<num_points;i++)
 	{
 		double result = 0;
