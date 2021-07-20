@@ -38,11 +38,11 @@ SOFTWARE.
 #include <vector>
 #include <cmath>
 #include <limits>
-
 #include "BasisSet.h"
 #include "gto_ordering.h"
 #include "opencap_exception.h"
 #include "utils.h"
+#include "boxcap.h"
 
 AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -70,6 +70,20 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	angular_points = angpts;
 	atoms = geometry;
     num_atoms = atoms.size();
+	if(params.find("do_numerical")!=params.end())
+	{
+		std::string num_int = params["do_numerical"];
+		if(compare_strings(num_int,"true"))
+			do_numerical = true;
+		else if(compare_strings(num_int,"false") && compare_strings(cap_type,"box"))
+			do_numerical = false;
+		else
+			do_numerical = true; 
+	}
+	else if(compare_strings(cap_type,"box"))
+		do_numerical = false;
+	else
+		do_numerical = true;
 }
 
 // Smooth Voronoi CAP
@@ -77,6 +91,7 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 // DOI: 10.1021/acs.jctc.5b00465
 void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
+    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double atom_distances[num_atoms];
@@ -121,8 +136,10 @@ void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, in
 	}
 }
 
+
 void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
 {
+    #pragma omp parallel for
 	for(size_t i=0;i<num_points;i++)
 	{
 		double result = 0;
@@ -146,6 +163,12 @@ void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_po
 
 void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
+	if(!do_numerical)
+	{
+		std::cout << "CAP integrals will be computed analytically." << std::endl;
+		eval_box_cap_analytical(cap_mat,bs);
+		return;
+	}
     std::cout << "Calculating CAP matrix in AO basis using " << std::to_string(omp_get_max_threads()) << " threads." << std::endl;
     std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
               << " Angular points: " << angular_points << std::endl;
@@ -165,7 +188,6 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
     //double radial_precision = radial_precision;
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
-	#pragma omp parallel for
 	for(size_t i=0;i<num_atoms;i++)
 	{
         
@@ -189,13 +211,17 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                 if(r_outer < r_inner)
                 {
                     opencap_throw("Error: r_outer < r_inner, grid cannot be allocated for this basis.");
+                    //std::cout << "Setting alpha min[l] to 0.01" << std::endl; Revisit this later.
+                    //alpha_min[l]=0.01;
                 }
                 else
                 {
                     h = std::min(h,
                                  get_h(radial_precision, l, 0.1 * (r_outer - r_inner)));
                     if(r_outer < h)
+                    {
                         opencap_throw("Error: r_outer < h, grid cannot be allocated for this basis.");
+                    }
                 }
             }
         }
@@ -225,6 +251,34 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_w);
         int num_radial_points = numgrid_get_num_radial_grid_points(context);
 		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+	}
+}
+
+void AOCAP::eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet bs)
+{
+	double boxlength[3] = {cap_x,cap_y,cap_z};
+	size_t bf1_idx = 0;
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell shell1 = bs.basis[i];
+		std::vector<std::array<size_t,3>> order1 = opencap_carts_ordering(shell1.l);
+		for(size_t j=0;j<shell1.num_carts();j++)
+		{
+			std::array<size_t,3> l1 = order1[j];
+			size_t bf2_idx = 0;
+			for (size_t q=0;q<bs.basis.size();q++)
+			{
+				Shell shell2 = bs.basis[q];
+				std::vector<std::array<size_t,3>> order2 = opencap_carts_ordering(shell2.l);
+				for(size_t k=0;k<shell2.num_carts();k++)
+				{
+					std::array<size_t,3> l2 = order2[k];
+					cap_mat(bf1_idx+j,bf2_idx+k) = integrate_box_cap(shell1,shell2,l1,l2,boxlength);
+				}
+				bf2_idx += shell2.num_carts();
+			}
+		}
+		bf1_idx += shell1.num_carts();
 	}
 }
 

@@ -68,7 +68,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 CAP::CAP(System my_sys, py::dict dict, size_t num_states)
 {
 	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
-			"r_cut","radial_precision","angular_points"};
+			"r_cut","radial_precision","angular_points","do_numerical"};
 	std::map<std::string, std::string> params;
 	python = true;
     for (auto item : dict)
@@ -234,7 +234,7 @@ void CAP::integrate_cap()
 void CAP::compute_ao_cap(py::dict dict)
 {
     std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
-        "r_cut","radial_precision","angular_points"};
+        "r_cut","radial_precision","angular_points","do_numerical"};
     py::print("Redefining CAP parameters...\n");
     std::map<std::string, std::string> params;
     python = true;

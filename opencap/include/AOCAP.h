@@ -75,6 +75,7 @@ public:
     /** Number of atoms
      */
     size_t num_atoms;
+	bool do_numerical;
 
 private:
 	/** Evaluate potential at grid point.
@@ -93,4 +94,5 @@ private:
 	/** Checks whether specified CAP is valid.
 	 */
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
+	void eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet bs);
 };
