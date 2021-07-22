@@ -22,10 +22,12 @@ SOFTWARE.
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
+#include <pybind11/functional.h>
 #include "System.h"
 #include "CAP.h"
 #include <pybind11/eigen.h>
 #include <Eigen/Dense>
+#include <pybind11/stl_bind.h>
 
 namespace py = pybind11;
 
@@ -65,6 +67,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				py::arg("ordering"),py::arg("basis_file") = "","Re-normalizes AO CAP matrix using input overlap"
 						"matrix.")
 		.def("renormalize",&CAP::renormalize,"Re-normalizes AO CAP using electronic structure data.")
+		.def("compute_custom_cap",&CAP::compute_custom_cap,"Computes using custom cap from python.")
 	;
 }
 

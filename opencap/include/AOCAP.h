@@ -71,7 +71,7 @@ public:
 	std::vector<Atom> atoms;
 	/** Computes %CAP matrix in AO basis via numerical integration.
 	 */
-	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
+	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet &bs);
     /** Number of atoms
      */
     size_t num_atoms;
@@ -94,5 +94,5 @@ private:
 	/** Checks whether specified CAP is valid.
 	 */
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
-	void eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet bs);
+	void eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet &bs);
 };

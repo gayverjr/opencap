@@ -139,6 +139,8 @@ public:
 	/** Renormalizes the AO %CAP matrix using the previously parsed overlap matrix.
 	 */
 	void renormalize();
+	void compute_custom_cap(std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+		std::vector<double> &, std::vector<double> &, int)> &cap_func);
 
 private:
 	/** Reads in TDMs from electronic structure package

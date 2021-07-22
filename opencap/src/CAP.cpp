@@ -51,6 +51,8 @@ SOFTWARE.
 #include "System.h"
 #include "transforms.h"
 #include "utils.h"
+#include "cap_types.h"
+#include "numerical_integration.h"
 
 
 CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
@@ -212,13 +214,31 @@ void CAP::compute_projected_cap()
 	CAP_MAT = CAP_matrix;
 }
 
+void CAP::compute_custom_cap(std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+		std::vector<double> &, std::vector<double> &, int)> &cap_func)
+{
+	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
+	auto start = std::chrono::high_resolution_clock::now();
+	integrate_cap_numerical(cap_mat,system.bs,system.atoms,1.0E-14,590,cap_func);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto total_time = std::chrono::duration<double>(stop-start).count();
+    if(python)
+    py::print("Integration time:"+std::to_string(total_time));
+    else
+    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+    uniform_cart_norm(cap_mat,system.bs);
+    Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
+    cart2spherical(cap_mat,cap_spherical,system.bs);
+    AO_CAP_MAT = cap_spherical;	
+}
+
 void CAP::integrate_cap()
 {
     AOCAP cap_integrator(system.atoms,parameters);
     Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
-    cap_mat= Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
+    cap_mat = Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
     auto start = std::chrono::high_resolution_clock::now();
-    cap_integrator.compute_ao_cap_mat(cap_mat,system.bs);
+	cap_integrator.compute_ao_cap_mat(cap_mat,system.bs);
     auto stop = std::chrono::high_resolution_clock::now();
     auto total_time = std::chrono::duration<double>(stop-start).count();
     if(python)
@@ -550,3 +570,4 @@ void CAP::read_electronic_structure_data(py::dict dict)
 		throw ;
 	}
 }
+
