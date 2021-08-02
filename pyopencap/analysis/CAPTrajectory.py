@@ -65,7 +65,8 @@ class Root():
         '''
         self.eta = eta
         self.energy = energy
-        self.eigvc = eigvc
+        self.eigvc = eigvc/np.sqrt(np.dot(eigvc,eigvc))
+
 
 
 class EigenvalueTrajectory():
@@ -83,10 +84,16 @@ class EigenvalueTrajectory():
         List of uncorrected energies in trajectory.
     corrected_energies: list of float
         List of corrected energies in trajectory.
+    H0: np.ndarray of float: default=None
+        Zeroth order Hamiltonian in state basis
+    W: np.ndarray of float: default=None
+        CAP matrix in state basis. -1 prefactor is assumed.
     etas: list of float
         List of CAP strengths in trajectory.
+    correction: str
+        Choice of correction scheme. Either derivative (ref) or density (ref)
     '''
-    def __init__(self, state_idx, init_roots, tracking="overlap"):
+    def __init__(self, state_idx, init_roots, H0, W, tracking="overlap", correction="density", pc=None):
         '''
         Initializes EigenvalueTrajectory object, which tracks a state starting from the first diagonalization at eta = 0.
         
@@ -103,6 +110,8 @@ class EigenvalueTrajectory():
         self.states = [self._last]
         self.uncorrected_energies = [self._last.energy]
         self.corrected_energies = []
+        self.H0 = H0
+        self.W = W
         self.etas = [0.0]
         if tracking == "overlap":
             self._add_state = self._overlap_tracking
@@ -111,6 +120,13 @@ class EigenvalueTrajectory():
         else:
             raise RuntimeError(
                 "Invalid choice of tracking. Choose either overlap or energy.")
+        if correction == "derivative":
+            self._calculate_corrected_energies =  self._derivative_correction
+        elif correction == "density":
+            self._calculate_corrected_energies = self._density_matrix_correction
+        else:
+            raise RuntimeError(
+                "Invalid choice of correction. Choose either derivative or density.")
 
     def _overlap_tracking(self, states):
         maxo = 0.0
@@ -137,10 +153,20 @@ class EigenvalueTrajectory():
         self.uncorrected_energies.append(cur.energy)
         self.etas.append(cur.eta)
 
-    def _calculate_corrected_energies(self):
+    def _density_matrix_correction(self):
+        for i in range(0, len(self.states)):
+            eigvc = self.states[i].eigvc
+            total = 0
+            for k in range(0,len(self.W)):
+                for l in range(0,len(self.W)):
+                    total += eigvc[k] * eigvc[l] * self.W[k][l]
+            total*= 1.0j
+            self.corrected_energies.append(self.uncorrected_energies[i] -
+                                           self.etas[i] * total)
+            
+    def _derivative_correction(self):
         derivs = list(
             np.gradient(self.uncorrected_energies) / np.gradient(self.etas))
-        # E_cor = E_uc - eta * dE/deta
         for i in range(0, len(self.states)):
             self.corrected_energies.append(self.uncorrected_energies[i] -
                                            self.etas[i] * derivs[i])
@@ -640,7 +666,7 @@ class CAPHamiltonian():
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 
-    def track_state(self, state_idx, tracking="overlap"):
+    def track_state(self, state_idx, tracking="overlap",correction="density"):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -664,8 +690,7 @@ class CAPHamiltonian():
             raise RuntimeError(
                 "Nothing to track. Execute `run_trajectory` first.")
         traj = EigenvalueTrajectory(state_idx,
-                                    self._all_roots[0],
-                                    tracking=tracking)
+                                    self._all_roots[0],self.H0,self.W,tracking=tracking,correction=correction)
         for i in range(1, len(self._all_roots)):
             traj._add_state(self._all_roots[i])
         traj._calculate_corrected_energies()
