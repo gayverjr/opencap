@@ -39,7 +39,6 @@ SOFTWARE.
 #include <map>
 #include <sstream>
 #include <string>
-
 #include "AOCAP.h"
 #include "Atom.h"
 #include "BasisSet.h"
@@ -52,7 +51,6 @@ SOFTWARE.
 #include "transforms.h"
 #include "utils.h"
 #include "cap_types.h"
-#include "numerical_integration.h"
 
 
 CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
@@ -61,36 +59,47 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 	python = false;
 	verify_method(params);
 	parameters=params;
+	cap_integrator = AOCAP(system.atoms,params);
 	stringstream ss(parameters["nstates"]);
 	ss >> nstates;
 	read_in_zero_order_H();
 	read_in_dms();
 }
 
-CAP::CAP(System my_sys, py::dict dict, size_t num_states)
+void CAP::define_cap_function(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &, int)> &cap_func)
 {
 	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
 			"r_cut","radial_precision","angular_points","do_numerical"};
 	std::map<std::string, std::string> params;
-	python = true;
     for (auto item : dict)
     {
     	std::string key = py::str(item.first).cast<std::string>();
-    	std::string value = py::str(item.second).cast<std::string>();
+		std::string value = py::str(item.second).cast<std::string>();
 		transform(key.begin(),key.end(),key.begin(),::tolower);
-    	if (std::find(valid_keywords.begin(),
-    			valid_keywords.end(),key)==valid_keywords.end())
-    		opencap_throw("Invalid key in dictionary:`" + key + "'\n");
+		if (std::find(valid_keywords.begin(),
+				valid_keywords.end(),key)==valid_keywords.end())
+			opencap_throw("Invalid key in dictionary:`" + key + "'\n");
 		params[key]=value;
     }
 	for (auto item: params)
 		parameters[item.first]=item.second;
+	if(cap_func == nullptr)
+		cap_integrator = AOCAP(system.atoms,params);
+	else
+		cap_integrator = AOCAP(system.atoms,params,cap_func);
+}
+
+CAP::CAP(System my_sys, py::dict dict, size_t num_states,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &, int)> &cap_func)
+{
+	python = true;
 	system = my_sys;
 	nstates = num_states;
 	if(num_states<1)
 		opencap_throw("Error: not enough states to run calculation.");
+	define_cap_function(dict,cap_func);
 }
-
 
 void CAP::read_in_zero_order_H()
 {
@@ -214,27 +223,8 @@ void CAP::compute_projected_cap()
 	CAP_MAT = CAP_matrix;
 }
 
-void CAP::compute_custom_cap(std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-		std::vector<double> &, std::vector<double> &, int)> &cap_func)
-{
-	Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
-	auto start = std::chrono::high_resolution_clock::now();
-	integrate_cap_numerical(cap_mat,system.bs,system.atoms,1.0E-14,590,cap_func);
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto total_time = std::chrono::duration<double>(stop-start).count();
-    if(python)
-    py::print("Integration time:"+std::to_string(total_time));
-    else
-    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
-    uniform_cart_norm(cap_mat,system.bs);
-    Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
-    cart2spherical(cap_mat,cap_spherical,system.bs);
-    AO_CAP_MAT = cap_spherical;	
-}
-
 void CAP::integrate_cap()
 {
-    AOCAP cap_integrator(system.atoms,parameters);
     Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
     cap_mat = Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
     auto start = std::chrono::high_resolution_clock::now();
@@ -251,24 +241,42 @@ void CAP::integrate_cap()
     AO_CAP_MAT = cap_spherical;
 }
 
-void CAP::compute_ao_cap(py::dict dict)
+void CAP::compute_cap_on_grid(py::array_t<double>& x, py::array_t<double>& y, py::array_t<double>& z, py::array_t<double>& grid_w)
 {
-    std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
-        "r_cut","radial_precision","angular_points","do_numerical"};
+    py::buffer_info bufx = x.request();
+    py::buffer_info bufy = y.request();
+    py::buffer_info bufz = z.request();
+    py::buffer_info bufw = grid_w.request();
+    double* ptrx = (double*)bufx.ptr;
+    double* ptry = (double*)bufy.ptr;
+    double* ptrz = (double*)bufz.ptr;
+	double* ptrw = (double*)bufw.ptr;
+	size_t num_points = bufx.size;
+    Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
+    cap_mat = Eigen::MatrixXd::Zero(system.bs.num_carts(),system.bs.num_carts());
+    auto start = std::chrono::high_resolution_clock::now();
+	cap_integrator.compute_cap_on_grid(cap_mat,system.bs,ptrx,ptry,ptrz,ptrw,num_points);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto total_time = std::chrono::duration<double>(stop-start).count();
+    if(python)
+    py::print("Integration time:"+std::to_string(total_time));
+    else
+    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+    uniform_cart_norm(cap_mat,system.bs);
+    Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
+    cart2spherical(cap_mat,cap_spherical,system.bs);
+	if(AO_CAP_MAT.cols()==0)
+		AO_CAP_MAT = cap_spherical;
+	else
+		AO_CAP_MAT += cap_spherical;
+}
+
+void CAP::compute_ao_cap(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &, int)> &cap_func)
+{
     py::print("Redefining CAP parameters...\n");
-    std::map<std::string, std::string> params;
+	define_cap_function(dict,cap_func);
     python = true;
-    for (auto item : dict)
-    {
-        std::string key = py::str(item.first).cast<std::string>();
-        std::string value = py::str(item.second).cast<std::string>();
-        transform(key.begin(),key.end(),key.begin(),::tolower);
-        if (std::find(valid_keywords.begin(),valid_keywords.end(),key)==valid_keywords.end())
-            opencap_throw("Invalid key in dictionary:`" + key + "'\n");
-        params[key]=value;
-    }
-    for (auto item: params)
-        parameters[item.first]=item.second;
     integrate_cap();
 }
 
@@ -570,4 +578,3 @@ void CAP::read_electronic_structure_data(py::dict dict)
 		throw ;
 	}
 }
-

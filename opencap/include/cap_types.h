@@ -26,6 +26,4 @@ struct voronoi_cap
                     std::vector<double> &grid_w, int num_points);
 };
 
-//std::function<void(double*, double*, double*, double *, double*, int)> 
-//get_cap_func(std::map<std::string, std::string> params);
 

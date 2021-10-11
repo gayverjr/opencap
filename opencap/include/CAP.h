@@ -26,7 +26,7 @@ SOFTWARE.
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 #include <Eigen/Dense>
-
+#include "AOCAP.h"
 #include "System.h"
 
 
@@ -63,6 +63,9 @@ public:
 	/** Transition density matrices in AO basis, beta densities
 	 */
 	std::vector<std::vector<Eigen::MatrixXd>> beta_dms;
+	/** Instance for integrator
+	*/
+	AOCAP cap_integrator;
 	/** Number of states
 	 */
 	size_t nstates;
@@ -74,9 +77,17 @@ public:
 	 *  \param params: Map of parameters
 	 */
 	CAP(System &my_sys,std::map<std::string, std::string> params);
+	/** Constructor for Python.
+	 *\param my_sys: System object
+	 *\param dict: Python dictionary containing parameters
+	 *\param num_states: number of states
+	 */
+	CAP(System my_sys,py::dict dict,size_t num_states,const std::function<std::vector<double>(std::vector<double> &, 
+	std::vector<double> &, std::vector<double> &, std::vector<double> &, int)> &cap_func={});
 	/** Computes %CAP in AO basis using parameters in given python dictionary
 	 */
-	void compute_ao_cap(py::dict dict);
+	void compute_ao_cap(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+	std::vector<double> &, std::vector<double> &, int)> &cap_func={});
     /** Computes %CAP in AO basis 
      */
     void integrate_cap();
@@ -89,12 +100,6 @@ public:
 	/** Executes Perturbative CAP method.
 	 */
 	void run();
-	/** Constructor for Python.
-	 *\param my_sys: System object
-	 *\param dict: Python dictionary containing parameters
-	 *\param num_states: number of states
-	 */
-	CAP(System my_sys,py::dict dict,size_t num_states);
 	/** Returns CAP matrix in AO basis.
 	 */
     Eigen::MatrixXd get_ao_cap(std::string ordering="",std::string basis_file="");
@@ -139,8 +144,7 @@ public:
 	/** Renormalizes the AO %CAP matrix using the previously parsed overlap matrix.
 	 */
 	void renormalize();
-	void compute_custom_cap(std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-		std::vector<double> &, std::vector<double> &, int)> &cap_func);
+	void compute_cap_on_grid(py::array_t<double>& x, py::array_t<double>& y, py::array_t<double>& z, py::array_t<double>& grid_w);
 
 private:
 	/** Reads in TDMs from electronic structure package
@@ -155,6 +159,8 @@ private:
 	/** Compares computed overlap matrix to that read in from the electronic structure package
 	 */
 	void check_overlap_matrix();
+	void define_cap_function(py::dict dict, const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &, int)> &cap_func);
 };
 
 #endif /* INCLUDE_CAP_H_ */
