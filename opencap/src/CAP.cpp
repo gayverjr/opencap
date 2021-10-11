@@ -232,9 +232,9 @@ void CAP::integrate_cap()
     auto stop = std::chrono::high_resolution_clock::now();
     auto total_time = std::chrono::duration<double>(stop-start).count();
     if(python)
-    py::print("Integration time:"+std::to_string(total_time));
+    	py::print("Integration time:"+std::to_string(total_time));
     else
-    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+    	std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
     uniform_cart_norm(cap_mat,system.bs);
     Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
     cart2spherical(cap_mat,cap_spherical,system.bs);
@@ -259,9 +259,9 @@ void CAP::compute_cap_on_grid(py::array_t<double>& x, py::array_t<double>& y, py
     auto stop = std::chrono::high_resolution_clock::now();
     auto total_time = std::chrono::duration<double>(stop-start).count();
     if(python)
-    py::print("Integration time:"+std::to_string(total_time));
+    	py::print("Integration time:"+std::to_string(total_time));
     else
-    std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+    	std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
     uniform_cart_norm(cap_mat,system.bs);
     Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
     cart2spherical(cap_mat,cap_spherical,system.bs);

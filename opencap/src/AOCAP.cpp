@@ -128,7 +128,6 @@ void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 	double y_coords_bohr[num_atoms];
 	double z_coords_bohr[num_atoms];
 	int nuc_charges[num_atoms];
-    #pragma omp parallel for
 	for(size_t i=0;i<num_atoms;i++)
 	{
 		x_coords_bohr[i]=atoms[i].coords[0];
@@ -140,6 +139,7 @@ void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 	}
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
+	#pragma omp parallel for
 	for(size_t i=0;i<num_atoms;i++)
 	{
         // check parameters
