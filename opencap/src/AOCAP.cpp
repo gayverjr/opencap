@@ -24,7 +24,6 @@ SOFTWARE.
  */
 
 #include "AOCAP.h"
-
 #include "grid_radial.h"
 #include "bragg.h"
 #include <numgrid.h>
@@ -95,7 +94,7 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 }
 
 AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &custom_cap_func)
+std::vector<double> &, std::vector<double> &)> &custom_cap_func)
 {
 	verify_cap_parameters(params);
 	double radial,angpts;
@@ -120,6 +119,9 @@ std::vector<double> &, std::vector<double> &, int)> &custom_cap_func)
 
 void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
+	// funny business happens with GIL if we try to parallelize over atoms when custom python function is used
+	if(cap_type=="custom")
+		omp_set_num_threads(1);
     std::cout << "Calculating CAP matrix in AO basis using " << std::to_string(omp_get_max_threads()) << " threads." << std::endl;
     std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
               << " Angular points: " << angular_points << std::endl;
@@ -139,7 +141,7 @@ void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 	}
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
-	#pragma omp parallel for
+	#pragma omp parallel for 
 	for(size_t i=0;i<num_atoms;i++)
 	{
         // check parameters
@@ -214,7 +216,7 @@ double *grid_w, int num_points)
     std::vector<double> y_vec(y,y+num_points);
     std::vector<double> z_vec(z,z+num_points);
     std::vector<double> w_vec(grid_w,grid_w+num_points);
-    std::vector<double> cap_vec = cap_func(x_vec,y_vec,z_vec,w_vec,num_points);
+    std::vector<double> cap_vec = cap_func(x_vec,y_vec,z_vec,w_vec);
 	size_t bf_idx = 0;
 	for(size_t i=0;i<bs.basis.size();i++)
 	{

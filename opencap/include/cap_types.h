@@ -11,7 +11,7 @@ struct box_cap
     double cap_z;
     box_cap(double x, double y, double z);
     std::vector<double> operator()(std::vector<double> &x, std::vector<double> &y, std::vector<double>  &z, 
-                    std::vector<double>  &grid_w, int num_points);
+                    std::vector<double>  &grid_w);
 };
 
 // Smooth Voronoi CAP
@@ -23,7 +23,7 @@ struct voronoi_cap
     std::vector<Atom> atoms;
     voronoi_cap(double cutoff,std::vector<Atom> geometry);
     std::vector<double> operator()(std::vector<double> &x, std::vector<double> &y, std::vector<double>  &z, 
-                    std::vector<double> &grid_w, int num_points);
+                    std::vector<double> &grid_w);
 };
 
 

@@ -67,7 +67,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 }
 
 void CAP::define_cap_function(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &cap_func)
+std::vector<double> &, std::vector<double> &)> &cap_func)
 {
 	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
 			"r_cut","radial_precision","angular_points","do_numerical"};
@@ -91,7 +91,7 @@ std::vector<double> &, std::vector<double> &, int)> &cap_func)
 }
 
 CAP::CAP(System my_sys, py::dict dict, size_t num_states,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &cap_func)
+std::vector<double> &, std::vector<double> &)> &cap_func)
 {
 	python = true;
 	system = my_sys;
@@ -132,7 +132,7 @@ void CAP::read_in_zero_order_H()
 	else if (compare_strings(parameters["package"],"openmolcas") && parameters.find("molcas_output")!=parameters.end())
 	{
 		if(compare_strings(method,"ms-caspt2") || compare_strings(method,"xms-caspt2"))
-			ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"]);
+			ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"],rotation_matrix);
 		else if(compare_strings(method,"sc-nevpt2") || compare_strings(method,"pc-nevpt2"))
 			ZERO_ORDER_H = read_nevpt2_heff(nstates,parameters["molcas_output"],method);
 		else
@@ -220,6 +220,11 @@ void CAP::compute_projected_cap()
 			CAP_matrix(row_idx,col_idx) = -1.0* CAP_matrix(row_idx,col_idx);
 		}
 	}
+	if (rotation_matrix.cols()!=0)
+	{
+		std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
+		CAP_matrix = rotation_matrix.transpose()*CAP_matrix*rotation_matrix;
+	}
 	CAP_MAT = CAP_matrix;
 }
 
@@ -272,7 +277,7 @@ void CAP::compute_cap_on_grid(py::array_t<double>& x, py::array_t<double>& y, py
 }
 
 void CAP::compute_ao_cap(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &cap_func)
+std::vector<double> &, std::vector<double> &)> &cap_func)
 {
     py::print("Redefining CAP parameters...\n");
 	define_cap_function(dict,cap_func);

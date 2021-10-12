@@ -10,10 +10,10 @@ voronoi_cap::voronoi_cap(double cutoff,std::vector<Atom> geometry)
 }
 
 std::vector<double> voronoi_cap::operator()(std::vector<double> &x, std::vector<double> &y, std::vector<double>  &z, 
-                    std::vector<double>  &grid_w, int num_points)
+                    std::vector<double>  &grid_w)
 {
-    std::vector<double> cap_values(num_points);
-    for(size_t i=0;i<num_points;i++)
+    std::vector<double> cap_values(x.size());
+    for(size_t i=0;i<x.size();i++)
     {
         size_t num_atoms = atoms.size();
         double atom_distances[num_atoms];
@@ -67,10 +67,10 @@ box_cap::box_cap(double x,double y, double z)
 }
 
 std::vector<double> box_cap::operator()(std::vector<double> &x, std::vector<double> &y, std::vector<double>  &z, 
-                    std::vector<double>  &grid_w, int num_points)
+                    std::vector<double>  &grid_w)
 {
-    std::vector<double> cap_values(num_points);
-    for(size_t i=0;i<num_points;i++)
+    std::vector<double> cap_values(x.size());
+    for(size_t i=0;i<x.size();i++)
 	{
 		double result = 0;
 		if(abs(x[i])>cap_x)

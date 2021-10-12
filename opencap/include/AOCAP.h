@@ -52,7 +52,7 @@ public:
 	 */
 	AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params);
 	AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &cap_func);
+std::vector<double> &, std::vector<double> &)> &cap_func);
 	/** Default construct, does nothing
 	*/
 	AOCAP(){cap_x=0.0;cap_y=0.0;cap_z=0.0;r_cut=0.0;do_numerical=true;num_atoms=0;};
@@ -82,7 +82,7 @@ std::vector<double> &, std::vector<double> &, int)> &cap_func);
     size_t num_atoms;
 	bool do_numerical;
 	std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-		std::vector<double> &, std::vector<double> &, int)> cap_func;
+		std::vector<double> &, std::vector<double> &)> cap_func;
 	void compute_cap_on_grid(Eigen::MatrixXd &cap_mat,BasisSet bs,double* x, double* y, double* z, double *grid_w, int num_points);
 
 private:

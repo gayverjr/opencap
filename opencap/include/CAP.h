@@ -51,6 +51,9 @@ public:
 	/** %CAP matrix in correlated many electron basis
 	 */
 	Eigen::MatrixXd CAP_MAT;
+	/** Rotation matrix, required for XMS-CASPT2 variants, otherwise set to I
+	*/
+	Eigen::MatrixXd rotation_matrix;
 	/** Set to true when constructed from the python interpreter, important for printing
 	 */
 	bool python;
@@ -83,11 +86,11 @@ public:
 	 *\param num_states: number of states
 	 */
 	CAP(System my_sys,py::dict dict,size_t num_states,const std::function<std::vector<double>(std::vector<double> &, 
-	std::vector<double> &, std::vector<double> &, std::vector<double> &, int)> &cap_func={});
+	std::vector<double> &, std::vector<double> &, std::vector<double> &)> &cap_func={});
 	/** Computes %CAP in AO basis using parameters in given python dictionary
 	 */
 	void compute_ao_cap(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-	std::vector<double> &, std::vector<double> &, int)> &cap_func={});
+	std::vector<double> &, std::vector<double> &)> &cap_func={});
     /** Computes %CAP in AO basis 
      */
     void integrate_cap();
@@ -160,7 +163,7 @@ private:
 	 */
 	void check_overlap_matrix();
 	void define_cap_function(py::dict dict, const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-std::vector<double> &, std::vector<double> &, int)> &cap_func);
+std::vector<double> &, std::vector<double> &)> &cap_func);
 };
 
 #endif /* INCLUDE_CAP_H_ */

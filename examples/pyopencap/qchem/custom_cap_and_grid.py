@@ -39,12 +39,12 @@ cap_dict = {
 }
 
 # this defines a box CAP of with cutoffs of 3 bohr in each coordinate
-def box_cap(x,y,z,w,num_points):
+def box_cap(x,y,z,w):
     cap_values = []
     cap_x = 3.00
     cap_y = 3.00
     cap_z = 3.00
-    for i in range(0,num_points):
+    for i in range(0,len(x)):
         result = 0
         if np.abs(x[i])>cap_x:
             result += (np.abs(x[i])-cap_x) * (np.abs(x[i])-cap_x)

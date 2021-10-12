@@ -47,7 +47,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		.def(py::init<System,py::dict,size_t>(),py::arg("system"),py::arg("cap_dict"),py::arg("nstates"),
 			"Constructs CAP object from system, cap dictionary, and number of states.")
 		.def(py::init<System,py::dict,size_t,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
-			std::vector<double> &, std::vector<double> &, int)>&>(),py::arg("system"),py::arg("cap_dict"),py::arg("nstates"),
+			std::vector<double> &, std::vector<double> &)>&>(),py::arg("system"),py::arg("cap_dict"),py::arg("nstates"),
 			py::arg("cap_func"),"Constructs CAP object from system, cap dictionary, number of states, and cap function.")
         .def("get_ao_cap",&CAP::get_ao_cap,py::arg("ordering")="",py::arg("basis_file") = "","Returns CAP matrix in AO basis.")
     	.def("get_projected_cap",&CAP::get_projected_cap, "Returns CAP matrix in state basis.")
@@ -69,9 +69,10 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				"specified in dictionary.")
 		.def("renormalize_cap",&CAP::renormalize_cap, py::arg("smat"),
 				py::arg("ordering"),py::arg("basis_file") = "","Re-normalizes AO CAP matrix using input overlap"
-						"matrix.")
+						" matrix.")
 		.def("renormalize",&CAP::renormalize,"Re-normalizes AO CAP using electronic structure data.")
-		.def("compute_cap_on_grid",&CAP::compute_cap_on_grid,"Computes CAP matrix on supplied atomic grid.")
+		.def("compute_cap_on_grid",&CAP::compute_cap_on_grid,py::arg("x"),py::arg("y"),py::arg("z"),py::arg("w"),"Computes CAP matrix on supplied grid. "
+		"Sum will cumulated for each successive grid until compute_projected_cap is called.")
 	;
 }
 
