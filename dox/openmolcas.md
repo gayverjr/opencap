@@ -29,8 +29,8 @@ expansions from the RASSCF program". Of crucial importance to us is that RASSI i
 compute and export one particle transition density matrices between each pair of states. 
 When the 'TRD1' keyword is activated, these densities are exported to an HDF5 file 
 titled $JOBNAME.rassi.h5. When using XMS-CASPT2, RMS-CASPT2, 
-or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will 
-be rotated into the original CASSCF basis using the rotation matrix provided in the output.
+or other variants which utilize rotated CASSCF wave functions, the CAP matrix will be rotated into 
+the new basis using the rotation matrix. All MS-CASPT2 variants are specified as "MS-CASPT2" in the input.
 
 	 &RASSI
 	 TRD1
@@ -43,7 +43,7 @@ In addition to the one particle densities, OpenCAP also requires a zeroth order 
 For a proper description of correlation, an effective Hamiltonian from a multi-state 
 second order perturbation theory method is required. OpenCAP is capable of reading the 
 effective Hamiltonian from OpenMolcas outputs for the following methods: 
-MS-CASPT2,XMS-CASPT2,SC-NEVPT2,PC-NEVPT2.
+MS-CASPT2,XMS-CASPT2,XDW-CASPT2,RMS-CASPT2,SC-NEVPT2,PC-NEVPT2.
 
 __Relevant keywords__
 | Keyword | Type | Description |
@@ -61,7 +61,7 @@ __Example input__
     $end
 
     $projected_cap
-    method xms-caspt2
+    method ms-caspt2
     package openmolcas
     rassi_h5 xms.rassi.h5
     molcas_output xms.out

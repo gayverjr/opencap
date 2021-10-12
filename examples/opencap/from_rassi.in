@@ -6,7 +6,7 @@ basis_file xms.rassi.h5
 $end
 
 $projected_cap
-method xms-caspt2
+method ms-caspt2
 package openmolcas
 rassi_h5 xms.rassi.h5
 molcas_output xms.out

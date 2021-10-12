@@ -38,7 +38,7 @@ cap_dict = {
 }
 
 es_dict = { "package": "openmolcas",
-"method" : "xms-caspt2",
+"method" : "ms-caspt2",
     "molcas_output":OUTPUT_FILE ,
         "rassi_h5":RASSI_FILE,
 }

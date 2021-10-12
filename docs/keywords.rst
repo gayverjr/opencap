@@ -153,7 +153,7 @@ using the OpenMolcas and Q-Chem interfaces.
 +---------------+------------------------------------------------------------------------------------------------------+
 | Keyword       | Description                                                                                          |
 +---------------+------------------------------------------------------------------------------------------------------+
-| method        | Electronic structure method used in the calculation. Valid options are "MS-CASPT2" and "XMS-CASPT2", |
+| method        | Electronic structure method used in the calculation. Valid options are "MS-CASPT2",                  |
 |               | "EOM", and "TDDFT".                                                                                  |
 +---------------+------------------------------------------------------------------------------------------------------+
 | molcas_output | Path to OpenMolcas output file.                                                                      |

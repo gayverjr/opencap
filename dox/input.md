@@ -77,7 +77,7 @@ __Required__
 | Keyword | Type | Description | Valid options |
 |:-------------:|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | cap_type | string | Type of absorbing potential| 'Box' or 'Voronoi'|
-| Method | string | Name of electronic structure method | MS-CASPT2, XMS-CASPT2, TDDFT, EOM, SC-NEVPT2, PC-NEVPT2|
+| Method | string | Name of electronic structure method | MS-CASPT2, TDDFT, EOM, SC-NEVPT2, PC-NEVPT2|
 | Package | string | Name of electronic structure package | OpenMolcas, Q-Chem |
 | Nstates | int | Number of electronic states | 2 or greater |
 

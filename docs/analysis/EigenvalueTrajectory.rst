@@ -35,7 +35,10 @@ Corrected Trajectories
 -----------------------
 Raw uncorrected energies obtained from diagonalizaiton of the CAP Hamiltonian can be sensitive to 
 CAP onset and basis set quality. Practitioners of CAP theory often report so called `corrected` 
-energies, the exact form of which may vary from publication to publication. The form of correction 
+energies, the exact form of which may vary from publication to publication. 
+
+We implement two forms of 1st order corrections. The default is the 
+The form of correction 
 we utilize here is that of [Cederbaum2002]_, which has the form:
 
 :math:`U(\eta)=E(\eta)-\eta\frac{\partial E(\eta) }{\partial \eta}`.

@@ -30,15 +30,16 @@ Supported Methods
 
 * EOM-CC
 * FCI
-* MS-CASPT2 (coming soon: extended variants)
+* MS-CASPT2 (and extended variants)
 * TDDFT
 * ADC (through ADCC_)
 
 Supported Potentials
 ====================
 
-* Box
+* Box (analytical integrals available)
 * Smooth Voronoi
+* Custom CAP functions
 
 Please see the :ref:`keywords <keywords>` section for more details.
 
@@ -46,6 +47,7 @@ Other features
 ==============
 
 * Python based eigenvalue trajectory :ref:`analysis <analysis>` tools
+* Custom numerical integration grids
 
 In development
 ==================
