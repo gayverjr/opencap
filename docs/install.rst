@@ -82,11 +82,4 @@ To ensure that the installation was successful, return to your home directory, s
    import pyopencap
     
 If you cloned the repository, you can run the tests by entering the `pyopencap` directory, 
-and running :code:`pytest`. The following python packages are required to run the tests:
-
-.. code:: bash
-
-   pip install h5py
-   pip install numpy
-   pip install pytest
-   pip install pyscf
+and running :code:`pytest`.

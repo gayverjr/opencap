@@ -19,39 +19,50 @@
     SOFTWARE.'''
 
 import pyopencap
-import psi4
 import numpy as np
 import os
 import sys
+import pytest
 
-cap_dict = {
-    "cap_type": "box",
-        "cap_x":"6.00",
-            "cap_y":"6.00",
-            "cap_z":"6.7",
-            "Radial_precision": "14",
-            "angular_points": "110"
-}
-molden_dict = { "molecule": "molden", "basis_file": 'h2.molden'}
 
-mol = psi4.geometry("""
-    H 0.0000000000 0.0000000000 0.3705000000
-    H 0.0000000000 0.0000000000 -0.3705000000""")
-E, wfn = psi4.energy('scf/cc-pvdz', return_wfn=True)
 
-mints = psi4.core.MintsHelper(wfn.basisset())
-S_mat = np.asarray(mints.ao_overlap())
-nstates = 3
-psi4.set_options({"opdm":True,"num_roots":nstates,"tdm":True,"dipmom":True})
-ci_energy, ci_wfn = psi4.energy('FCI/cc-pvdz', return_wfn=True)
-n_bas = S_mat.shape[0]
-so2ao = mints.petite_list().sotoao()
+@pytest.fixture(autouse=True)
+def run_before_and_after_tests():
+    import psi4
+    """Fixture to execute asserts before and after a test is run"""
+    cap_dict = {
+        "cap_type": "box",
+            "cap_x":"6.00",
+                "cap_y":"6.00",
+                "cap_z":"6.7",
+                "Radial_precision": "14",
+                "angular_points": "110"
+    }
+    molden_dict = { "molecule": "molden", "basis_file": 'h2.molden'}
 
+    mol = psi4.geometry("""
+        H 0.0000000000 0.0000000000 0.3705000000
+        H 0.0000000000 0.0000000000 -0.3705000000""")
+    E, wfn = psi4.energy('scf/cc-pvdz', return_wfn=True)
+
+    mints = psi4.core.MintsHelper(wfn.basisset())
+    S_mat = np.asarray(mints.ao_overlap())
+    nstates = 3
+    psi4.set_options({"opdm":True,"num_roots":nstates,"tdm":True,"dipmom":True})
+    ci_energy, ci_wfn = psi4.energy('FCI/cc-pvdz', return_wfn=True)
+    n_bas = S_mat.shape[0]
+    so2ao = mints.petite_list().sotoao()
+    yield # this is where the testing happens
+    # Teardown : fill with any logic you want
+
+
+@pytest.mark.skipif('psi4' not in sys.modules,reason="requires the Psi4 library")
 def write_molden():
     psi4.molden(wfn, 'h2.molden')
     with open('h2.molden', "a") as myfile:
         myfile.write("\n [7F] \n")
 
+@pytest.mark.skipif('psi4' not in sys.modules,reason="requires the Psi4 library")
 def test_from_molden():
     # add 7F to molden file, psi4 doesn't write it for some reason
     write_molden()
@@ -59,6 +70,7 @@ def test_from_molden():
     s.check_overlap_mat(S_mat,"psi4")
     os.remove('h2.molden')
 
+@pytest.mark.skipif('psi4' not in sys.modules,reason="requires the Psi4 library")
 def test_psi4():
     write_molden()
     s = pyopencap.System(molden_dict)

@@ -57,9 +57,9 @@ dynamical simulation.
 
 An efficient alternative is to treat the CAP as a first order perturbation, considering only a 
 small subset of the eigenstates of the real Hamiltonian [Sommerfeld2001]_. In this so called 
-subspace projection scheme, the CAP will be introduced in the basis of the reduced subset of states:
+subspace projection scheme, the CAP will be introduced in the correlated basis of the reduced subset of states:
 
-.. centered:: :math:`W_{uv}=\langle u | W | v \rangle`
+.. centered:: :math:`W^{CB}_{uv}=\langle u | W | v \rangle`
 
 where :math:`u` and :math:`v` are eigenstates of the real Hamiltonian. Since the CAP is a 
 one-particle operator, these expressions can easily be evaluated using 
@@ -70,7 +70,7 @@ calculation.
 
 .. math::
 
-    W_{uv}=
+    W^{CB}_{uv}=
     \begin{Bmatrix}
     Tr\left[W^{AO}\gamma^{uv} \right ] ,& u \neq v \\ 
     Tr\left[W^{AO}\rho^{u} \right ] ,&  u=v
@@ -78,10 +78,10 @@ calculation.
  
 Once CAP matrix is evaluated the CAP-augmented Hamiltonian is constructed as follows:
 
-.. centered:: :math:`H^{CAP}=H_0-i\eta W`
+.. centered:: :math:`H^{CAP}=H_0-i\eta W^{CB}`
 
 where :math:`H_0` is an appropriate zeroth order Hamiltonian obtained from 
-the electronic structure calculation, and :math:`W` is the CAP represented in the subspace. 
+the electronic structure calculation, and :math:`W^{CB}` is the CAP represented in the correlated basis. 
 Diagonalization of this CAP-augmented Hamiltonian
 yields :math:`\eta`-dependent eigenvalues that are used to extract 
 resonance position and width. Importantly, as only a small number of states in considered 
@@ -102,7 +102,7 @@ of unphysical stationary points. To separate the physical complex energy stabili
 the non physical ones, Moiseyev and coworkers [Moiseyev2009]_ have proposed adding an 
 additional artificial real valued potential to the CAP Hamiltonian.
 
-.. centered:: :math:`H^{CAP}=H_0+(\lambda - i\eta) W`
+.. centered:: :math:`H^{CAP}=H_0+(\lambda - i\eta) W^{CB}`
 
 This approach is known as continuum remover-CAP or CR-CAP. The idea behind this CR-CAP is that
 the true resonance wave function is insensitive to such a potential due to its bound-like nature, while 

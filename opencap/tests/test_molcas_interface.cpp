@@ -111,7 +111,7 @@ TEST(MOLCAS_OUTPUT, PARSE_CASPT2)
     ASSERT_EQ (mscaspt2(0,0), -109.29238639);
     ASSERT_EQ (no_shift(0,0), -95.50812900);
     //rotated matrix
-    ASSERT_NEAR (xmscaspt2(3,3), -108.858019,0.00001);
+    ASSERT_NEAR (xmscaspt2(3,3), -108.85857875,0.00001);
 }
 
 int main(int argc, char **argv) {

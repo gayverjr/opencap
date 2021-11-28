@@ -39,7 +39,7 @@ Supported Potentials
 
 * Box (analytical integrals available)
 * Smooth Voronoi
-* Custom CAP functions
+* :ref:`Custom <Custom>` CAP functions
 
 Please see the :ref:`keywords <keywords>` section for more details.
 
@@ -47,7 +47,7 @@ Other features
 ==============
 
 * Python based eigenvalue trajectory :ref:`analysis <analysis>` tools
-* Custom numerical integration grids
+* :ref:`Custom <custom>` numerical integration grids
 
 In development
 ==================
@@ -72,6 +72,7 @@ Contents
    theory.rst
    interfaces.rst
    analysis/analysis.rst
+   custom_cap_and_grid.rst
    classes.rst
    keywords.rst
 
