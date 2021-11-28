@@ -1,6 +1,18 @@
 """ PyOpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to 
 describe metastable electronic states. 
 
+Currently supported packages are:
+
+- Q-Chem
+- OpenMolcas
+- PySCF
+- Psi4
+
+Currently available features:
+
+- Box and Voronoi CAPs
+- Trajectory analysis tools
+
 All PyOpenCAP wheels distributed on PyPi are MIT licensed.
 """
 DOCLINES = (__doc__ or '').split("\n")
@@ -61,7 +73,8 @@ setup(
     version='1.2.0',
     author='James Gayvert',
     author_email='jrg444@gmail.com',
-    description='Python bindings for OpenCAP',
+    description=DOCLINES[0],
+    long_description="\n".join(DOCLINES[2:])
     ext_modules=[CMakeExtension('pyopencap.pyopencap_cpp','opencap')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
