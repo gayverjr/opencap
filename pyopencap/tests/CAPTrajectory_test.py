@@ -114,3 +114,46 @@ def test_export():
     CAPH2 = CAPHamiltonian(output="test.out")
     assert np.isclose(CAPH._H0[0][0],CAPH2._H0[0][0])
     os.remove("test.out")
+
+def test_tracking():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory(eta_list)
+    traj = CAPH.track_state(1,tracking="overlap")
+    E1,eta1 = traj.find_eta_opt(corrected=True,units="au")
+    traj = CAPH.track_state(1,tracking="energy")
+    E2,eta2 = traj.find_eta_opt(corrected=True,units="au")
+    assert np.isclose(E1,E2)
+    assert np.isclose(eta1,eta2)
+
+def test_roots():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory(eta_list)
+    traj = CAPH.track_state(1)
+    E1,eta1,root1 = traj.find_eta_opt(corrected=True,units="au",return_root=True)
+    E2,root2 = traj.get_energy(eta1,corrected=True,units="au",return_root=True)
+    assert root1 == root2
+    assert np.isclose(E1,E2)
+
+def test_correction():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory(eta_list)
+    traj = CAPH.track_state(1,correction="density")
+    E1,eta1 = traj.find_eta_opt(corrected=True,units="au")
+    traj = CAPH.track_state(1,correction="derivative")
+    E2,eta2 = traj.find_eta_opt(corrected=True,units="au")
+    assert np.isclose(E1,E2)
+    assert np.isclose(eta1,eta2)
+
+def test_biorthogonalization():
+    CAPH = CAPHamiltonian(output=os.path.join(dest_dir,"n2_opencap.out"))
+    CAPH.run_trajectory([0.01])
+    roots = CAPH._all_roots[0]
+    ovlp = np.zeros((len(roots),len(roots)),dtype = 'complex_')
+    for i in range(0,len(roots)):
+        lr = roots[i].Leigvc
+        for j in range(0,len(roots)):
+            rr = roots[j].Reigvc
+            ovlp[i][j] = np.dot(lr,rr)
+    identity = np.identity(len(roots))
+    diff = np.sum(ovlp-identity)
+    assert np.isclose(diff,0.0)

@@ -94,7 +94,7 @@ class EigenvalueTrajectory():
     
     Attributes
     ----------
-    states: list of :class:`~pyopencap.analysis.Root`
+    roots: list of :class:`~pyopencap.analysis.Root`
         List of states in trajectory.
     uncorrected_energies: list of float
         List of uncorrected energies in trajectory.
@@ -127,7 +127,7 @@ class EigenvalueTrajectory():
             Choice of correction scheme. Either "density" or "derivative".
         '''
         self._last = init_roots[state_idx]
-        self.states = [self._last]
+        self.roots = [self._last]
         self.uncorrected_energies = [self._last.energy]
         self.corrected_energies = []
         self.W = W
@@ -156,7 +156,7 @@ class EigenvalueTrajectory():
                 maxo = ov
                 cur = st
         self._last = cur
-        self.states.append(cur)
+        self.roots.append(cur)
         self.uncorrected_energies.append(cur.energy)
         self.etas.append(cur.eta)
 
@@ -168,14 +168,14 @@ class EigenvalueTrajectory():
                 cur = st
                 min = np.absolute(st.energy - self._last.energy)
         self._last = cur
-        self.states.append(cur)
+        self.roots.append(cur)
         self.uncorrected_energies.append(cur.energy)
         self.etas.append(cur.eta)
 
     def _density_matrix_correction(self):
-        for i in range(0, len(self.states)):
-            eigvc = self.states[i].Reigvc
-            Leigvc = self.states[i].Leigvc
+        for i in range(0, len(self.roots)):
+            eigvc = self.roots[i].Reigvc
+            Leigvc = self.roots[i].Leigvc
             total = 0
             for k in range(0,len(self.W)):
                 for l in range(0,len(self.W)):
@@ -187,7 +187,7 @@ class EigenvalueTrajectory():
     def _derivative_correction(self):
         derivs = list(
             np.gradient(self.uncorrected_energies) / np.gradient(self.etas))
-        for i in range(0, len(self.states)):
+        for i in range(0, len(self.roots)):
             self.corrected_energies.append(self.uncorrected_energies[i] -
                                            self.etas[i] * derivs[i])
 
@@ -196,7 +196,8 @@ class EigenvalueTrajectory():
                      start_idx=1,
                      end_idx=-1,
                      ref_energy=0.0,
-                     units="au"):
+                     units="au",
+                     return_root=False):
         '''
         Finds optimal cap strength parameter for eigenvalue trajectory, as defined by eta_opt = min|eta*dE/deta|.
         
@@ -214,6 +215,8 @@ class EigenvalueTrajectory():
             Reference energy to define excitation energy.
         units: str, default="au"
             Options are "au" or "eV"
+        return_root: bool, default=False
+            Whether to return :class:`~pyopencap.analysis.Root` object associated with optimal value of eta
         
         Returns
         -------
@@ -221,6 +224,8 @@ class EigenvalueTrajectory():
             Complex energy at optimal value of eta
         eta_opt: float
             Optimal value of eta
+        root: :class:`~pyopencap.analysis.Root`
+            Only returned when return_root is set to true
 
         '''
         if units == "au":
@@ -236,7 +241,10 @@ class EigenvalueTrajectory():
             opt_idx = list(derivs).index(min_val)
             E = self.corrected_energies[opt_idx]
             E = (E - ref_energy) * scaling_factor
-            return E, self.etas[opt_idx]
+            if return_root:
+                return E, self.etas[opt_idx], self.roots[opt_idx]
+            else:
+                return E, self.etas[opt_idx]
         else:
             derivs = np.array(self.etas) * np.absolute(
                 np.gradient(self.uncorrected_energies) /
@@ -245,7 +253,10 @@ class EigenvalueTrajectory():
             opt_idx = list(derivs).index(min_val)
             E = self.uncorrected_energies[opt_idx]
             E = (E - ref_energy) * scaling_factor
-            return E, self.etas[opt_idx]
+            if return_root:
+                return E, self.etas[opt_idx], self.roots[opt_idx]
+            else:
+                return E, self.etas[opt_idx]
 
     def energies_ev(self, ref_energy, corrected=False):
         '''
@@ -272,7 +283,7 @@ class EigenvalueTrajectory():
             E_eV.append((E - ref_energy) * au2eV)
         return E_eV
 
-    def get_energy(self, eta, corrected=False, ref_energy=0.0, units="au"):
+    def get_energy(self, eta, corrected=False, ref_energy=0.0, units="au", return_root = False):
         '''
         Returns total energy at given value of eta. 
         
@@ -288,11 +299,15 @@ class EigenvalueTrajectory():
             Reference energy to define excitation energy.
         units: str, default="au"
             Options are "au" or "eV"
+        return_root: bool, default=False
+            Whether to return :class:`~pyopencap.analysis.Root` object associated with optimal value of eta
         
         Returns
         -------
         E: float
             Energy at given value of eta
+        root: :class:`~pyopencap.analysis.Root`
+            Only returned when return_root is set to true
         '''
         if units == "au":
             scaling_factor = 1.0
@@ -307,10 +322,15 @@ class EigenvalueTrajectory():
             warnings.warn("Warning: "+str(eta) + " is not in the list of values for this trajectory." \
                 +" Defaulting to nearest value of " + str(self.etas[idx]))
         if corrected:
-            return (self.corrected_energies[idx] - ref_energy) * scaling_factor
+            if return_root:
+                return (self.corrected_energies[idx] - ref_energy) * scaling_factor, self.roots[idx]
+            else:
+                return (self.corrected_energies[idx] - ref_energy) * scaling_factor
         else:
-            return (self.uncorrected_energies[idx] -
-                    ref_energy) * scaling_factor
+            if return_root:
+                return (self.uncorrected_energies[idx] -ref_energy) * scaling_factor, self.roots[idx]
+            else:
+                return (self.uncorrected_energies[idx] -ref_energy) * scaling_factor
 
     def get_logarithmic_velocities(self, corrected=False):
         '''

@@ -26,6 +26,11 @@ import os
 import sys
 import pytest
 
+try:
+    import numgrid
+except:
+    pass
+
 def box_cap(x,y,z,w):
     cap_values = []
     cap_x = 3.00
@@ -67,7 +72,21 @@ cap_dict = {
             "cap_z":"3.00",
 }
 
+cap_dict_numerical = {
+            "cap_type": "box",
+            "cap_x":"3.00",
+            "cap_y":"3.00",
+            "cap_z":"3.00",
+            "do_numerical": "true"
+}
+
 ref_energy = -109.36195558
+
+radial_precision = 1.0e-12
+min_num_angular_points = 590
+max_num_angular_points = 590
+proton_charges = [7, 7, 1]
+center_coordinates_bohr = [(0.0, 0.0, 1.03699997), (0.0, 0.0, -1.03699997), (0.0, 0.0, 0.0)]
 
 def get_corrected_energy(pc):
     CAPH = CAPHamiltonian(pc=pc)
@@ -86,6 +105,16 @@ def test_custom_cap():
     e1  = get_corrected_energy(pc)
     pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
+    e2  = get_corrected_energy(pc)
+    assert np.isclose(e1,e2)
+
+def test_numerical_integration():
+    s = pyopencap.System(sys_dict)
+    pc = pyopencap.CAP(s,cap_dict,5)
+    pc.read_data(es_dict)
+    pc.compute_projected_cap()
+    e1  = get_corrected_energy(pc)
+    pc.compute_ao_cap(cap_dict_numerical)
     e2  = get_corrected_energy(pc)
     assert np.isclose(e1,e2)
 
@@ -119,4 +148,3 @@ def test_custom_grid():
     pc.compute_projected_cap()
     e2  = get_corrected_energy(pc)
     assert np.isclose(e1,e2)
-

@@ -23,23 +23,28 @@ import numpy as np
 import os
 import sys
 import pytest
-
-@pytest.fixture(autouse=True)
-def run_before_and_after_tests():
+try:
+    import pyscf
     from pyscf import gto, scf, fci, tools
-    sys_dict = {
-        "molecule":"molden",
-        "basis_file":"molden_file.molden"
-    }
+except:
+    pass
 
-    cap_dict = {
-        "cap_type": "box",
-            "cap_x":"6.00",
-                "cap_y":"6.00",
-                "cap_z":"6.7",
-                "Radial_precision": "14",
-                "angular_points": "110"
-    }
+
+sys_dict = {
+    "molecule":"molden",
+    "basis_file":"molden_file.molden"
+}
+
+cap_dict = {
+    "cap_type": "box",
+    "cap_x":"6.00",
+    "cap_y":"6.00",
+    "cap_z":"6.7",
+    "Radial_precision": "14",
+    "angular_points": "110"
+}
+
+def get_hf():
     mol = gto.M(
                 atom = 'H        0.0     0.0     0.54981512; \
                 H        0.0     0.0     -0.54981512;',
@@ -48,11 +53,11 @@ def run_before_and_after_tests():
     mol.build()
     myhf = scf.RHF(mol)
     myhf.kernel()
-    yield # this is where the testing happens
-    # Teardown : fill with any logic you want
+    return mol,myhf
 
 @pytest.mark.skipif('pyscf' not in sys.modules,reason="requires the pyscf library")
 def test_from_molden():
+    mol,myhf = get_hf()
     tools.molden.from_scf(myhf,"molden_file.molden")
     s = pyopencap.System(sys_dict)
     pyscf_smat = scf.hf.get_ovlp(mol)
@@ -61,6 +66,7 @@ def test_from_molden():
 
 @pytest.mark.skipif('pyscf' not in sys.modules,reason="requires the pyscf library")
 def test_pyscf():
+    mol,myhf = get_hf()
     tools.molden.from_scf(myhf,"molden_file.molden")
     s = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(s,cap_dict,3)
