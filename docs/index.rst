@@ -37,7 +37,7 @@ Supported Methods
 Supported Potentials
 ====================
 
-* Box (analytical integrals available)
+* Box (analytical integrals are now available!)
 * Smooth Voronoi
 * :ref:`Custom <Custom>` CAP functions
 
@@ -49,9 +49,22 @@ Other features
 * Python based eigenvalue trajectory :ref:`analysis <analysis>` tools
 * :ref:`Custom <custom>` numerical integration grids
 
+Acknowledgements
+=================
+
+* We would like to give special thanks to Prof. Thomas Sommerfeld for generously providing us with a 
+  C++ implementation of analytical box CAP integrals. Please checkout his repository_ on GitHub for many 
+  implementations of L^2 methods for resonances!
+* We would like to thank Prof. John Burkardt for his C++ implementation of the Incomplete Gamma function. Many of his 
+  wonderful open source codes can be found at his website_.
+* We would like to thank the Molecular Sciences Software Institute for funding this project. Please visit the MolSSI_ 
+  website for their educational resources, fellowship opportunities, and software projects!
+
+
 In development
 ==================
 * Feshbach projection approaches
+* Tools for dyanmics on complex potential energy surfaces
 
 .. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
 .. _PySCF: http://pyscf.org/
@@ -60,6 +73,9 @@ In development
 .. _pybind11: https://github.com/pybind/pybind11
 .. _Q-Chem: https://www.q-chem.com/
 .. _ADCC: https://adc-connect.org/
+.. _repository: https://github.com/tsommerfeld/L2-methods_for_resonances
+.. _website: https://people.sc.fsu.edu/~jburkardt/
+.. _MolSSI: https://molssi.org/
 
 Contents
 ========

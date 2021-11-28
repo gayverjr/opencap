@@ -73,11 +73,14 @@ more details on the radial_precision and angular_points keywords.
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | angular_points   | no       | "590"                | Number of angular points used for the grid. See https://github.com/dftlibs/numgrid for allowed numbers of points.  |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
+| do_numerical     | no       | True for box CAPs,   | Analytical [Santra1999]_ integrals are available for Box CAPs only, and are used by default. All other CAPs        |
+|                  |          | false for other CAPs | must be integrated numerically.                                                                                    |
++------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 
 
 **Box CAP**
 
-A quadratic potential which encloses the system in a 3D rectangular box.
+A quadratic potential which encloses the system in a 3D rectangular box. Analytical integrals are available for these types of CAPs.
 
 .. math::
 
@@ -158,7 +161,7 @@ using the OpenMolcas and Q-Chem interfaces.
 +---------------+------------------------------------------------------------------------------------------------------+
 | molcas_output | Path to OpenMolcas output file.                                                                      |
 +---------------+------------------------------------------------------------------------------------------------------+
-| h0_file       | Path to Zeroth order Hamiltonian file. Can be full matrix or diagonal.                               |
+| h0_file       |  Path to Zeroth order Hamiltonian file. Can be full matrix or diagonal.                              |
 |               |  See https://github.com/gayverjr/opencap/tree/main/examples/opencap                                  |
 +---------------+------------------------------------------------------------------------------------------------------+
 | package       | "OpenMolcas" or "QChem"                                                                              |
@@ -183,4 +186,4 @@ Example:
 References
 -----------------
 .. [Sommerfeld2015] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.
-
+.. [Santra1999] Santra, R.; Cederbaum, L. ~S.; Meyer, H.-D. Electronic Decay of Molecular Clusters: Non-Stationary States Computed by Standard Quantum Chemistry Methods. *Chem. Phys. Lett.* **1999**, 303 (3), 413–419.

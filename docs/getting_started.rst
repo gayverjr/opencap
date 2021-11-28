@@ -27,7 +27,7 @@ and the number of states.
 
 .. code-block:: python
 	
-	nstates = 10
+    nstates = 10
     cap_dict = {"cap_type": "box",
             "cap_x":"2.76",
             "cap_y":"2.76",
