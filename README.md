@@ -218,4 +218,4 @@ This project is funded by the Molecular Sciences Software Institute.
 We would like to thank Professor Thomas Sommerfeld for his generous contribution of C++ code for analytic box-CAP integrals. Please 
 visit his [repository](https://github.com/tsommerfeld/L2-methods_for_resonances) for many implementations of L^2 methods for resonances!
 
-We would like to thank Prof. John Burkardt for his C++ implementation of the Incomplete Gamma function. Many of his wonderful open source codes can be found at his [website](https://people.sc.fsu.edu/~jburkardt/).
+We would like to thank Prof. John Burkardt for his implementation of the Incomplete Gamma function. Many of his wonderful open source codes can be found at his [website](https://people.sc.fsu.edu/~jburkardt/).
