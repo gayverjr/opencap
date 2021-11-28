@@ -76,6 +76,10 @@ setup(
     author='James Gayvert',
     author_email='jrg444@gmail.com',
     description=DOCLINES[0],
+    project_urls = {
+        'Source code': "https://github.com/gayverjr/opencap",
+        'Documentation': "https://gayverjropencap.readthedocs.io/en/latest/"
+    },
     long_description="\n".join(DOCLINES[2:]),
     ext_modules=[CMakeExtension('pyopencap.pyopencap_cpp','opencap')],
     cmdclass=dict(build_ext=CMakeBuild),
