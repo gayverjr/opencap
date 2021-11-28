@@ -19,12 +19,11 @@
     SOFTWARE.'''
 
 import numpy as np
-from numpy import linalg as LA
+from scipy import linalg as LA
 import warnings
 
 # https://physics.nist.gov/cgi-bin/cuu/Value?hrev
 au2eV = 27.211386245988
-
 
 def _delete_indices(H0, W, exclude_states):
     exclude_states = np.unique(exclude_states)
@@ -36,6 +35,20 @@ def _delete_indices(H0, W, exclude_states):
         W = np.delete(W, i, axis=1)
     return H0, W
 
+def _biorthogonalize(Leigvc,Reigvc):
+    M = Leigvc.T @ Reigvc
+    P,L,U = LA.lu(M)
+    Linv = LA.inv(L)
+    Uinv = LA.inv(U)
+    Leigvc = np.dot(Linv,Leigvc)
+    Reigvc = np.dot(Reigvc,Uinv)
+    return Leigvc, Reigvc
+
+def _sort_eigenvectors(eigv,eigvc):
+    idx = eigv.argsort()
+    eigv = eigv[idx]
+    eigvc = eigvc[:,idx]
+    return eigv,eigvc
 
 class Root():
     '''
@@ -50,7 +63,7 @@ class Root():
     eigvc: list of float
         Eigenvector for state
     '''
-    def __init__(self, energy, eta, eigvc):
+    def __init__(self, energy, eta, Reigvc, Leigvc):
         '''
         Initializes root object.
         
@@ -65,7 +78,8 @@ class Root():
         '''
         self.eta = eta
         self.energy = energy
-        self.eigvc = eigvc/np.sqrt(np.dot(eigvc,eigvc))
+        self.eigvc = Reigvc
+        self.Leigvc = Leigvc
 
 
 
@@ -156,10 +170,11 @@ class EigenvalueTrajectory():
     def _density_matrix_correction(self):
         for i in range(0, len(self.states)):
             eigvc = self.states[i].eigvc
+            Leigvc = self.states[i].Leigvc
             total = 0
             for k in range(0,len(self.W)):
                 for l in range(0,len(self.W)):
-                    total += eigvc[k] * eigvc[l] * self.W[k][l]
+                    total += Leigvc[k] * eigvc[l] * self.W[k][l]
             total*= 1.0j
             self.corrected_energies.append(self.uncorrected_energies[i] -
                                            self.etas[i] * total)
@@ -660,9 +675,11 @@ class CAPHamiltonian():
             self.etas.append(eta)
             roots = []
             CAPH = self.H0 + 1.0j * eta * self.W - cap_lambda * self.W
-            eigv, eigvc = LA.eig(CAPH)
+            eigv, Reigvc = _sort_eigenvectors(*LA.eig(CAPH))
+            Leigv, Leigvc = _sort_eigenvectors(*LA.eig(CAPH.T))
+            Leigvc, Reigvc = _biorthogonalize(Leigvc,Reigvc)
             for j, eig in enumerate(eigv):
-                roots.append(Root(eigv[j], eta, eigvc[:, j]))
+                roots.append(Root(eigv[j], eta, Reigvc[:, j],Leigvc[:,j]))
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 

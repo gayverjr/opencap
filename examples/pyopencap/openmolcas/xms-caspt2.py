@@ -56,7 +56,7 @@ eta_list = np.linspace(0,5000,101)
 eta_list = np.around(eta_list * 1E-5,decimals=5)
 CAPH.run_trajectory(eta_list)
 ref_energy = -109.36219955
-traj = CAPH.track_state(1,tracking="overlap")
+traj = CAPH.track_state(2,tracking="overlap")
 # Find optimal value of eta
 uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")
 # start_idx and end_idx for search use python slice notation (i.e. [start_idx:end_idx]).
