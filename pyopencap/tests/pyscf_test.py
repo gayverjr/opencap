@@ -29,54 +29,55 @@ try:
 except:
     pass
 
-
-sys_dict = {
-    "molecule":"molden",
-    "basis_file":"molden_file.molden"
-}
+sys_dict = {"molecule": "molden", "basis_file": "molden_file.molden"}
 
 cap_dict = {
     "cap_type": "box",
-    "cap_x":"6.00",
-    "cap_y":"6.00",
-    "cap_z":"6.7",
+    "cap_x": "6.00",
+    "cap_y": "6.00",
+    "cap_z": "6.7",
     "Radial_precision": "14",
     "angular_points": "110"
 }
 
+
 def get_hf():
-    mol = gto.M(
-                atom = 'H        0.0     0.0     0.54981512; \
+    mol = gto.M(atom='H        0.0     0.0     0.54981512; \
                 H        0.0     0.0     -0.54981512;',
-                basis = "cc-pvdz"
-                )
+                basis="cc-pvdz")
     mol.build()
     myhf = scf.RHF(mol)
     myhf.kernel()
-    return mol,myhf
+    return mol, myhf
 
-@pytest.mark.skipif('pyscf' not in sys.modules,reason="requires the pyscf library")
+
+@pytest.mark.skipif('pyscf' not in sys.modules,
+                    reason="requires the pyscf library")
 def test_from_molden():
-    mol,myhf = get_hf()
-    tools.molden.from_scf(myhf,"molden_file.molden")
+    mol, myhf = get_hf()
+    tools.molden.from_scf(myhf, "molden_file.molden")
     s = pyopencap.System(sys_dict)
     pyscf_smat = scf.hf.get_ovlp(mol)
-    s.check_overlap_mat(pyscf_smat,"pyscf")
+    s.check_overlap_mat(pyscf_smat, "pyscf")
     os.remove("molden_file.molden")
 
-@pytest.mark.skipif('pyscf' not in sys.modules,reason="requires the pyscf library")
+
+@pytest.mark.skipif('pyscf' not in sys.modules,
+                    reason="requires the pyscf library")
 def test_pyscf():
-    mol,myhf = get_hf()
-    tools.molden.from_scf(myhf,"molden_file.molden")
+    mol, myhf = get_hf()
+    tools.molden.from_scf(myhf, "molden_file.molden")
     s = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(s,cap_dict,3)
+    pc = pyopencap.CAP(s, cap_dict, 3)
     fs = fci.FCI(mol, myhf.mo_coeff)
     fs.nroots = 3
     e, c = fs.kernel()
-    for i in range(0,len(fs.ci)):
-        for j in range(0,len(fs.ci)):
-            dm1 = fs.trans_rdm1(fs.ci[i],fs.ci[j],myhf.mo_coeff.shape[1],mol.nelec)
-            dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1, myhf.mo_coeff.conj())
-            pc.add_tdm(dm1_ao,i,j,"pyscf")
+    for i in range(0, len(fs.ci)):
+        for j in range(0, len(fs.ci)):
+            dm1 = fs.trans_rdm1(fs.ci[i], fs.ci[j], myhf.mo_coeff.shape[1],
+                                mol.nelec)
+            dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1,
+                               myhf.mo_coeff.conj())
+            pc.add_tdm(dm1_ao, i, j, "pyscf")
     pc.compute_projected_cap()
     os.remove("molden_file.molden")
