@@ -9,6 +9,6 @@ var searchData=
   ['alpha_5fmin',['alpha_min',['../class_basis_set.html#a47a6c15a260490861f15c5c28992421b',1,'BasisSet::alpha_min()'],['../class_shell.html#a201934294b56e6af1d452f6891c59854',1,'Shell::alpha_min()']]],
   ['analyze',['analyze',['../class_eigenvalue_trajectory.html#a7d1e158016b84d99efb08994be853327',1,'EigenvalueTrajectory']]],
   ['ang_5fto_5fbohr',['ang_to_bohr',['../class_atom.html#a2460e9fee8358ec2067ddab152c29a9c',1,'Atom']]],
-  ['aocap',['AOCAP',['../class_a_o_c_a_p.html#a7c8ad4bbb9f34ccda8e52129fd893f7c',1,'AOCAP']]],
+  ['aocap',['AOCAP',['../class_a_o_c_a_p.html#a7c8ad4bbb9f34ccda8e52129fd893f7c',1,'AOCAP::AOCAP(std::vector&lt; Atom &gt; geometry, std::map&lt; std::string, std::string &gt; params)'],['../class_a_o_c_a_p.html#ac6d91362d7610c56f49122a938ad2581',1,'AOCAP::AOCAP(std::vector&lt; Atom &gt; geometry, std::map&lt; std::string, std::string &gt; params, const std::function&lt; std::vector&lt; double &gt;(std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;)&gt; &amp;cap_func)'],['../class_a_o_c_a_p.html#af9ea111fb458c31c433e181862bf781e',1,'AOCAP::AOCAP()']]],
   ['atom',['Atom',['../class_atom.html#a845ba5207edc191cf0b136713a01f529',1,'Atom::Atom(string symbol, double x, double y, double z)'],['../class_atom.html#a0a179d661abc9d4bd591037fd9bc85b3',1,'Atom::Atom(int atom_num, double x, double y, double z)']]]
 ];

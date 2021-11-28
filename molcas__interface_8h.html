@@ -92,8 +92,8 @@ Functions</h2></td></tr>
 <tr class="separator:a698e5aaae1f9c5e99d6270791aa06b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3aeff747db4733d37644cd017d5d86a4"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a3aeff747db4733d37644cd017d5d86a4">read_rassi_overlap</a> (std::string filename, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
 <tr class="separator:a3aeff747db4733d37644cd017d5d86a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f05adacb29a9666906917cebb4c56cb"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a6f05adacb29a9666906917cebb4c56cb">read_mscaspt2_heff</a> (size_t nstates, std::string filename)</td></tr>
-<tr class="separator:a6f05adacb29a9666906917cebb4c56cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe12d0368061c90d4cf8d2a51f94a8e0"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#afe12d0368061c90d4cf8d2a51f94a8e0">read_mscaspt2_heff</a> (size_t nstates, std::string filename, Eigen::MatrixXd &amp;rotation_matrix)</td></tr>
+<tr class="separator:afe12d0368061c90d4cf8d2a51f94a8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b798ba792e0abe26b43c7b15344cd46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a7b798ba792e0abe26b43c7b15344cd46">read_basis_from_rassi</a> (std::string filename, std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt; atoms)</td></tr>
 <tr class="separator:a7b798ba792e0abe26b43c7b15344cd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984970b1bc4b08adc923a3c6c006c352"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="molcas__interface_8h.html#a984970b1bc4b08adc923a3c6c006c352">read_geometry_from_rassi</a> (std::string filename)</td></tr>
@@ -165,8 +165,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6f05adacb29a9666906917cebb4c56cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f05adacb29a9666906917cebb4c56cb">&#9670;&nbsp;</a></span>read_mscaspt2_heff()</h2>
+<a id="afe12d0368061c90d4cf8d2a51f94a8e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe12d0368061c90d4cf8d2a51f94a8e0">&#9670;&nbsp;</a></span>read_mscaspt2_heff()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +181,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>filename</em>&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>rotation_matrix</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,6 +200,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">nstates</td><td>number of states </td></tr>
     <tr><td class="paramname">filename</td><td>file location of the OpenMolcas output file. </td></tr>
+    <tr><td class="paramname">rotation_matrix</td><td>Eigen matrix of rotation matrix. imension is MxM, where M is number of states. </td></tr>
   </table>
   </dd>
 </dl>

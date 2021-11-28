@@ -14,5 +14,6 @@ var searchData=
   ['get_5fpyscf_5fids',['get_pyscf_ids',['../gto__ordering_8h.html#a16db66ea3b87c391e1f7d40d4c818005',1,'gto_ordering.h']]],
   ['get_5fqchem_5fids',['get_qchem_ids',['../gto__ordering_8h.html#a5a4a16830c11ea044944cc531a16cc16',1,'gto_ordering.h']]],
   ['getname',['getName',['../structelement.html#afb93744bc380138878e9b63da235f417',1,'element']]],
+  ['gto',['gto',['../structgto.html',1,'']]],
   ['gto_5fordering_2eh',['gto_ordering.h',['../gto__ordering_8h.html',1,'']]]
 ];

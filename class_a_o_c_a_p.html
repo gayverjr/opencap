@@ -86,8 +86,14 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7c8ad4bbb9f34ccda8e52129fd893f7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#a7c8ad4bbb9f34ccda8e52129fd893f7c">AOCAP</a> (std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt; geometry, std::map&lt; std::string, std::string &gt; params)</td></tr>
 <tr class="separator:a7c8ad4bbb9f34ccda8e52129fd893f7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4cbbb3c8c433489b2677ed0de45cb29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#af4cbbb3c8c433489b2677ed0de45cb29">compute_ao_cap_mat</a> (Eigen::MatrixXd &amp;cap_mat, <a class="el" href="class_basis_set.html">BasisSet</a> bs)</td></tr>
-<tr class="separator:af4cbbb3c8c433489b2677ed0de45cb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6d91362d7610c56f49122a938ad2581"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#ac6d91362d7610c56f49122a938ad2581">AOCAP</a> (std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt; geometry, std::map&lt; std::string, std::string &gt; params, const std::function&lt; std::vector&lt; double &gt;(std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;)&gt; &amp;<a class="el" href="class_a_o_c_a_p.html#afe8a3ae5c32b4b5e29a3d017e50b3e5f">cap_func</a>)</td></tr>
+<tr class="separator:ac6d91362d7610c56f49122a938ad2581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9ea111fb458c31c433e181862bf781e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#af9ea111fb458c31c433e181862bf781e">AOCAP</a> ()</td></tr>
+<tr class="separator:af9ea111fb458c31c433e181862bf781e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab49daa7fe0e0ed566b44745692a2618b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#ab49daa7fe0e0ed566b44745692a2618b">compute_ao_cap_mat</a> (Eigen::MatrixXd &amp;cap_mat, <a class="el" href="class_basis_set.html">BasisSet</a> &amp;bs)</td></tr>
+<tr class="separator:ab49daa7fe0e0ed566b44745692a2618b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a16535c86a11d8fc0676ab5680f73e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#a5a16535c86a11d8fc0676ab5680f73e6">compute_cap_on_grid</a> (Eigen::MatrixXd &amp;cap_mat, <a class="el" href="class_basis_set.html">BasisSet</a> bs, double *x, double *y, double *z, double *grid_w, int num_points)</td></tr>
+<tr class="separator:a5a16535c86a11d8fc0676ab5680f73e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -109,12 +115,16 @@ Public Attributes</h2></td></tr>
 <tr class="separator:af18be7fb95b1b3010797daf403c0d438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af27e4ff3f8eda9764325f42ba31f3c06"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#af27e4ff3f8eda9764325f42ba31f3c06">num_atoms</a></td></tr>
 <tr class="separator:af27e4ff3f8eda9764325f42ba31f3c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3972a2c7e5529e3e0b002aaed07a55a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#a3972a2c7e5529e3e0b002aaed07a55a0">do_numerical</a></td></tr>
+<tr class="separator:a3972a2c7e5529e3e0b002aaed07a55a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe8a3ae5c32b4b5e29a3d017e50b3e5f"><td class="memItemLeft" align="right" valign="top">std::function&lt; std::vector&lt; double &gt;std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#afe8a3ae5c32b4b5e29a3d017e50b3e5f">cap_func</a></td></tr>
+<tr class="separator:afe8a3ae5c32b4b5e29a3d017e50b3e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for numerically integrating the CAP matrix in AO basis. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7c8ad4bbb9f34ccda8e52129fd893f7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c8ad4bbb9f34ccda8e52129fd893f7c">&#9670;&nbsp;</a></span>AOCAP()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c8ad4bbb9f34ccda8e52129fd893f7c">&#9670;&nbsp;</a></span>AOCAP() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,9 +152,69 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac6d91362d7610c56f49122a938ad2581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6d91362d7610c56f49122a938ad2581">&#9670;&nbsp;</a></span>AOCAP() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AOCAP::AOCAP </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt;&#160;</td>
+          <td class="paramname"><em>geometry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::map&lt; std::string, std::string &gt;&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::function&lt; std::vector&lt; double &gt;(std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;, std::vector&lt; double &gt; &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>cap_func</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9ea111fb458c31c433e181862bf781e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9ea111fb458c31c433e181862bf781e">&#9670;&nbsp;</a></span>AOCAP() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">AOCAP::AOCAP </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Default construct, does nothing </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af4cbbb3c8c433489b2677ed0de45cb29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4cbbb3c8c433489b2677ed0de45cb29">&#9670;&nbsp;</a></span>compute_ao_cap_mat()</h2>
+<a id="ab49daa7fe0e0ed566b44745692a2618b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab49daa7fe0e0ed566b44745692a2618b">&#9670;&nbsp;</a></span>compute_ao_cap_mat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -158,7 +228,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a> &amp;&#160;</td>
           <td class="paramname"><em>bs</em>&#160;</td>
         </tr>
         <tr>
@@ -169,6 +239,64 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Computes CAP matrix in AO basis via numerical integration. </p>
+
+</div>
+</div>
+<a id="a5a16535c86a11d8fc0676ab5680f73e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a16535c86a11d8fc0676ab5680f73e6">&#9670;&nbsp;</a></span>compute_cap_on_grid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AOCAP::compute_cap_on_grid </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>cap_mat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_basis_set.html">BasisSet</a>&#160;</td>
+          <td class="paramname"><em>bs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>grid_w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_points</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -200,6 +328,20 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Geometry of molecular system. </p>
+
+</div>
+</div>
+<a id="afe8a3ae5c32b4b5e29a3d017e50b3e5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe8a3ae5c32b4b5e29a3d017e50b3e5f">&#9670;&nbsp;</a></span>cap_func</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;std::vector&lt;double&gt;std::vector&lt;double&gt; &amp;, std::vector&lt;double&gt; &amp;, std::vector&lt;double&gt; &amp;, std::vector&lt;double&gt; &amp;)&gt; AOCAP::cap_func</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -260,6 +402,20 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Onset of box CAP in Z direction. Specify in bohr units. </p>
+
+</div>
+</div>
+<a id="a3972a2c7e5529e3e0b002aaed07a55a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3972a2c7e5529e3e0b002aaed07a55a0">&#9670;&nbsp;</a></span>do_numerical</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AOCAP::do_numerical</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
