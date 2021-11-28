@@ -51,6 +51,11 @@ public:
 	/** Constructs %CAP object from geometry and CAP parameters.
 	 */
 	AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params);
+	AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &)> &cap_func);
+	/** Default construct, does nothing
+	*/
+	AOCAP(){cap_x=0.0;cap_y=0.0;cap_z=0.0;r_cut=0.0;do_numerical=true;num_atoms=0;};
 	/** Type of %CAP. Can be Voronoi or Box CAP.
 	 */
 	std::string cap_type;
@@ -71,26 +76,19 @@ public:
 	std::vector<Atom> atoms;
 	/** Computes %CAP matrix in AO basis via numerical integration.
 	 */
-	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs);
+	void compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet &bs);
     /** Number of atoms
      */
     size_t num_atoms;
+	bool do_numerical;
+	std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+		std::vector<double> &, std::vector<double> &)> cap_func;
+	void compute_cap_on_grid(Eigen::MatrixXd &cap_mat,BasisSet bs,double* x, double* y, double* z, double *grid_w, int num_points);
 
 private:
-	/** Evaluate potential at grid point.
-	 */
-	void eval_pot(double* x, double* y, double* z, double *grid_w, int num_points, Eigen::VectorXd &cap_values);
-	/** Evaluate box %CAP at grid point.
-	 */
-	void eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values);
-	/** Evaluate Voronoi %CAP at grid point.
-	 */
-	void eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values);
-	/** Evaluate all points on grid for a given atom.
-	 */
-	void evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
-			double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points);
 	/** Checks whether specified CAP is valid.
 	 */
 	void verify_cap_parameters(std::map<std::string,std::string> &parameters);
+	void eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet &bs);
+	void integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs);
 };

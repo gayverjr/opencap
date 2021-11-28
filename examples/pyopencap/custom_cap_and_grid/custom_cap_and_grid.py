@@ -19,44 +19,83 @@
     SOFTWARE.
     '''
 
+# Analyze Q-Chem output and checkpoint file
 import pyopencap
 from pyopencap.analysis import CAPHamiltonian
 import numpy as np
 
-OUTPUT_FILE = "../../analysis/N2/ref_outputs/xms.out"
-RASSI_FILE = "../../analysis/N2/ref_outputs/xms.rassi.h5"
+sys_dict = {"molecule":  "qchem_fchk",
+    "basis_file": "../../analysis/N2/ref_outputs/qc_inp.fchk"
+}
 
-sys_dict = {"molecule": "molcas_rassi",
-"basis_file": RASSI_FILE}
-
+es_dict = { "package": "qchem",
+    "method" : "eom",
+        "qchem_output":"../../analysis/N2/ref_outputs/qc_inp.out",
+            "qchem_fchk":"../../analysis/N2/ref_outputs/qc_inp.fchk",
+}
 
 cap_dict = {
-            "cap_type": "box",
-            "cap_x":"2.76",
-            "cap_y":"2.76",
-            "cap_z":"4.88",
+    "cap_type": "custom"
 }
 
-es_dict = { "package": "openmolcas",
-"method" : "ms-caspt2",
-    "molcas_output":OUTPUT_FILE ,
-        "rassi_h5":RASSI_FILE,
-}
+# this defines a box CAP of with cutoffs of 3 bohr in each coordinate
+def box_cap(x,y,z,w):
+    cap_values = []
+    cap_x = 3.00
+    cap_y = 3.00
+    cap_z = 3.00
+    for i in range(0,len(x)):
+        result = 0
+        if np.abs(x[i])>cap_x:
+            result += (np.abs(x[i])-cap_x) * (np.abs(x[i])-cap_x)
+        if np.abs(y[i])>cap_y:
+            result += (np.abs(y[i])-cap_y) * (np.abs(y[i])-cap_y)
+        if np.abs(z[i])>cap_z:
+            result += (np.abs(z[i])-cap_z) * (np.abs(z[i])-cap_z)
+        result = w[i]*result
+        cap_values.append(result)
+    return cap_values
 
+radial_precision = 1.0e-12
+min_num_angular_points = 590
+max_num_angular_points = 590
+proton_charges = [7, 7, 1]
+center_coordinates_bohr = [(0.0, 0.0, 1.03699997), (0.0, 0.0, -1.03699997), (0.0, 0.0, 0.0)]
 
 s = pyopencap.System(sys_dict)
-pc = pyopencap.CAP(s,cap_dict,10)
+pc = pyopencap.CAP(s,cap_dict,5,box_cap)
 pc.read_data(es_dict)
+
+# one can use the numgrid python API (https://github.com/dftlibs/numgrid) to allocate the grid
+import numgrid
+for center_index in range(len(center_coordinates_bohr)):
+    coordinates, w = numgrid.atom_grid_bse(
+        "aug-cc-pvtz",
+        1.0e-12,
+        590,
+        590,
+        proton_charges,
+        center_index,
+        center_coordinates_bohr,
+        hardness=3,
+    )
+    coordinates = np.array(coordinates)
+    x = np.array(coordinates[:,0])
+    y = np.array(coordinates[:,1])
+    z = np.array(coordinates[:,2])
+    w = np.array(w)
+    pc.compute_cap_on_grid(x,y,z,w)
 pc.compute_projected_cap()
 W = pc.get_projected_cap()
-h0 = pc.get_H()
+H0 = pc.get_H()
 
-CAPH = CAPHamiltonian(H0=h0,W=W)
-eta_list = np.linspace(0,5000,101)
+# now running analysis
+CAPH = CAPHamiltonian(pc=pc)
+eta_list = np.linspace(0,5000,201)
 eta_list = np.around(eta_list * 1E-5,decimals=5)
 CAPH.run_trajectory(eta_list)
-ref_energy = -109.36219955
-traj = CAPH.track_state(2,tracking="overlap")
+traj = CAPH.track_state(1,tracking="energy")
+ref_energy = -109.36195558
 # Find optimal value of eta
 uc_energy, eta_opt = traj.find_eta_opt(start_idx=10,ref_energy=ref_energy,units="eV")
 # start_idx and end_idx for search use python slice notation (i.e. [start_idx:end_idx]).
@@ -73,13 +112,13 @@ print(corr_energy_au)
 print(corr_eta_opt)
 
 import matplotlib.pyplot as plt
-
 plt.plot(np.real(CAPH.energies_ev(ref_energy)),np.imag(CAPH.energies_ev(ref_energy)),'ro')
 plt.show()
-
 plt.plot(np.real(traj.energies_ev(ref_energy)),np.imag(traj.energies_ev(ref_energy)),'-ro')
 plt.plot(np.real(traj.energies_ev(ref_energy,corrected=True)),np.imag(traj.energies_ev(ref_energy,corrected=True)),'-bo')
 plt.plot(np.real(corr_energy),np.imag(corr_energy),"g*",markersize=20)
 plt.plot(np.real(uc_energy),np.imag(uc_energy),"g*",markersize=20)
 plt.show()
+
+
 

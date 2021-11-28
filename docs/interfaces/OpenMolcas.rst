@@ -14,10 +14,9 @@ Step 1: Running OpenMolcas calculation
 ----------------------------------------
 To generate the one-particle densities required to construct the CAP matrix, the RASSI 
 module must be executed with the TRD1 keyword activated. When using XMS-CASPT2, RMS-CASPT2, 
-or other variants which utilize rotated CASSCF wave functions, the effective Hamiltonian will 
-be rotated into the original CASSCF basis using the rotation matrix provided in the output. 
-RASSI will save transition density matrices between each pair of CASSCF states as well as 
-the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
+or other variants which utilize rotated CASSCF wave functions, the CAP matrix will eventually be rotated into the 
+new basis using the rotation matrix in the output (U^dagger*W*U). RASSI will save transition density matrices between 
+each pair of CASSCF states as well as the one-particle density matrices for each state to a file titled $Jobname.rassi.h5. 
 
 **Export transition densities with RASSI**
 
@@ -36,6 +35,8 @@ module.
 
 	&CASPT2
 	Multistate = all
+
+See the OpenMolcas manual for other variants of MS-CASPT2 which can be activated in the &CASPT2 section.
 
 Step 2: Importing the data to PyOpenCAP
 ---------------------------------------
@@ -171,8 +172,8 @@ Officially supported methods
 The following methods have been benchmarked, and the :func:`~pyopencap.CAP.read_data` function is capable of parsing 
 output files to obtain the zeroth order Hamiltonian.
 
-* MS-CASPT2
-* XMS-CASPT2 and variants
+* MS-CASPT2, and other variants (e.g. XMS-CASPT2) which utilize unitary rotations of the original CASSCF states. The CAP 
+matrix will be rotated into the new basis using the rotation matrix.
 
 Untested (use at your own risk!)
 --------------------------------

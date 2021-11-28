@@ -27,7 +27,7 @@ and the number of states.
 
 .. code-block:: python
 	
-	nstates = 10
+    nstates = 10
     cap_dict = {"cap_type": "box",
             "cap_x":"2.76",
             "cap_y":"2.76",
@@ -43,7 +43,7 @@ and densities in one-shot when passed a Python dictionary with the right keyword
 
 .. code-block:: python
 
-    es_dict = {"method" : "xms-caspt2",
+    es_dict = {"method" : "ms-caspt2",
               "package": "openmolcas",
       "molcas_output":"path/to/output/file.out",
       "rassi_h5":  "path/to/rassi/file.h5"}

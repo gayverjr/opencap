@@ -19,49 +19,46 @@
     SOFTWARE.'''
 
 import pyopencap
-import os 
+import os
 import numpy as np
 from pyopencap.analysis import CAPHamiltonian
 
-
 cap_dict = {
-            "cap_type": "box",
-            "cap_x":"2.76",
-            "cap_y":"2.76",
-            "cap_z":"4.88",
-            "Radial_precision": "14",
-            "angular_points": "110"
+    "cap_type": "box",
+    "cap_x": "2.76",
+    "cap_y": "2.76",
+    "cap_z": "4.88",
+    "Radial_precision": "14",
+    "angular_points": "110"
 }
 
-cap_dict2 = {"cap_type": "voronoi","r_cut":"3.00"}
+cap_dict2 = {"cap_type": "voronoi", "r_cut": "3.00"}
 
 dest_dir = "../examples/analysis/N2/ref_outputs"
-FCHK_FILE = os.path.join(dest_dir,"qc_inp.fchk")
-OUTPUT_FILE = os.path.join(dest_dir,"qc_inp.out")
+FCHK_FILE = os.path.join(dest_dir, "qc_inp.fchk")
+OUTPUT_FILE = os.path.join(dest_dir, "qc_inp.out")
 h0_file = "../examples/opencap/heff_diag.in"
 
-sys_dict = {
-    "molecule": "qchem_fchk",
-    "basis_file":FCHK_FILE
+sys_dict = {"molecule": "qchem_fchk", "basis_file": FCHK_FILE}
+
+es_dict = {
+    "package": "qchem",
+    "method": "eom",
+    "qchem_output": OUTPUT_FILE,
+    "qchem_fchk": FCHK_FILE,
 }
 
-es_dict ={
-    "package":"qchem",
-    "method":"eom",
-    "qchem_output":OUTPUT_FILE,
-    "qchem_fchk":FCHK_FILE,
+es_dict2 = {
+    "package": "qchem",
+    "method": "eom",
+    "h0_file": h0_file,
+    "qchem_fchk": FCHK_FILE,
 }
 
-es_dict2 ={
-    "package":"qchem",
-    "method":"eom",
-    "h0_file":h0_file,
-    "qchem_fchk":FCHK_FILE,
-}
 
 def test_qchem():
     sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys,cap_dict,5)
+    pc = pyopencap.CAP(sys, cap_dict, 5)
     pc.read_data(es_dict)
     pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
@@ -72,13 +69,10 @@ def test_qchem():
     assert not W[0][0] == W2[0][0]
     CAPH = CAPHamiltonian(pc=pc)
 
+
 def test_heff():
     sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys,cap_dict,5)
+    pc = pyopencap.CAP(sys, cap_dict, 5)
     pc.read_data(es_dict2)
     h0 = pc.get_H()
-    assert np.isclose(h0[0][0],-109.313539)
-
-
-
-
+    assert np.isclose(h0[0][0], -109.313539)

@@ -270,14 +270,10 @@ Eigen::MatrixXd read_rotation_matrix(size_t nstates, std::ifstream &is)
 	return rotation_matrix;
 }
 
-Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
+Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename, Eigen::MatrixXd &rotation_matrix)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
-	Eigen::MatrixXd rotation_matrix(nstates,nstates);
 	ZERO_ORDER_H= Eigen::MatrixXd::Zero(nstates,nstates);
-	rotation_matrix = Eigen::MatrixXd::Zero(nstates,nstates);
-	for (size_t i=0;i<nstates;i++)
-		rotation_matrix(i,i)=1.0;
 	std::ifstream is(filename);
 	if (is.good())
 	{
@@ -294,11 +290,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 		{
 			std::getline(is,line);
 			if (line.find("H0 eigenvectors:")!= std::string::npos)
-			{
-				std::cout << "Warning: rotating effective Hamiltonian into basis "
-						  << "of original CASCI states." << std::endl;
 				rotation_matrix = read_rotation_matrix(nstates,is);
-			}
 		}
 		if (is.peek()==EOF)
 			opencap_throw("Error: Reached end of file before MULTI-STATE CASPT2 SECTION.");
@@ -342,7 +334,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename)
 	{
     	opencap_throw("Error: I couldn't read:" + filename);
 	}
-	return rotation_matrix*ZERO_ORDER_H*rotation_matrix.transpose();
+	return ZERO_ORDER_H;
 }
 
 Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::string method)

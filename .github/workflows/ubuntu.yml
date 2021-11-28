@@ -51,6 +51,8 @@ jobs:
           pip install numpy
           pip install pyscf
           pip install codecov
+          pip install numgrid
+          pip install pandas
           pip install .
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml

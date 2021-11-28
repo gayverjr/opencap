@@ -64,6 +64,7 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"cap_type","projected_cap",{"box","voronoi"}},
 		{"molecule","system",{"inline","molden","qchem_fchk","molcas_rassi"}},
 		{"bohr_coordinates","system",{"true","false"}},
+		{"do_numerical","projected_cap",{"true","false"}},
 	};
 
 	for(auto key:open_keys)

@@ -42,6 +42,12 @@ using namespace std;
  *
  */
 
+struct gto {
+  std::array<double,3> r;
+  double a;
+  std::array<size_t,3> l;
+};
+
 class Shell {
 public:
 	/** Orbital angular momentum quantum number

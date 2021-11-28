@@ -24,7 +24,6 @@ SOFTWARE.
  */
 
 #include "AOCAP.h"
-
 #include "grid_radial.h"
 #include "bragg.h"
 #include <numgrid.h>
@@ -38,11 +37,13 @@ SOFTWARE.
 #include <vector>
 #include <cmath>
 #include <limits>
-
 #include "BasisSet.h"
 #include "gto_ordering.h"
 #include "opencap_exception.h"
 #include "utils.h"
+#include <typeinfo>
+#include "boxcap.h"
+#include "cap_types.h"
 
 AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
@@ -70,87 +71,62 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	angular_points = angpts;
 	atoms = geometry;
     num_atoms = atoms.size();
-}
-
-// Smooth Voronoi CAP
-// Thommas Sommerfeld and Masahiro Ehara
-// DOI: 10.1021/acs.jctc.5b00465
-void AOCAP::eval_voronoi_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
-{
-    #pragma omp parallel for
-	for(size_t i=0;i<num_points;i++)
+	if(compare_strings(cap_type,"box"))
+		cap_func = box_cap(cap_x,cap_y,cap_z);
+	else if(compare_strings(cap_type,"voronoi"))
+		cap_func = voronoi_cap(r_cut,atoms);
+	else
+		opencap_throw("Error: Only box and voronoi caps are implemented natively.");
+	if(params.find("do_numerical")!=params.end())
 	{
-		double atom_distances[num_atoms];
-        double r_closest=1000;
-		//find r closest and fill up our distances array
-		for(size_t j=0;j<num_atoms;j++)
-		{
-			if(atoms[j].Z!=0)
-			{
-				  double dist_x= (x[i]-atoms[j].coords[0]) * (x[i]-atoms[j].coords[0]);
-				  double dist_y= (y[i]-atoms[j].coords[1]) * (y[i]-atoms[j].coords[1]);
-				  double dist_z= (z[i]-atoms[j].coords[2]) * (z[i]-atoms[j].coords[2]);
-				  double dist=sqrt(dist_x+dist_y+dist_z);
-				  if(dist<r_closest || j==0)
-					 r_closest=dist;
-				  atom_distances[j]=dist;
-			}
-		}
-		double weights[num_atoms];
-		for(size_t q=0;q<num_atoms;q++)
-		{
-		  if(atoms[q].Z!=0)
-          {
-              double weight = atom_distances[q]*atom_distances[q]-r_closest*r_closest+1;
-              weights[q] = 1/(weight*weight);
-          }
-		  else
-			  weights[q]=0;
-		}
-		double numerator=0.0;
-		double denominator=0.0;
-		for(size_t k=0;k<num_atoms;k++)
-		{
-		  numerator+=atom_distances[k]*atom_distances[k]*weights[k];
-		  denominator+=weights[k];
-		}
-		double r=sqrt(numerator/denominator);
-		double result=0;
-		if(r>r_cut)
-		  result = (r-r_cut)*(r-r_cut);
-		cap_values(i) = result * grid_w[i];
+		std::string num_int = params["do_numerical"];
+		if(compare_strings(num_int,"true"))
+			do_numerical = true;
+		else if(compare_strings(num_int,"false") && compare_strings(cap_type,"box"))
+			do_numerical = false;
+		else
+			do_numerical = true; 
 	}
+	else if(compare_strings(cap_type,"box"))
+		do_numerical = false;
+	else
+		do_numerical = true;
 }
 
-void AOCAP::eval_box_cap(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
+AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
+std::vector<double> &, std::vector<double> &)> &custom_cap_func)
 {
-	for(size_t i=0;i<num_points;i++)
-	{
-		double result = 0;
-		if(abs(x[i])>cap_x)
-		 result += (abs(x[i])-cap_x) * (abs(x[i])-cap_x);
-		if(abs(y[i])>cap_y)
-		 result += (abs(y[i])-cap_y) * (abs(y[i])-cap_y);
-		if(abs(z[i])>cap_z)
-		 result += (abs(z[i])-cap_z) * (abs(z[i])-cap_z);
-		cap_values(i) = result * grid_w[i];
-	}
+	verify_cap_parameters(params);
+	double radial,angpts;
+	std::stringstream radialss(params["radial_precision"]);
+	std::stringstream angularss(params["angular_points"]);
+	radialss >> radial;
+	angularss >> angpts;
+	//now fill class members
+	cap_type = "custom";
+	cap_x = 0.0;
+	cap_y= 0.0;
+	cap_z = 0.0;
+	r_cut = 0.0;
+	radial_precision = pow(10,-1.0*radial);
+	angular_points = angpts;
+	atoms = geometry;
+    num_atoms = atoms.size();
+	do_numerical = true;
+	cap_func = custom_cap_func;
 }
 
-void AOCAP::eval_pot(double* x, double* y, double* z, double *grid_w, int num_points,Eigen::VectorXd &cap_values)
-{
-	if(compare_strings(cap_type, "box"))
-		 eval_box_cap(x,y,z,grid_w,num_points,cap_values);
-	else if (compare_strings(cap_type,"voronoi"))
-		 eval_voronoi_cap(x,y,z,grid_w,num_points,cap_values);;
-}
 
-void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
+void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 {
+	// funny business happens with GIL if we try to parallelize over atoms when custom python function is used
+	if(cap_type=="custom")
+		omp_set_num_threads(1);
     std::cout << "Calculating CAP matrix in AO basis using " << std::to_string(omp_get_max_threads()) << " threads." << std::endl;
     std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
               << " Angular points: " << angular_points << std::endl;
-	double x_coords_bohr[num_atoms];
+	size_t num_atoms = atoms.size();
+    double x_coords_bohr[num_atoms];
 	double y_coords_bohr[num_atoms];
 	double z_coords_bohr[num_atoms];
 	int nuc_charges[num_atoms];
@@ -163,13 +139,12 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
 		if (atoms[i].Z==0)
 			nuc_charges[i]=1; //choose bragg radius for H for ghost atoms
 	}
-    //double radial_precision = radial_precision;
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
+	#pragma omp parallel for 
 	for(size_t i=0;i<num_atoms;i++)
 	{
-        
-        // check radial parameters
+        // check parameters
         double alpha_max = bs.alpha_max(atoms[i]);
         std::vector<double> alpha_min = bs.alpha_min(atoms[i]);
         double r_inner = get_r_inner(radial_precision,
@@ -189,13 +164,17 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                 if(r_outer < r_inner)
                 {
                     opencap_throw("Error: r_outer < r_inner, grid cannot be allocated for this basis.");
+                    //std::cout << "Setting alpha min[l] to 0.01" << std::endl; 
+                    //alpha_min[l]=0.01;
                 }
                 else
                 {
                     h = std::min(h,
                                  get_h(radial_precision, l, 0.1 * (r_outer - r_inner)));
                     if(r_outer < h)
+                    {
                         opencap_throw("Error: r_outer < h, grid cannot be allocated for this basis.");
+                    }
                 }
             }
         }
@@ -211,6 +190,7 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
         double *grid_y_bohr = new double[num_points];
         double *grid_z_bohr = new double[num_points];
         double *grid_w = new double[num_points];
+		double *cap_values = new double[num_points];
         numgrid_get_grid(  context,
                            num_atoms,
                            i,
@@ -223,19 +203,20 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet bs)
                            grid_z_bohr,
                            grid_w);
         int num_radial_points = numgrid_get_num_radial_grid_points(context);
-    	std::cout << "Grid for atom " + std::to_string(i+1) + " has: " << num_radial_points << " radial points, "
-                  << angular_points << " angular points, " << num_points << " total points." << std::endl;
-		evaluate_grid_on_atom(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+		compute_cap_on_grid(cap_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 	}
 }
 
-void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* grid_x_bohr,
-		double *grid_y_bohr,double *grid_z_bohr,double *grid_w,int num_points)
+void AOCAP::compute_cap_on_grid(Eigen::MatrixXd &cap_mat,BasisSet bs,double* x, double* y, double* z, 
+double *grid_w, int num_points)
 {
-	Eigen::VectorXd cap_values; Eigen::MatrixXd bf_values;
-	cap_values = Eigen::VectorXd::Zero(num_points);
+	Eigen::VectorXd cap_vals; Eigen::MatrixXd bf_values;
 	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
-	eval_pot(grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points,cap_values);
+    std::vector<double> x_vec(x,x+num_points);
+    std::vector<double> y_vec(y,y+num_points);
+    std::vector<double> z_vec(z,z+num_points);
+    std::vector<double> w_vec(grid_w,grid_w+num_points);
+    std::vector<double> cap_vec = cap_func(x_vec,y_vec,z_vec,w_vec);
 	size_t bf_idx = 0;
 	for(size_t i=0;i<bs.basis.size();i++)
 	{
@@ -244,16 +225,59 @@ void AOCAP::evaluate_grid_on_atom(Eigen::MatrixXd &cap_mat,BasisSet bs,double* g
 		for(size_t j=0;j<my_shell.num_carts();j++)
 		{
 			std::array<size_t,3> cart = order[j];
-			my_shell.evaluate_on_grid(grid_x_bohr,grid_y_bohr,grid_z_bohr,num_points,cart[0],cart[1],cart[2],bf_values.col(bf_idx));
+			my_shell.evaluate_on_grid(x,y,z,num_points,cart[0],cart[1],cart[2],bf_values.col(bf_idx));
 			bf_idx++;
 		}
 	}
+    cap_vals = Eigen::Map<Eigen::VectorXd>(cap_vec.data(),cap_vec.size());
 	Eigen::MatrixXd bf_prime;
 	bf_prime =  Eigen::MatrixXd::Zero(num_points,bs.num_carts());
 	for(size_t i=0;i<bf_prime.cols();i++)
-		bf_prime.col(i) = bf_values.col(i).array()*cap_values.array();
+		bf_prime.col(i) = bf_values.col(i).array()*cap_vals.array();
 	cap_mat+=bf_prime.transpose()*bf_values;
 }
+
+
+void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet &bs)
+{
+	if(!do_numerical)
+	{
+		std::cout << "CAP integrals will be computed analytically." << std::endl;
+		eval_box_cap_analytical(cap_mat,bs);
+		return;
+	}
+	else
+		integrate_cap_numerical(cap_mat,bs);
+}
+
+void AOCAP::eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet &bs)
+{
+	double boxlength[3] = {cap_x,cap_y,cap_z};
+	size_t bf1_idx = 0;
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell shell1 = bs.basis[i];
+		std::vector<std::array<size_t,3>> order1 = opencap_carts_ordering(shell1.l);
+		for(size_t j=0;j<shell1.num_carts();j++)
+		{
+			std::array<size_t,3> l1 = order1[j];
+			size_t bf2_idx = 0;
+			for (size_t q=0;q<bs.basis.size();q++)
+			{
+				Shell shell2 = bs.basis[q];
+				std::vector<std::array<size_t,3>> order2 = opencap_carts_ordering(shell2.l);
+				for(size_t k=0;k<shell2.num_carts();k++)
+				{
+					std::array<size_t,3> l2 = order2[k];
+					cap_mat(bf1_idx+j,bf2_idx+k) = integrate_box_cap(shell1,shell2,l1,l2,boxlength);
+				}
+				bf2_idx += shell2.num_carts();
+			}
+		}
+		bf1_idx += shell1.num_carts();
+	}
+}
+
 
 void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 {
@@ -274,6 +298,8 @@ void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 		if(parameters.find("r_cut")==parameters.end())
 			missing_keys.push_back("r_cut");
 	}
+	else if(compare_strings(parameters["cap_type"],"custom"))
+		;
 	else
 		opencap_throw("Error: only box and voronoi CAPs supported.");
 	if(missing_keys.size()!=0)

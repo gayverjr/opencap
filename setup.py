@@ -58,7 +58,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyopencap',
-    version='1.1.1',
+    version='1.2.0',
     author='James Gayvert',
     author_email='jrg444@gmail.com',
     description='Python bindings for OpenCAP',
@@ -66,5 +66,5 @@ setup(
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     packages=['pyopencap','pyopencap.analysis'],
-    install_requires=['numpy','pandas'],
+    install_requires=['numpy','pandas','scipy'],
 )

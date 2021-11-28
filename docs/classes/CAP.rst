@@ -19,3 +19,4 @@ parsing OpenMolcas output files to obtain the zeroth order Hamiltonian and retur
    .. automethod:: read_data 
    .. automethod:: renormalize
    .. automethod:: renormalize_cap
+   .. automethod:: compute_cap_on_grid

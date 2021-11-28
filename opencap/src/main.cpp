@@ -28,16 +28,15 @@ SOFTWARE.
 #include <map>
 #include <string>
 #include <vector>
-
 #include "Atom.h"
 #include "CAP.h"
-#include "date.h"
 #include "InputParser.h"
 #include "keywords.h"
 #include "molcas_interface.h"
 #include "opencap_exception.h"
 #include "System.h"
 #include "TrajectoryAnalysis.h"
+#include "date.h"
 
 int main(int argc, char **argv)
 {
@@ -73,14 +72,10 @@ int main(int argc, char **argv)
 					caph.run_trajectory();
 				}
 				// print time
-			    using namespace date;
-			    using namespace std::chrono;
-				auto tp = system_clock::now();
-				const auto tpm = floor<minutes>(tp);
-				const auto dp = floor<days>(tpm);
-				const auto ymd = year_month_day{dp};
-				auto time = make_time(tpm-dp);
-				std::cout << "Job finished: " << ymd << ' ' << time << std::endl;
+				using namespace date;
+				using namespace std::chrono;
+				auto time = system_clock::now();
+				std::cout << "Job finished: " << time << " UTC" << std::endl;
 				std::cout << "Thank you for using OpenCAP!" << std::endl;
 			}
 		}

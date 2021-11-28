@@ -200,6 +200,9 @@ The following packages are automatically built at the CMake step (no action requ
 The following is included as part of the source distribution (no action required):
 
 * [Date](https://github.com/HowardHinnant/date): Howard Hinnant's date and time library based on the C++11/14/17 <chrono> header
+
+* [asa239](https://people.sc.fsu.edu/~jburkardt/cpp_src/asa239/asa239.html) C++ library which evaluates incomplete Gamma function from John Burkardt. 
+  Distributed under GNU [LGPL](https://github.com/gayverjr/opencap/blob/main/opencap/asa/LICENSE) license.
  
 # License
 OpenCAP and PyOpenCAP are distributed under the [MIT](https://github.com/gayverjr/opencap/blob/main/LICENSE) license. 
@@ -211,3 +214,8 @@ source code is available on [GitHub](https://github.com/dftlibs/numgrid).
 This project is funded by the Molecular Sciences Software Institute.
 
 ![MolSSI logo](https://github.com/gayverjr/OpenCAP/blob/main/images/molssi_logo.png)
+
+We would like to thank Professor Thomas Sommerfeld for his generous contribution of C++ code for analytic box-CAP integrals. Please 
+visit his [repository](https://github.com/tsommerfeld/L2-methods_for_resonances) for many implementations of L^2 methods for resonances!
+
+We would like to thank Prof. John Burkardt for his C++ implementation of the Incomplete Gamma function. Many of his wonderful open source codes can be found at his [website](https://people.sc.fsu.edu/~jburkardt/).

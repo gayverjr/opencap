@@ -16,6 +16,7 @@ find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
 include(FetchContent)
+add_subdirectory(asa)
 
 
 find_package(OpenMP REQUIRED)
@@ -78,7 +79,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(BUILD_PYOPENCAP)
 message("Building PyOpenCAP python module.")
 pybind11_add_module(pyopencap_cpp ${SOURCES} ${BIND_SOURCES})
-target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects OpenMP::OpenMP_CXX Eigen3::Eigen h5pp::h5pp)
+target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects OpenMP::OpenMP_CXX Eigen3::Eigen h5pp::h5pp asa239)
 endif()
 
 if (BUILD_OPENCAP)
@@ -86,8 +87,8 @@ message("Building OpenCAP executable.")
 find_package(Python ${PY_VERSION} REQUIRED)
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})
-target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX)
-target_link_libraries(opencap-shared ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX)
+target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX asa239)
+target_link_libraries(opencap-shared ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX asa239)
 install(TARGETS opencap
     DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     )

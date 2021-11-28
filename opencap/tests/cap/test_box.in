@@ -17,6 +17,7 @@ CAP_Y 2.76
 CAP_Z 4.88
 ANGULAR_POINTS 110
 RADIAL_PRECISION 10
+do_numerical true
 $end
 
 $trajectory

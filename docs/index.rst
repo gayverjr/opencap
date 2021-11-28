@@ -30,15 +30,16 @@ Supported Methods
 
 * EOM-CC
 * FCI
-* MS-CASPT2 (coming soon: extended variants)
+* MS-CASPT2 (and extended variants)
 * TDDFT
 * ADC (through ADCC_)
 
 Supported Potentials
 ====================
 
-* Box
+* Box (analytical integrals are now available!)
 * Smooth Voronoi
+* :ref:`Custom <Custom>` CAP functions
 
 Please see the :ref:`keywords <keywords>` section for more details.
 
@@ -46,10 +47,12 @@ Other features
 ==============
 
 * Python based eigenvalue trajectory :ref:`analysis <analysis>` tools
+* :ref:`Custom <custom>` numerical integration grids
 
 In development
 ==================
 * Feshbach projection approaches
+* Tools for dyanmics on complex potential energy surfaces
 
 .. _OpenMolcas: https://molcas.gitlab.io/OpenMolcas/sphinx/
 .. _PySCF: http://pyscf.org/
@@ -58,6 +61,21 @@ In development
 .. _pybind11: https://github.com/pybind/pybind11
 .. _Q-Chem: https://www.q-chem.com/
 .. _ADCC: https://adc-connect.org/
+.. _repository: https://github.com/tsommerfeld/L2-methods_for_resonances
+.. _website: https://people.sc.fsu.edu/~jburkardt/
+.. _MolSSI: https://molssi.org/
+
+
+Acknowledgements
+=================
+
+* We would like to give special thanks to Prof. Thomas Sommerfeld for generously providing us with a 
+  C++ implementation of analytical box CAP integrals. Please checkout his repository_ on GitHub for many 
+  implementations of L^2 methods for resonances!
+* We would like to thank Prof. John Burkardt for his C++ implementation of the Incomplete Gamma function. Many of his 
+  wonderful open source codes can be found at his website_.
+* We would like to thank the Molecular Sciences Software Institute for funding this project. Please visit the MolSSI_ 
+  website for their educational resources, fellowship opportunities, and software projects!
 
 Contents
 ========
@@ -70,6 +88,7 @@ Contents
    theory.rst
    interfaces.rst
    analysis/analysis.rst
+   custom_cap_and_grid.rst
    classes.rst
    keywords.rst
 
