@@ -1,7 +1,9 @@
-""" PyOpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to 
+"""An open source package for metastable electronic states in molecules.
+
+PyOpenCAP is an open-source package aimed at extending the capabilities of electronic structure packages to 
 describe metastable electronic states. 
 
-Currently supported packages are:
+Currently supported electronic structure packages are:
 
 - Q-Chem
 - OpenMolcas
@@ -74,7 +76,7 @@ setup(
     author='James Gayvert',
     author_email='jrg444@gmail.com',
     description=DOCLINES[0],
-    long_description="\n".join(DOCLINES[2:])
+    long_description="\n".join(DOCLINES[2:]),
     ext_modules=[CMakeExtension('pyopencap.pyopencap_cpp','opencap')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
