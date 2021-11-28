@@ -17,7 +17,7 @@ find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
 include(FetchContent)
 add_subdirectory(asa)
-
+SET(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 find_package(OpenMP REQUIRED)
 
