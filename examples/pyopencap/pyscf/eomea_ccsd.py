@@ -1,3 +1,31 @@
+'''Copyright (c) 2022 James Gayvert
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'''
+
+'''
+CAP-EOM-CCSD on on N2-.
+
+Expressions for 1RDMs in spin-orbital basis were pulled from SI of:
+https://doi.org/10.1063/1.4927785
+'''
+
 from pyscf import gto, scf
 from pyscf.cc import ccsd
 from pyscf.cc.addons import spatial2spin
@@ -116,7 +144,6 @@ def _biorthogonalize(Leigvc, Reigvc):
     Leigvc = np.dot(Linv, Leigvc.T)
     Reigvc = np.dot(Reigvc, Uinv)
     Leigvc = Leigvc.T
-    # re-order left eigenvectors just in case
     M = Leigvc.T @ Reigvc
     L_reordered = np.zeros(Leigvc.shape)
     for i in range(0,len(M)):
@@ -128,14 +155,12 @@ def make_rdm1(t1,t2,r1,r2,l1,l2,state_dm=False):
     d1 = _gamma1_intermediates(t2,r1,r2,l2)
     return _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm)
 
-
 def _gamma1_intermediates(t2,r1,r2,l2):
     lt_oo = 0.5 * np.einsum('jcd,icd->ji',l2,r2)
     lt_vv = np.einsum('kbc,kac->ba',l2,r2)
     y1_ov = np.einsum('iac,c->ia',l2,r1)
     ltt_o = 0.5 * np.einsum('kdc,ikdc->i',l2,t2)
     return lt_oo,lt_vv,y1_ov,ltt_o
-
 
 def _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm=False):
     lt_oo,lt_vv,y1_ov,ltt_o = d1
@@ -164,6 +189,8 @@ def _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm=False):
     return dm1 
  
 
+######
+# System information
 ghost_bas = gto.basis.load('n2.nw', 'X')
 N_bas = gto.basis.load('n2.nw', 'N')
 mol = gto.M(
@@ -174,7 +201,6 @@ mol = gto.M(
 mol.verbose = 1
 mol.build()
 mf = mol.RHF().run()
-# create system using molden file
 molden_dict = {"basis_file":"molden_in.molden",
     "molecule": "molden"}
 tools.molden.from_scf(mf,"molden_in.molden")
@@ -186,14 +212,12 @@ cap_dict = {"cap_type": "box",
     "cap_y":"2.76",
     "cap_z":"4.88",
 }
-
-
 nstates = 32
-
 pc = pyopencap.CAP(s,cap_dict,nstates)
-pc.compute_ao_cap(cap_dict)
 
 
+########################
+# run CC/EOM-CC calculation then convert amplitudes
 mycc = ccsd.CCSD(mf)
 mycc.kernel()
 t1 = mycc.t1
@@ -230,6 +254,8 @@ for i in range(0,nstates):
     l2.append(l2_spin)
     h0[i][i] = e_r[i] + mycc.e_hf + mycc.e_corr
 
+
+### now pass DMs to pyopencap
 for i in range(0,nstates):
     for j in range(0,nstates):
         if i == j:
@@ -239,15 +265,13 @@ for i in range(0,nstates):
         dm1 = partial_trace(dm1)
         dm1_ao = mf.mo_coeff @ dm1 @ mf.mo_coeff.T
         pc.add_tdm(dm1_ao,i,j,'pyscf')
-
 pc.compute_projected_cap()
 W=pc.get_projected_cap()
 
+# export file for further analysis
 from pyopencap.analysis import CAPHamiltonian as CAPH
 my_CAPH = CAPH(H0=h0,W=W)
-
 my_CAPH.export("n2_eomea.out")
-
 end = time.time()
 print("Time:")
 print(end - start)
