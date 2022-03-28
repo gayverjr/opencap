@@ -92,7 +92,7 @@ def test_pyscf():
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1,
                                myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao, i, j, "pyscf")
-            W2[i,j] = -1.0 * np.trace(W_AO,dm1_ao)
+            W2[i,j] = -1.0 * np.trace(W_AO@dm1_ao)
     pc.compute_projected_cap()
     W = pc.get_projected_cap()
     os.remove("molden_file.molden")
