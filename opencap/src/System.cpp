@@ -202,8 +202,32 @@ void System::verify_system()
 		opencap_throw("Error: Basis set has 0 basis functions.");
 }
 
-Eigen::MatrixXd System::get_overlap_mat()
+Eigen::MatrixXd System::get_overlap_mat(std::string ordering,std::string basis_file)
 {
+    if(ordering!="")
+    {
+        Eigen::MatrixXd reordered_smat = OVERLAP_MAT;
+        std::vector<bf_id> ids;
+        if(compare_strings(ordering,"pyscf"))
+        ids = get_pyscf_ids(bs);
+        else if(compare_strings(ordering,"openmolcas"))
+        {
+            if(basis_file=="")
+            opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+                          "specified with the basis_file optional argument.");
+            ids = get_molcas_ids(bs,basis_file);
+        }
+        else if(compare_strings(ordering,"qchem"))
+            ids = get_qchem_ids(bs);
+        else if(compare_strings(ordering,"psi4"))
+            ids = get_psi4_ids(bs);
+		else if(compare_strings(ordering,"molden"))
+			ids = bs.bf_ids;
+        else
+            opencap_throw("Error: " + ordering +" is unsupported.");
+        reorder_matrix(reordered_smat,bs.bf_ids,ids);
+        return reordered_smat;
+    }
 	return OVERLAP_MAT;
 }
 
@@ -299,7 +323,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	if(python)
 		py::print("Verified overlap matrix after re-normalization.\nCompute the CAP first in AO basis using "
 				"\'compute_ao_cap\', then re-normalize using \'renormalize\' or "
-				"\'renormalize_cap\' before calling \'compute_cap\'.");
+				"\'renormalize_cap\' before calling \'compute_projected_cap\'.");
 	else
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
 	return false;

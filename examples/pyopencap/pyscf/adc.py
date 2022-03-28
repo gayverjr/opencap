@@ -20,7 +20,7 @@ SOFTWARE.
 '''
 
 '''
-CAP/ADC(2) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh]. Requires ADCC.
+CAP/ADC(2) on N2-. Basis set is aug-cc-pvtz + 3s3p3d[Gh], with additional 1E-08 s-type diffuse function to mimic ionization. Requires ADCC.
 See https://adc-connect.org/
 '''
 
@@ -36,7 +36,7 @@ start = time.time()
 sys_dict = {"geometry":'''    N 0.0000000000 0.0000000000 0.548756750
     N 0.0000000000 0.0000000000 -0.548756750
     X       0.0     0.0     0.0''',
-        "basis_file":"n2.bas",
+        "basis_file":"n2_diffuse.bas",
         "molecule": "inline"
 }
 
@@ -53,8 +53,8 @@ nstates = 30
 pc = pyopencap.CAP(s,cap_dict,nstates)
 
 
-ghost_bas = gto.basis.load('n2.nw', 'X')
-N_bas = gto.basis.load('n2.nw', 'N')
+ghost_bas = gto.basis.load('n2_diffuse.nw', 'X')
+N_bas = gto.basis.load('n2_diffuse.nw', 'N')
 mol = gto.M(
             atom = '    N 0.0000000000 0.0000000000 0.548756750;\
             N 0.0000000000 0.0000000000 -0.548756750;\

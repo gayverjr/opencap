@@ -75,6 +75,7 @@ print(corr_eta_opt)
 import matplotlib.pyplot as plt
 
 plt.plot(np.real(CAPH.energies_ev(ref_energy)),np.imag(CAPH.energies_ev(ref_energy)),'ro')
+plt.ylim(-2.0,0.1)
 plt.show()
 
 plt.plot(np.real(traj.energies_ev(ref_energy)),np.imag(traj.energies_ev(ref_energy)),'-ro')

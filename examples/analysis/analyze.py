@@ -19,9 +19,7 @@
     SOFTWARE.
     '''
     
-# Analyze OpenCAP output file, view eigenvalue trajectory
-
-import pyopencap
+# Analyze OpenCAP output file, view eigenvalue trajectories
 from pyopencap.analysis import CAPHamiltonian
 import numpy as np
 import argparse
@@ -48,3 +46,21 @@ for i in range(0,CAPH.nstates):
 	plt.plot(np.real(corr_energy),np.imag(corr_energy),"g*",markersize=20)
 	plt.plot(np.real(uc_energy),np.imag(uc_energy),"g*",markersize=20)
 	plt.show()
+
+# Now in eV with reference energy
+ref_energy = 0.0 
+for i in range(0,CAPH.nstates):  
+    plt.title(i)  
+    traj = CAPH.track_state(i,tracking="energy",correction="density")
+    uc_energies = traj.energies_ev(ref_energy=ref_energy)
+    corr_energies = traj.energies_ev(ref_energy=ref_energy,corrected=True)
+    uc_energy, eta_opt = traj.find_eta_opt(start_idx=5,end_idx=-20)
+    uc_energy = (uc_energy-ref_energy)*27.2114
+    corr_energy, corr_eta_opt = traj.find_eta_opt(corrected=True,start_idx=10)
+    corr_energy = (corr_energy-ref_energy)*27.2114
+    plt.plot(np.real(uc_energies),np.imag(uc_energies),'-ro',label="Uncorrected")
+    plt.plot(np.real(corr_energies),np.imag(corr_energies),'-bo',label="Corrected")
+    plt.plot(np.real(uc_energy),np.imag(uc_energy),'g*',markersize=20)
+    plt.plot(np.real(corr_energy),np.imag(corr_energy),'g*',markersize=20)
+    plt.legend()
+    plt.show()

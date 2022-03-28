@@ -71,8 +71,10 @@ public:
 	 */
 	std::vector<Atom> parse_geometry_string(std::string geometry_string);
 	/** Returns overlap matrix
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
-	Eigen::MatrixXd get_overlap_mat();
+	Eigen::MatrixXd get_overlap_mat(std::string ordering="molden",std::string basis_file="");
 	/** Compares computed overlap matrix with supplied overlap matrix
 	 *  We also try to re-normalize, see renormalize_overlap
 	 */

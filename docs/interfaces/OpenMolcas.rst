@@ -172,8 +172,7 @@ Officially supported methods
 The following methods have been benchmarked, and the :func:`~pyopencap.CAP.read_data` function is capable of parsing 
 output files to obtain the zeroth order Hamiltonian.
 
-* MS-CASPT2, and other variants (e.g. XMS-CASPT2) which utilize unitary rotations of the original CASSCF states. The CAP 
-matrix will be rotated into the new basis using the rotation matrix.
+* MS-CASPT2, and other variants (e.g. XMS-CASPT2) which utilize unitary rotations of the original CASSCF states. The CAP matrix will be rotated into the new basis using the rotation matrix.
 
 Untested (use at your own risk!)
 --------------------------------

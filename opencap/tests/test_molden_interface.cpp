@@ -58,6 +58,14 @@ TEST(MOLDEN_PARSER, PARSE_BASIS_SPH)
    ASSERT_EQ (bs.Nbasis,28);
 }
 
+TEST(MOLDEN_PARSER, PARSE_FORTRAN_STYLE)
+{
+   std::vector<Atom> atms = read_geometry_from_molden("../tests/molden/N2.molden");
+   BasisSet bs = read_basis_from_molden("../tests/molden/N2.molden",atms);
+   BasisSet bs2 = read_basis_from_molden("../tests/molden/N2_fortran.molden",atms);
+   ASSERT_EQ (bs.basis[0].exps[0],bs2.basis[0].exps[0]);
+}
+
 int main(int argc, char **argv) 
 {
   ::testing::InitGoogleTest(&argc, argv);

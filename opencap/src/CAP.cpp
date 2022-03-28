@@ -449,6 +449,8 @@ Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
             ids = get_qchem_ids(system.bs);
         else if(compare_strings(ordering,"psi4"))
             ids = get_psi4_ids(system.bs);
+        else if(compare_strings(ordering,"molden"))
+            ids = system.bs.bf_ids;
         else
             opencap_throw("Error: " + ordering +" is unsupported.");
         reorder_matrix(reordered_cap,system.bs.bf_ids,ids);
@@ -500,6 +502,8 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 		ids = get_qchem_ids(system.bs);
 	else if(compare_strings(ordering,"psi4"))
 		ids = get_psi4_ids(system.bs);
+	else if(compare_strings(ordering,"molden"))
+		ids = system.bs.bf_ids;
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(alpha_dm,system.bs,ids);
@@ -538,6 +542,8 @@ void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string
 		ids = get_qchem_ids(system.bs);
 	else if(compare_strings(ordering,"psi4"))
 		ids = get_psi4_ids(system.bs);
+	else if(compare_strings(ordering,"molden"))
+		ids = system.bs.bf_ids;
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(dmat,system.bs,ids);

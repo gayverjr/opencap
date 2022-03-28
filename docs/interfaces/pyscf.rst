@@ -103,7 +103,7 @@ Ensure that the indices of each state match those of the zeroth order Hamiltonia
 
 The interface with PySCF is not restricted to the FCI module. The :func:`~pyopencap.CAP.add_tdm` 
 function is completely general; it requires only that the densities are in AO basis, and that
-the basis set ordering matches the system. Examples for ADC and TDA-TDDFT are provided in 
+the basis set ordering matches the system. Examples for ADC, EOM-EA-CCSD, and TDA-TDDFT are provided in 
 the repository.
 
 
