@@ -98,8 +98,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6be7bd9d33b029cbb55f7868ee96e5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad3e344aed1e6343f4eefe879018d138"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#aad3e344aed1e6343f4eefe879018d138">run</a> ()</td></tr>
 <tr class="separator:aad3e344aed1e6343f4eefe879018d138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa197e99174740f1740bff0aed281bc1"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#aaa197e99174740f1740bff0aed281bc1">get_ao_cap</a> (std::string ordering=&quot;&quot;, std::string basis_file=&quot;&quot;)</td></tr>
-<tr class="separator:aaa197e99174740f1740bff0aed281bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413e3748040a375bf599546e0ce5e9a2"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a413e3748040a375bf599546e0ce5e9a2">get_ao_cap</a> (std::string ordering=&quot;molden&quot;, std::string basis_file=&quot;&quot;)</td></tr>
+<tr class="separator:a413e3748040a375bf599546e0ce5e9a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a046f71efec5ed19fe5a5c600ffb9811c">get_projected_cap</a> ()</td></tr>
 <tr class="separator:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab58b63de35d393d4dc2c6a1ebb11a2b9"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ab58b63de35d393d4dc2c6a1ebb11a2b9">get_H</a> ()</td></tr>
@@ -439,8 +439,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aaa197e99174740f1740bff0aed281bc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa197e99174740f1740bff0aed281bc1">&#9670;&nbsp;</a></span>get_ao_cap()</h2>
+<a id="a413e3748040a375bf599546e0ce5e9a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a413e3748040a375bf599546e0ce5e9a2">&#9670;&nbsp;</a></span>get_ao_cap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,7 +449,7 @@ Public Attributes</h2></td></tr>
           <td class="memname">Eigen::MatrixXd CAP::get_ao_cap </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>ordering</em> = <code>&quot;&quot;</code>, </td>
+          <td class="paramname"><em>ordering</em> = <code>&quot;molden&quot;</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -464,7 +464,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns <a class="el" href="class_c_a_p.html" title="Class which handles computing the CAP matrix.">CAP</a> matrix in AO basis. </p>
+<p>Returns <a class="el" href="class_c_a_p.html" title="Class which handles computing the CAP matrix.">CAP</a> matrix in AO basis. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ordering</td><td>order of GTOs </td></tr>
+    <tr><td class="paramname">basis_file</td><td>File containing basis set specification. Required for OpenMolcas. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -500,7 +506,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns <a class="el" href="class_c_a_p.html" title="Class which handles computing the CAP matrix.">CAP</a> matrix in wave function basis. </p>
+<p>Returns <a class="el" href="class_c_a_p.html" title="Class which handles computing the CAP matrix.">CAP</a> matrix in state basis. </p>
 
 </div>
 </div>
