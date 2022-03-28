@@ -79,6 +79,7 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
 		std::getline(is,line);
 		while(line.find("[")==std::string::npos)
 		{
+			fortran_dfloats_to_efloats(line);	
     		if (is.peek()==EOF)
     			opencap_throw("Error: Reached end of file before the atoms could be parsed.");
 			size_t charge  = stoi(split(line,' ')[2]);
@@ -117,6 +118,7 @@ Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<doubl
     for(size_t i=1;i<=n_prims;i++)
     {
 		std::getline(is,line);
+		fortran_dfloats_to_efloats(line);
 	    std::istringstream iss_prim(line);
 		double exp,coeff;
 		iss_prim >> exp >> coeff;

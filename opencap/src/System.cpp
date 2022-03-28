@@ -202,8 +202,30 @@ void System::verify_system()
 		opencap_throw("Error: Basis set has 0 basis functions.");
 }
 
-Eigen::MatrixXd System::get_overlap_mat()
+Eigen::MatrixXd System::get_overlap_mat(std::string ordering,std::string basis_file)
 {
+    if(ordering!="")
+    {
+        Eigen::MatrixXd reordered_smat = OVERLAP_MAT;
+        std::vector<bf_id> ids;
+        if(compare_strings(ordering,"pyscf"))
+        ids = get_pyscf_ids(bs);
+        else if(compare_strings(ordering,"openmolcas"))
+        {
+            if(basis_file=="")
+            opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+                          "specified with the basis_file optional argument.");
+            ids = get_molcas_ids(bs,basis_file);
+        }
+        else if(compare_strings(ordering,"qchem"))
+            ids = get_qchem_ids(bs);
+        else if(compare_strings(ordering,"psi4"))
+            ids = get_psi4_ids(bs);
+        else
+            opencap_throw("Error: " + ordering +" is unsupported.");
+        reorder_matrix(reordered_smat,bs.bf_ids,ids);
+        return reordered_smat;
+    }
 	return OVERLAP_MAT;
 }
 

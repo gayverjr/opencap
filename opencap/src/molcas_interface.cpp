@@ -256,6 +256,7 @@ Eigen::MatrixXd read_rotation_matrix(size_t nstates, std::ifstream &is)
 		for (size_t j=1;j<=nstates;j++)
 		{
 			std::getline(is,line);
+			fortran_dfloats_to_efloats(line);
 			std::vector<std::string> tokens = split(line,' ');
 			size_t row_idx = std::stoul(tokens[0]);
 			for(size_t k=1;k<tokens.size();k++)
@@ -315,6 +316,7 @@ Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename, Eigen::
 			for (size_t j=1;j<=states_in_group;j++)
 			{
 				std::getline(is,line);
+				fortran_dfloats_to_efloats(line);
 				std::vector<std::string> tokens = split(line,' ');
 				size_t row_idx = std::stoul(tokens[0]);
 				for(size_t k=1;k<tokens.size();k++)
@@ -366,6 +368,7 @@ Eigen::MatrixXd read_nevpt2_heff(size_t nstates, std::string filename, std::stri
 			for (size_t j=1;j<=nstates;j++)
 			{
 				std::getline(is,line);
+				fortran_dfloats_to_efloats(line);
 				std::vector<std::string> tokens = split(line,' ');
 				size_t row_idx = std::stoul(tokens[0]);
 				for(size_t k=1;k<tokens.size();k++)

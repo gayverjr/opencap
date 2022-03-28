@@ -75,6 +75,7 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
 					for (size_t k=1;k<=lines_to_read;k++)
 					{
 						std::getline(is,line);
+						fortran_dfloats_to_efloats(line);
 						std::vector<std::string> tokens = split(line,' ');
 						for (auto token:tokens)
 							matrix_elements.push_back(std::stod(token));
@@ -117,6 +118,7 @@ void qchem_parse_fchk_dms(std::string dmat_filename,std::vector<std::vector<Eige
 				for (size_t k=1;k<=lines_to_read;k++)
 				{
 					std::getline(is,line);
+					fortran_dfloats_to_efloats(line);
 					std::vector<std::string> tokens = split(line,' ');
 					for (auto token:tokens)
 						matrix_elements.push_back(std::stod(token));
@@ -272,6 +274,7 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs)
 		for (size_t k=1;k<=lines_to_read;k++)
 		{
 			std::getline(is,line);
+			fortran_dfloats_to_efloats(line);
 			std::vector<std::string> tokens = split(line,' ');
 			for (auto token:tokens)
 				matrix_elements.push_back(std::stod(token));
@@ -304,6 +307,7 @@ Eigen::MatrixXd read_qchem_tddft_energies(size_t nstates,std::string output_file
     			ZERO_ORDER_H(0,0) = std::stod(split(line,' ')[8]);
 			if (line.find("Total energy for state")!= std::string::npos)
 			{
+					fortran_dfloats_to_efloats(line);
 					ZERO_ORDER_H(state_idx,state_idx) = std::stod(split(line,' ')[5]);
 					state_idx++;
 					std::getline(is,line);
@@ -334,6 +338,7 @@ Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string output_file)
     					"Only " + std::to_string(state_idx) + " states were found. Exiting...");
 			if (line.find("Total energy")!= std::string::npos && line.find("Excitation energy")!= std::string::npos)
 			{
+					fortran_dfloats_to_efloats(line);
 					ZERO_ORDER_H(state_idx-1,state_idx-1) = std::stod(split(line,' ')[3]);
 					state_idx++;
 					std::getline(is,line);
@@ -479,6 +484,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		for (size_t k=1;k<=lines_to_read;k++)
 		{
 			std::getline(is,line);
+			fortran_dfloats_to_efloats(line);
 			std::vector<std::string> tokens = split(line,' ');
 			for (auto token:tokens)
 				exps.push_back(std::stod(token));
@@ -495,6 +501,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 		for (size_t k=1;k<=lines_to_read;k++)
 		{
 			std::getline(is,line);
+			fortran_dfloats_to_efloats(line);
 			std::vector<std::string> tokens = split(line,' ');
 			for (auto token:tokens)
 				coeffs.push_back(std::stod(token));
@@ -515,6 +522,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			for (size_t k=1;k<=lines_to_read;k++)
 			{
 				std::getline(is,line);
+				fortran_dfloats_to_efloats(line);
 				std::vector<std::string> tokens = split(line,' ');
 				for (auto token:tokens)
 					p_coeffs.push_back(std::stod(token));

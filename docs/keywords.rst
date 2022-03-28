@@ -183,6 +183,7 @@ Example:
            "rassi_h5":"path/to/rassi.h5"}
     pc.read_data(es_dict)
 
+
 References
 -----------------
 .. [Sommerfeld2015] Sommerfeld, T.; Ehara, M. Complex Absorbing Potentials with Voronoi Isosurfaces Wrapping Perfectly around Molecules. *J. Chem. Theory Comput.* **2015**, 11 (10), 4627–4633.

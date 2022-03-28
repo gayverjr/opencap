@@ -42,8 +42,9 @@ def _biorthogonalize(Leigvc, Reigvc):
     P, L, U = LA.lu(M)
     Linv = LA.inv(L)
     Uinv = LA.inv(U)
-    Leigvc = np.dot(Linv, Leigvc)
+    Leigvc = np.dot(Linv, Leigvc.T)
     Reigvc = np.dot(Reigvc, Uinv)
+    Leigvc = Leigvc.T
     return Leigvc, Reigvc
 
 

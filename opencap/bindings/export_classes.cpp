@@ -38,7 +38,7 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 		.def("get_overlap_mat",&System::get_overlap_mat,"Returns overlap matrix.")
 		.def("check_overlap_mat",&System::check_overlap_mat,py::arg("smat"),
 				py::arg("ordering"),py::arg("basis_file") = "","Compares input overlap matrix to "
-						"internal overlap to check basis set ordering.")
+						"internal overlap matrix to check basis set ordering.\n Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
 		.def("get_basis_ids",&System::get_basis_ids,"Returns a string of the basis function ids. "
 				"Each ID has the following format:"
 				"atom index,shell number,l,m")
@@ -59,12 +59,12 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				py::arg("initial_idx"),py::arg("final_idx"),
 				py::arg("ordering"),py::arg("basis_file") = "",
 				"Adds spin-traced tdm to CAP object at specified indices. The optional argument basis_file"
-				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.")
+				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.\n Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
 		.def("add_tdms", &CAP::add_tdms,py::arg("alpha_density"),
 				py::arg("beta_density"),py::arg("initial_idx"),py::arg("final_idx"),
 				py::arg("ordering"),py::arg("basis_file") = "",
 				"Adds alpha/beta tdms to CAP object at specified indices. The optional argument basis_file"
-				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.")
+				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file.\n Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
 		.def("read_data",&CAP::read_electronic_structure_data, py::arg("es_dict"), "Reads electronic structure data "
 				"specified in dictionary.")
 		.def("renormalize_cap",&CAP::renormalize_cap, py::arg("smat"),

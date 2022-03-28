@@ -20,7 +20,7 @@ SOFTWARE.
 '''
 
 '''
-CAP/FCI on doubly excited H2 Feshbach resonance. Basis set is:
+CAP/FCI on doubly excited H2 Feshbach resonance.
 '''
 
 import pyopencap
