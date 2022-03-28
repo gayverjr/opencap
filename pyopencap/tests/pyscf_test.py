@@ -69,7 +69,7 @@ def test_ovlp_ordering():
     s = pyopencap.System(sys_dict)
     pyscf_smat = scf.hf.get_ovlp(mol)
     os.remove("molden_file.molden")
-    assert np.isclose(s.get_overlap_mat("pyscf"),pyscf_smat)
+    assert np.allclose(s.get_overlap_mat("pyscf"),pyscf_smat)
 
 
 @pytest.mark.skipif('pyscf' not in sys.modules,
@@ -96,4 +96,4 @@ def test_pyscf():
     pc.compute_projected_cap()
     W = pc.get_projected_cap()
     os.remove("molden_file.molden")
-    assert np.islcose(W2,W)
+    assert np.allclose(W2,W)
