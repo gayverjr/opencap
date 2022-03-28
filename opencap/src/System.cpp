@@ -323,7 +323,7 @@ bool System::check_overlap_mat(Eigen::MatrixXd smat, std::string ordering, std::
 	if(python)
 		py::print("Verified overlap matrix after re-normalization.\nCompute the CAP first in AO basis using "
 				"\'compute_ao_cap\', then re-normalize using \'renormalize\' or "
-				"\'renormalize_cap\' before calling \'compute_cap\'.");
+				"\'renormalize_cap\' before calling \'compute_projected_cap\'.");
 	else
 		std::cout << "Verified overlap matrix after re-normalization." << std::endl;
 	return false;

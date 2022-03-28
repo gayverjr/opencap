@@ -61,6 +61,16 @@ def test_from_molden():
     s.check_overlap_mat(pyscf_smat, "pyscf")
     os.remove("molden_file.molden")
 
+@pytest.mark.skipif('pyscf' not in sys.modules,
+                    reason="requires the pyscf library")
+def test_ovlp_ordering():
+    mol, myhf = get_hf()
+    tools.molden.from_scf(myhf, "molden_file.molden")
+    s = pyopencap.System(sys_dict)
+    pyscf_smat = scf.hf.get_ovlp(mol)
+    os.remove("molden_file.molden")
+    assert np.isclose(s.get_overlap_mat("pyscf"),pyscf_smat)
+
 
 @pytest.mark.skipif('pyscf' not in sys.modules,
                     reason="requires the pyscf library")
@@ -69,6 +79,9 @@ def test_pyscf():
     tools.molden.from_scf(myhf, "molden_file.molden")
     s = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(s, cap_dict, 3)
+    pc.compute_ao_cap(cap_dict)
+    W_AO = pc.get_ao_cap("pyscf")
+    W2 = np.zeros((3,3))
     fs = fci.FCI(mol, myhf.mo_coeff)
     fs.nroots = 3
     e, c = fs.kernel()
@@ -79,5 +92,8 @@ def test_pyscf():
             dm1_ao = np.einsum('pi,ij,qj->pq', myhf.mo_coeff, dm1,
                                myhf.mo_coeff.conj())
             pc.add_tdm(dm1_ao, i, j, "pyscf")
+            W2[i,j] = -1.0 * np.trace(W_AO,dm1_ao)
     pc.compute_projected_cap()
+    W = pc.get_projected_cap()
     os.remove("molden_file.molden")
+    assert np.islcose(W2,W)
