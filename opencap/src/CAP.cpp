@@ -449,6 +449,8 @@ Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
             ids = get_qchem_ids(system.bs);
         else if(compare_strings(ordering,"psi4"))
             ids = get_psi4_ids(system.bs);
+        else if(compare_strings(ordering,"molden"))
+            ids = system.bs.bf_ids;
         else
             opencap_throw("Error: " + ordering +" is unsupported.");
         reorder_matrix(reordered_cap,system.bs.bf_ids,ids);

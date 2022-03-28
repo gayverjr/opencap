@@ -221,6 +221,8 @@ Eigen::MatrixXd System::get_overlap_mat(std::string ordering,std::string basis_f
             ids = get_qchem_ids(bs);
         else if(compare_strings(ordering,"psi4"))
             ids = get_psi4_ids(bs);
+		else if(compare_strings(ordering,"molden"))
+			ids = bs.bf_ids;
         else
             opencap_throw("Error: " + ordering +" is unsupported.");
         reorder_matrix(reordered_smat,bs.bf_ids,ids);

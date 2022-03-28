@@ -74,7 +74,7 @@ public:
 	 * \param ordering: order of GTOs
 	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
-	Eigen::MatrixXd get_overlap_mat(std::string ordering="",std::string basis_file="");
+	Eigen::MatrixXd get_overlap_mat(std::string ordering="molden",std::string basis_file="");
 	/** Compares computed overlap matrix with supplied overlap matrix
 	 *  We also try to re-normalize, see renormalize_overlap
 	 */

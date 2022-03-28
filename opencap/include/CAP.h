@@ -107,7 +107,7 @@ public:
 	 * \param ordering: order of GTOs
 	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
-    Eigen::MatrixXd get_ao_cap(std::string ordering="",std::string basis_file="");
+    Eigen::MatrixXd get_ao_cap(std::string ordering="molden",std::string basis_file="");
 	/** Returns CAP matrix in state basis.
 	 */
 	Eigen::MatrixXd get_projected_cap();
