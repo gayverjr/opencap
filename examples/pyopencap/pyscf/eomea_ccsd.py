@@ -126,7 +126,7 @@ def _biorthogonalize(Leigvc, Reigvc):
 
 def make_rdm1(t1,t2,r1,r2,l1,l2,state_dm=False):
     d1 = _gamma1_intermediates(t2,r1,r2,l2)
-    return _make_rdm1(mycc,d1,t1,t2,r1,r2,l1,state_dm)
+    return _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm)
 
 
 def _gamma1_intermediates(t2,r1,r2,l2):
@@ -233,9 +233,9 @@ for i in range(0,nstates):
 for i in range(0,nstates):
     for j in range(0,nstates):
         if i == j:
-            dm1 = make_rdm1(mycc,t1_spin,t2_spin,r1[i],r2[i],l1[i],l2[i],state_dm=True)	
+            dm1 = make_rdm1(t1_spin,t2_spin,r1[i],r2[i],l1[i],l2[i],state_dm=True)	
         else:
-            dm1 = make_rdm1(mycc,t1_spin,t2_spin,r1[i],r2[i],l1[j],l2[j],state_dm=False)
+            dm1 = make_rdm1(t1_spin,t2_spin,r1[i],r2[i],l1[j],l2[j],state_dm=False)
         dm1 = partial_trace(dm1)
         dm1_ao = mf.mo_coeff @ dm1 @ mf.mo_coeff.T
         pc.add_tdm(dm1_ao,i,j,'pyscf')
