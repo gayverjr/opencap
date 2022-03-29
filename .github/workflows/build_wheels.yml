@@ -13,18 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
-      - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2.1.1
-        with:
-            auto-activate-base: true
-            activate-environment: ""
-
-      - name: Install system dependencies
-        run: |
-          conda install -c anaconda hdf5
-          conda install -c conda-forge eigen
-
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.3.1
         env:
           CIBW_ARCHS_MACOS: x86_64 universal2
+          CIBW_BEFORE_ALL_MACOS: brew install hdf5 eigen
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y eigen3-devel
+            yum install -y wget
+            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz
+            tar zxvf hdf5-1.10.5.tar.gz
+            cd hdf5-1.10.5
+            ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx
+            make
+            make install
+            yum install python3-devel 
+            cd ..
+            
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
