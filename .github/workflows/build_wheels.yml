@@ -28,6 +28,7 @@ jobs:
             cd ..  
           CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11 HDF5_ROOT=/usr/local/hdf5
           CIBW_ARCHS_LINUX: x86_64
+          CIBW_SKIP: *-musllinux_*
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
             yum install -y wget &&
