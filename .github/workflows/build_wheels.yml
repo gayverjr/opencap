@@ -1,0 +1,80 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build_linux_wheels:
+    name: Build wheels on linux
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.3.1
+        env:
+          CIBW_SKIP: "*-musllinux_*"  
+          CIBW_ARCHS_LINUX: x86_64
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y eigen3-devel &&
+            yum install -y wget &&
+            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz &&
+            tar zxvf hdf5-1.10.5.tar.gz &&
+            cd hdf5-1.10.5 &&
+            ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
+            make &&
+            make install &&
+            yum install -y python3-devel &&
+            cd ..  
+            
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
+  build_intelmac_wheels:
+      name: Build wheels on intel mac
+      runs-on:  macos-10.15
+
+      steps:
+        - uses: actions/checkout@v2
+          
+        - name: Build wheels
+          uses: pypa/cibuildwheel@v2.3.1
+          env:
+            CIBW_ARCHS_MACOS: x86_64
+            CIBW_BEFORE_ALL_MACOS: >
+              brew install eigen gcc wget &&
+              wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz &&
+              tar zxvf hdf5-1.10.5.tar.gz &&
+              cd hdf5-1.10.5 &&
+              ./configure --prefix=/usr/local/hdf5 --enable-cxx &&
+              sudo make &&
+              sudo make install &&
+              cd ..  
+            CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11 HDF5_ROOT=/usr/local/hdf5
+              
+        - uses: actions/upload-artifact@v2
+          with:
+            path: ./wheelhouse/*.whl
+
+  make_sdist:
+    name: Make sdist
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Optional, use if you use setuptools_scm
+        submodules: true  # Optional, use if you have submodules
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get -y install libhdf5-serial-dev
+        sudo apt-get -y install libeigen3-dev
+        sudo apt-get -y install cmake
+
+    - name: Build SDist
+      run: pipx run build --sdist
+
+    - uses: actions/upload-artifact@v2
+      with:
+        path: dist/*.tar.gz
