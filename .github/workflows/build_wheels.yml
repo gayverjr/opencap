@@ -23,8 +23,8 @@ jobs:
             tar zxvf hdf5-1.10.5.tar.gz &&
             cd hdf5-1.10.5 &&
             ./configure --prefix=/usr/local/hdf5 --enable-cxx &&
-            make &&
-            make install &&
+            sudo make &&
+            sudo make install &&
             cd ..  
           CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11
           CIBW_BEFORE_ALL_LINUX: >
