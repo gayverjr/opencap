@@ -76,7 +76,7 @@ $(function() {
 Installing the dependencies</h1>
 <p>Building OpenCAP requires the following:</p>
 <ul>
-<li>C++ compiler with full C++17 language support and standard libraries (<b>Warning: Default Apple Clang on MacOS requires special care</b>)</li>
+<li>C++ compiler with full C++17 language support and standard libraries</li>
 <li>Python3 interpreter and development libraries: version &gt;= 3.6</li>
 <li><a href="https://cmake.org/">CMake</a>: version &gt;= 3.12</li>
 <li><a href="https://www.hdfgroup.org/solutions/hdf5/">HDF5</a>: hierarchical data format, version &gt;= 1.10</li>
@@ -100,8 +100,8 @@ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 </pre><p>Once the Makefile is generated, build and install the executable. </p><pre class="fragment">make
 make install
 </pre><p><b>MacOS</b></p>
-<p>For Mac users on <b>MacOS 10.14 Mojave</b> or <b>MacOS 10.15 Catalina</b>, the Apple Clang provided by XCode is missing some C++17 standard library features, which will cause the CMake step to fail. A drop-in replacement for the missing std::filesystem can be automatically downloaded and installed by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake: </p><pre class="fragment">cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-</pre><p>For Mac users on <b>MacOS 10.13 High Sierra</b> or earlier, the Apple Clang provided by XCode <b>will not work</b>. We suggest installing the latest version of GCC from <a href="https://brew.sh/">Homebrew</a>, and then setting proper environment variables for CMake: </p><pre class="fragment">CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
+<p>For Mac users, the h5PP version we pin to fails to detect the std::filesystem which is now available in Apple Clang. Resolving this issue is currently a work in progress. While we suggest using GCC, Apple Clang can be used by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake: </p><pre class="fragment">cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
+</pre><p>Alternatively, GCC can be installed from <a href="https://brew.sh/">Homebrew</a>, and then used by setting proper environment variables for CMake: </p><pre class="fragment">CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 </pre><p><b>Linux</b></p>
 <p>For Linux users, any compiler which fully supports the C++17 standard should work (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your compiler. Depending on your distribution, you may also need to install Python3 development libraries e.g. <code>sudo apt-get install python3.x-dev</code>.</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
