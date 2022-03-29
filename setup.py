@@ -87,5 +87,5 @@ setup(
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     packages=['pyopencap','pyopencap.analysis'],
-    install_requires=['numpy','pandas','scipy'],
+    install_requires=['numpy>=1.19','pandas>1.4.0','scipy>1.7.0'],
 )
