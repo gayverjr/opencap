@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, macos-10.15]
 
     steps:
       - uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
             ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
             make &&
             make install &&
-            yum install python3-devel &&
+            yum install -y python3-devel &&
             cd ..  
             
       - uses: actions/upload-artifact@v2
