@@ -23,7 +23,7 @@ DOCLINES = (__doc__ or '').split("\n")
 import os
 import re
 import sys
-import platform
+from sys import platform
 import subprocess
 
 from setuptools import setup, Extension
@@ -60,6 +60,8 @@ class CMakeBuild(build_ext):
         cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
         cmake_args += ['-DBUILD_PYOPENCAP=ON']
         cmake_args += ['-DBUILD_OPENCAP=OFF']
+        if platform=='darwin':
+            cmake_args += ['-DH5PP_DOWNLOAD_METHOD=fetch']
 
         env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),

@@ -138,10 +138,8 @@ make install
 
 ### MacOS 
 
-For Mac users on **MacOS 10.14 Mojave** or **MacOS 10.15 Catalina**, the Apple Clang provided by 
-XCode is missing some C++17 standard library features, which will cause the CMake step to fail. A drop-in
-replacement for the missing std::filesystem can be automatically downloaded and installed by 
-passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
+For Mac users, the h5PP version we pin to fails to detect the std::filesystem which is now available in Apple Clang. Resolving 
+this issue is currently a work in progress. While we suggest using GCC, Apple Clang can be used by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
 
     cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 

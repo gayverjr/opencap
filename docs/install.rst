@@ -20,7 +20,7 @@ Build from source
 
 Compiling PyOpenCAP from source requires first installing the following dependencies:
 
-* C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS is not supported**)
+* C++ compiler with full C++17 language support and standard libraries
 
 * Python3 interpreter and development libraries: version >= 3.6
 
@@ -41,22 +41,9 @@ Homebrew_, Conda_, and yum/apt-get on Linux.
 
 **Compiler**
 
-For Linux users, any compiler which fully supports the C++17 standard should work 
+For Mac/Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
 compiler. 
-
-For Mac users, as of MacOS 10.15 Catalina, the Apple Clang provided by XCode will not work due to missing standard 
-library features. We suggest installing the latest version of GCC 
-from Homebrew_, and then setting the following environment variables before attempting to build from source:
-
-.. code:: bash
-
-   # for GCC 10 installed by brew
-
-   export CC=gcc-10
-
-   export CXX=g++-10
-
 
 **Building the package**
 
