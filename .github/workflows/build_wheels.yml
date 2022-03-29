@@ -16,6 +16,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.3.1
         env:
+          CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_MACOS: x86_64 universal2 arm64
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen gcc wget &&
@@ -28,7 +29,6 @@ jobs:
             cd ..  
           CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11 HDF5_ROOT=/usr/local/hdf5
           CIBW_ARCHS_LINUX: x86_64
-          CIBW_SKIP: *-musllinux_*
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
             yum install -y wget &&
