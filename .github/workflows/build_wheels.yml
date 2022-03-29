@@ -24,9 +24,6 @@ jobs:
           conda install -c anaconda hdf5
           conda install -c conda-forge eigen
 
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.3.1
         env:
