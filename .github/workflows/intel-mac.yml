@@ -43,6 +43,8 @@ jobs:
           
       - name: Build and test PyOpenCAP
         run: |
+          export CC=gcc-11
+          export CXX=g++-11
           pip install pytest
           pip install pytest-cov
           pip install h5py
