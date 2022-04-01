@@ -36,7 +36,7 @@ jobs:
         run: |
           cd opencap; mkdir build; 
           cd build
-          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+          CC=gcc-11 CXX=g++-11 cmake -DCODE_COVERAGE=ON -DHDF5_ROOT=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
           make 
           ctest --output-on-failure
           cd ../../
@@ -55,16 +55,3 @@ jobs:
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
           cd ..
-            
-      - name: Upload reports
-        run: |
-          cd opencap/build
-          lcov   --directory . --capture --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info 
-          lcov --remove coverage.info '*eigen*' "${HOME}"'/.cache/*' --output-file coverage.info 
-          lcov --remove coverage.info '*_deps*' "${HOME}"'/.cache/*' --output-file coverage.info 
-          lcov --remove coverage.info '*tests*' "${HOME}"'/.cache/*' --output-file coverage.info 
-          lcov --list coverage.info
-          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage C++ reports"
-          cd ../../pyopencap
-          bash <(curl -s https://codecov.io/bash) -f coverage.xml || echo "Codecov did not collect coverage Python reports"
