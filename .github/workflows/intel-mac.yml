@@ -1,0 +1,59 @@
+name: ubuntu
+
+on: [push]
+
+jobs:
+  build-intel-macos:
+    runs-on: macos-10.15
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        python-version: [3.7,3.8,3.9]
+    
+    
+    
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
+        
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2.1.1
+        with:
+            auto-activate-base: true
+            activate-environment: true
+            python-version: ${{ matrix.python-version }}
+
+
+      - name: Install system dependencies
+        run: |
+          brew install gcc
+          conda install -c conda-forge hdf5
+          conda install -c conda-forge eigen
+       
+      - name: Build and test OpenCAP
+        run: |
+          cd opencap; mkdir build; 
+          cd build
+          CC=gcc-11 CXX=g++-11 cmake -DCODE_COVERAGE=ON -DHDF5_ROOT=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+          make 
+          ctest --output-on-failure
+          cd ../../
+          
+      - name: Build and test PyOpenCAP
+        run: |
+          export CC=gcc-11
+          export CXX=g++-11
+          pip install pytest
+          pip install pytest-cov
+          pip install h5py
+          pip install numpy
+          pip install pyscf
+          pip install codecov
+          pip install numgrid
+          pip install pandas
+          pip install .
+          cd pyopencap
+          pytest --cov=pyopencap --cov-report=xml
+          cd ..
