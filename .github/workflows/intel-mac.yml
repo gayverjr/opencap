@@ -1,0 +1,70 @@
+name: ubuntu
+
+on: [push]
+
+jobs:
+  build-intel-macos:
+    runs-on: macos-10.15
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        python-version: [3.7,3.8,3.9,'3.10']
+    
+    
+    
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
+        
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2.1.1
+        with:
+            auto-activate-base: true
+            activate-environment: true
+            python-version: ${{ matrix.python-version }}
+
+
+      - name: Install system dependencies
+        run: |
+          brew install gcc
+          conda install -c conda-forge hdf5
+          conda install -c conda-forge eigen
+       
+      - name: Build and test OpenCAP
+        run: |
+          cd opencap; mkdir build; 
+          cd build
+          cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo .. 
+          make 
+          ctest --output-on-failure
+          cd ../../
+          
+      - name: Build and test PyOpenCAP
+        run: |
+          pip install pytest
+          pip install pytest-cov
+          pip install h5py==3.2.1
+          pip install numpy
+          pip install pyscf
+          pip install codecov
+          pip install numgrid
+          pip install pandas
+          pip install .
+          cd pyopencap
+          pytest --cov=pyopencap --cov-report=xml
+          cd ..
+            
+      - name: Upload reports
+        run: |
+          cd opencap/build
+          lcov   --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*eigen*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*_deps*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --remove coverage.info '*tests*' "${HOME}"'/.cache/*' --output-file coverage.info 
+          lcov --list coverage.info
+          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage C++ reports"
+          cd ../../pyopencap
+          bash <(curl -s https://codecov.io/bash) -f coverage.xml || echo "Codecov did not collect coverage Python reports"
