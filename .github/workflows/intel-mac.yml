@@ -1,4 +1,4 @@
-name: ubuntu
+name: intel-mac
 
 on: [push]
 
