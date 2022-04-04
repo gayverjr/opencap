@@ -57,6 +57,37 @@ jobs:
           with:
             path: ./wheelhouse/*.whl
 
+  build_windows_wheels:
+      name: Build wheels on Windows
+      runs-on:  windows-2019
+
+      steps:
+        - uses: actions/checkout@v2
+
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2.1.1
+        with:
+            auto-activate-base: true
+            activate-environment: true
+            python-version: ${{ matrix.python-version }}
+
+
+      - name: Install system dependencies
+        run: |
+          conda install -c conda-forge eigen
+          conda install -c anaconda hdf5
+          conda install -c anaconda cmake
+          choco install mingw
+          
+        - name: Build wheels
+          uses: pypa/cibuildwheel@v2.3.1
+          env:
+            CIBW_ENVIRONMENT_WINDOWS: CC=gcc CXX=g++ HDF5_ROOT=$CONDA_PREFIX EIGEN3_DIR=$CONDA_PREFIX
+              
+        - uses: actions/upload-artifact@v2
+          with:
+            path: ./wheelhouse/*.whl
+
   make_sdist:
     name: Make sdist
     runs-on: ubuntu-20.04
