@@ -24,7 +24,6 @@ find_package(OpenMP REQUIRED)
 FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
-    GIT_TAG v1.7.3
 )
 FetchContent_GetProperties(h5pp)
 if(NOT h5pp_POPULATED)
@@ -79,6 +78,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(BUILD_PYOPENCAP)
 message("Building PyOpenCAP python module.")
 pybind11_add_module(pyopencap_cpp ${SOURCES} ${BIND_SOURCES})
+target_compile_definitions(pyopencap_cpp PRIVATE _USE_MATH_DEFINES)
 target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects OpenMP::OpenMP_CXX Eigen3::Eigen h5pp::h5pp asa239)
 endif()
 
@@ -87,6 +87,8 @@ message("Building OpenCAP executable.")
 find_package(Python ${PY_VERSION} REQUIRED)
 add_executable(opencap ${SOURCES})
 add_library(opencap-shared ${SOURCES})
+target_compile_definitions(opencap PRIVATE _USE_MATH_DEFINES)
+target_compile_definitions(opencap-shared PRIVATE _USE_MATH_DEFINES)
 target_link_libraries(opencap ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX asa239)
 target_link_libraries(opencap-shared ${HDF5_LIBRARIES} numgrid-objects pybind11::module pybind11::embed Eigen3::Eigen h5pp::h5pp OpenMP::OpenMP_CXX asa239)
 install(TARGETS opencap
