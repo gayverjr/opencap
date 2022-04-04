@@ -60,8 +60,6 @@ class CMakeBuild(build_ext):
         cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
         cmake_args += ['-DBUILD_PYOPENCAP=ON']
         cmake_args += ['-DBUILD_OPENCAP=OFF']
-        if platform=='darwin':
-            cmake_args += ['-DH5PP_DOWNLOAD_METHOD=fetch']
 
         env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
