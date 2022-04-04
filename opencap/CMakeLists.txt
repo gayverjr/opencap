@@ -24,6 +24,7 @@ find_package(OpenMP REQUIRED)
 FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
+    GIT_TAG v1.7.3
 )
 FetchContent_GetProperties(h5pp)
 if(NOT h5pp_POPULATED)
