@@ -6,12 +6,18 @@ pd.set_option("display.precision", 16)
 from pathlib2 import Path
 from scipy.linalg import block_diag
 from pandas import DataFrame as df
-import pyopencap
-from pyopencap.analysis import CAPHamiltonian
-
 
 
 class MO:
+    '''
+    A class that is internally needed to read file containing MO coefficients.
+    Used in read_molden function.
+
+    Input:
+    ------
+    Line string (line) and total no of such line strings (total_idx).
+
+    '''
     def __init__(self,line,total_idx):
         irrep_label = line.split('=')[1].lower()
         irrep_label = ''.join(c for c in irrep_label if c.isalnum())
@@ -27,8 +33,21 @@ class MO:
 
 #Columbus parser class
 class colparser:
+    '''
+    A class that parses COLUMBUS electronic structure package generated files,
+    to generate state density and transition density matrices for projected-CAP
+    calculation on MR-CI level.
+    '''
 
     def set_mo_coeff(self,ordering=None):
+        '''
+        An internal function to generate mo coffiecients in proper ordering.
+
+        RETURNS:
+        -------
+        MO coefficients in proper ordering to that of pyopencap internal structure
+        '''
+
         if ordering is not None:
             raise NotImplementedError("Custom ordering NYI.")
         else:
@@ -39,6 +58,19 @@ class colparser:
 
 
     def read_molden(self,molden_file):
+        '''
+        An internal function that parses standard molden file.
+
+        Input:
+        ------
+        molden_file: molden MO file (generated in MOLDEN/ folder in COLUMBUS calculation 
+                    Directory if 'molden' keyword is invoked in control.run)
+
+        Returns:
+        -------
+        MO coefficients
+        '''
+
         _SEC_REGEX = re.compile(r'\[[^]]+\]')
         irrep_dict = {}
         with open(molden_file,'r') as f:
@@ -74,6 +106,24 @@ class colparser:
 
 
     def __init__(self, molden_file, tranls, nstates):
+        '''
+        Initialize the colparser class
+
+        Inputs:
+        ------
+        molden_file: molden MO file (generated in MOLDEN/ folder in COLUMBUS calculation 
+                    Directory)
+        tranls: input file containing information of CI calculation.
+        nstates: No. of states
+
+        Variables:
+        ----------
+        nbft = Total number of basis functions
+        NBPSY = Number of basis functions in each symmetry block.
+        NMPSY = Number of orbitals in each of the symmetry blocks.(NMPSY<= NBSPSY)
+        NFCSY = Number of frozen orbitals in each of the symmetry blocks.
+        SLABEL = Character labels for the symmetry blocks.
+        '''
         
         self.nstates = nstates
 
@@ -106,6 +156,26 @@ class colparser:
 
 
     def irrep_info(self):
+        '''
+        A utility function that prints irreducible representation information.
+        basis set info and orbital info.
+
+        Input:
+        ------
+        None
+
+        Returns:
+        --------
+        A print statement with:
+        Standard COLUMBUS variables-
+        Total number of basis functions (nbft)
+        NBPSY = Number of basis functions in each symmetry block.
+        NMPSY = Number of orbitals in each of the symmetry blocks.(NMPSY<= NBSPSY)
+        NFCSY = Number of frozen orbitals in each of the symmetry blocks.
+        SLABEL = Character labels for the symmetry blocks.
+
+        '''
+
         pformat = r' Total number of basis functions: {}' \
         ' \n Symmetry Label: {}' \
         ' \n NBPSY: {}'' \n NMPSY: {}' ' \n NFCPSY: {} \n'
@@ -114,6 +184,32 @@ class colparser:
     
     #Gives DM in MO basis
     def dm_from_iwfmt(self, finame, state_dm=False):
+        '''
+        An internal parser that reads CI densities from user genreated iwfmt files and
+        formats them in proper order.
+
+        Inputs:
+        ------
+        finame: Input file name from where the density elements needs to be read.
+        state_dm: To specify which kind of density file are being parsed (True for State density,
+                                                                False for Transition density).
+
+        Variables:
+        -----------
+        occ: occupation number of frozen orbital
+        sym: which kind of densities we are reading- symmetric(1) or anti-symmetric(-1)
+        symm_indices: stores indices of symmetric density element 
+                        (in block diagonal form, manually specified)
+        asymm_store: stores indices of density element (from iwfmt density file)
+        ITYPEA, ITYPEB: (TABLE III) https://www.univie.ac.at/columbus/docs_COL70/fulldoc/sifs.txt
+
+
+        Returns:
+        --------
+        dm1_mo: Blockdiagonal density matrix.
+
+        '''
+
         if state_dm:occ = 2.0
         else: occ = 0.0
 
@@ -185,41 +281,116 @@ class colparser:
 
 
     def sdm_ao(self, i):
+        '''
+        A function that returns state density matrix in Atomic Orbitals basis.
+        Utilizes dm_from_iwfmt internal function.
+
+        Input:
+        ------
+        State index: i (State index starts from 1)
+
+        Returns:
+        --------
+        State density matrix in AO basis
+
+        '''
+
         fnameIN ='cid1trfl.FROMdrt1.state{}TOdrt1.state{}.iwfmt'.format(i, i)
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=True) @ self.mo_coeff.T
 
     def tdm_ao(self, iFROM, iTO):
+        '''
+        A function that returns transition density matrix in Atomic Orbitals basis.
+        Utilizes dm_from_iwfmt internal function.
+
+        Input:
+        ------
+        Initial state index (iFROM) to final state index (iTO)
+
+        Returns:
+        --------
+        Transition density matrixin AO basis
+
+        '''
+
         fnameIN ='cid1trfl.FROMdrt1.state{}TOdrt1.state{}.iwfmt'.format(iFROM, iTO)
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=False) @ self.mo_coeff.T
 
     def sdm_redc_ao(self,i):
+        '''
+        Read CI state densities from State density iwmt files.
+
+        Under construction.
+        '''
 
         pass
 
 
-    def H0(self, en_type):
+    def H0_parser(self, *args):
+        '''
+        An internal parser 
+        
+        Input:
+        ------
+        Takes energy correction type as argument from following set:
+        ['eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople'] and
+        looks for energy in 'ciudgsm' file.
+
+        Default is 'eci+pople': 
+        https://aip.scitation.org/doi/pdf/10.1063/1.5144267
+
+        Returns:
+        --------
+        Diagonal energy matrix corresponding to input args.
+        '''
+
+        str_arg = args[0]
+
         H0_arr=[]
         lines = [line for line in open('ciudgsm')]
         str_in = ['eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople']
         str_search = ['eci       =', 'eci+dv1   =', 'eci+dv2   =', 'eci+dv3   =', 'eci+pople =']
+        str_lookup=str_search[str_in.index(str_arg)]
 
-        if (en_type in str_in) == False:
-            print('The following input strings are available:' ' \n {}'.format(str_in))
-            exit
-        else:
-            str_lookup=str_search[str_in.index(en_type)]
-            for line in lines:
-                if 'convergence not reached' in line:
-                    print ('\n''Convergence of all roots NOT reached. Throwing a WARNING here!!''\n')
-                    continue
-                elif str_lookup in line:
-                    H0_arr = block_diag(H0_arr, float(line.split()[2]))
-            self.H0_diag=np.delete(H0_arr, (0), axis=0)
-
+        for line in lines:
+            if 'convergence not reached' in line:
+                print ('\n''Convergence of all roots NOT reached. Throwing a WARNING here!!''\n')
+                continue
+            elif str_lookup in line:
+                H0_arr = block_diag(H0_arr, float(line.split()[2]))
+        self.H0_diag=np.delete(H0_arr, (0), axis=0)
         return self.H0_diag
 
 
+    def H0(self, correction_type=None):
+        '''
+        A function that utilizes H0_parser.
+
+        Input:
+        ------
+        None(Default is eci+pople) or any needed correction as args.
+
+        Returns:
+        --------
+        Diagonal hamiltonian with CI energies.
+
+        '''
+
+        str_in = ['eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople']
+        if ((correction_type in str_in) == False) or (correction_type==None):
+            print("The following input args are available (Switching to default 'eci+pople'):"  "\n {}".format(str_in))
+            self.H0_mat = self.H0_parser('eci+pople')
+        else:
+            self.H0_mat = self.H0_parser(correction_type)
+
+        return self.H0_mat
+
+
 if __name__ == '__main__':
+
+    import pyopencap
+    from pyopencap.analysis import CAPHamiltonian
+    import matplotlib.pyplot as plt
 
     nstates=int(sys.argv[1])
     
@@ -237,7 +408,7 @@ if __name__ == '__main__':
     pc.compute_ao_cap(cap_dict)
     W_ao = pc.get_ao_cap()
     ovlp = s.get_overlap_mat()
-    H0 = parser.H0('eci')
+    H0 = parser.H0()
     W = np.zeros((nstates,nstates))
 
 
@@ -257,7 +428,6 @@ if __name__ == '__main__':
 
 
 
-    import matplotlib.pyplot as plt
     CAPH = CAPHamiltonian(H0=H0,W=W)
     ref_energy = np.min(H0)
     eta_list = np.linspace(0,1000,1001) * 1E-5
