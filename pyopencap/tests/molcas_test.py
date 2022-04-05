@@ -56,7 +56,7 @@ es_dict2 = {
 
 def test_molcas():
     sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys, cap_dict, 10)
+    pc = pyopencap.CAP(sys, cap_dict, 5)
     pc.read_data(es_dict)
     pc.compute_ao_cap(cap_dict)
     pc.compute_projected_cap()
@@ -65,8 +65,7 @@ def test_molcas():
 
 def test_heff():
     sys = pyopencap.System(sys_dict)
-    pc = pyopencap.CAP(sys, cap_dict, 10)
+    pc = pyopencap.CAP(sys, cap_dict, 5)
     pc.read_data(es_dict2)
     h0 = pc.get_H()
-    print(h0[0][0])
     assert np.isclose(h0[0][0], -109.312105)
