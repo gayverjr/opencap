@@ -1,5 +1,4 @@
-import os, sys
-import re
+import os, sys, re
 import numpy as np
 import pandas as pd
 pd.set_option("display.precision", 16)
@@ -13,12 +12,28 @@ class MO:
     A class that is internally needed to read file containing MO coefficients.
     Used in read_molden function.
 
-    Input:
-    ------
-    Line string (line) and total no of such line strings (total_idx).
+    ...
+
+    Attributes
+    ----------
+    line : str
+        Line string read from molden file
+    total_idx : int
+        Total no of line strings.
 
     '''
     def __init__(self,line,total_idx):
+        '''
+        Initializes the MO class
+
+        Parameters
+        ----------
+        line : str
+            Line string
+        total_idx : int
+            Total no of such line strings.
+        '''
+
         irrep_label = line.split('=')[1].lower()
         irrep_label = ''.join(c for c in irrep_label if c.isalnum())
         first_letter = irrep_label.find(next(filter(str.isalpha, irrep_label)))
@@ -31,19 +46,30 @@ class MO:
         self.coeffs.append(coeff)
 
 
-#Columbus parser class
-class colparser:
+class colparser():
     '''
-    A class that parses COLUMBUS electronic structure package generated files,
+    A class that parses COLUMBUS electronic structure package generated files
     to generate state density and transition density matrices for projected-CAP
     calculation on MR-CI level.
+
+    ...
+
+    Attributes
+    ----------
+    molden_file: str
+        molden MO file name (generated in MOLDEN/ folder in COLUMBUS calculation Directory)
+    tranls: str
+        File name containing information of CI calculation.
+    nstates: int
+        No. of states
+
     '''
 
     def set_mo_coeff(self,ordering=None):
         '''
         An internal function to generate mo coffiecients in proper ordering.
 
-        RETURNS:
+        RETURNS
         -------
         MO coefficients in proper ordering to that of pyopencap internal structure
         '''
@@ -61,14 +87,16 @@ class colparser:
         '''
         An internal function that parses standard molden file.
 
-        Input:
-        ------
-        molden_file: molden MO file (generated in MOLDEN/ folder in COLUMBUS calculation 
-                    Directory if 'molden' keyword is invoked in control.run)
+        Parameters
+        ----------
+        molden_file : str
+            molden MO filename (generated in MOLDEN/ folder in COLUMBUS calculation Directory
+            if 'molden' keyword is invoked in control.run runfile.))
 
-        Returns:
+        Returns
         -------
-        MO coefficients
+        mos : np.ndarray
+            MO coefficients.
         '''
 
         _SEC_REGEX = re.compile(r'\[[^]]+\]')
@@ -107,22 +135,17 @@ class colparser:
 
     def __init__(self, molden_file, tranls, nstates):
         '''
-        Initialize the colparser class
+        Initializes the colparser class
 
-        Inputs:
-        ------
-        molden_file: molden MO file (generated in MOLDEN/ folder in COLUMBUS calculation 
-                    Directory)
-        tranls: input file containing information of CI calculation.
-        nstates: No. of states
-
-        Variables:
+        Parameters
         ----------
-        nbft = Total number of basis functions
-        NBPSY = Number of basis functions in each symmetry block.
-        NMPSY = Number of orbitals in each of the symmetry blocks.(NMPSY<= NBSPSY)
-        NFCSY = Number of frozen orbitals in each of the symmetry blocks.
-        SLABEL = Character labels for the symmetry blocks.
+        molden_file: str
+            molden MO filename (generated in MOLDEN/ folder in COLUMBUS calculation Directory)
+        tranls: str
+            File name containing information of CI calculation.
+        nstates: int
+            No. of states in CI calculation.
+
         '''
         
         self.nstates = nstates
@@ -157,23 +180,21 @@ class colparser:
 
     def irrep_info(self):
         '''
-        A utility function that prints irreducible representation information.
+        A utility function that prints irreducible representation information,
         basis set info and orbital info.
 
-        Input:
-        ------
+        Parameters
+        ----------
         None
 
-        Returns:
-        --------
-        A print statement with:
-        Standard COLUMBUS variables-
-        Total number of basis functions (nbft)
-        NBPSY = Number of basis functions in each symmetry block.
-        NMPSY = Number of orbitals in each of the symmetry blocks.(NMPSY<= NBSPSY)
-        NFCSY = Number of frozen orbitals in each of the symmetry blocks.
-        SLABEL = Character labels for the symmetry blocks.
-
+        Returns
+        -------
+        str
+            Total number of basis functions (nbft)
+            Number of basis functions in each symmetry block (NBPSY).
+            Number of orbitals in each of the symmetry blocks.(NMPSY<= NBSPSY)
+            Number of frozen orbitals in each of the symmetry blocks (NFCSY ).
+            Character labels for the symmetry blocks (SLABEL).
         '''
 
         pformat = r' Total number of basis functions: {}' \
@@ -182,32 +203,23 @@ class colparser:
         return pformat.format(self.nbft, self.slabel, self.nbpsy, self.nmpsy, self.nfcpsy)
 
     
-    #Gives DM in MO basis
     def dm_from_iwfmt(self, finame, state_dm=False):
         '''
-        An internal parser that reads CI densities from user genreated iwfmt files and
-        formats them in proper order.
+        An internal parser that reads CI densities from user genreated 'iwfmt' density files and
+        formats them in proper order to generate density matrices.
 
-        Inputs:
-        ------
-        finame: Input file name from where the density elements needs to be read.
-        state_dm: To specify which kind of density file are being parsed (True for State density,
-                                                                False for Transition density).
+        Parameters
+        ----------
+        finame : str 
+            File name from where the density elements needs to be read.
+        state_dm : bool
+            To specify which kind of density file are being parsed 
+            ('True' for State density, 'False' for Transition density).
 
-        Variables:
-        -----------
-        occ: occupation number of frozen orbital
-        sym: which kind of densities we are reading- symmetric(1) or anti-symmetric(-1)
-        symm_indices: stores indices of symmetric density element 
-                        (in block diagonal form, manually specified)
-        asymm_store: stores indices of density element (from iwfmt density file)
-        ITYPEA, ITYPEB: (TABLE III) https://www.univie.ac.at/columbus/docs_COL70/fulldoc/sifs.txt
-
-
-        Returns:
-        --------
-        dm1_mo: Blockdiagonal density matrix.
-
+        Returns 
+        -------
+        dm1_mo: np.ndarray
+            1 particle density matrix in MO basis
         '''
 
         if state_dm:occ = 2.0
@@ -280,71 +292,82 @@ class colparser:
         return dm1_mo
 
 
-    def sdm_ao(self, i):
+    def sdm_ao(self, i, DRTn):
         '''
-        A function that returns state density matrix in Atomic Orbitals basis.
+        A function that returns state density matrix in Atomic Orbital basis.
         Utilizes dm_from_iwfmt internal function.
 
-        Input:
-        ------
-        State index: i (State index starts from 1)
+        Parameters
+        ----------
+        i : int
+            State index
+        DRTn : int
+            DRT index
 
-        Returns:
-        --------
-        State density matrix in AO basis
+        Returns
+        -------
+        np.ndarray
+            State density matrix in AO basis
 
         '''
-
-        fnameIN ='cid1trfl.FROMdrt1.state{}TOdrt1.state{}.iwfmt'.format(i, i)
+        fnameIN ='cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(DRTn, i, DRTn, i)
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=True) @ self.mo_coeff.T
 
-    def tdm_ao(self, iFROM, iTO):
+    def tdm_ao(self, iFROM, iTO, DRTn):
         '''
         A function that returns transition density matrix in Atomic Orbitals basis.
-        Utilizes dm_from_iwfmt internal function.
+        Utilizes 'dm_from_iwfmt' internal function.
 
-        Input:
-        ------
-        Initial state index (iFROM) to final state index (iTO)
+        Parameters
+        ----------
+        iFROM, iTO : int
+            Initial state index and final state indices respectively.
+        DRTn : int
+            DRT index
 
-        Returns:
-        --------
-        Transition density matrixin AO basis
+        Returns
+        -------
+        np.ndarray
+            Transition density matrix in AO basis
 
         '''
-
-        fnameIN ='cid1trfl.FROMdrt1.state{}TOdrt1.state{}.iwfmt'.format(iFROM, iTO)
+        fnameIN ='cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(DRTn, iFROM, DRTn, iTO)
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=False) @ self.mo_coeff.T
 
-    def sdm_redc_ao(self,i):
+    def sdm_ao_cid1fl(self,i, DRTn):
         '''
-        Read CI state densities from State density iwmt files.
+        Read CI state densities from State density cid1fl*.iwfmt files.
 
         Under construction.
-        '''
 
+        Parameters
+        ----------
+        i : int
+            State index
+        DRTn : int
+            DRT index
+
+        Returns
+        -------
+        np.ndarray
+            State density matrix in AO basis
+        '''
         pass
 
 
-    def H0_parser(self, *args):
+    def H0_parser(self, str_arg):
         '''
-        An internal parser 
+        An internal parser that parses 'ciudgsm' file and is used by H0 function.
         
-        Input:
-        ------
-        Takes energy correction type as argument from following set:
-        ['eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople'] and
-        looks for energy in 'ciudgsm' file.
+        Parameters
+        ----------
+        str_arg : {'eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople' }
 
-        Default is 'eci+pople': 
-        https://aip.scitation.org/doi/pdf/10.1063/1.5144267
-
-        Returns:
+        Returns
         --------
-        Diagonal energy matrix corresponding to input args.
+        H0_diag: np.ndarray
+            Diagonal Hamiltonian with CI energies.
         '''
-
-        str_arg = args[0]
 
         H0_arr=[]
         lines = [line for line in open('ciudgsm')]
@@ -362,17 +385,22 @@ class colparser:
         return self.H0_diag
 
 
-    def H0(self, correction_type=None):
+    def H0(self, correction_type='eci+pople'):
         '''
-        A function that utilizes H0_parser.
+        A function that utilizes H0_parser and returns 
+        H0 hamiltonian in diagonal form.
 
-        Input:
-        ------
-        None(Default is eci+pople) or any needed correction as args.
+        Parameters
+        ----------
+        correction_type: str, optional
+        correction_type : {'eci+pople', 'eci', 'eci+dv1', 'eci+dv2', 'eci+dv3' }
+            Type of corrected energies to parse (Default is 'eci+pople').
+            Ref: https://aip.scitation.org/doi/pdf/10.1063/1.5144267
 
-        Returns:
+        Returns
         --------
-        Diagonal hamiltonian with CI energies.
+        H0_mat : np.ndarray
+            Diagonal hamiltonian with CI energies.
 
         '''
 
@@ -384,54 +412,3 @@ class colparser:
             self.H0_mat = self.H0_parser(correction_type)
 
         return self.H0_mat
-
-
-if __name__ == '__main__':
-
-    import pyopencap
-    from pyopencap.analysis import CAPHamiltonian
-    import matplotlib.pyplot as plt
-
-    nstates=int(sys.argv[1])
-    
-    parser = colparser('molden_mo_mc.sp', 'tranls', nstates)
-    nbas=parser.nbft
-    print(parser.irrep_info())
-
-    molden_dict = {"basis_file":"molden_mo_mc.sp",
-    "molecule": "molden"}
-    s = pyopencap.System(molden_dict)
-    cap_dict = {"cap_type": "voronoi","r_cut": "3.00"}
-
-
-    pc = pyopencap.CAP(s,cap_dict,nstates)
-    pc.compute_ao_cap(cap_dict)
-    W_ao = pc.get_ao_cap()
-    ovlp = s.get_overlap_mat()
-    H0 = parser.H0()
-    W = np.zeros((nstates,nstates))
-
-
-    for i in range(0,nstates):
-        for j in range(i,nstates):
-            if i==j:
-                print("{},{}".format(i+1,j+1))
-                dm1_ao = parser.sdm_ao(i+1)
-                print(np.trace(ovlp@dm1_ao))
-            else:
-                dm1_ao = parser.tdm_ao(i+1, j+1)
-
-            W[i][j] = -1.0*np.trace(W_ao@dm1_ao)
-            W[j][i] = -1.0*np.trace(W_ao@dm1_ao.T)
-    print(pd.DataFrame(H0).to_string())
-    print(pd.DataFrame(W).to_string())
-
-
-
-    CAPH = CAPHamiltonian(H0=H0,W=W)
-    ref_energy = np.min(H0)
-    eta_list = np.linspace(0,1000,1001) * 1E-5
-    CAPH.run_trajectory(eta_list)
-    plt.plot(np.real(CAPH.energies_ev(ref_energy=ref_energy)),
-        np.imag(CAPH.energies_ev(ref_energy=ref_energy)),'ro',label='Uncorrected Trajectory')
-    plt.show()
