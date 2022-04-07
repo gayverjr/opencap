@@ -1,6 +1,28 @@
+'''Copyright (c) 2022 James Gayvert, Soubhik Mondal
+    
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+'''
+
 import re
 import numpy as np
 from scipy.linalg import block_diag
+import os
 
 class MO:
     '''
@@ -287,7 +309,7 @@ class colparser():
 
         return dm1_mo
 
-    def sdm_ao(self, i, DRTn=1, filename=None):
+    def sdm_ao(self, i, DRTn=1, data_dir='.', filename=None):
         '''
         A function that returns a state density matrix in atomic orbital basis by parsing a Columbus cid1trfl.iwfmt file.
 
@@ -297,6 +319,8 @@ class colparser():
             State index
         DRTn : int, optional
             DRT index
+        data_dir: str, optional
+            Directory to search for .iwfmt file. Should not be used in conjunction with `filename` kwarg
         filename: str, optional
             Path to file to parse. If not specified, the filename is assumed to be cid1trfl.FROMdrt{drtFrom}.state{i}TOdrt{drtTo}.state{i}.iwfmt 
             in the current directory.
@@ -308,12 +332,12 @@ class colparser():
 
         '''
         if filename is None:
-            fnameIN ='cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(DRTn, i, DRTn, i)
+            fnameIN =os.path.join(data_dir,'cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(DRTn, i, DRTn, i))
         else:
             fnameIN = filename
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=True) @ self.mo_coeff.T
 
-    def tdm_ao(self, iFROM, iTO, drtFrom=1, drtTo=1, filename=None):
+    def tdm_ao(self, iFROM, iTO, drtFrom=1, drtTo=1, data_dir='.', filename=None):
         '''
         A function that returns a transition density matrix in atomic orbital basis by parsing a Columbus cid1trfl.iwfmt file.
 
@@ -323,6 +347,8 @@ class colparser():
             Initial state index and final state indices respectively.
         drtFrom, drtTo : int, optional
             DRT indices
+        data_dir: str, optional
+            Directory to search for .iwfmt file. Should not be used in conjunction with `filename` kwarg
         filename: str, optional
             Path to file to parse. If not specified, the filename is assumed to be cid1trfl.FROMdrt{drtFrom}.state{iFrom}TOdrt{drtTo}.state{iTO}.iwfmt 
             in the current directory.
@@ -334,7 +360,7 @@ class colparser():
 
         '''
         if filename is None:
-            fnameIN ='cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(drtFrom, iFROM, drtTo, iTO)
+            fnameIN =os.path.join(data_dir,'cid1trfl.FROMdrt{}.state{}TOdrt{}.state{}.iwfmt'.format(drtFrom, iFROM, drtTo, iTO))
         else:
             fnameIN = filename
         return self.mo_coeff @ self.dm_from_iwfmt(fnameIN, state_dm=False) @ self.mo_coeff.T
@@ -382,12 +408,8 @@ class colparser():
         str_in = ['eci', 'eci+dv1', 'eci+dv2', 'eci+dv3', 'eci+pople']
         str_search = ['eci       =', 'eci+dv1   =', 'eci+dv2   =', 'eci+dv3   =', 'eci+pople =']
         str_lookup=str_search[str_in.index(str_arg)]
-
         for line in lines:
-            if 'convergence not reached' in line:
-                print ('\n''Convergence of all roots NOT reached. Throwing a WARNING here!!''\n')
-                continue
-            elif str_lookup in line:
+            if str_lookup in line:
                 H0_arr = block_diag(H0_arr, float(line.split()[2]))
         self.H0_diag=np.delete(H0_arr, (0), axis=0)
         return self.H0_diag

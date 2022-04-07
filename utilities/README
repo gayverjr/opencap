@@ -1,0 +1,3 @@
+#Instructions
+
+`write_den.bash` should be executed in the `WORK` directory of a Columbus calculation, and the $COLUMBUS environment variable should point towards a valid installation of Columbus. The resulting human readable .iwfmt formatted files can be parsed by `pyopencap.analysis.colparser`.
