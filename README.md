@@ -24,7 +24,7 @@
 [ghrel-url]: https://github.com/gayverjr/opencap
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
-We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas), [Pyscf](https://github.com/pyscf/pyscf), [Q-Chem](https://www.q-chem.com/), and [PSI4](https://psicode.org/) packages to 
+We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas), [Pyscf](https://github.com/pyscf/pyscf), [Q-Chem](https://www.q-chem.com/), [Columbus](https://www.univie.ac.at/columbus/), and [PSI4](https://psicode.org/) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
 Please see the [examples](https://github.com/gayverjr/opencap/tree/main/examples) directory or our [Getting Started Page](https://gayverjropencap.readthedocs.io/en/latest/getting_started.html)
@@ -215,5 +215,7 @@ This project is funded by the Molecular Sciences Software Institute.
 
 We would like to thank Professor Thomas Sommerfeld for his generous contribution of C++ code for analytic box-CAP integrals. Please 
 visit his [repository](https://github.com/tsommerfeld/L2-methods_for_resonances) for many implementations of L^2 methods for resonances!
+
+We would like to thank Mushir Thodika from Temple University for his help in developing the interface with Columbus.
 
 We would like to thank Prof. John Burkardt for his implementation of the Incomplete Gamma function. Many of his wonderful open source codes can be found at his [website](https://people.sc.fsu.edu/~jburkardt/).

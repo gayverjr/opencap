@@ -1,3 +1,28 @@
+'''Copyright (c) 2022 James Gayvert, Soubhik Mondal
+    
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+'''
+''' 
+MR-CISD+pople correction on N2- with aug-cc-pvtz+3s3p3d basis set.
+'''
+
+
 import pyopencap
 from pyopencap.analysis import CAPHamiltonian,colparser
 import numpy as np
@@ -13,8 +38,9 @@ cap_dict = {"cap_type": "voronoi","r_cut": "3.00"}
 
 pc = pyopencap.CAP(s,cap_dict,nstates)
 # Parsing of Columbus data is done through pyopencap.analysis.colparser object
-parser = colparser('data_files/molden_mo_mc.sp', 'data_files/tranls', nstates)
-H0 = parser.H0(filename='data_files/ciudgsm')
+parser = colparser('data_files/molden_mo_mc.sp', 'data_files/tranls')
+print(parser.mo_summary())
+H0 = parser.get_H0(filename='data_files/ciudgsm')
 for i in range(0,nstates):
     for j in range(i,nstates):
         if i==j:
