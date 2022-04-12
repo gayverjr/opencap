@@ -24,7 +24,7 @@
 [ghrel-url]: https://github.com/gayverjr/opencap
 
 OpenCAP is an open-source application aimed at extending the capabilities of electronic structure packages to describe metastable electronic states. 
-We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas), [Pyscf](https://github.com/pyscf/pyscf), [Q-Chem](https://www.q-chem.com/), and [PSI4](https://psicode.org/) packages to 
+We currently support an interface with the [OpenMolcas](https://gitlab.com/Molcas/OpenMolcas), [Pyscf](https://github.com/pyscf/pyscf), [Q-Chem](https://www.q-chem.com/), [Columbus](https://www.univie.ac.at/columbus/), and [PSI4](https://psicode.org/) packages to 
 compute resonance positions and widths using the complex absorbing potential method (CAP). 
 
 Please see the [examples](https://github.com/gayverjr/opencap/tree/main/examples) directory or our [Getting Started Page](https://gayverjropencap.readthedocs.io/en/latest/getting_started.html)
@@ -57,22 +57,9 @@ most MacOS systems, for Python versions 3.6 and later.
 
 Compiling PyOpenCAP from source requires first installing all of our [dependencies](#Dependencies). 
 
-For Linux users, any compiler which fully supports the C++17 standard should work 
+For Mac/Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
-compiler.
-
-For Mac users, as of MacOS 10.15 Catalina, the Apple Clang provided by XCode **will not work** due to missing standard 
-library features. We suggest installing the latest version of GCC
-from [Homebrew](https://brew.sh/), and then setting the following 
-environment variables before attempting to build from source:
-
-```
-# for GCC 10 installed by Homebrew
-
-export CC=gcc-10
-
-export CXX=g++-10
-```
+compiler. 
 
 If your operating system/Python environment is not covered by any of our pre-built wheels,
 the command `pip install pyopencap` will download the tarball from Pypi and try to compile from source.
@@ -103,7 +90,7 @@ Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
 ### Basic steps
-These steps have been tested on MacOS 10.14-10.15, and on Centos7.
+These steps have been tested on MacOS 12.3, and on Centos7.
 
 First clone the git repo
 
@@ -136,24 +123,13 @@ make install
 
 ```
 
-### MacOS 
+### MacOS/Linux 
 
-For Mac users, the h5PP version we pin to fails to detect the std::filesystem which is now available in Apple Clang. Resolving 
-this issue is currently a work in progress. While we suggest using GCC, Apple Clang can be used by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
-
-    cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-
-Alternatively, one can install the latest version of GCC from [Homebrew](https://brew.sh/), and then set proper environment 
-variables for CMake:
-
-    # for GCC10 installed by Homebrew
-    CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-
-### Linux
-
-For Linux users, any compiler which fully supports the C++17 standard should work 
+Any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
-compiler. Depending on your distribution, you may also need to install 
+compiler. 
+
+For Linux users, depending on your distribution, you may also need to install 
 Python3 development libraries e.g. `sudo apt-get install python3.x-dev`.
 
 ### Verify installation
@@ -215,5 +191,7 @@ This project is funded by the Molecular Sciences Software Institute.
 
 We would like to thank Professor Thomas Sommerfeld for his generous contribution of C++ code for analytic box-CAP integrals. Please 
 visit his [repository](https://github.com/tsommerfeld/L2-methods_for_resonances) for many implementations of L^2 methods for resonances!
+
+We would like to thank Mushir Thodika from Temple University for his help in developing the interface with Columbus.
 
 We would like to thank Prof. John Burkardt for his implementation of the Incomplete Gamma function. Many of his wonderful open source codes can be found at his [website](https://people.sc.fsu.edu/~jburkardt/).

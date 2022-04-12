@@ -1,0 +1,51 @@
+1
+ program ciudg      
+ multireference single and double excitation configuration
+ interaction based on the graphical unitary group approach.
+
+
+ ************************************************************************
+ beginning the bk-type iterative procedure (nzcsf= 37216)...
+ ************************************************************************
+
+   iter      root         energy      deltae       apxde    residual       rtol
+        ---- ----   --------------  ----------  ----------  ----------  ----------
+ mr-sdci #  1  1   -109.0766580830 -4.1744E-14  3.1871E-01  1.2088E+00  1.0000E-03   
+
+ mr-sdci  convergence not reached after  1 iterations.
+
+ final mr-sdci  convergence information:
+ mr-sdci #  1  1   -109.0766580830 -4.1744E-14  3.1871E-01  1.2088E+00  1.0000E-03   
+
+ from bk iterations: iconv=   1
+
+ ************************************************************************
+ beginning the ci iterative diagonalization procedure... 
+ ************************************************************************
+
+   iter      root         energy      deltae       apxde    residual       rtol
+        ---- ----   --------------  ----------  ----------  ----------  ----------
+ mr-sdci #  1  1   -109.0766580830  0.0000E+00  3.1871E-01  1.2088E+00  1.0000E-03   
+ mr-sdci #  2  1   -109.3456610127  2.6900E-01  1.9216E-02  2.8912E-01  1.0000E-03   
+ mr-sdci #  3  1   -109.3588014376  1.3140E-02  2.4573E-03  1.0012E-01  1.0000E-03   
+ mr-sdci #  4  1   -109.3604895649  1.6881E-03  3.4635E-04  4.0009E-02  1.0000E-03   
+ mr-sdci #  5  1   -109.3607673917  2.7783E-04  5.1191E-05  1.5783E-02  1.0000E-03   
+ mr-sdci #  6  1   -109.3608120861  4.4694E-05  8.8459E-06  6.3819E-03  1.0000E-03   
+ mr-sdci #  7  1   -109.3608192589  7.1728E-06  2.5296E-06  3.3367E-03  1.0000E-03   
+ mr-sdci #  8  1   -109.3608217157  2.4567E-06  5.8852E-07  1.6718E-03  1.0000E-03   
+ mr-sdci #  9  1   -109.3608222126  4.9690E-07  1.4986E-07  8.1321E-04  1.0000E-03   
+
+ mr-sdci  convergence criteria satisfied after  9 iterations.
+
+ final mr-sdci  convergence information:
+ mr-sdci #  9  1   -109.3608222126  4.9690E-07  1.4986E-07  8.1321E-04  1.0000E-03   
+
+ number of reference csfs (nref) is   536.  root number (iroot) is  1.
+ c0**2 =   0.92892028  c**2 (all zwalks) =   0.93513647
+
+ eref      =   -109.075745984570   "relaxed" cnot**2         =   0.928920279173
+ eci       =   -109.360822212557   deltae = eci - eref       =  -0.285076227987
+ eci+dv1   =   -109.381085351257   dv1 = (1-cnot**2)*deltae  =  -0.020263138700
+ eci+dv2   =   -109.382635859168   dv2 = dv1 / cnot**2       =  -0.021813646611
+ eci+dv3   =   -109.384443313824   dv3 = dv1 / (2*cnot**2-1) =  -0.023621101267
+ eci+pople =   -109.379094090794   ( 10e- scaled deltae )    =  -0.303348106224

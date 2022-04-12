@@ -1,0 +1,351 @@
+ program "tran"
+
+ this program transforms one- and two-electron
+ integral and density matrix arrays.
+
+ references:  i. shavitt, in "methods of electronic structure theory",
+                  h. f. schaefer, ed. (plenum, new york, 1977), p. 189.
+              h. lischka, r. shepard, f. b. brown, and i. shavitt,
+                  int. j. quantum chem. symp. 15, 91 (1981).
+
+ original author: Frank B. Brown.
+ SIFS version:    Ron Shepard.
+
+ version date: 20-feb-02
+
+ This Version of Program TRAN is Maintained by:
+     Thomas Mueller
+     Juelich Supercomputing Centre (JSC)
+     Institute of Advanced Simulation (IAS)
+     D-52425 Juelich, Germany 
+     Email: th.mueller@fz-juelich.de
+
+
+
+     ******************************************
+     **    PROGRAM:              TRAN        **
+     **    PROGRAM VERSION:      5.6b2       **
+     **    DISTRIBUTION VERSION: 5.9.a       **
+     ******************************************
+
+
+ workspace allocation parameters: lcore=**********
+
+ === echo of the input records ===
+ ------------------------------------------------------------------------
+  &input
+   LUMORB=0
+  &end
+ ------------------------------------------------------------------------
+
+ program input parameters:
+
+ prnopt    =     0, chkopt    =     0, ortopt    =     0, denopt    =     0
+ mapin(1 ) =    -1, nsymao    =    -1, naopsy(1) =    -1, freeze(1) =    -2
+ mapout(1) =    -1, nsymmo    =    -1, nmopsy(1) =    -1, fsplit    =     1
+ outlab    =     0, seward    =     0, lumorb    =     0, DALTON2   =     0
+ nextint   =     4, tr1e      =     0, trdens    =     0
+ LDAMIN    =   127, LDAMAX    =  8191, LDAINC    =    64
+ LRC1MX    =    -1, LRC2MX    =    -1, LRCSCR    = 32768
+
+ THRESH    =  5.0000E-12  [cutoff threshold]
+
+ file description                 unit filename
+ ---- -----------                 ---- --------
+   1: input file:                   5  tranin                                                      
+   2: listing file:                 6  tranls                                                      
+   3: input ao integral file:      30  aoints                                                      
+   4: input mo density file:       30  modens                                                      
+   5: output mo integral file:     31  moints                                                      
+   6: output ao density file:      31  aodens                                                      
+   7: scratch file:                34  trscr1                                                      
+   8: ci drt file:                 33  cidrtfl                                                     
+   9: orbital coefficient file:    32  mocoef                                                      
+  10: da1 scratch file:            20  trda1s                                                      
+  11: da2 scratch file:            21  trda2s                                                      
+  12: split input 2-e ao file:     35  aoints2                                                     
+  13: split input d2mo file:       35  modens2                                                     
+  14: FSPLIT=2 output 2-e mo file: 31  moints2                                                     
+  15: FSPLIT=2 output d2ao file:   31  aodens2                                                     
+  16: input file:                   0                                                              
+
+  using 32 bits compression in sort step
+
+ input file header information:
+ Hermit Integral Program : SIFS version  node5             23:03:01.502 05-Apr-22
+
+ input energy(*) values:
+ energy( 1)=  2.362584378014E+01, ietype=   -1,    core energy of type: Nuc.Rep.
+
+ total ao core energy =   2.362584378014E+01
+
+ nsym = 8 nbft= 119
+
+ symmetry  =    1    2    3    4    5    6    7    8
+ SLABEL(*) =  Ag   B3u  B2u  B1g  B1u  B2g  B3g  Au 
+ NBPSY(*)  =   28   14   14    8   22   14   14    5
+
+ INFOAO(*) =          2      4096      3272      4096      2730         0
+
+ input basis function labels, i:AOLAB(i)=
+   1:  1N1s     2:  2N1s     3:  3N1s     4:  4N1s     5:  5N1s     6:  6N1pz    7:  7N1pz    8:  8N1pz    9:  9N1pz   10: 10N1d0 
+  11: 11N1d2+  12: 12N1d0   13: 13N1d2+  14: 14N1d0   15: 15N1d2+  16: 16N1f0   17: 17N1f2+  18: 18N1f0   19: 19N1f2+  20: 20X1s  
+  21: 21X1s    22: 22X1s    23: 23X1d0   24: 24X1d2+  25: 25X1d0   26: 26X1d2+  27: 27X1d0   28: 28X1d2+  29: 29N1px   30: 30N1px 
+  31: 31N1px   32: 32N1px   33: 33N1d1+  34: 34N1d1+  35: 35N1d1+  36: 36N1f1+  37: 37N1f3+  38: 38N1f1+  39: 39N1f3+  40: 40X1px 
+  41: 41X1px   42: 42X1px   43: 43N1py   44: 44N1py   45: 45N1py   46: 46N1py   47: 47N1d1-  48: 48N1d1-  49: 49N1d1-  50: 50N1f3-
+  51: 51N1f1-  52: 52N1f3-  53: 53N1f1-  54: 54X1py   55: 55X1py   56: 56X1py   57: 57N1d2-  58: 58N1d2-  59: 59N1d2-  60: 60N1f2-
+  61: 61N1f2-  62: 62X1d2-  63: 63X1d2-  64: 64X1d2-  65: 65N1s    66: 66N1s    67: 67N1s    68: 68N1s    69: 69N1s    70: 70N1pz 
+  71: 71N1pz   72: 72N1pz   73: 73N1pz   74: 74N1d0   75: 75N1d2+  76: 76N1d0   77: 77N1d2+  78: 78N1d0   79: 79N1d2+  80: 80N1f0 
+  81: 81N1f2+  82: 82N1f0   83: 83N1f2+  84: 84X1pz   85: 85X1pz   86: 86X1pz   87: 87N1px   88: 88N1px   89: 89N1px   90: 90N1px 
+  91: 91N1d1+  92: 92N1d1+  93: 93N1d1+  94: 94N1f1+  95: 95N1f3+  96: 96N1f1+  97: 97N1f3+  98: 98X1d1+  99: 99X1d1+ 100:100X1d1+
+ 101:101N1py  102:102N1py  103:103N1py  104:104N1py  105:105N1d1- 106:106N1d1- 107:107N1d1- 108:108N1f3- 109:109N1f1- 110:110N1f3-
+ 111:111N1f1- 112:112X1d1- 113:113X1d1- 114:114X1d1- 115:115N1d2- 116:116N1d2- 117:117N1d2- 118:118N1f2- 119:119N1f2-
+
+ FREEZE(*) will be determined from the cidrt file.
+
+ input ci drt file information:
+  cidrt_title                                                                    
+ nmotd = 119 nfct  =   2 nfvt  =   0 nbft  = 119
+ mo-to-level map(*)
+   -1 103 104   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+   18  19  20  21  22  23  24  25 106  26  27  28  29  30  31  32  33  34  35  36
+   37  38 107  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55
+   56  57  58  59  -1 105  60  61  62  63  64  65  66  67  68  69  70  71  72  73
+   74  75  76  77  78  79 108 109 110 111 112  80  81  82  83  84  85  86  87  88
+  113 114 115 116 117  89  90  91  92  93  94  95  96  97  98  99 100 101 102
+ 
+NMPSY(*) from cidrtfl:  28  14  14   8  22  14  14   5
+NEXO(*)  from cidrtfl:  25  13  13   8  20   9   9   5
+  cidrt_title                                                                    
+
+ transformation information:
+ number of symmetry irreps in point group, nsym   =  8
+ total number of basis functions,          nbft   =119
+ number of orbitals to be transformed,     norbt  =117
+ number of frozen core orbitals,           nfrzct =  2
+ number of frozen virtual orbitals,        nfrzvt =  0
+
+ symmetry blocking information:
+ symmetry  =    1    2    3    4    5    6    7    8
+ SLABEL(*) =  Ag   B3u  B2u  B1g  B1u  B2g  B3g  Au 
+ NBPSY(*)  =   28   14   14    8   22   14   14    5
+ NMPSY(*)  =   27   14   14    8   21   14   14    5
+ NFCPSY(*) =    1    0    0    0    1    0    0    0
+
+ mocoef file titles:
+ MO-coefficients from mcscf.x                                                    
+  with dummy occupation 1.0 for active orbitals                                  
+  total ao core energy =   23.625843780                                          
+ MCSCF energy =    -108.940910238                                                
+
+ job title for this run:
+ SIFS file created by program tran.      node5             23:03:37.610 05-Apr-22
+
+ trmain: score =   0.000000000000E+00
+
+ frzden: (tr(dao*sao)-2*nfrzct)= -8.8818E-16
+
+ inoutp: segmentation information:
+ in-core transformation space,   avcinc =8589934592
+ address segment size,           sizesg =8589934592
+ number of in-core blocks,       nincbk =       106
+ number of out-of-core blocks,   noutbk =         0
+ number of in-core segments,     incseg =         1
+ number of out-of-core segments, outseg =         0
+
+ inoutp: approximate total flop counts:
+           type      in-core   out-of-core
+         ------  ------------  ------------
+          total    512478014.            0. grand total =    512478014.
+
+ input file sort statistics:
+ length of records,           csort%LENDAR =  8191
+ number of buckets,           csort%NBUK   =     1
+ number of values per bucket, csort%NPBUK  =  5460
+
+ fixed workspace needed for the ao sort,  itotal =     43664
+ workspace available for da sort buffers, avcore =**********
+
+ beginning the first half-sort of the input 1/r12    array elements...
+
+    2737417 array elements in  1003 records were read by twoaof,
+    2737417 array elements were written into   502 da records of length    8191.
+
+ output file header information:
+ Hermit Integral Program : SIFS version  node5             23:03:01.502 05-Apr-22
+  cidrt_title                                                                    
+ MO-coefficients from mcscf.x                                                    
+  with dummy occupation 1.0 for active orbitals                                  
+  total ao core energy =   23.625843780                                          
+ MCSCF energy =    -108.940910238                                                
+ SIFS file created by program tran.      node5             23:03:37.610 05-Apr-22
+
+ output energy(*) values:
+ energy( 1)=  2.362584378014E+01, ietype=   -1,    core energy of type: Nuc.Rep.
+
+ total mo core energy =   2.362584378014E+01
+
+ inputc%NSYMMO = 8 norbt= 117
+
+ symmetry  =    1    2    3    4    5    6    7    8
+ SLABEL(*) =  Ag   B3u  B2u  B1g  B1u  B2g  B3g  Au 
+ NMOPSY(*) =   27   14   14    8   21   14   14    5
+
+ INFOMO(*) =          1      8192      6552      8192      5460         0
+
+ output orbital labels, i:MOLAB(i)=
+   1:tout:001   2:tout:002   3:tout:003   4:tout:004   5:tout:005   6:tout:006   7:tout:007   8:tout:008   9:tout:009  10:tout:010
+  11:tout:011  12:tout:012  13:tout:013  14:tout:014  15:tout:015  16:tout:016  17:tout:017  18:tout:018  19:tout:019  20:tout:020
+  21:tout:021  22:tout:022  23:tout:023  24:tout:024  25:tout:025  26:tout:026  27:tout:027  28:tout:028  29:tout:029  30:tout:030
+  31:tout:031  32:tout:032  33:tout:033  34:tout:034  35:tout:035  36:tout:036  37:tout:037  38:tout:038  39:tout:039  40:tout:040
+  41:tout:041  42:tout:042  43:tout:043  44:tout:044  45:tout:045  46:tout:046  47:tout:047  48:tout:048  49:tout:049  50:tout:050
+  51:tout:051  52:tout:052  53:tout:053  54:tout:054  55:tout:055  56:tout:056  57:tout:057  58:tout:058  59:tout:059  60:tout:060
+  61:tout:061  62:tout:062  63:tout:063  64:tout:064  65:tout:065  66:tout:066  67:tout:067  68:tout:068  69:tout:069  70:tout:070
+  71:tout:071  72:tout:072  73:tout:073  74:tout:074  75:tout:075  76:tout:076  77:tout:077  78:tout:078  79:tout:079  80:tout:080
+  81:tout:081  82:tout:082  83:tout:083  84:tout:084  85:tout:085  86:tout:086  87:tout:087  88:tout:088  89:tout:089  90:tout:090
+  91:tout:091  92:tout:092  93:tout:093  94:tout:094  95:tout:095  96:tout:096  97:tout:097  98:tout:098  99:tout:099 100:tout:100
+ 101:tout:101 102:tout:102 103:tout:103 104:tout:104 105:tout:105 106:tout:106 107:tout:107 108:tout:108 109:tout:109 110:tout:110
+ 111:tout:111 112:tout:112 113:tout:113 114:tout:114 115:tout:115 116:tout:116 117:tout:117
+
+ tran1e: S1(*)    array: ITYPEA= 0 ITYPEB=   0 numaot=  796 nummot=  117 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  4.000000000000E+00 fcormo=  4.000000000000E+00
+
+ tran1e: V1(*)    array: ITYPEA= 0 ITYPEB=   2 numaot=  914 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore= -1.996848513043E+02 fcormo= -1.996848513043E+02
+
+ tran1e: T1(*)    array: ITYPEA= 0 ITYPEB=   1 numaot=  818 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  8.847264406022E+01 fcormo=  8.847264406022E+01
+
+ tran1e: X(*)     array: ITYPEA= 1 ITYPEB=   0 numaot=  813 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: Y(*)     array: ITYPEA= 1 ITYPEB=   1 numaot=  826 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: Z(*)     array: ITYPEA= 1 ITYPEB=   2 numaot=  731 nummot=  999 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XX(*)    array: ITYPEA= 1 ITYPEB=   3 numaot= 1130 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  9.384293987275E-02 fcormo=  9.384293987275E-02
+
+ tran1e: XY(*)    array: ITYPEA= 1 ITYPEB=   4 numaot=  635 nummot=  713 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XZ(*)    array: ITYPEA= 1 ITYPEB=   5 numaot=  816 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YY(*)    array: ITYPEA= 1 ITYPEB=   6 numaot= 1130 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  9.383610544472E-02 fcormo=  9.383610544472E-02
+
+ tran1e: YZ(*)    array: ITYPEA= 1 ITYPEB=   7 numaot=  832 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: ZZ(*)    array: ITYPEA= 1 ITYPEB=   8 numaot=  809 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  4.391615796696E+00 fcormo=  4.391615796696E+00
+
+ tran1e: XXX(*)   array: ITYPEA= 1 ITYPEB=   9 numaot=  882 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXY(*)   array: ITYPEA= 1 ITYPEB=  10 numaot=  742 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXZ(*)   array: ITYPEA= 1 ITYPEB=  11 numaot= 1048 nummot=  999 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XYY(*)   array: ITYPEA= 1 ITYPEB=  12 numaot=  742 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XYZ(*)   array: ITYPEA= 1 ITYPEB=  13 numaot=  625 nummot=  695 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XZZ(*)   array: ITYPEA= 1 ITYPEB=  14 numaot=  821 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YYY(*)   array: ITYPEA= 1 ITYPEB=  15 numaot=  882 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YYZ(*)   array: ITYPEA= 1 ITYPEB=  16 numaot= 1048 nummot=  999 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YZZ(*)   array: ITYPEA= 1 ITYPEB=  17 numaot=  838 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: ZZZ(*)   array: ITYPEA= 1 ITYPEB=  18 numaot=  745 nummot=  999 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXXX(*)  array: ITYPEA= 1 ITYPEB=  19 numaot= 1130 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  1.045364566836E-02 fcormo=  1.045364566836E-02
+
+ tran1e: XXXY(*)  array: ITYPEA= 1 ITYPEB=  20 numaot=  724 nummot=  713 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXXZ(*)  array: ITYPEA= 1 ITYPEB=  21 numaot=  879 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXYY(*)  array: ITYPEA= 1 ITYPEB=  22 numaot=  885 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  3.483908182973E-03 fcormo=  3.483908182973E-03
+
+ tran1e: XXYZ(*)  array: ITYPEA= 1 ITYPEB=  23 numaot=  740 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XXZZ(*)  array: ITYPEA= 1 ITYPEB=  24 numaot= 1129 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  1.042124785298E-01 fcormo=  1.042124785298E-01
+
+ tran1e: XYYY(*)  array: ITYPEA= 1 ITYPEB=  25 numaot=  726 nummot=  713 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XYYZ(*)  array: ITYPEA= 1 ITYPEB=  26 numaot=  740 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XYZZ(*)  array: ITYPEA= 1 ITYPEB=  27 numaot=  630 nummot=  713 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: XZZZ(*)  array: ITYPEA= 1 ITYPEB=  28 numaot=  832 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YYYY(*)  array: ITYPEA= 1 ITYPEB=  29 numaot= 1130 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  1.044982086054E-02 fcormo=  1.044982086054E-02
+
+ tran1e: YYYZ(*)  array: ITYPEA= 1 ITYPEB=  30 numaot=  879 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YYZZ(*)  array: ITYPEA= 1 ITYPEB=  31 numaot= 1129 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  1.042034799640E-01 fcormo=  1.042034799640E-01
+
+ tran1e: YZZZ(*)  array: ITYPEA= 1 ITYPEB=  32 numaot=  847 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: YZZZ(*)  array: ITYPEA= 1 ITYPEB=  33 numaot=  832 nummot= 1080 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  5.233363291498E+00 fcormo=  5.233363291498E+00
+
+ tran1e: Im(lx)   array: ITYPEA= 2 ITYPEB=   6 numaot=  749 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: Im(ly)   array: ITYPEA= 2 ITYPEB=   7 numaot=  738 nummot=  854 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: Im(lz)   array: ITYPEA= 2 ITYPEB=   8 numaot=  404 nummot=  713 nrecao=  1 nrecmo=  1
+         fcorao=  0.000000000000E+00 fcore=  0.000000000000E+00 fcormo=  0.000000000000E+00
+
+ tran1e: transformation of the input 1-e arrays is complete.
+ frozen core density AO
+
+ vfcout: VFC(*)   array, ITYPEA= 0 ITYPEB=   4 nummot= 1080 nrecmo=  1
+         fcormo=  1.017379680540E+01
+ !timer: 1-e transformation required:    cpu_time=     0.041 walltime=     1.138
+
+ beginning the last half-sort of the in-core 1/r12    array elements...
+
+ srtinc:   2737417 array elements were read, and           3321523 array elements were written in   102 records.
+ !timer: srtinc required                 cpu_time=     0.180 walltime=     1.575
+
+ beginning the transformation of the in-core 1/r12    array elements...
+ executing in-core transformation trainc
+
+ trainc:   3321523 sorted array elements were read,   3039978 transformed array elements were written.
+
+ 1-e and 2-e transformation complete.
+
+ trmain:    3039978 transformed 1/r12    array elements were written in     557 records.
+
+ !timer: tran required                   cpu_time=     0.649 walltime=     3.413

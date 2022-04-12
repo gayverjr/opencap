@@ -18,9 +18,9 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
             yum install -y wget &&
-            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz &&
-            tar zxvf hdf5-1.10.5.tar.gz &&
-            cd hdf5-1.10.5 &&
+            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
+            tar zxvf hdf5-1.12.1.tar.gz &&
+            cd hdf5-1.12.1 &&
             ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
             make &&
             make install &&
@@ -44,9 +44,9 @@ jobs:
             CIBW_ARCHS_MACOS: x86_64
             CIBW_BEFORE_ALL_MACOS: >
               brew install eigen gcc wget &&
-              wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz &&
-              tar zxvf hdf5-1.10.5.tar.gz &&
-              cd hdf5-1.10.5 &&
+              wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
+              tar zxvf hdf5-1.12.1.tar.gz &&
+              cd hdf5-1.12.1 &&
               ./configure --prefix=/usr/local/hdf5 --enable-cxx &&
               sudo make &&
               sudo make install &&

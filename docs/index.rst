@@ -24,6 +24,7 @@ Supported Packages
 * PySCF_
 * Q-Chem_
 * Psi4_
+* Columbus_
 
 Supported Methods
 =================
@@ -33,6 +34,7 @@ Supported Methods
 * MS-CASPT2 (and extended variants)
 * TDDFT
 * ADC (through ADCC_)
+* MR-CI family of methods
 
 Supported Potentials
 ====================
@@ -64,6 +66,7 @@ In development
 .. _repository: https://github.com/tsommerfeld/L2-methods_for_resonances
 .. _website: https://people.sc.fsu.edu/~jburkardt/
 .. _MolSSI: https://molssi.org/
+.. _Columbus: https://www.univie.ac.at/columbus/
 
 
 Acknowledgements
@@ -76,6 +79,7 @@ Acknowledgements
   wonderful open source codes can be found at his website_.
 * We would like to thank the Molecular Sciences Software Institute for funding this project. Please visit the MolSSI_ 
   website for their educational resources, fellowship opportunities, and software projects!
+* We would like to thank Mushir Thodika from Temple University for his help in developing the interface with Columbus.
 
 Contents
 ========

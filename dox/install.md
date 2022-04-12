@@ -32,7 +32,7 @@ The following packages are automatically built at the CMake step (no action requ
 Basic steps
 ============
 
-These steps have been tested on MacOS 10.13-10.15, and on Centos7.
+These steps have been tested on MacOS 12.3, and on Centos7.
 
 First clone the git repo 
 
@@ -50,23 +50,13 @@ Once the Makefile is generated, build and install the executable.
     make
     make install
 
-__MacOS__ 
+__MacOS/Linux__ 
 
-For Mac users, the h5PP version we pin to fails to detect the std::filesystem which is now available in Apple Clang. Resolving 
-this issue is currently a work in progress. While we suggest using GCC, Apple Clang can be used by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake:
-
-    cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-
-Alternatively, GCC can be installed from [Homebrew](https://brew.sh/), and then used by setting proper environment 
-variables for CMake:
-
-    CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-
-__Linux__
-
-For Linux users, any compiler which fully supports the C++17 standard should work 
+For Mac/Linux users, any compiler which fully supports the C++17 standard should work 
 (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your 
-compiler. Depending on your distribution, you may also need to install 
+compiler. 
+
+For Linux users, depending on your distribution, you may also need to install 
 Python3 development libraries e.g. `sudo apt-get install python3.x-dev`.
 
 Verify installation

@@ -51,3 +51,4 @@ and :class:`~pyopencap.analysis.EigenvalueTrajectory` classes.
    CAPHamiltonian
    EigenvalueTrajectory
    Root
+   colparser
