@@ -19,7 +19,7 @@ Also, the MO coefficients will be needed, which are located in the MOLDEN direct
 
 Step 2: Generating human readable density matrix files
 -------------------------------------------------------
-The next step is to convert the `cid1trfl` files into a human readable format. The Columbus utility `iwfmt` can be used for this purpose. 
+The next step is to convert the `cid1trfl` files into a human readable format. The Columbus utility `iwfmt.x` can be used for this purpose. 
 We provide a bash script in the main repository :option:`utilities/write_iwfmt.bash` which can be executed in the WORK directory to generate these files, assuming 
 that the $COLUMBUS environment variable is properly set.
 
@@ -106,11 +106,11 @@ Densities are loaded in one at a time using :func:`pyopencap.analysis.colparser.
 		for j in range(i,nstates):
 			if i==j:
 				# Indices start from 0 in pyopencap, but from 1 in Columbus file names
-				dm1_ao = parser.sdm_ao(i+1,data_dir='data_files'DRTn=1)
+				dm1_ao = parser.sdm_ao(i+1,data_dir='data_files',DRTn=1)
 				pc.add_tdm(dm1_ao,i,j,'molden')
 			else:
 				# Indices start from 0 in pyopencap, but from 1 in Columbus file names
-				dm1_ao = parser.tdm_ao(i+1, j+1,data_dir='data_files',drtFrom=1,drtTo=1)
+				dm1_ao = parser.tdm_ao(i+1, j+1,drtFrom=1,drtTo=1,data_dir='data_files')
 				pc.add_tdm(dm1_ao,i,j,'molden')
 				pc.add_tdm(dm1_ao.conj().T,j,i,'molden')
 	pc.compute_projected_cap()
@@ -128,7 +128,7 @@ Alternatively, one can absolute paths:
 
 Step 4: Generate and analyze eigenvalue trajectories
 ----------------------------------------------------
-H0 and W, or the :class:`~pyopencap.CAP` object can be used to construct a :class:`~pyopencap.CAP.analysis.CAPHamiltonian` object. 
+H0 and W, or the :class:`~pyopencap.CAP` object can be used to construct a :class:`~pyopencap.analysis.CAPHamiltonian` object. 
 
 .. code-block:: python
 
