@@ -91,7 +91,7 @@ Installing the dependencies</h1>
 </ul>
 <h1><a class="anchor" id="autotoc_md8"></a>
 Basic steps</h1>
-<p>These steps have been tested on MacOS 10.13-10.15, and on Centos7.</p>
+<p>These steps have been tested on MacOS 12.3, and on Centos7.</p>
 <p>First clone the git repo </p><pre class="fragment">git clone https://github.com/gayverjr/opencap.git
 cd opencap/opencap
 </pre><p>Then generate the Makefile using CMake </p><pre class="fragment">mkdir build
@@ -99,11 +99,9 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
 </pre><p>Once the Makefile is generated, build and install the executable. </p><pre class="fragment">make
 make install
-</pre><p><b>MacOS</b></p>
-<p>For Mac users, the h5PP version we pin to fails to detect the std::filesystem which is now available in Apple Clang. Resolving this issue is currently a work in progress. While we suggest using GCC, Apple Clang can be used by passing -DH5PP_DOWNLOAD_METHOD=fetch as an argument to CMake: </p><pre class="fragment">cmake -DH5PP_DOWNLOAD_METHOD=fetch -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-</pre><p>Alternatively, GCC can be installed from <a href="https://brew.sh/">Homebrew</a>, and then used by setting proper environment variables for CMake: </p><pre class="fragment">CC=gcc-10 CXX=g++-10 cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/dir ..
-</pre><p><b>Linux</b></p>
-<p>For Linux users, any compiler which fully supports the C++17 standard should work (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your compiler. Depending on your distribution, you may also need to install Python3 development libraries e.g. <code>sudo apt-get install python3.x-dev</code>.</p>
+</pre><p><b>MacOS/Linux</b></p>
+<p>For Mac/Linux users, any compiler which fully supports the C++17 standard should work (e.g GCC 7.x or later). If you are unsure, try updating to the latest version of your compiler.</p>
+<p>For Linux users, depending on your distribution, you may also need to install Python3 development libraries e.g. <code>sudo apt-get install python3.x-dev</code>.</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Verify installation</h1>
 <p>To verify your installation, run the tests in the build directory </p><pre class="fragment">make test
