@@ -9,6 +9,7 @@ Currently supported electronic structure packages are:
 - OpenMolcas
 - PySCF
 - Psi4
+- Columbus
 
 Currently available features:
 
