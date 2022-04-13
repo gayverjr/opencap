@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -v *iwfmt
 for file in *d1trfl.*
 do
     if [ -f $file ]; then
