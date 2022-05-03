@@ -729,10 +729,7 @@ class CAPHamiltonian():
 
     def track_state(self, state_idx, tracking="overlap", correction="density"):
         '''
-        Diagonalizes CAP Hamiltonian over range of eta values.
-
-        CAP Hamiltonian is defined as H^CAP = H0 + i*eta*W - cap_lambda * W. 
-        CAP matrix W is assumed to already have a -1 prefactor.
+        Tracks eigenvalue trajectory over range of eta values.
         
         Parameters
         ----------
