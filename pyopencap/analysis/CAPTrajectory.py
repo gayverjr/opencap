@@ -70,6 +70,7 @@ class Root():
     Leigvc: list of float
         Bi-orthogonalized left eigenvector for state
     '''
+
     def __init__(self, energy, eta, Reigvc, Leigvc):
         '''
         Initializes root object.
@@ -114,6 +115,7 @@ class EigenvalueTrajectory():
         Choice of correction scheme. Either "density" or "derivative". Density matrix correction should only be used when the eigenvectors have been 
         biorthogonalized. See :func:`~pyopencap.analysis.CAPHamiltonian.run_trajectory`.
     '''
+
     def __init__(self,
                  state_idx,
                  init_roots,
@@ -189,8 +191,9 @@ class EigenvalueTrajectory():
 
     def _density_matrix_correction(self):
         if not self._biorthogonalized:
-            warnings.warn("Warning: left and right eigenvectors have not been biorthogonalized. Results from  \
-            density matrix correction are likely to be inaccurate.")
+            warnings.warn(
+                "Warning: left and right eigenvectors have not been biorthogonalized. Results from density matrix correction are likely to be inaccurate."
+            )
         for i in range(0, len(self.roots)):
             eigvc = self.roots[i].Reigvc
             Leigvc = self.roots[i].Leigvc
@@ -406,6 +409,7 @@ class CAPHamiltonian():
     cap_lambda: float
         Real CAP strength used for continuum remover CAP. Set to 0.0 by default.
     '''
+
     def _init_from_matrices(self, H0, W):
         H0 = np.array(H0)
         W = np.array(W)
@@ -744,7 +748,10 @@ class CAPHamiltonian():
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 
-    def track_state(self, state_idx, tracking="overlap", correction="derivative"):
+    def track_state(self,
+                    state_idx,
+                    tracking="overlap",
+                    correction="derivative"):
         '''
         Tracks eigenvalue trajectory over range of eta values.
         
