@@ -110,15 +110,17 @@ class EigenvalueTrajectory():
         List of CAP strengths in trajectory.
     tracking: str, default="overlap"
         Method to use to track the state
-    correction: str, default="density"
-        Choice of correction scheme. Either "density" or "derivative".
+    correction: str, default="derivative"
+        Choice of correction scheme. Either "density" or "derivative". Density matrix correction should only be used when the eigenvectors have been 
+        biorthogonalized. See :func:`~pyopencap.analysis.CAPHamiltonian.run_trajectory`.
     '''
     def __init__(self,
                  state_idx,
                  init_roots,
                  W,
                  tracking="overlap",
-                 correction="density"):
+                 correction="derivative",
+                 biorthogonalized=False):
         '''
         Initializes EigenvalueTrajectory object, which tracks a state starting from the first diagonalization at eta = 0.
         
@@ -132,13 +134,16 @@ class EigenvalueTrajectory():
             CAP matrix in state basis. -1 prefactor is assumed.
         tracking: str, default="overlap"
             Method to use to track the state
-        correction: str, default="density"
+        correction: str, default="derivative"
             Choice of correction scheme. Either "density" or "derivative".
+        biorthogonalized: bool default=False
+            Whether eigenvectors have been biorthogonalized
         '''
         self._last = init_roots[state_idx]
         self.roots = [self._last]
         self.uncorrected_energies = [self._last.energy]
         self.corrected_energies = []
+        self._biorthogonalized = biorthogonalized
         self.W = W
         self.etas = [0.0]
         if tracking == "overlap":
@@ -183,6 +188,9 @@ class EigenvalueTrajectory():
         self.etas.append(cur.eta)
 
     def _density_matrix_correction(self):
+        if not self._biorthogonalized:
+            warnings.warn("Warning: left and right eigenvectors have not been biorthogonalized. Results from  \
+            density matrix correction are likely to be inaccurate.")
         for i in range(0, len(self.roots)):
             eigvc = self.roots[i].Reigvc
             Leigvc = self.roots[i].Leigvc
@@ -458,6 +466,7 @@ class CAPHamiltonian():
             raise RuntimeError(
                 "Error: Either pass a CAP object, H0 and W as matrices, or specify a path to an OpenCAP/Q-Chem output file."
             )
+        self._biorthogonalized = False
 
     def _init_from_qchem_eomcc_old(self, output_file, irrep):
         with open(output_file, 'r') as file:
@@ -670,7 +679,8 @@ class CAPHamiltonian():
                        eta_list,
                        cap_lambda=0.0,
                        exclude_states=None,
-                       include_states=None):
+                       include_states=None,
+                       biorthogonalize=False):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -688,8 +698,12 @@ class CAPHamiltonian():
             List of states to exclude from subspace projection. Not compatible with include_states parameter.
         include_states: list of int, default=None
             List of states to include in subspace projection. Not compatible with exclude_states parameter.
+        biorthogonalize: bool, default=False
+            Biorthogonalize left and right eigenvectors. If false, left eigenvectors are assumed to equal right eigenvectors for 
+            density matrix correction
 
         '''
+        self._biorthogonalized = biorthogonalize
         if exclude_states is not None and include_states is not None:
             raise RuntimeError(
                 "Error: exclude_states and include_states keyword arguments are incompatible."
@@ -720,14 +734,17 @@ class CAPHamiltonian():
             roots = []
             CAPH = self.H0 + 1.0j * eta * self.W - cap_lambda * self.W
             eigv, Reigvc = _sort_eigenvectors(*LA.eig(CAPH))
-            Leigv, Leigvc = _sort_eigenvectors(*LA.eig(CAPH.T))
-            Leigvc, Reigvc = _biorthogonalize(Leigvc, Reigvc)
+            if biorthogonalize:
+                Leigv, Leigvc = _sort_eigenvectors(*LA.eig(CAPH.T))
+                Leigvc, Reigvc = _biorthogonalize(Leigvc, Reigvc)
+            else:
+                Leigvc = Reigvc
             for j, eig in enumerate(eigv):
                 roots.append(Root(eigv[j], eta, Reigvc[:, j], Leigvc[:, j]))
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 
-    def track_state(self, state_idx, tracking="overlap", correction="density"):
+    def track_state(self, state_idx, tracking="overlap", correction="derivative"):
         '''
         Tracks eigenvalue trajectory over range of eta values.
         
@@ -738,7 +755,7 @@ class CAPHamiltonian():
         tracking: str, default="overlap"
             Method to use to track the state. Options are "overlap", which tracks based on eigenvector overlap, and "energy" which 
             tracks based on energy.
-        correction: str, default="density"
+        correction: str, default="derivative"
             Choice of correction scheme. Either "density" or "derivative".
 
         Returns
@@ -753,7 +770,8 @@ class CAPHamiltonian():
                                     self._all_roots[0],
                                     self.W,
                                     tracking=tracking,
-                                    correction=correction)
+                                    correction=correction,
+                                    biorthogonalized=self._biorthogonalized)
         for i in range(1, len(self._all_roots)):
             traj._add_state(self._all_roots[i])
         traj._calculate_corrected_energies()
