@@ -670,7 +670,8 @@ class CAPHamiltonian():
                        eta_list,
                        cap_lambda=0.0,
                        exclude_states=None,
-                       include_states=None):
+                       include_states=None,
+                       biorthogonalize=False):
         '''
         Diagonalizes CAP Hamiltonian over range of eta values.
 
@@ -688,6 +689,9 @@ class CAPHamiltonian():
             List of states to exclude from subspace projection. Not compatible with include_states parameter.
         include_states: list of int, default=None
             List of states to include in subspace projection. Not compatible with exclude_states parameter.
+        biorthogonalize: bool, default=False
+            Biorthogonalize left and right eigenvectors. If false, left eigenvectors are assumed to equal right eigenvectors for 
+            density matrix correction
 
         '''
         if exclude_states is not None and include_states is not None:
@@ -720,14 +724,17 @@ class CAPHamiltonian():
             roots = []
             CAPH = self.H0 + 1.0j * eta * self.W - cap_lambda * self.W
             eigv, Reigvc = _sort_eigenvectors(*LA.eig(CAPH))
-            Leigv, Leigvc = _sort_eigenvectors(*LA.eig(CAPH.T))
-            Leigvc, Reigvc = _biorthogonalize(Leigvc, Reigvc)
+            if biorthogonalize:
+                Leigv, Leigvc = _sort_eigenvectors(*LA.eig(CAPH.T))
+                Leigvc, Reigvc = _biorthogonalize(Leigvc, Reigvc)
+            else:
+                Leigvc = Reigvc
             for j, eig in enumerate(eigv):
                 roots.append(Root(eigv[j], eta, Reigvc[:, j], Leigvc[:, j]))
                 self.total_energies.append(eigv[j])
             self._all_roots.append(roots)
 
-    def track_state(self, state_idx, tracking="overlap", correction="density"):
+    def track_state(self, state_idx, tracking="overlap", correction="derivative"):
         '''
         Tracks eigenvalue trajectory over range of eta values.
         
@@ -738,7 +745,7 @@ class CAPHamiltonian():
         tracking: str, default="overlap"
             Method to use to track the state. Options are "overlap", which tracks based on eigenvector overlap, and "energy" which 
             tracks based on energy.
-        correction: str, default="density"
+        correction: str, default="derivative"
             Choice of correction scheme. Either "density" or "derivative".
 
         Returns

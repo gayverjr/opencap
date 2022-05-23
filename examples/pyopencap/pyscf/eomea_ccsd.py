@@ -156,36 +156,36 @@ def make_rdm1(t1,t2,r1,r2,l1,l2,state_dm=False):
     return _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm)
 
 def _gamma1_intermediates(t2,r1,r2,l2):
-    lt_oo = 0.5 * np.einsum('jcd,icd->ji',l2,r2)
-    lt_vv = np.einsum('kbc,kac->ba',l2,r2)
-    y1_ov = np.einsum('iac,c->ia',l2,r1)
-    ltt_o = 0.5 * np.einsum('kdc,ikdc->i',l2,t2)
-    return lt_oo,lt_vv,y1_ov,ltt_o
+    lt_ij = 0.5 * np.einsum('jcd,icd->ji',l2,r2)
+    lt_ab = np.einsum('kbc,kac->ba',l2,r2)
+    y1_ia = np.einsum('iac,c->ia',l2,r1)
+    ltt_i = 0.5 * np.einsum('kdc,ikdc->i',l2,t2)
+    return lt_ij,lt_ab,y1_ia,ltt_i
 
 def _make_rdm1(d1,t1,t2,r1,r2,l1,state_dm=False):
-    lt_oo,lt_vv,y1_ov,ltt_o = d1
-    nocc,nvir = y1_ov.shape
+    lt_ij,lt_ab,y1_ia,ltt_i = d1
+    nocc,nvir = y1_ia.shape
     nmo = nocc + nvir
-    dm1 = np.zeros((nmo,nmo),dtype=lt_oo.dtype)
+    dm1 = np.zeros((nmo,nmo),dtype=lt_ij.dtype)
     if state_dm:
         dm1[np.diag_indices(nocc)] += 1
     ## OO
-    dm1[:nocc,:nocc] -= np.einsum('ji->ij',lt_oo)
-    dm1[:nocc,:nocc] -= np.einsum('jc,ic->ij',y1_ov,t1)
+    dm1[:nocc,:nocc] -= np.einsum('ji->ij',lt_ij)
+    dm1[:nocc,:nocc] -= np.einsum('jc,ic->ij',y1_ia,t1)
     ## OV
     if state_dm:
         dm1[:nocc,nocc:] += np.einsum('ia->ia',t1)
-    dm1[:nocc,nocc:] -= np.einsum('ic,ca->ia',t1,lt_vv)
-    dm1[:nocc,nocc:] -= np.einsum('ka,ki->ia',t1,lt_oo)
-    dm1[:nocc,nocc:] -= np.einsum('i,a->ia',ltt_o,r1)
+    dm1[:nocc,nocc:] -= np.einsum('ic,ca->ia',t1,lt_ab)
+    dm1[:nocc,nocc:] -= np.einsum('ka,ki->ia',t1,lt_ij)
+    dm1[:nocc,nocc:] -= np.einsum('i,a->ia',ltt_i,r1)
     dm1[:nocc,nocc:] += np.einsum('iac,a->ia',r2-np.einsum('ic,a->ica',t1,r1),l1)
-    dm1[:nocc,nocc:] += np.einsum('kica,kc->ia',t2-np.einsum('ka,ic->kica',t1,t1),y1_ov)
+    dm1[:nocc,nocc:] += np.einsum('kica,kc->ia',t2-np.einsum('ka,ic->kica',t1,t1),y1_ia)
     ## VV
     dm1[nocc:,nocc:] += np.einsum('b,a->ab',r1,l1)
-    dm1[nocc:,nocc:] += np.einsum('ab->ab',lt_vv)
-    dm1[nocc:,nocc:] += np.einsum('ka,kb->ab',y1_ov,t1)
+    dm1[nocc:,nocc:] += np.einsum('ab->ab',lt_ab)
+    dm1[nocc:,nocc:] += np.einsum('ka,kb->ab',y1_ia,t1)
     ## VO
-    dm1[nocc:,:nocc] -= np.einsum('ia->ai',y1_ov)
+    dm1[nocc:,:nocc] -= np.einsum('ia->ai',y1_ia)
     return dm1 
  
 
@@ -198,7 +198,7 @@ mol = gto.M(
             N 0.0000000000 0.0000000000 -0.548756750;\
             ghost      0.0     0.0     0.0',
             basis = {'N': N_bas, 'ghost': ghost_bas} )
-mol.verbose = 1
+mol.verbose = 4
 mol.build()
 mf = mol.RHF().run()
 molden_dict = {"basis_file":"molden_in.molden",
@@ -212,7 +212,7 @@ cap_dict = {"cap_type": "box",
     "cap_y":"2.76",
     "cap_z":"4.88",
 }
-nstates = 32
+nstates = 31
 pc = pyopencap.CAP(s,cap_dict,nstates)
 
 
