@@ -166,7 +166,7 @@ def test_roots():
 
 def test_correction():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir, "n2_opencap.out"))
-    CAPH.run_trajectory(eta_list)
+    CAPH.run_trajectory(eta_list,biorthogonalize=True)
     traj = CAPH.track_state(1, correction="density")
     E1, eta1 = traj.find_eta_opt(corrected=True, units="au")
     traj = CAPH.track_state(1, correction="derivative")
@@ -177,7 +177,7 @@ def test_correction():
 
 def test_biorthogonalization():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir, "n2_opencap.out"))
-    CAPH.run_trajectory([0.01])
+    CAPH.run_trajectory([0.01],biorthogonalize=True)
     roots = CAPH._all_roots[0]
     ovlp = np.zeros((len(roots), len(roots)), dtype='complex_')
     for i in range(0, len(roots)):

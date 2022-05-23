@@ -40,7 +40,11 @@ energies, the exact form of which may vary from publication to publication.
 We implement two forms of 1st-order corrections: *density* and *derivative*, which is controlled by the **correction** 
 keyword argument of :func:`~pyopencap.analysis.CAPHamiltonian.track_state`. 
 
-The default is the density matrix correction of [Jagau2014]_ :
+The default is the first-order correction of [Cederbaum2002]_, which has the form:
+
+:math:`U(\eta)=E(\eta)-\eta\frac{\partial E(\eta) }{\partial \eta}`.
+
+One can also use the density matrix correction of [Jagau2014]_ :
 
 :math:`U(\eta)=E(\eta)+ i \eta Tr [\gamma(\eta) W]`,
 
@@ -48,11 +52,8 @@ where the trace expression is evaluated using the matrix elements of the CAP in 
 
 :math:`Tr [\gamma(\eta) W] = \sum_{kl} c^L_k(\eta)c^R_l(\eta)W_{kl}^{CB}`,
 
-and :math:`c^L` and :math:`c^R` xrefer to the components of the bi-orthogonalized left and right eigenvectors respectively.
-
-One can also use the first-order correction of [Cederbaum2002]_, which has the form:
-
-:math:`U(\eta)=E(\eta)-\eta\frac{\partial E(\eta) }{\partial \eta}`.
+and :math:`c^L` and :math:`c^R` xrefer to the components of the bi-orthogonalized left and right eigenvectors respectively. Note that this option should only 
+be used when `biorthogonalize=True` is passed to :func:`~pyopencap.analysis.CAPHamiltonian.run_trajectory`.
 
 The two approaches can be related to one another by the Hellman-Feynman theoreom, and in our experience yield 
 nearly identical results.
