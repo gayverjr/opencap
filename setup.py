@@ -73,7 +73,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyopencap',
-    version='1.2.3',
+    version='1.2.4',
     author='James Gayvert',
     author_email='jrg444@gmail.com',
     description=DOCLINES[0],
