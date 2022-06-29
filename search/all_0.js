@@ -8,7 +8,7 @@ var searchData=
   ['add_5ftdms',['add_tdms',['../class_c_a_p.html#a33fcfc36023124b12760d259f993184a',1,'CAP']]],
   ['alpha_5fdms',['alpha_dms',['../class_c_a_p.html#aa7f84f3ae98a905e264784007e475b0e',1,'CAP']]],
   ['alpha_5fmax',['alpha_max',['../class_basis_set.html#a5a1f8f30ec1eee6945ee2692505500c3',1,'BasisSet::alpha_max()'],['../class_shell.html#a8dc157e9d712fe78b6c3eb6681ca32f3',1,'Shell::alpha_max()']]],
-  ['alpha_5fmin',['alpha_min',['../class_basis_set.html#a47a6c15a260490861f15c5c28992421b',1,'BasisSet::alpha_min()'],['../class_shell.html#a201934294b56e6af1d452f6891c59854',1,'Shell::alpha_min()']]],
+  ['alpha_5fmin',['alpha_min',['../class_basis_set.html#a5c25ce9590033ff95b0a63a3418f9eb7',1,'BasisSet::alpha_min()'],['../class_shell.html#a201934294b56e6af1d452f6891c59854',1,'Shell::alpha_min()']]],
   ['analyze',['analyze',['../class_eigenvalue_trajectory.html#a7d1e158016b84d99efb08994be853327',1,'EigenvalueTrajectory']]],
   ['ang_5fto_5fbohr',['ang_to_bohr',['../class_atom.html#a2460e9fee8358ec2067ddab152c29a9c',1,'Atom']]],
   ['angular_5fpoints',['angular_points',['../class_a_o_c_a_p.html#afad7000d88f9d23318091579510ec259',1,'AOCAP']]],

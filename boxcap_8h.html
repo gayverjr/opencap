@@ -87,8 +87,8 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:a82251f578f046eaae63cb0cbd85f3a6f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boxcap_8h.html#a82251f578f046eaae63cb0cbd85f3a6f">boxcap</a> (<a class="el" href="structgto.html">gto</a> gto1, <a class="el" href="structgto.html">gto</a> gto2, double boxlength[3], int normalized=0, int verbose=0)</td></tr>
 <tr class="separator:a82251f578f046eaae63cb0cbd85f3a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63f37a03f73a3c5b1b9da2dde9a08860"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boxcap_8h.html#a63f37a03f73a3c5b1b9da2dde9a08860">integrate_box_cap</a> (<a class="el" href="class_shell.html">Shell</a> shell1, <a class="el" href="class_shell.html">Shell</a> shell2, std::array&lt; size_t, 3 &gt; l1, std::array&lt; size_t, 3 &gt; l2, double boxlength[3])</td></tr>
-<tr class="separator:a63f37a03f73a3c5b1b9da2dde9a08860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8efd50a3136b06934aa179440e0150d7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boxcap_8h.html#a8efd50a3136b06934aa179440e0150d7">integrate_box_cap</a> (<a class="el" href="class_shell.html">Shell</a> shell1, <a class="el" href="class_shell.html">Shell</a> shell2, std::array&lt; size_t, 3 &gt; l1, std::array&lt; size_t, 3 &gt; l2, double boxlength[3], double thresh)</td></tr>
+<tr class="separator:a8efd50a3136b06934aa179440e0150d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a82251f578f046eaae63cb0cbd85f3a6f"></a>
@@ -137,8 +137,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a63f37a03f73a3c5b1b9da2dde9a08860"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63f37a03f73a3c5b1b9da2dde9a08860">&#9670;&nbsp;</a></span>integrate_box_cap()</h2>
+<a id="a8efd50a3136b06934aa179440e0150d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8efd50a3136b06934aa179440e0150d7">&#9670;&nbsp;</a></span>integrate_box_cap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +171,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>boxlength</em>[3]&#160;</td>
+          <td class="paramname"><em>boxlength</em>[3], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>thresh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

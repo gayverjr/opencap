@@ -92,8 +92,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a45411709272c202532c9621a134b388a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a470838446bcf2eaa22774e3be5fbc006"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basis_set.html#a470838446bcf2eaa22774e3be5fbc006">max_L</a> ()</td></tr>
 <tr class="separator:a470838446bcf2eaa22774e3be5fbc006"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47a6c15a260490861f15c5c28992421b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basis_set.html#a47a6c15a260490861f15c5c28992421b">alpha_min</a> (<a class="el" href="class_atom.html">Atom</a> &amp;atm)</td></tr>
-<tr class="separator:a47a6c15a260490861f15c5c28992421b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c25ce9590033ff95b0a63a3418f9eb7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basis_set.html#a5c25ce9590033ff95b0a63a3418f9eb7">alpha_min</a> (<a class="el" href="class_atom.html">Atom</a> &amp;atm, float thresh)</td></tr>
+<tr class="separator:a5c25ce9590033ff95b0a63a3418f9eb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a1f8f30ec1eee6945ee2692505500c3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basis_set.html#a5a1f8f30ec1eee6945ee2692505500c3">alpha_max</a> (<a class="el" href="class_atom.html">Atom</a> &amp;atm)</td></tr>
 <tr class="separator:a5a1f8f30ec1eee6945ee2692505500c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b2102c0f6bcae4369a9cf0bf3f30911"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basis_set.html#a8b2102c0f6bcae4369a9cf0bf3f30911">add_shell</a> (<a class="el" href="class_shell.html">Shell</a> &amp;new_shell)</td></tr>
@@ -225,8 +225,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a47a6c15a260490861f15c5c28992421b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47a6c15a260490861f15c5c28992421b">&#9670;&nbsp;</a></span>alpha_min()</h2>
+<a id="a5c25ce9590033ff95b0a63a3418f9eb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c25ce9590033ff95b0a63a3418f9eb7">&#9670;&nbsp;</a></span>alpha_min()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -235,14 +235,25 @@ Public Attributes</h2></td></tr>
           <td class="memname">std::vector&lt;double&gt; BasisSet::alpha_min </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_atom.html">Atom</a> &amp;&#160;</td>
-          <td class="paramname"><em>atm</em></td><td>)</td>
+          <td class="paramname"><em>atm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>thresh</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Returns smallest exponent of all primitives in the basis set centered at a particular <a class="el" href="class_atom.html" title="Object for storing atomic data.">Atom</a> for each orbital angular momentum. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">atm</td><td><a class="el" href="class_atom.html" title="Object for storing atomic data.">Atom</a> of interest </td></tr>
+    <tr><td class="paramname">thresh</td><td>Threshold for minimum exponent to be considered. Intended to allow fake IP orbitals to be discarded in integral calculations. </td></tr>
   </table>
   </dd>
 </dl>

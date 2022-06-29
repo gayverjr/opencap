@@ -8,7 +8,7 @@ var searchData=
   ['inputparser_2eh',['InputParser.h',['../_input_parser_8h.html',1,'']]],
   ['installation',['Installation',['../install.html',1,'']]],
   ['install_2emd',['install.md',['../install_8md.html',1,'']]],
-  ['integrate_5fbox_5fcap',['integrate_box_cap',['../boxcap_8h.html#a63f37a03f73a3c5b1b9da2dde9a08860',1,'boxcap.h']]],
+  ['integrate_5fbox_5fcap',['integrate_box_cap',['../boxcap_8h.html#a8efd50a3136b06934aa179440e0150d7',1,'boxcap.h']]],
   ['integrate_5fcap',['integrate_cap',['../class_c_a_p.html#a9ee43dcd0338cd10bdd1d0097f80e411',1,'CAP']]],
   ['is_5fletter',['is_letter',['../utils_8h.html#abcc11713425b9f33bc4265dbf2a5e46e',1,'utils.h']]],
   ['is_5fnumber',['is_number',['../utils_8h.html#a53d02df1713071578c4b6a030269739b',1,'utils.h']]]

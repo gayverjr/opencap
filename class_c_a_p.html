@@ -102,6 +102,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a413e3748040a375bf599546e0ce5e9a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a046f71efec5ed19fe5a5c600ffb9811c">get_projected_cap</a> ()</td></tr>
 <tr class="separator:a046f71efec5ed19fe5a5c600ffb9811c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60a35b868c5bdbaa9f09bdbfcab0e8c7"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a60a35b868c5bdbaa9f09bdbfcab0e8c7">get_density</a> (size_t row_idx, size_t col_idx, bool beta=false)</td></tr>
+<tr class="separator:a60a35b868c5bdbaa9f09bdbfcab0e8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab58b63de35d393d4dc2c6a1ebb11a2b9"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#ab58b63de35d393d4dc2c6a1ebb11a2b9">get_H</a> ()</td></tr>
 <tr class="separator:ab58b63de35d393d4dc2c6a1ebb11a2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33fcfc36023124b12760d259f993184a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_a_p.html#a33fcfc36023124b12760d259f993184a">add_tdms</a> (Eigen::MatrixXd &amp;alpha_density, Eigen::MatrixXd &amp;beta_density, size_t row_idx, size_t col_idx, std::string ordering, std::string basis_file=&quot;&quot;)</td></tr>
@@ -468,6 +470,48 @@ Public Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">ordering</td><td>order of GTOs </td></tr>
     <tr><td class="paramname">basis_file</td><td>File containing basis set specification. Required for OpenMolcas. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a60a35b868c5bdbaa9f09bdbfcab0e8c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60a35b868c5bdbaa9f09bdbfcab0e8c7">&#9670;&nbsp;</a></span>get_density()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd CAP::get_density </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>row_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>col_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>beta</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets TDM for state row_idx --&gt; col_idx. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row_idx</td><td>initial state index </td></tr>
+    <tr><td class="paramname">col_idx</td><td>final state index </td></tr>
+    <tr><td class="paramname">beta</td><td>Beta density, false means alpha density </td></tr>
   </table>
   </dd>
 </dl>

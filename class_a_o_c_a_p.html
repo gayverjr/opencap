@@ -111,6 +111,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae31ba36720f6188d1efe6437e0443ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcfa4c2f66f7f8f0a1af1f6091530d01"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#adcfa4c2f66f7f8f0a1af1f6091530d01">r_cut</a></td></tr>
 <tr class="separator:adcfa4c2f66f7f8f0a1af1f6091530d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59359d3278ddcf46f63538a6427bfb7f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#a59359d3278ddcf46f63538a6427bfb7f">thresh</a></td></tr>
+<tr class="separator:a59359d3278ddcf46f63538a6427bfb7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af18be7fb95b1b3010797daf403c0d438"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_atom.html">Atom</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#af18be7fb95b1b3010797daf403c0d438">atoms</a></td></tr>
 <tr class="separator:af18be7fb95b1b3010797daf403c0d438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af27e4ff3f8eda9764325f42ba31f3c06"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_o_c_a_p.html#af27e4ff3f8eda9764325f42ba31f3c06">num_atoms</a></td></tr>
@@ -461,6 +463,21 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Radial precision of numerical grid. Default is 1.0e-14 </p>
+
+</div>
+</div>
+<a id="a59359d3278ddcf46f63538a6427bfb7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59359d3278ddcf46f63538a6427bfb7f">&#9670;&nbsp;</a></span>thresh</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AOCAP::thresh</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Threshold for exponents of GTOs. Exponents smaller than thresh are excluded from integration. Intended to alleviate numerical issues associated with fake IP orbital. </p>
 
 </div>
 </div>
