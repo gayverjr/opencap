@@ -62,6 +62,39 @@ std::vector<int> opencap_harmonic_ordering(int l)
 		opencap_throw("Error: Only up to G type orbitals are supported.");
 }
 
+std::vector<std::array<size_t,3>> bagel_carts_ordering(int l)
+{
+	//s
+	if(l == 0)
+		return {{0,0,0}};
+	//p
+	if(l==1)
+		return {{1,0,0},{0,1,0},{0,0,1}};
+	else
+		opencap_throw("Error: Only up to P type orbitals are supported.");
+}
+
+std::vector<int> bagel_harmonic_ordering(int l)
+{
+	//s
+	if(l == 0)
+		return {0};
+	//p
+	if(l==1)
+		return {1,-1,0};
+	//d
+	else if (l==2)
+		return {2, -2, 1, -1, 0};
+	//f
+	else if (l==3)
+		return {3, -3, 2, -2, 1, -1, 0};
+	//g
+	else if (l==4)
+		return {4, -4, 3, -3, 2, -2, 1, -1, 0};
+	else
+		opencap_throw("Error: Only up to G type orbitals are supported.");
+}
+
 //from: http://cheminf.cmbi.ru.nl/molden/molden_format.html
 std::vector<std::array<size_t,3>> opencap_carts_ordering(int l)
 {
@@ -176,6 +209,38 @@ std::vector<int> pyscf_harmonic_ordering(int l)
 		return {-4,-3,-2,-1,0,1,2,3,4};
 	else
 		opencap_throw("Error: Only up to G type orbitals are supported.");
+}
+
+std::vector<bf_id> get_bagel_ids(BasisSet &bs)
+{
+	std::vector<bf_id> ids;
+	for(size_t i=0;i<bs.basis.size();i++)
+	{
+		Shell my_shell = bs.basis[i];
+		if (my_shell.pure)
+		{
+			std::vector<int> bagel_order = bagel_harmonic_ordering(my_shell.l);
+			for(int m:bagel_order)
+				ids.push_back(bf_id(bs.shell_ids[i],m));
+		}
+		else
+		{
+			std::vector<std::array<size_t,3>> opencap_order = opencap_carts_ordering(my_shell.l);
+			std::vector<std::array<size_t,3>> bagel_order = bagel_carts_ordering(my_shell.l);
+			for(auto m:bagel_order)
+			{
+				auto it = std::find(opencap_order.begin(), opencap_order.end(), m);
+				if (it != opencap_order.end())
+				{
+					int index = std::distance(opencap_order.begin(), it);
+					ids.push_back(bf_id(bs.shell_ids[i],index));
+				}
+				else
+				    opencap_throw("Something's gone wrong.");
+			}
+		}
+	}
+	return ids;
 }
 
 std::vector<bf_id> get_pyscf_ids(BasisSet &bs)

@@ -54,6 +54,7 @@ bool check_keyword(std::string my_key,std::string my_section,std::string my_valu
 		{"cap_y","projected_cap"},
 		{"cap_z","projected_cap"},
 		{"r_cut","projected_cap"},
+		{"thresh","projected_cap"},
 		{"radial_precision","projected_cap"},
 		{"angular_points","projected_cap"},
 		{"cart_bf","system"}

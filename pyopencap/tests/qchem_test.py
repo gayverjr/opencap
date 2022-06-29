@@ -76,3 +76,12 @@ def test_heff():
     pc.read_data(es_dict2)
     h0 = pc.get_H()
     assert np.isclose(h0[0][0], -109.313539)
+
+
+def test_smat():
+    sys = pyopencap.System(sys_dict)
+    smat = sys.get_overlap_mat()
+    pc = pyopencap.CAP(sys, cap_dict, 5)
+    pc.read_data(es_dict)
+    assert np.round(np.trace(smat@pc.get_density(0,0)),decimals=1) == 7.0
+    

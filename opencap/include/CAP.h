@@ -111,6 +111,12 @@ public:
 	/** Returns CAP matrix in state basis.
 	 */
 	Eigen::MatrixXd get_projected_cap();
+	/** Gets TDM for state row_idx --> col_idx.
+	 * \param row_idx: initial state index
+	 * \param col_idx: final state index
+	 * \param beta: Beta density, false means alpha density
+	 */
+	Eigen::MatrixXd get_density(size_t row_idx, size_t col_idx, bool beta=false);
 	/** Returns zeroth order Hamiltonian.
 	 */
 	Eigen::MatrixXd get_H();

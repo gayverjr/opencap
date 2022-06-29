@@ -126,9 +126,10 @@ public:
     /** Returns smallest exponent of all primitives in the basis set centered at a particular Atom
      * for each orbital angular momentum.
      * \param atm: Atom of interest
+	 * \param thresh: Threshold for minimum exponent to be considered. Intended to allow fake IP orbitals to be discarded in integral calculations.
      * \return Vector of smallest exponents belonging to a particular atom
       */
-	std::vector<double> alpha_min(Atom &atm);
+	std::vector<double> alpha_min(Atom &atm, float thresh);
     /** Returns largest exponent of all primitives in the basis set centered at a particular Atom.
      * \param atm: Atom of interest
      * \return Largest exponent in the basis set belonging to a particular atom

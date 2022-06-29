@@ -39,6 +39,9 @@ std::vector<int> opencap_harmonic_ordering(int l);
 /* Get list of basis function IDs in OpenMolcas ordering.
  */
 std::vector<bf_id> get_molcas_ids(BasisSet &bs,std::string rassi_filename);
+/* Get list of basis function IDs in BAGEL ordering.
+ */
+std::vector<bf_id> get_bagel_ids(BasisSet &bs);
 /* Get list of basis function IDs in Q-Chem ordering.
  */
 std::vector<bf_id> get_qchem_ids(BasisSet &bs);

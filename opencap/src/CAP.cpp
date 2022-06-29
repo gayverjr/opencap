@@ -69,7 +69,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 void CAP::define_cap_function(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
 std::vector<double> &, std::vector<double> &)> &cap_func)
 {
-	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
+	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z", "thresh",
 			"r_cut","radial_precision","angular_points","do_numerical"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)
@@ -449,6 +449,8 @@ Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
             ids = get_qchem_ids(system.bs);
         else if(compare_strings(ordering,"psi4"))
             ids = get_psi4_ids(system.bs);
+        else if(compare_strings(ordering,"bagel"))
+            ids = get_bagel_ids(system.bs);
         else if(compare_strings(ordering,"molden"))
             ids = system.bs.bf_ids;
         else
@@ -463,6 +465,18 @@ Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
 Eigen::MatrixXd CAP::get_projected_cap()
 {
 	return CAP_MAT;
+}
+
+Eigen::MatrixXd CAP::get_density(size_t row_idx, size_t col_idx, bool beta)
+{
+	if(alpha_dms.size()!=nstates)
+		opencap_throw("Error: need to populate densities first.")
+	if(row_idx >= nstates || col_idx >=nstates)
+		opencap_throw("Error: invalid state index.")
+	if(beta)
+		return beta_dms[row_idx][col_idx];
+	else
+		return alpha_dms[row_idx][col_idx];
 }
 
 Eigen::MatrixXd CAP::get_H()
@@ -504,6 +518,8 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 		ids = get_psi4_ids(system.bs);
 	else if(compare_strings(ordering,"molden"))
 		ids = system.bs.bf_ids;
+	else if(compare_strings(ordering,"bagel"))
+		ids = get_bagel_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(alpha_dm,system.bs,ids);
@@ -544,12 +560,16 @@ void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string
 		ids = get_psi4_ids(system.bs);
 	else if(compare_strings(ordering,"molden"))
 		ids = system.bs.bf_ids;
+	else if(compare_strings(ordering,"bagel"))
+		ids = get_bagel_ids(system.bs);
 	else
 		opencap_throw("Error: " + ordering +" is unsupported.");
 	to_opencap_ordering(dmat,system.bs,ids);
 	alpha_dms[row_idx][col_idx] = dmat;
 	beta_dms[row_idx][col_idx] = dmat;
 }
+
+
 
 void CAP::read_electronic_structure_data(py::dict dict)
 {

@@ -247,6 +247,16 @@ class colparser():
                     elif itypea==2 and itypeb==9:
                         in_data=True
                         sym = -1
+                elif in_data:
+                    words = line.split()
+                    val = float(words[0])
+                    i = int(words[1])-1
+                    j = int(words[2])-1
+                    if sym==1:
+                        sym_store.append(val)
+                        symm_indices.append((i,j))
+                    elif sym==-1:
+                        asymm_store[(i,j)] = val
             elif '    ' in line:
                 pass
             elif in_data:
