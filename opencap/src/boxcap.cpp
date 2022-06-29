@@ -81,7 +81,7 @@ verbose can be increased to create debug information
 */
 
 double integrate_box_cap(Shell shell1, Shell shell2, 
-std::array<size_t,3> l1, std::array<size_t,3> l2, double boxlength[3])
+std::array<size_t,3> l1, std::array<size_t,3> l2, double boxlength[3],double thresh)
 {
   double sum = 0;
 	for(size_t prim1 =0;prim1<shell1.num_prims;prim1++)
@@ -90,10 +90,8 @@ std::array<size_t,3> l1, std::array<size_t,3> l2, double boxlength[3])
     for(size_t prim2=0;prim2<shell2.num_prims;prim2++)
     {
       gto gto2 = {shell2.origin,shell2.exps[prim2],l2};
-      if (!(shell1.exps[prim1] < 1E-6 || shell2.exps[prim2] < 1E-6))
+      if (shell1.exps[prim1] > thresh && shell2.exps[prim2] > thresh)
         sum+= shell1.coeffs[prim1] * shell2.coeffs[prim2] * boxcap(gto1,gto2,boxlength,false,0);
-      else
-        std::cout << "I discarded some fake ip stuff." << std::endl;
     }
   }
   return sum;

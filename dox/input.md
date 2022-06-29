@@ -135,6 +135,7 @@ __Optional__
 |------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | radial_precision| int | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used.  | 14  |
 | angular_points | int | Number of angular ponts used for the grid. See  https://github.com/dftlibs/numgrid for allowed numbers of points. | 590 |
+| thresh | int | Threshold for exponents of GTO which contribute to CAP integrals. All GTOs with exponents smaller than 1E-thresh will be discarded. | 7 |
 | h0_file | string | Relative or absolute path to formatted zeroth order Hamiltonian file.  Required when output from electronic structure package (e.g. molcas_output) is unspecified. | "" |
 
 Trajectory

@@ -73,6 +73,9 @@ more details on the radial_precision and angular_points keywords.
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | angular_points   | no       | "590"                | Number of angular points used for the grid. See https://github.com/dftlibs/numgrid for allowed numbers of points.  |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
+| thresh           | no       | "7"                  | Threshold for exponents of GTO which contribute to CAP integrals. All GTOs with exponents smaller than             |
+|                  |          |                      |  :math:`1.0 x 10^{-thresh}` will be discarded for CAP integrals.                                                   |
++------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | do_numerical     | no       | True for box CAPs,   | Analytical [Santra1999]_ integrals are available for Box CAPs only, and are used by default. All other CAPs        |
 |                  |          | false for other CAPs | must be integrated numerically.                                                                                    |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+

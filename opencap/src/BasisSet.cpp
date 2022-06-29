@@ -171,7 +171,7 @@ double BasisSet::alpha_max(Atom &atm)
 	return max_val;
 }
 
-std::vector<double> BasisSet::alpha_min(Atom &atm)
+std::vector<double> BasisSet::alpha_min(Atom &atm, float thresh)
 {
 	std::vector<Shell> shells = shells_on_center(atm);
 	std::vector<double> min_alpha(max_L()+1,0.0);
@@ -179,8 +179,11 @@ std::vector<double> BasisSet::alpha_min(Atom &atm)
 	{
 		for(const double exp: shell.exps)
 		{
-			if(exp<min_alpha[shell.l] || min_alpha[shell.l]==0.0)
-				min_alpha[shell.l]=exp;
+			if(exp > thresh)
+			{
+				if(exp<min_alpha[shell.l] || min_alpha[shell.l]==0.0)
+					min_alpha[shell.l]=exp;
+			}
 		}
 	}
 	return min_alpha;

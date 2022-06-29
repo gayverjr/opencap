@@ -69,7 +69,7 @@ CAP::CAP(System &my_sys,std::map<std::string, std::string> params)
 void CAP::define_cap_function(py::dict dict,const std::function<std::vector<double>(std::vector<double> &, std::vector<double> &, 
 std::vector<double> &, std::vector<double> &)> &cap_func)
 {
-	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z",
+	std::vector<std::string> valid_keywords = {"cap_type","cap_x","cap_y","cap_z", "thresh",
 			"r_cut","radial_precision","angular_points","do_numerical"};
 	std::map<std::string, std::string> params;
     for (auto item : dict)

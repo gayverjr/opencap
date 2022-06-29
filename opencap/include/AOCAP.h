@@ -71,6 +71,9 @@ std::vector<double> &, std::vector<double> &)> &cap_func);
 	/** Cutoff radius of Voronoi %CAP. Specify in bohr units.
 	 */
 	double r_cut;
+	/** Threshold for exponents of GTOs. Exponents smaller than thresh are excluded from integration. Intended to alleviate numerical issues associated with fake IP orbital.
+	*/
+	double thresh;
 	/** Geometry of molecular system.
 	 */
 	std::vector<Atom> atoms;

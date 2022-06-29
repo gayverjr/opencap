@@ -48,19 +48,21 @@ SOFTWARE.
 AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> params)
 {
 	verify_cap_parameters(params);
-	double capx,capy,capz,rcut,radial,angpts;
+	double capx,capy,capz,rcut,radial,angpts,int_thresh;
 	std::stringstream capxss(params["cap_x"]);
 	std::stringstream capyss(params["cap_y"]);
 	std::stringstream capzss(params["cap_z"]);
 	std::stringstream rcutss(params["r_cut"]);
 	std::stringstream radialss(params["radial_precision"]);
 	std::stringstream angularss(params["angular_points"]);
+	std::stringstream threshss(params["thresh"]);
 	capxss >> capx;
 	capyss >> capy;
 	capzss >> capz;
 	rcutss >> rcut;
 	radialss >> radial;
 	angularss >> angpts;
+	threshss >> int_thresh;
 	//now fill class members
 	cap_type = params["cap_type"];
 	cap_x = capx;
@@ -69,6 +71,7 @@ AOCAP::AOCAP(std::vector<Atom> geometry,std::map<std::string, std::string> param
 	r_cut = rcut;
 	radial_precision = pow(10,-1.0*radial);
 	angular_points = angpts;
+	thresh = pow(10,-1.0*int_thresh);
 	atoms = geometry;
     num_atoms = atoms.size();
 	if(compare_strings(cap_type,"box"))
@@ -146,7 +149,7 @@ void AOCAP::integrate_cap_numerical(Eigen::MatrixXd &cap_mat, BasisSet bs)
 	{
         // check parameters
         double alpha_max = bs.alpha_max(atoms[i]);
-        std::vector<double> alpha_min = bs.alpha_min(atoms[i]);
+        std::vector<double> alpha_min = bs.alpha_min(atoms[i],thresh);
         double r_inner = get_r_inner(radial_precision,
                                      alpha_max * 2.0); // factor 2.0 to match DIRAC
         double h = std::numeric_limits<float>::max();
@@ -269,7 +272,7 @@ void AOCAP::eval_box_cap_analytical(Eigen::MatrixXd &cap_mat, BasisSet &bs)
 				for(size_t k=0;k<shell2.num_carts();k++)
 				{
 					std::array<size_t,3> l2 = order2[k];
-					cap_mat(bf1_idx+j,bf2_idx+k) = integrate_box_cap(shell1,shell2,l1,l2,boxlength);
+					cap_mat(bf1_idx+j,bf2_idx+k) = integrate_box_cap(shell1,shell2,l1,l2,boxlength,thresh);
 				}
 				bf2_idx += shell2.num_carts();
 			}
@@ -309,7 +312,7 @@ void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 			error_str+=key+" ";
 		opencap_throw(error_str);
 	}
-	std::map<std::string, std::string> defaults = {{"radial_precision", "14"}, {"angular_points", "590"}};
+	std::map<std::string, std::string> defaults = {{"radial_precision", "14"}, {"angular_points", "590"}, {"thresh", "7"}};
 	for (const auto &pair:defaults)
 	{
 		if(parameters.find(pair.first)==parameters.end())
