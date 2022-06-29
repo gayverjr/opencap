@@ -90,7 +90,10 @@ std::array<size_t,3> l1, std::array<size_t,3> l2, double boxlength[3])
     for(size_t prim2=0;prim2<shell2.num_prims;prim2++)
     {
       gto gto2 = {shell2.origin,shell2.exps[prim2],l2};
-      sum+= shell1.coeffs[prim1] * shell2.coeffs[prim2] * boxcap(gto1,gto2,boxlength,false,0);
+      if (!(shell1.exps[prim1] < 1E-6 || shell2.exps[prim2] < 1E-6))
+        sum+= shell1.coeffs[prim1] * shell2.coeffs[prim2] * boxcap(gto1,gto2,boxlength,false,0);
+      else
+        std::cout << "I discarded some fake ip stuff." << std::endl;
     }
   }
   return sum;
