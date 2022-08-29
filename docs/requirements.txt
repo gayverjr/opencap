@@ -1,2 +1,5 @@
 # "." uses requirements defined inside setup.py
-.
+pip
+docutils==0.16
+sphinx-rtd-theme
+sphinx

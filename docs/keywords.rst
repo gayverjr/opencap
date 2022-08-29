@@ -69,7 +69,7 @@ more details on the radial_precision and angular_points keywords.
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | cap_type         | yes      | "box" or "voronoi"   | Type of absorbing potential.                                                                                       |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
-| radial_precision | no       | "14"                 | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used. |
+| radial_precision | no       | "16"                 | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used. |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
 | angular_points   | no       | "590"                | Number of angular points used for the grid. See https://github.com/dftlibs/numgrid for allowed numbers of points.  |
 +------------------+----------+----------------------+--------------------------------------------------------------------------------------------------------------------+
