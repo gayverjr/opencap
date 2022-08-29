@@ -33,7 +33,7 @@ jobs:
 
   build_intelmac_wheels:
       name: Build wheels on intel mac
-      runs-on:  macos-10.15
+      runs-on:  macos-11
 
       steps:
         - uses: actions/checkout@v2
