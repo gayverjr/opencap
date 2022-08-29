@@ -312,7 +312,7 @@ void AOCAP::verify_cap_parameters(std::map<std::string,std::string> &parameters)
 			error_str+=key+" ";
 		opencap_throw(error_str);
 	}
-	std::map<std::string, std::string> defaults = {{"radial_precision", "14"}, {"angular_points", "590"}, {"thresh", "7"}};
+	std::map<std::string, std::string> defaults = {{"radial_precision", "16"}, {"angular_points", "590"}, {"thresh", "7"}};
 	for (const auto &pair:defaults)
 	{
 		if(parameters.find(pair.first)==parameters.end())
