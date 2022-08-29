@@ -3,6 +3,7 @@ channels:
    - anaconda
    - conda-forge
 dependencies:
+   - pip
    - eigen
    - hdf5
    - cmake
