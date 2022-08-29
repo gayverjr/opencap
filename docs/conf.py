@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pyopencap'
-copyright = ("2020-2021, James Gayvert, Ksenia Bravaya")
+copyright = ("2020-2022, James Gayvert, Ksenia Bravaya")
 author = 'James Gayvert, Ksenia Bravaya'
 
 # The short X.Y version
