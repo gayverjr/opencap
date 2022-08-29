@@ -9,6 +9,6 @@ dependencies:
    - numpy
    - gcc_linux-64
    - pip:
-      - docutils=0.16
+      - docutils==0.16
       - sphinx-rtd-theme
       - sphinx
