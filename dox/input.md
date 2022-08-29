@@ -71,7 +71,7 @@ zeroth order hamiltonian manually (due to its small dimensionality). For the lat
 option, the 'h0_file' keyword must be used, and the value must point to a properly formatted file. 
 
 A properly formatted zeroth order hamiltonian file can have one of two forms. The first is the diagonal form (where the zeroth order hamiltonian just consists of total energies on the diagonal, as is the case for EOM-CCSD), the word "Diagonal" must appear on the first line, followed by the energies, each on their own line. The second is the full form, in which the entire zeroth order hamiltonian is specified. The word "Full" must appear on the first line, followed by the matrix. The matrix is read in row-major order.
-We currently support two types of complex absorbing potentials; quadratic box-type potentials, and a quadratic "Voronoi isosurface" potential. Both types of %CAP have their own set of parameters which must be defined. Numerical integration is performed with the aid of the [numgrid](https://github.com/dftlibs/numgrid) package, which allocates the grid based on the molecular geometry and basis set. By default, a radial grid with precision 1e-14 is used, with an angular grid of 590 points. Both can optionally be adjusted to increase or decrease the size of the grid as needed.
+We currently support two types of complex absorbing potentials; quadratic box-type potentials, and a quadratic "Voronoi isosurface" potential. Both types of %CAP have their own set of parameters which must be defined. Numerical integration is performed with the aid of the [numgrid](https://github.com/dftlibs/numgrid) package, which allocates the grid based on the molecular geometry and basis set. By default, a radial grid with precision 1e-16 is used, with an angular grid of 590 points. Both can optionally be adjusted to increase or decrease the size of the grid as needed.
 
 __Required__
 | Keyword | Type | Description | Valid options |
@@ -133,7 +133,7 @@ amenable to numerical integration[1]. Functional form:
 __Optional__
 | Keyword | Type | Description | Default |
 |------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
-| radial_precision| int | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used.  | 14  |
+| radial_precision| int | Radial precision for numerical integration grid. A precision of 1x10^(-N), where N is the value specified is used.  | 16  |
 | angular_points | int | Number of angular ponts used for the grid. See  https://github.com/dftlibs/numgrid for allowed numbers of points. | 590 |
 | thresh | int | Threshold for exponents of GTO which contribute to CAP integrals. All GTOs with exponents smaller than 1E-thresh will be discarded. | 7 |
 | h0_file | string | Relative or absolute path to formatted zeroth order Hamiltonian file.  Required when output from electronic structure package (e.g. molcas_output) is unspecified. | "" |
