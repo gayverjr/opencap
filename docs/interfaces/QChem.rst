@@ -19,16 +19,12 @@ object using .fchk files.
 	my_system = pyopencap.System(sys_dict)
 
 **CAP object**
-
 Densities can be read in from .fchk files, and the zeroth order Hamiltonian can be read from 
-Q-Chem output files for EOM-CC calculations. The following keywords are required in the Q-Chem 
-input to export the densities to .fchk:
+Q-Chem output files for EOM-CC calculations. To export the full densities to .fchk, GUI=2 
+must be set in the $rem card, and PROJ_CAP=3 must be set in the 
+$complex_ccman card. See the Q-Chem manual_ for more details.
 
-.. code-block:: rst
-	
-	CC_TRANS_PROP=2
-	STATE_ANALYSIS=1
-	GUI=2
+.. _manual: https://manual.q-chem.com/latest/sub_cc_cs_cap.html
 
 The following snippet can be used to read the data from a Q-Chem output and properly formatted 
 .fchk file, and calculate the CAP matrix:

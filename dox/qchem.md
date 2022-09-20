@@ -1,7 +1,7 @@
 Q-Chem Interface {#qchem}
 =============================
 
-[Q-Chem](https://molcas.gitlab.io/OpenMolcas/sphinx/) is a widely used quantum chemistry package with a variety of open-shell and excited state electronic structure methods. We officially support an interface with EOM-CC calculations performed by Q-Chem. There is also an experimental TDDFT interface. 
+[Q-Chem](https://manual.q-chem.com) is a widely used quantum chemistry package with a variety of open-shell and excited state electronic structure methods. We officially support an interface with EOM-CC calculations performed by Q-Chem. There is also an experimental TDDFT interface. 
 
 System
 ======
@@ -17,51 +17,10 @@ __Relevant keywords__
 Projected CAP
 =============
 
-The keys to the Q-Chem interface are the GUI, CC_TRANS_PROP, and STATE_ANALYSIS keywords.  
-
-     GUI  2
-	 CC_TRANS_PROP 2
-	 STATE_ANALYSIS 1
-
-Including these keywords in the $rem card will export all 1RDMs and 1TDMs between all EOM states to a .fchk file. 
-
-Densities can be formatted in one of two ways (automatically detected by OpenCAP):
-
-1. Triangular (Format of CC_TRANS_PROP=2, %CAP matrix is assumed symmetric in this case)
-
-    State Density 1...
-	
-    State Density N
-	
-	TDM 1-->2
-	
-	TDM 1-->3...
-	
-	TDM 1-->N...
-	
-	TDM 2-->3...
-	
-	TDM 2-->N...
-
-2. All densities (experimental format)
-
-    State Density 1 ...
-
-    State Density N 
-
-	TDM 1-->2
-	
-	TDM 1-->3...
-	
-	TDM 1-->N
-	
-	TDM 2-->1
-	
-	TDM 2-->3...
-	
-	TDM 2-->N...
-
-
+Densities can be read in from .fchk files, and the zeroth order Hamiltonian can be read from 
+Q-Chem output files for EOM-CC calculations. To export the full densities to .fchk, GUI=2 
+must be set in the $rem card, and PROJ_CAP=3 must be set in the 
+$complex_ccman card. See the [Q-Chem manual](https://manual.q-chem.com/latest/sub_cc_cs_cap.html) for more details.
 
 Separate alpha/beta densities and spin traced one particle densities are both supported, and 
 are automatically detected by OpenCAP.
