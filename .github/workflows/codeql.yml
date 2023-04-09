@@ -29,10 +29,10 @@ jobs:
       - name: Install Packages
         run: |
           sudo apt-get update
-          sudo apt-get install --yes gcc-8 g++-8 libhdf5-dev libeigen3-dev python3.8-dev python3.8-venv
+          sudo apt-get install --yes gcc-11 g++-11 libhdf5-dev libeigen3-dev python3.10-dev python3.10-venv
 
       - name: Configure
-        run: mkdir /opt/src/opencap/build; cd /opt/src/opencap/build; CC=gcc-8 CXX=g++-8 cmake ../
+        run: mkdir -p $GITHUB_WORKSPACE/opencap/build; cd $GITHUB_WORKSPACE/opencap/; CC=gcc-11 CXX=g++-11 cmake -B./build
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -41,7 +41,7 @@ jobs:
           queries: +security-and-quality
 
       - name: Build cpp
-        run: cd /opt/src/opencap/build; make -j2
+        run: cd $GITHUB_WORKSPACE/opencap/build; make -j2
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
