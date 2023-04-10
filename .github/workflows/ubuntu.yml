@@ -10,7 +10,7 @@ jobs:
         shell: bash -l {0}
     strategy:
       matrix:
-        python-version: [3.8,3.9,python3.10]
+        python-version: [3.8,3.9,"3.10"]
     
     
     
@@ -19,11 +19,11 @@ jobs:
         name: Check out repository
         
       - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2.1.1
+        uses: conda-incubator/setup-miniconda@v2
         with:
             auto-activate-base: true
             activate-environment: true
-            python-version: ${{ if eq(matrix.python-version, 'python3.10') }}3.10{{ else }}${{ matrix.python-version }}{{ endif }}
+            python-version: ${{ matrix.python-version }}
 
 
 
