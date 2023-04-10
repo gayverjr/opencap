@@ -25,7 +25,6 @@ jobs:
             activate-environment: true
             python-version: ${{ if eq(matrix.python-version, 'python3.10') }}3.10{{ else }}${{ matrix.python-version }}{{ endif }}
 
-
       - name: Install system dependencies
         run: |
           brew install gcc
