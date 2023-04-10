@@ -32,7 +32,7 @@ jobs:
           sudo apt-get install --yes gcc-11 g++-11 libhdf5-dev libeigen3-dev python3.10-dev python3.10-venv
 
       - name: Configure
-        run: mkdir -p /github/workspace/opencap/opencap/build; cd /github/workspace/opencap/opencap/build; CC=gcc-11 CXX=g++-11 cmake -S../ -B.
+        run: mkdir -p $GITHUB_WORKSPACE/opencap/opencap/build; cd $GITHUB_WORKSPACE/opencap/opencap/build; CC=gcc-11 CXX=g++-11 cmake -S../ -B.
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -41,7 +41,7 @@ jobs:
           queries: +security-and-quality
 
       - name: Build cpp
-        run: cd /github/workspace/opencap/opencap/build; make -j2
+        run: cd $GITHUB_WORKSPACE/opencap/opencap/build; make -j2
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
