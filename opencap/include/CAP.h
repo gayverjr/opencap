@@ -48,9 +48,21 @@ public:
 	/** %CAP matrix in AO basis
 	 */
 	Eigen::MatrixXd AO_CAP_MAT;
+	/** %CAPG matrix in AO basis
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> AO_CAPG_MAT;
+	/** %CAP derivative matrix in AO basis
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> AO_CAP_DER_MAT;
 	/** %CAP matrix in correlated many electron basis
 	 */
 	Eigen::MatrixXd CAP_MAT;
+	/** %CAPG matrix in correlated many electron basis
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> CAPG_MAT;
+	/** %CAP derivative matrix in correlated many electron basis
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> CAP_DER_MAT;
 	/** Rotation matrix, required for XMS-CASPT2 variants, otherwise set to I
 	*/
 	Eigen::MatrixXd rotation_matrix;
@@ -94,9 +106,21 @@ public:
     /** Computes %CAP in AO basis 
      */
     void integrate_cap();
+	/** Computes %CAPG in AO basis 
+     */
+    void integrate_capG();
+	/** Computes %CAP derivative in AO basis 
+     */
+    void integrate_cap_der();
 	/** Computes %CAP in state basis
 	 */
 	void compute_projected_cap();
+	/** Computes %CAPG in state basis
+	 */
+	void compute_projected_capG();
+	/** Computes %CAP derivative in state basis
+	 */
+	void compute_projected_cap_der();
 	/** Checks that electronic structure method and package is supported, and that necessary keywords are present.
 	 */
 	void verify_method(std::map<std::string,std::string> params);
@@ -108,9 +132,20 @@ public:
 	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
 	 */
     Eigen::MatrixXd get_ao_cap(std::string ordering="molden",std::string basis_file="");
+	/** Returns CAPG matrix in AO basis.
+	 * \param ordering: order of GTOs
+	 * \param basis_file: File containing basis set specification. Required for OpenMolcas.
+	 */
+    std::vector<std::map<char, Eigen::MatrixXd>> get_ao_capG(std::string ordering="molden",std::string basis_file="");
 	/** Returns CAP matrix in state basis.
 	 */
 	Eigen::MatrixXd get_projected_cap();
+	/** Returns CAPG matrix in state basis.
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> get_projected_capG();
+	/** Returns CAP derivative matrix in state basis.
+	 */
+	std::vector<std::map<char, Eigen::MatrixXd>> get_projected_cap_der();
 	/** Gets TDM for state row_idx --> col_idx.
 	 * \param row_idx: initial state index
 	 * \param col_idx: final state index
@@ -140,6 +175,10 @@ public:
 	 */
 	void add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,
 			std::string ordering,std::string basis_file="");
+	/** An utility function to create a qchem-software to opencap ordered matrix given an input.
+	 * Intended for Density matrix check.
+	*/
+	Eigen::MatrixXd qcsoftware_to_opencap_ordering(Eigen::MatrixXd mat, std::string ordering, std::string basis_file = "");
 	/** Reads in electronic structure data from file, from python.
 	 * Valid keywords: method,qc_output,h0_file,rassi_h5,
 			fchk_file,molcas_output.

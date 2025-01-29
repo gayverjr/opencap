@@ -128,22 +128,104 @@ void Shell::evaluate_on_grid(double* x, double* y, double* z, int num_points,siz
 	}
 
 }
-
-void Shell::add_primitive(double exp,double coeff)
+void Shell::evaluateG_on_grid(double* x, double* y, double* z, int num_points, size_t lx, size_t ly, size_t lz,
+                             Eigen::Ref<Eigen::VectorXd> vgrad_X, Eigen::Ref<Eigen::VectorXd> vgrad_Y,
+                             Eigen::Ref<Eigen::VectorXd> vgrad_Z, size_t Atom_idx)
 {
-	exps.push_back(exp);
-	coeffs.push_back(coeff);
-	num_prims = exps.size();
+    #pragma omp parallel for
+    for (size_t i = 0; i < num_points; i++)
+    {
+        double r_squared = pow(x[i] - origin[0], 2.0) + pow(y[i] - origin[1], 2.0) + pow(z[i] - origin[2], 2.0);
+        double grad_x = 0.0;
+        double grad_y = 0.0;
+        double grad_z = 0.0;
+
+        for (size_t j = 0; j < num_prims; j++)
+        {
+            if (atom_ids[j] != Atom_idx)
+                continue;
+
+            double nabla_x = 0.0;
+            double nabla_y = 0.0;
+            double nabla_z = 0.0;
+
+            if (lx == 0)
+            {
+                nabla_x = (2.0 * exps[j]) * (x[i] - origin[0]) *
+                          coeffs[j] * pow(x[i] - origin[0], lx) * pow(y[i] - origin[1], ly) *
+                          pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+            else
+            {
+                nabla_x = (-1.0* lx) * coeffs[j] * pow(x[i] - origin[0], lx - 1) * pow(y[i] - origin[1], ly) *
+                          pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]) +
+                          2.0 * exps[j] * (x[i] - origin[0]) * coeffs[j] * pow(x[i] - origin[0], lx) *
+                          pow(y[i] - origin[1], ly) * pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+
+            if (ly == 0)
+            {
+                nabla_y = (2.0 * exps[j]) * (y[i] - origin[1]) *
+                          coeffs[j] * pow(x[i] - origin[0], lx) * pow(y[i] - origin[1], ly) *
+                          pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+            else
+            {
+                nabla_y = (-1.0* ly) * coeffs[j] * pow(x[i] - origin[0], lx) * pow(y[i] - origin[1], ly - 1) *
+                          pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]) +
+                          2.0 * exps[j] * (y[i] - origin[1]) * coeffs[j] * pow(x[i] - origin[0], lx) *
+                          pow(y[i] - origin[1], ly) * pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+
+            if (lz == 0)
+            {
+                nabla_z = (2.0 * exps[j]) * (z[i] - origin[2]) *
+                          coeffs[j] * pow(x[i] - origin[0], lx) * pow(y[i] - origin[1], ly) *
+                          pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+            else
+            {
+                nabla_z = (-1.0 * lz) * coeffs[j] * pow(x[i] - origin[0], lx) * pow(y[i] - origin[1], ly) *
+                          pow(z[i] - origin[2], lz - 1) * pow(euler, -1.0 * r_squared * exps[j]) +
+                          2.0 * exps[j] * (z[i] - origin[2]) * coeffs[j] * pow(x[i] - origin[0], lx) *
+                          pow(y[i] - origin[1], ly) * pow(z[i] - origin[2], lz) * pow(euler, -1.0 * r_squared * exps[j]);
+            }
+	
+            grad_x += nabla_x;
+            grad_y += nabla_y;
+            grad_z += nabla_z;
+        }
+
+        vgrad_X(i) = grad_x;
+        vgrad_Y(i) = grad_y;
+        vgrad_Z(i) = grad_z;
+    }
+}
+
+
+void Shell::add_primitive(double exp, double coeff, size_t atom_id) {
+    exps.push_back(exp);
+    coeffs.push_back(coeff);
+    num_prims = exps.size();
+	atom_ids.push_back(atom_id);
+    //std::cout << "Atom id: " << atom_id << std::endl;
+}
+
+
+void Shell::grad_atoms(std::vector<size_t> unique_atoms){
+
+	for( int idx: atom_ids){
+		if (std::find(atom_ids.begin(), atom_ids.end(), idx) != atom_ids.end()) {
+    	grad_atom.push_back(idx);
+		}
+	}
+	unique_atoms = grad_atom;
 }
 
 bool Shell::operator==(const Shell& other)
 {
 	return l == other.l && exps == other.exps && coeffs==other.coeffs && origin==other.origin;
 }
-
-
-
-
 
 
 

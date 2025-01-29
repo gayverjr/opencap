@@ -104,7 +104,8 @@ std::vector<Atom> read_geometry_from_molden(std::string filename)
 	return atoms;
 }
 
-Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<double,3> cur_coords)
+Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<double,3> cur_coords, size_t atom_id)
+// SBK added "atom_id" here for opencapMD
 {
     std::istringstream iss(line);
     std::string rest;
@@ -122,7 +123,7 @@ Shell read_shell_from_molden(std::string line,std::ifstream &is,std::array<doubl
 	    std::istringstream iss_prim(line);
 		double exp,coeff;
 		iss_prim >> exp >> coeff;
-		my_shell.add_primitive(exp,coeff);
+		my_shell.add_primitive(exp,coeff,atom_id); //SBK added extra args: "atom_id" here for opencapMD.
     }
     return my_shell;
 }
@@ -166,7 +167,9 @@ BasisSet read_basis_from_molden(std::string filename,std::vector<Atom> atoms)
 			//case 2: shell and number of primitives
 			else if(split(line,' ').size()>0 && is_letter(split(line,' ')[0]))
 			{
-				Shell my_shell = read_shell_from_molden(line,is,atoms[atm_idx].coords);
+				Shell my_shell = read_shell_from_molden(line,is,atoms[atm_idx].coords, atm_idx+1);
+													// SBK added extra args: "atom_id" here for opencapMD.
+													// `atm_idx+1` cause atom number is read from 1 in Shell.cpp.
 				//now lets check for pure/cartesian flags
 				if(my_shell.l==2 && !harmonic_d)
 					my_shell.pure=false;

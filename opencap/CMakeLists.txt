@@ -11,7 +11,7 @@ include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 file(GLOB BIND_SOURCES "bindings/*.cpp")
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIRS})
@@ -36,7 +36,7 @@ endif()
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release-1.10.0
+  GIT_TAG        release-1.11.0  # Update to the desired version
 )
 if(NOT googletest_POPULATED)
   FetchContent_Populate(googletest)

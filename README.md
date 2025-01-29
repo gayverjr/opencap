@@ -5,15 +5,15 @@
 # OpenCAP: An open-source program for studying resonances in molecules.                                                               
 | **Documentation** | [![][docs-img]][docs-url] [![][rtd-img]][rtd-url] |
 | :------ | :------- |
-| **Build Status**  | [![][gh-actions-img]][gh-actions-url] [![][cov-img]][cov-url] [![][codeql-img]][codeql-url] |
+| **Build Status**  | [![][gh-actions-img]][gh-actions-url] [![][cov-img]][cov-url] [![][lgtm-img]][lgtm-url] |
 | **Releases** | [![][pypi-img]][pypi-url] [![][ghrel-img]][ghrel-url] |
 
 [docs-img]: https://img.shields.io/badge/doc-latest-blue.svg
 [docs-url]: https://gayverjr.github.io/opencap/
 [gh-actions-img]: https://github.com/gayverjr/opencap/workflows/ubuntu/badge.svg
 [gh-actions-url]: https://github.com/gayverjr/opencap/actions
-[codeql-img]: https://github.com/gayverjr/opencap/actions/workflows/codeql.yml/badge.svg
-[codeql-url]: https://github.com/gayverjr/opencap/actions
+[lgtm-img]: https://img.shields.io/lgtm/grade/cpp/g/gayverjr/opencap.svg?logo=lgtm&logoWidth=18
+[lgtm-url]: https://lgtm.com/projects/g/gayverjr/opencap/context:cpp
 [rtd-img]: https://readthedocs.org/projects/gayverjropencap/badge/?version=latest
 [rtd-url]: https://gayverjropencap.readthedocs.io/en/latest/?badge=latest
 [cov-img]: https://codecov.io/gh/gayverjr/opencap/branch/main/graph/badge.svg?token=V9quaajaZ1

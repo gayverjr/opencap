@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: pyopencap
+Version: 1.2.6
+Summary: An open source package for metastable electronic states in molecules.
+Author: James Gayvert
+Author-email: jrg444@gmail.com
+Project-URL: Source code, https://github.com/gayverjr/opencap
+Project-URL: Documentation, https://gayverjropencap.readthedocs.io/en/latest/
+License-File: LICENSE
+
+PyOpenCAP is an open-source package aimed at extending the capabilities of electronic structure packages to 
+describe metastable electronic states. 
+
+Currently supported electronic structure packages are:
+
+- Q-Chem
+- OpenMolcas
+- PySCF
+- Psi4
+- Columbus
+
+Currently available features:
+
+- Box and Voronoi CAPs
+- Trajectory analysis tools
+
+All PyOpenCAP wheels distributed on PyPi are MIT licensed.

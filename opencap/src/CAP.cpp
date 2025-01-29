@@ -133,6 +133,8 @@ void CAP::read_in_zero_order_H()
 	{
 		if(compare_strings(method,"ms-caspt2") || compare_strings(method,"xms-caspt2"))
 			ZERO_ORDER_H = read_mscaspt2_heff(nstates,parameters["molcas_output"],rotation_matrix);
+		else if(compare_strings(method,"sa-casscf"))
+			ZERO_ORDER_H = read_sacasscf_h(nstates,parameters["molcas_output"],rotation_matrix);
 		else if(compare_strings(method,"sc-nevpt2") || compare_strings(method,"pc-nevpt2"))
 			ZERO_ORDER_H = read_nevpt2_heff(nstates,parameters["molcas_output"],method);
 		else
@@ -228,6 +230,70 @@ void CAP::compute_projected_cap()
 	CAP_MAT = CAP_matrix;
 }
 
+void CAP::compute_projected_capG()
+{
+    if (AO_CAPG_MAT.empty()) {
+        integrate_capG();
+    }
+    verify_data();
+    for (std::map<char, Eigen::MatrixXd>& matX : AO_CAPG_MAT) {
+        std::map<char, Eigen::MatrixXd> CAPG_matrix;
+        CAPG_matrix['x'] = Eigen::MatrixXd::Zero(nstates, nstates);
+        CAPG_matrix['y'] = Eigen::MatrixXd::Zero(nstates, nstates);
+        CAPG_matrix['z'] = Eigen::MatrixXd::Zero(nstates, nstates);
+
+        for (char axis : {'x', 'y', 'z'}) {
+            for (size_t row_idx = 0; row_idx < CAPG_matrix[axis].rows(); row_idx++) 
+			{
+                for (size_t col_idx = 0; col_idx < CAPG_matrix[axis].cols(); col_idx++) 
+				{
+                    Eigen::MatrixXd alpha_mat_prod = alpha_dms[row_idx][col_idx] * matX[axis];
+                    Eigen::MatrixXd beta_mat_prod = beta_dms[row_idx][col_idx] * matX[axis];
+                    CAPG_matrix[axis](row_idx, col_idx) = alpha_mat_prod.trace() + beta_mat_prod.trace();
+                    CAPG_matrix[axis](row_idx, col_idx) = -1.0 * CAPG_matrix[axis](row_idx, col_idx);
+                }
+            }
+            if (rotation_matrix.cols() != 0) {
+                std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
+                CAPG_matrix[axis] = rotation_matrix.transpose() * CAPG_matrix[axis] * rotation_matrix;
+            }
+        }
+        CAPG_MAT.push_back(CAPG_matrix);
+    }
+}
+
+void CAP::compute_projected_cap_der()
+{
+	if (AO_CAP_DER_MAT.empty()) {
+        integrate_cap_der();
+    }
+    verify_data();
+    for (std::map<char, Eigen::MatrixXd>& matX : AO_CAP_DER_MAT) {
+        std::map<char, Eigen::MatrixXd> CAP_der_matrix;
+        CAP_der_matrix['x'] = Eigen::MatrixXd::Zero(nstates, nstates);
+        CAP_der_matrix['y'] = Eigen::MatrixXd::Zero(nstates, nstates);
+        CAP_der_matrix['z'] = Eigen::MatrixXd::Zero(nstates, nstates);
+
+        for (char axis : {'x', 'y', 'z'}) {
+            for (size_t row_idx = 0; row_idx < CAP_der_matrix[axis].rows(); row_idx++) 
+			{
+                for (size_t col_idx = 0; col_idx < CAP_der_matrix[axis].cols(); col_idx++) 
+				{
+                    Eigen::MatrixXd alpha_mat_prod = alpha_dms[row_idx][col_idx] * matX[axis];
+                    Eigen::MatrixXd beta_mat_prod = beta_dms[row_idx][col_idx] * matX[axis];
+                    CAP_der_matrix[axis](row_idx, col_idx) = alpha_mat_prod.trace() + beta_mat_prod.trace();
+                    CAP_der_matrix[axis](row_idx, col_idx) = -1.0 * CAP_der_matrix[axis](row_idx, col_idx);
+                }
+            }
+            if (rotation_matrix.cols() != 0) {
+                std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
+                CAP_der_matrix[axis] = rotation_matrix.transpose() * CAP_der_matrix[axis] * rotation_matrix;
+            }
+        }
+        CAP_DER_MAT.push_back(CAP_der_matrix);
+    }
+}
+
 void CAP::integrate_cap()
 {
     Eigen::MatrixXd cap_mat(system.bs.num_carts(),system.bs.num_carts());
@@ -244,6 +310,63 @@ void CAP::integrate_cap()
     Eigen::MatrixXd cap_spherical(system.bs.Nbasis,system.bs.Nbasis);
     cart2spherical(cap_mat,cap_spherical,system.bs);
     AO_CAP_MAT = cap_spherical;
+}
+
+void CAP::integrate_capG()
+{
+    std::vector<std::map<char, Eigen::MatrixXd>> capG_mat_MD;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    cap_integrator.computeG_ao_cap_mat(capG_mat_MD, system.bs);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto total_time = std::chrono::duration<double>(stop - start).count();
+    if (python)
+        py::print("Integration time:" + std::to_string(total_time));
+    else
+        std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+
+    for (const std::map<char, Eigen::MatrixXd>& matX : capG_mat_MD) {
+        std::map<char, Eigen::MatrixXd> capG_spherical;
+        capG_spherical['x'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+        capG_spherical['y'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+        capG_spherical['z'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+
+        for (char axis : {'x', 'y', 'z'}) {
+            Eigen::MatrixXd matX_copy = matX.at(axis).eval();  // Make a copy of the matrix.
+            uniform_cart_norm(matX_copy, system.bs);
+            cart2spherical(matX_copy, capG_spherical[axis], system.bs);
+        }
+
+        AO_CAPG_MAT.push_back(capG_spherical);
+    }
+}
+
+void CAP::integrate_cap_der()
+{
+	std::vector<std::map<char, Eigen::MatrixXd>> cap_der_mat_MD;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    cap_integrator.compute_ao_cap_der_mat(cap_der_mat_MD, system.bs);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto total_time = std::chrono::duration<double>(stop - start).count();
+    if (python)
+        py::print("Integration time:" + std::to_string(total_time));
+    else
+        std::cout << "Integration time:" << std::to_string(total_time) << std::endl;
+
+    for (const std::map<char, Eigen::MatrixXd>& matX : cap_der_mat_MD) {
+        std::map<char, Eigen::MatrixXd> cap_der_spherical;
+        cap_der_spherical['x'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+        cap_der_spherical['y'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+        cap_der_spherical['z'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+
+        for (char axis : {'x', 'y', 'z'}) {
+            Eigen::MatrixXd matX_copy = matX.at(axis).eval();  // Make a copy of the matrix.
+            uniform_cart_norm(matX_copy, system.bs);
+            cart2spherical(matX_copy, cap_der_spherical[axis], system.bs);
+        }
+        AO_CAP_DER_MAT.push_back(cap_der_spherical);
+    }
 }
 
 void CAP::compute_cap_on_grid(py::array_t<double>& x, py::array_t<double>& y, py::array_t<double>& z, py::array_t<double>& grid_w)
@@ -370,7 +493,7 @@ void CAP::verify_method(std::map<std::string,std::string> params)
 	}
 	else if(compare_strings(package_name,"openmolcas"))
 	{
-		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2"};
+		std::vector<std::string> supported = {"ms-caspt2","xms-caspt2","pc-nevpt2","sc-nevpt2", "sa-casscf"};
 		if (std::find(supported.begin(), supported.end(), method) == supported.end())
 		{
 			std::string message = "Error: unsupported OpenMolcas method. OpenCAP currently supports: ";
@@ -431,6 +554,7 @@ void CAP::verify_data()
 Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
 {
     if (AO_CAP_MAT.cols()==0)
+		//std::cout << "LOOK HERE"<< AO_CAP_MAT << std::endl;
         integrate_cap();
     if(ordering!="")
     {
@@ -461,12 +585,60 @@ Eigen::MatrixXd CAP::get_ao_cap(std::string ordering,std::string basis_file)
     return AO_CAP_MAT;
     
 }
-
+std::vector<std::map<char, Eigen::MatrixXd>> CAP::get_ao_capG(std::string ordering,std::string basis_file)
+{
+    if (AO_CAPG_MAT.empty()){
+       	integrate_capG();
+	}
+	size_t matX_idx=0;
+	//std::map<char, Eigen::MatrixXd> reordered_cap;
+	if(ordering!="") {
+		for (std::map<char, Eigen::MatrixXd>& reordered_cap : AO_CAPG_MAT){
+			for (char axis : {'x', 'y', 'z'}){
+        		//reordered_cap[axis] = matX[axis];
+        		std::vector<bf_id> ids;
+        		if(compare_strings(ordering,"pyscf"))
+        			ids = get_pyscf_ids(system.bs);
+        		else if(compare_strings(ordering,"openmolcas"))
+        		{
+            		if(basis_file=="")
+            		opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+                          	"specified with the basis_file optional argument.");
+            		ids = get_molcas_ids(system.bs,basis_file);
+        		}
+        		else if(compare_strings(ordering,"qchem"))
+            		ids = get_qchem_ids(system.bs);
+        		else if(compare_strings(ordering,"psi4"))
+            		ids = get_psi4_ids(system.bs);
+        		else if(compare_strings(ordering,"bagel"))
+            		ids = get_bagel_ids(system.bs);
+        		else if(compare_strings(ordering,"molden"))
+            		ids = system.bs.bf_ids;
+        		else
+            		opencap_throw("Error: " + ordering +" is unsupported.");
+        		reorder_matrix(reordered_cap[axis],system.bs.bf_ids,ids);
+			}
+			AO_CAPG_MAT[matX_idx] = reordered_cap;
+			matX_idx +=1;
+    	}
+		return AO_CAPG_MAT;
+	}
+	
+    return AO_CAPG_MAT;
+    
+}
 Eigen::MatrixXd CAP::get_projected_cap()
 {
 	return CAP_MAT;
 }
-
+std::vector<std::map<char, Eigen::MatrixXd>> CAP::get_projected_capG()
+{
+	return CAPG_MAT;
+}
+std::vector<std::map<char, Eigen::MatrixXd>> CAP::get_projected_cap_der()
+{
+	return CAP_DER_MAT;
+}
 Eigen::MatrixXd CAP::get_density(size_t row_idx, size_t col_idx, bool beta)
 {
 	if(alpha_dms.size()!=nstates)
@@ -527,6 +699,58 @@ void CAP::add_tdms(Eigen::MatrixXd &alpha_density,
 	alpha_dms [row_idx][col_idx] = alpha_dm;
 	beta_dms [row_idx][col_idx] = beta_dm;
 }
+
+Eigen::MatrixXd CAP::qcsoftware_to_opencap_ordering(Eigen::MatrixXd mat_in, std::string ordering, std::string basis_file)
+{
+    std::cout << "Returns " << ordering << " to OpenCAP ordering for a matrix.\n" << std::endl;
+    std::vector<bf_id> input_ids;
+
+    std::vector<std::tuple<int, int>> swap_indices;
+
+    if (compare_strings(ordering, "pyscf"))
+        input_ids = get_pyscf_ids(system.bs);
+    else if (compare_strings(ordering, "openmolcas"))
+    {
+        if (basis_file == "")
+            opencap_throw("Error: OpenMolcas ordering requires a valid HDF5 file "
+                          "specified with the basis_file optional argument.");
+        input_ids = get_molcas_ids(system.bs, basis_file);
+    }
+    else if (compare_strings(ordering, "qchem"))
+        input_ids = get_qchem_ids(system.bs);
+    else if (compare_strings(ordering, "psi4"))
+        input_ids = get_psi4_ids(system.bs);
+    else if (compare_strings(ordering, "molden"))
+        input_ids = system.bs.bf_ids;
+    else if (compare_strings(ordering, "bagel"))
+        input_ids = get_bagel_ids(system.bs);
+    else
+        opencap_throw("Error: " + ordering + " is unsupported.");
+
+    for (size_t i = 0; i < input_ids.size(); i++)
+    {
+        for (size_t j = 0; j < system.bs.bf_ids.size(); j++)
+        {
+            if (input_ids[i] == system.bs.bf_ids[j])
+            {
+                swap_indices.push_back(std::make_tuple(i, j));
+            }
+        }
+    }
+
+    Eigen::MatrixXd per_mat(system.bs.Nbasis, system.bs.Nbasis);
+    per_mat = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
+
+    for (auto t : swap_indices)
+        per_mat(std::get<0>(t), std::get<1>(t)) = 1;
+
+    // permute indices: P^T * A * P
+    Eigen::MatrixXd mat_out(system.bs.Nbasis, system.bs.Nbasis);
+    mat_out = per_mat.transpose() * mat_in * per_mat;
+
+    return mat_out;
+}
+
 
 void CAP::add_tdm(Eigen::MatrixXd tdm,size_t row_idx, size_t col_idx,std::string ordering,
 		std::string basis_file)

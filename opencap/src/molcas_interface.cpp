@@ -271,6 +271,50 @@ Eigen::MatrixXd read_rotation_matrix(size_t nstates, std::ifstream &is)
 	return rotation_matrix;
 }
 
+Eigen::MatrixXd read_sacasscf_h(size_t nstates, std::string filename, Eigen::MatrixXd &rotation_matrix) {
+    Eigen::MatrixXd ZERO_ORDER_H(nstates, nstates);
+    ZERO_ORDER_H = Eigen::MatrixXd::Zero(nstates, nstates);
+    std::vector<double> energies;
+
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error opening the file: " << filename << std::endl;
+        return ZERO_ORDER_H;
+    }
+
+    std::string line;
+    std::string searchStr = "HAMILTONIAN MATRIX FOR THE ORIGINAL STATES:";
+    bool foundEnergies = false;
+    size_t energiesRead = 0;
+    while (std::getline(file, line) && energiesRead < nstates) {
+        if (foundEnergies) {
+            std::istringstream iss(line);
+            double energy;
+            while (iss >> energy) {
+                energies.push_back(energy);
+                energiesRead++;
+                if (energiesRead >= nstates) {
+                    break;
+                }
+            }
+        } else if (line.find(searchStr) != std::string::npos) {
+            // Skip the next two lines
+            std::getline(file, line); // Skip "Diagonal, with energies" line
+            std::getline(file, line); // Skip the empty line after the header
+            foundEnergies = true;
+        }
+    }
+
+    file.close();
+    for (size_t i = 0; i < nstates; i++)
+        ZERO_ORDER_H(i, i) = energies[i];
+
+    // Use the provided rotation_matrix
+
+    return ZERO_ORDER_H;
+}
+
+
 Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename, Eigen::MatrixXd &rotation_matrix)
 {
 	Eigen::MatrixXd ZERO_ORDER_H(nstates,nstates);
@@ -456,7 +500,7 @@ BasisSet read_basis_from_rassi(std::string filename,std::vector<Atom> atoms)
 		shell_id id(ctr,shell_num,l);
 		int bs_idx = bs.get_index_of_shell_id(id);
 		if (coeff!=0)
-			bs.basis[bs_idx].add_primitive(exp,coeff);
+			bs.basis[bs_idx].add_primitive(exp,coeff,ctr); //SBK added ctr variable which acts as Atom No. (Needed for openCAPMD)
 	}
 	bs.normalize();
 	return bs;

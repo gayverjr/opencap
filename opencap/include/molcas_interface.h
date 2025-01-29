@@ -52,6 +52,13 @@ Eigen::MatrixXd read_rassi_overlap(std::string filename, BasisSet bs);
     \return Eigen matrix containing the effective Hamiltonian matrix. Dimension is MxM, where M is number of states.
 */
 Eigen::MatrixXd read_mscaspt2_heff(size_t nstates, std::string filename, Eigen::MatrixXd &rotation_matrix);
+/*! Read in diagonal Hamiltonian from OpenMolcas output file.
+    \param nstates: number of states
+    \param filename: file location of the OpenMolcas output file.
+    \param rotation_matrix: Eigen matrix of rotation matrix. imension is MxM, where M is number of states.
+    \return Eigen matrix containing the effective Hamiltonian matrix. Dimension is MxM, where M is number of states.
+*/
+Eigen::MatrixXd read_sacasscf_h(size_t nstates, std::string filename, Eigen::MatrixXd &rotation_matrix);
 /*! Reads in basis set from rassi.h5 file.
  *  \param filename: file location of rassi.h5 file
  *  \param atoms: Ordered list of atoms in the system

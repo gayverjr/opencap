@@ -104,3 +104,4 @@ std::vector<double> box_cap::operator()(std::vector<double> &x, std::vector<doub
 	}
     return cap_values;
 }
+

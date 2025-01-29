@@ -472,6 +472,9 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			for (auto token:tokens)
 				atom_ids.push_back(std::stoi(token));
 		}
+		/*for (size_t ct=0;ct<num_elements;ct++){
+		std ::cout << atom_ids[ct] << "\n"<< std::endl;
+		}*/
 		//prims
 		while(line.find("Primitive exponents")== std::string::npos)
 		{
@@ -544,8 +547,8 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			int num_prims = prims_per_shell[i];
 			for(int j=1;j<=num_prims;j++)
 			{
-				s_shell.add_primitive(exps[prim_idx],coeffs[prim_idx]);
-				p_shell.add_primitive(exps[prim_idx],p_coeffs[prim_idx]);
+				s_shell.add_primitive(exps[prim_idx],coeffs[prim_idx],atom_ids[i]);
+				p_shell.add_primitive(exps[prim_idx],p_coeffs[prim_idx],atom_ids[i]);
 				prim_idx++;
 			}
 			bs.add_shell(s_shell);
@@ -559,7 +562,7 @@ BasisSet read_basis_from_fchk(std::string fchk_filename, std::vector<Atom> atoms
 			int num_prims = prims_per_shell[i];
 			for(int j=1;j<=num_prims;j++)
 			{
-				new_shell.add_primitive(exps[prim_idx],coeffs[prim_idx]);
+				new_shell.add_primitive(exps[prim_idx],coeffs[prim_idx],atom_ids[i]); //SBK modified this
 				prim_idx++;
 			}
 			bs.add_shell(new_shell);

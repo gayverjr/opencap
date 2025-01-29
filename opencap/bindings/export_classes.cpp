@@ -50,10 +50,17 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 			std::vector<double> &, std::vector<double> &)>&>(),py::arg("system"),py::arg("cap_dict"),py::arg("nstates"),
 			py::arg("cap_func"),"Constructs CAP object from system, cap dictionary, number of states, and cap function.")
         .def("get_ao_cap",&CAP::get_ao_cap,py::arg("ordering")="molden",py::arg("basis_file") = "","Returns CAP matrix in AO basis. Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
+        .def("get_ao_capG",&CAP::get_ao_capG,py::arg("ordering")="molden",py::arg("basis_file") = "","Returns CAPG matrix in AO basis. Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
     	.def("get_projected_cap",&CAP::get_projected_cap, "Returns CAP matrix in state basis.")
+    	.def("get_projected_capG",&CAP::get_projected_capG, "Returns CAPG matrix in state basis.")
+    	.def("get_projected_cap_der",&CAP::get_projected_cap_der, "Returns CAP functional derivative matrix in state basis.")
     	.def("get_density",&CAP::get_density, py::arg("initial_idx"),py::arg("final_idx"), py::arg("beta")=false, "Returns specified density matrix.")
     	.def("compute_ao_cap",&CAP::compute_ao_cap,py::arg("cap_dict"),py::arg("cap_func")=nullptr, "Computes CAP matrix in AO basis.")
     	.def("compute_projected_cap",&CAP::compute_projected_cap, "Computes CAP matrix in state basis using"
+    			" transition density matrices.")
+    	.def("compute_projected_capG",&CAP::compute_projected_capG, "Computes CAPG matrix in state basis using"
+    			" transition density matrices.")
+		.def("compute_projected_cap_der",&CAP::compute_projected_cap_der, "Computes CAP functional derivative matrix in state basis using"
     			" transition density matrices.")
 		.def("get_H",&CAP::get_H, "Returns zeroth order Hamiltonian read from file.")
 		.def("add_tdm",  &CAP::add_tdm,py::arg("tdm"),
@@ -61,6 +68,8 @@ PYBIND11_MODULE(pyopencap_cpp, m) {
 				py::arg("ordering"),py::arg("basis_file") = "",
 				"Adds spin-traced tdm to CAP object at specified indices. The optional argument basis_file"
 				" is required when using the OpenMolcas interface, and it must point to the path to the rassi.5 file. Supported orderings: pyscf, openmolcas, qchem, psi4, molden.")
+		.def("qcsoftware_to_opencap_ordering",&CAP::qcsoftware_to_opencap_ordering,py::arg("Matrix to convert"), 
+				py::arg("ordering"), py::arg("basis_file") = "", "Returns QC-Software to OpenCAP ordering for a matrix.")
 		.def("add_tdms", &CAP::add_tdms,py::arg("alpha_density"),
 				py::arg("beta_density"),py::arg("initial_idx"),py::arg("final_idx"),
 				py::arg("ordering"),py::arg("basis_file") = "",

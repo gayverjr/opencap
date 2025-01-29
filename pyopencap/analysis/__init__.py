@@ -21,5 +21,5 @@
 
 """Analysis module of package."""
 from .CAPTrajectory import Root,EigenvalueTrajectory,CAPHamiltonian
-from .ColumbusParser import colparser
+from .ColumbusParser import colparser, colparser_mc
 

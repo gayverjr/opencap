@@ -1,4 +1,4 @@
-'''Copyright (c) 2022 James Gayvert, Soubhik Mondal
+'''Copyright (c) 2024 James Gayvert, Soubhik Mondal
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -436,3 +436,296 @@ class colparser():
             self.H0_mat = self._H0_parser(correction_type,filename)
 
         return self.H0_mat
+
+
+
+class colparser_mc():
+    '''
+    A class that parses COLUMBUS electronic structure package generated files
+    to generate state density and transition density matrices for projected-CAP
+    calculation on MCSCF level.
+    '''
+
+    def _set_mo_coeff(self,ordering=None):
+        '''
+        An internal function to generate mo coffiecients in proper ordering.
+
+        Returns
+        -------
+        MO coefficients in proper ordering to that of pyopencap internal structure
+        '''
+
+        if ordering is not None:
+            raise NotImplementedError("Custom ordering NYI.")
+        else:
+            mo_coeff = np.zeros((len(self.mos),len(self.mos)))
+            for i, mo in enumerate(self.mos):
+                mo_coeff[:,i] = mo.coeffs
+            self.mo_coeff = mo_coeff
+
+
+    def _read_molden(self,molden_file):
+        '''
+        An internal function that parses standard molden file.
+
+        Parameters
+        ----------
+        molden_file : str
+            molden MO filename (generated in MOLDEN/ folder in COLUMBUS calculation Directory
+            if 'molden' keyword is invoked in control.run runfile.))
+
+        Returns
+        -------
+        mos : np.ndarray
+            MO coefficients.
+        '''
+
+        _SEC_REGEX = re.compile(r'\[[^]]+\]')
+        irrep_dict = {}
+        with open(molden_file,'r') as f:
+            line = f.readline()
+            while '[MO]' not in line:
+                line = f.readline()
+            cur_mo = None
+            mos = []
+            line = f.readline()
+            new_sec = _SEC_REGEX.match(line)
+            while new_sec is None and len(line.strip())!=0:
+                if 'sym=' in line.lower():
+                    if cur_mo is not None:
+                        mos.append(cur_mo)
+                    cur_mo = MO(line,len(mos)+1)
+                    if cur_mo.irrep in irrep_dict:
+                        irrep_dict[cur_mo.irrep] = irrep_dict[cur_mo.irrep]+1
+                    else:
+                        irrep_dict[cur_mo.irrep] = 1
+                elif 'ene=' in line.lower():
+                    pass
+                elif 'spin' in line.lower():
+                    pass
+                elif 'occup' in line.lower():
+                    pass
+                elif len(line.strip())!=0:
+                    coeff = float(line.split()[1])
+                    cur_mo.add_coeff(coeff)
+                line = f.readline()
+                new_sec = _SEC_REGEX.match(line)
+            mos.append(cur_mo)
+        return mos
+
+
+    def __init__(self, molden_file):
+        '''
+        Initializes the colparser class
+
+        Parameters
+        ----------
+        molden_file: str
+            molden MO filename (generated in MOLDEN/ folder in COLUMBUS calculation Directory)
+
+        '''
+        self.mos = self._read_molden(molden_file)
+        self._set_mo_coeff()
+
+
+    '''
+    The following parser is adapted from TheoDORE
+    '''
+
+    def read_iwfmt(self, dens, filen, fac = 1.):
+        """
+        Read output from iwfmt.x for a 1-particle density file.
+        """
+
+        in_data=False
+        _AO_MAT = False
+        
+        rfile = open(filen, 'r')
+        while True:
+            try:
+                line=next(rfile)
+            except StopIteration:
+                break
+            if ' 0.000000000000E+00' in line:
+                if len(line.split()) == 1:
+                    words = last_line.split()
+                    (num,lab1,ibvtyp,itypea,itypeb,ifmt,last,nipv) = [int(word) for word in words]
+                    if itypea==0 and itypeb==7:
+                        #print(' Reading symmetric density ...')
+                        in_data=True
+                        sym = 1
+                    elif itypea==2 and itypeb==9:
+                        #print(' Reading antisymmetric density ...')
+                        in_data=True
+                        sym = -1
+                    elif itypea==0 and itypeb==0:
+                        in_data = True
+                        _AO_MAT = True
+                    else:
+                        #print('Warning: this section does not contain a density')
+                        #print('itypea: %i, itypeb: %i'%(itypea,itypeb))
+                        #print(last_line)
+                        in_data=False
+            elif '    ' in line:
+                pass
+            elif in_data:
+                words = line.split()
+
+                val = float(words[0])
+                i = int(words[1])-1
+                j = int(words[2])-1
+                
+                if not _AO_MAT:
+                #if 0.2 < abs(val) < 1.9999: print("(i,j)=(%2i,%2i), val=%6.3f"%(i,j,val))
+                    dens[j,i] += fac * val
+
+                    if i != j: dens[i,j] += fac * sym * val
+                elif _AO_MAT:
+                    dens[j,i] = fac * val
+
+            last_line = line
+
+        return
+
+    def tdm_ao(self, iFROM, iTO, data_dir='.', filename=None):
+        '''
+        Returns transition density matrix in atomic orbital basis by parsing a Columbus mcsd1fl.iwfmt file.
+
+        Parameters
+        ----------
+        iFROM, iTO : int
+            Initial state index and final state indices respectively.
+        data_dir: str, optional
+            Directory to search for .iwfmt file. Should not be used in conjunction with `filename` kwarg
+        filename: str, optional
+            Path to file to parse. If not specified, the filename is assumed to be mcsd1fl.drt1.st%2.2i-st%2.2i.iwfmt'%(iFROM, iTO)
+            in the current directory.
+
+        Returns
+        -------
+        tdm: np.ndarray
+            Transition density matrix in AO basis
+        '''
+        if filename is None:
+            fnameIN =os.path.join(data_dir,'mcsd1fl.drt1.st%2.2i-st%2.2i.iwfmt'%(iFROM, iTO))
+        else:
+            fnameIN = filename
+            
+        _tdm_AO = np.zeros(np.shape(self.mo_coeff))
+
+        # read symmetric part
+        self.read_iwfmt(_tdm_AO, fnameIN)
+        # read antisymmetric part
+        self.read_iwfmt(_tdm_AO, fnameIN.replace('mcsd1fl', 'mcad1fl'))
+
+        return self.mo_coeff @ _tdm_AO @ self.mo_coeff.T
+    
+    
+    def sdm_ao(self, i, DRTn=1, data_dir='.', filename=None):
+        '''
+        Returns state density matrix in atomic orbital basis by parsing a Columbus mcsd1fl.iwfmt file.
+
+        Parameters
+        ----------
+        i : int
+            State index
+        DRTn : int, optional
+            DRT index
+        data_dir: str, optional
+            Directory to search for .iwfmt file. Should not be used in conjunction with `filename` kwarg
+        filename: str, optional
+            Path to file to parse. If not specified, the filename is assumed to be mcsd1fl.drt1.st%2.2i.iwfmt'%(i)
+            in the current directory.
+
+        Returns
+        -------
+        sdm: np.ndarray
+            State density matrix in AO basis
+
+        '''
+        if filename is None:
+            fnameIN =os.path.join(data_dir,'mcsd1fl.drt1.st%2.2i.iwfmt'%(i))
+        else:
+            fnameIN = filename
+            
+        _sdm_AO = np.zeros(np.shape(self.mo_coeff))
+        self.read_iwfmt(_sdm_AO, fnameIN)
+        
+        return self.mo_coeff @ _sdm_AO @ self.mo_coeff.T
+    
+    '''
+    def read_mc_tden(self, state1, state2, filen):
+        tdm_AO = np.zeros(np.shape(self.mo_coeff))
+
+        # read symmetric part
+        self.read_iwfmt(tdm_AO, filen, fac=1/numpy.sqrt(2.))
+        # read antisymmetric part
+        self.read_iwfmt(tdm_AO, filen.replace('mcsd1fl', 'mcad1fl'), fac=1/numpy.sqrt(2.))
+        return self.mo_coeff @ tdm_AO @ self.mo_coeff.T
+    
+    def read_mc_sden(self, state, filen):
+
+        sdm_AO = np.zeros(np.shape(self.mo_coeff))
+
+        self.read_iwfmt(sdm_AO, filen)
+        
+        return self.mo_coeff @ sdm_AO @ self.mo_coeff.T
+    '''
+    
+    def get_H0(self, filename='mcscfsm'):
+        '''
+        Parses energies from a Columbus mcscfsm file. 
+
+        Parameters
+        ----------
+        filename: str, optional
+            Path to Columbus ciudgsm file located in WORK directory. If unspecified, assumed to be './ciudgsm'.
+
+        Returns
+        --------
+        H0_mat : np.ndarray
+            Diagonal hamiltonian with MCSCF energies.
+
+        '''
+        with open(filename, 'r') as fmc:
+            fmclines = fmc.readlines()
+        
+        energy_drt = []
+        for idx, line in enumerate(fmclines):
+            if "Individual total energies for all states" in line:
+                for mcline in fmclines[idx+1:]:
+                    if 'DRT' in mcline:
+                        energy_drt.append(float(mcline.split()[9].replace(',', '')))
+                break
+    
+        self.H0_mat = np.diag(energy_drt)
+
+        return self.H0_mat
+    
+    def ao_overlap(self, data_dir='.', filename=None):
+        '''
+        Returns state AO overlap matrix by parsing a Columbus aoints.iwfmt file.
+
+        Parameters
+        ----------
+        data_dir: str, optional
+            Directory to search for .iwfmt file. Should not be used in conjunction with `filename` kwarg
+        filename: str, optional
+            Path to file to parse. If not specified, the filename is assumed to be aoints.iwfmt
+            in the current directory.
+
+        Returns
+        -------
+        sdm: np.ndarray
+            AO overlap matrix
+
+        '''
+        if filename is None:
+            fnameIN =os.path.join(data_dir,'aoints.iwfmt')
+        else:
+            fnameIN = filename
+            
+        ovlp_AO = np.zeros(np.shape(self.mo_coeff))
+        self.read_iwfmt(ovlp_AO, fnameIN)
+        
+        return ovlp_AO

@@ -40,12 +40,12 @@ Eigen::MatrixXd qchem_read_overlap(std::string dmat_filename, BasisSet bs);
     \return Eigen matrix containing the diagonal H0 matrix. Dimension is MxM, where M is number of states.
 */
 Eigen::MatrixXd read_qchem_eom_energies(size_t nstates,std::string output_file);
-/* Reads geometry from Q-Chem fchk file.
+/*! Reads geometry from Q-Chem fchk file.
   \param fchk_filename: qchem .fchk file location
   \return atoms: List of atoms in system
  */
 std::vector<Atom> read_geometry_from_fchk(std::string fchk_filename);
-/* Reads basis set from Q-Chem fchk file.
+/*! Reads basis set from Q-Chem fchk file.
      \param fchk_filename: qchem .fchk file location
      \return bs: BasisSet of system
  */

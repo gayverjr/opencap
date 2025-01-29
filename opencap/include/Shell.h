@@ -62,6 +62,12 @@ public:
 	/** Expansion coefficients for contraction
 	 */
 	std::vector<double> coeffs;
+	/** Atom ids pertinent to each primitive exps/coeffs
+	 */
+	std::vector<size_t> atom_ids;
+	/** Number of atoms present
+	*/
+	std::vector<size_t> grad_atom;
 	/** Number of primitive gaussians in the %Shell
 	 */
 	size_t num_prims;
@@ -91,6 +97,12 @@ public:
     /** Evaluate basis function (with a given lx ly lz) on grid
      */
 	void evaluate_on_grid(double* x, double* y, double* z, int num_points,size_t lx,size_t ly, size_t lz,Eigen::Ref<Eigen::VectorXd> v);
+	/** Evaluate gradient of basis function with respect to Nuclear poistions (X0, Y0, Z0) (with a given lx ly lz) on grid
+	 * Needs ``Atom_idx`` varaible for atom specific contribution.
+     */
+	void evaluateG_on_grid(double* x, double* y, double* z, \
+	int num_points,size_t lx,size_t ly, size_t lz, \
+	Eigen::Ref<Eigen::VectorXd> vgrad_X, Eigen::Ref<Eigen::VectorXd> vgrad_Y, Eigen::Ref<Eigen::VectorXd> vgrad_Z, size_t Atom_idx);
 	/** Returns smallest exponent in %Shell
 	 */
 	std::vector<double> alpha_min();
@@ -100,14 +112,16 @@ public:
 	/** Checks if two shells are equivalent (same exps,coeffs,center)
 	 */
     bool operator==(const Shell& other);
-    void add_primitive(double exp,double coeff);
+    void add_primitive(double exp,double coeff, size_t atom_id = -1);
 	/** Normalizes contraction coefficients so that self overlap = 1
 	 */
 	void normalize();
 	/** Returns number of basis functions
 	 */
 	size_t num_bf();
-
+	/**No of atoms we want to evaluate gradeint for basis function
+	*/
+	void grad_atoms(std::vector<size_t> unique_atoms);
 private:
 
 
