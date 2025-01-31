@@ -1,0 +1,34 @@
+ total ao core energy =   23.682937015
+ MCSCF calculation performed for  1 DRT.
+
+ DRT  first state   no.of aver. states   weights
+  1   ground state          1             1.000
+
+ DRT file header:
+  title                                                                          
+ Molecular symmetry group:    ag 
+ Total number of electrons:    14
+ Spin multiplicity:            1
+ Number of active orbitals:   13
+ Number of active electrons:   4
+ Total number of CSFs:       568
+
+ Number of active-double rotations:         2
+ Number of active-active rotations:         0
+ Number of double-virtual rotations:      105
+ Number of active-virtual rotations:      137
+ 
+ iter     emc (average)    demc       wnorm      knorm      apxde  qcoupl
+    1   -109.0741804663  1.091E+02  1.638E-01  1.402E-01  4.358E-03  F   *not conv.*     
+
+ final mcscf convergence values:
+    1   -109.0741804663  1.091E+02  1.638E-01  1.402E-01  4.358E-03  F   *not conv.*     
+
+
+
+
+   ---------Individual total energies for all states:----------
+   DRT #1 state # 1 wt 1.000 total energy=     -109.074180466, rel. (eV)=   0.000000
+   ------------------------------------------------------------
+
+

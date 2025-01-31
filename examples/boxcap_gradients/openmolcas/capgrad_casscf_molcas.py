@@ -1,4 +1,32 @@
 #!/usr/bin/env python
+'''Copyright (c) 2024 Soubhik Mondal
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'''
+
+
+''' 
+Evaluating cuboid CAP gradients with pre-computed energies and 1-TDMs!
+
+SA-CASSCF on iodoethene anion (with ghost atom in COM) with cc-pvdz+3s3p basis set.
+'''
+
 
 import os, sys
 import scipy.linalg as LA
@@ -16,8 +44,7 @@ except ImportError:
 
 
 # Define some variables
-EV_TO_HARTREE = 1/27.211386245988
-allroots=23 #Total roots in state-averaging
+allroots = 23 #Total roots in state-averaging
 fname="./ref_outputs/iodoethene/MOLCAS"
 eta_opt = 2128.0E-5 # Fixed eta value
 track_root = 10 # 10th root (starting 1) is the resonance
@@ -128,7 +155,7 @@ for i, state1 in enumerate([track_root]):
                                     grad_store[_atom]['z'][state1].real] for _atom in range(natom)])
 
 
-float_format = lambda x: "{: 14.8f}".format(x)
+float_format = lambda x: "{: 16.12f}".format(x)
 for state_index, state_gradients in enumerate(QMout['grad_diag_res'], start=1):
     print(f"State: {state_index}")
     headers = ['Atom no', 'X', 'Y', 'Z']

@@ -1,0 +1,47 @@
+ total ao core energy =   23.682937015
+ MCSCF calculation performed for  1 DRT.
+
+ DRT  first state   no.of aver. states   weights
+  1   ground state          9             0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.111
+0.111
+
+ DRT file header:
+  title                                                                          
+ Molecular symmetry group:    b2g
+ Total number of electrons:    15
+ Spin multiplicity:            2
+ Number of active orbitals:   13
+ Number of active electrons:   5
+ Total number of CSFs:      2560
+
+ Number of active-double rotations:         2
+ Number of active-active rotations:         0
+ Number of double-virtual rotations:      105
+ Number of active-virtual rotations:      137
+ 
+ iter     emc (average)    demc       wnorm      knorm      apxde  qcoupl
+    1   -108.6222112043  1.086E+02  1.820E-02  8.775E-03  2.722E-05  F   *not conv.*     
+    2   -108.6222387624  2.756E-05  1.999E-04  4.860E-03  4.824E-08  F   *not conv.*     
+    3   -108.6222388172  5.476E-08  4.026E-05  1.180E-03  2.747E-09  F   *not conv.*     
+    4   -108.6222388216  4.431E-09  1.595E-05  6.377E-04  1.113E-09  F   *not conv.*     
+    5   -108.6222388235  1.875E-09  8.775E-06  1.144E-03  1.710E-09  T   *not conv.*     
+
+ final mcscf convergence values:
+    6   -108.6222388252  1.720E-09  7.998E-07  4.936E-06  1.640E-13  T   *converged*     
+
+
+
+
+   ---------Individual total energies for all states:----------
+   DRT #1 state # 1 wt 0.111 total energy=     -109.023660198, rel. (eV)=   0.000000
+   DRT #1 state # 2 wt 0.111 total energy=     -108.949485064, rel. (eV)=   2.018409
+   DRT #1 state # 3 wt 0.111 total energy=     -108.880332971, rel. (eV)=   3.900134
+   DRT #1 state # 4 wt 0.111 total energy=     -108.762902673, rel. (eV)=   7.095576
+   DRT #1 state # 5 wt 0.111 total energy=     -108.531235738, rel. (eV)=  13.399557
+   DRT #1 state # 6 wt 0.111 total energy=     -108.382610995, rel. (eV)=  17.443844
+   DRT #1 state # 7 wt 0.111 total energy=     -108.381367926, rel. (eV)=  17.477669
+   DRT #1 state # 8 wt 0.111 total energy=     -108.376756176, rel. (eV)=  17.603162
+   DRT #1 state # 9 wt 0.111 total energy=     -108.311797685, rel. (eV)=  19.370773
+   ------------------------------------------------------------
+
+
