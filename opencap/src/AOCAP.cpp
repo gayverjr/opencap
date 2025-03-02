@@ -22,7 +22,7 @@ SOFTWARE.
 /*
  * AOCAP.cpp
  */
-
+#include "atom_mass.h"
 #include "AOCAP.h"
 #include "grid_radial.h"
 #include "bragg.h"
@@ -296,8 +296,10 @@ void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der
 	*/
 
 	std::ostringstream oss;
-	oss << "Calculating CAP functional derivative matrix in AO basis using " 
-		<< std::to_string(omp_get_max_threads()) << " threads.\n";
+	std::string element_symbol = (atoms[atom_idx].Z == 0) ? "X" : get_atom_symbol(atoms[atom_idx].Z);
+
+	oss << "Calculating CAP functional derivative matrix (AO) for "+element_symbol+" using " 
+		<< std::to_string(omp_get_max_threads()) << " threads.";
 
 	std::string message = oss.str();
 
@@ -385,7 +387,34 @@ void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der
                            grid_w);
         int num_radial_points = numgrid_get_num_radial_grid_points(context);
 		//std::cout << "Number of radial points: " << num_radial_points << std::endl;
-		compute_cap_der_on_grid(cap_der_mat,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
+		
+		
+		double mass_com_rel = 0.0;
+		double mass_atom;
+		if (atoms[atom_idx].Z== 0)
+		{
+			mass_atom = 0.0;
+		}else
+		{
+			std::string element_symbol = get_atom_symbol(nuc_charges[atom_idx]);
+			mass_atom = MASSES.at(element_symbol);
+		}
+
+		for(size_t iatom=0;iatom<num_atoms;iatom++)
+		{
+			if (atoms[iatom].Z == 0)
+			{
+				mass_com_rel += 0.0;
+			} else
+			{
+				std::string element_symbol = get_atom_symbol(nuc_charges[iatom]);
+				mass_com_rel += MASSES.at(element_symbol);	
+			}
+
+		}
+		mass_com_rel = mass_atom/mass_com_rel;
+
+		compute_cap_der_on_grid(cap_der_mat,bs,mass_com_rel,grid_x_bohr,grid_y_bohr,grid_z_bohr,grid_w,num_points);
 		delete [] grid_x_bohr;
 		delete [] grid_y_bohr;
 		delete [] grid_z_bohr;
@@ -394,7 +423,7 @@ void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der
 	//}
 }
 void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat,
-					BasisSet bs,double* x, double* y, double* z, double *grid_w, int num_points)
+					BasisSet bs,double mass_com_rel, double* x, double* y, double* z, double *grid_w, int num_points)
 {
 	Eigen::VectorXd cap_vals; Eigen::MatrixXd bf_values;
 	bf_values = Eigen::MatrixXd::Zero(num_points,bs.num_carts());
@@ -415,14 +444,15 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
 	std::vector<double> x_derivative(num_points);
 	std::vector<double> y_derivative(num_points);
 	std::vector<double> z_derivative(num_points);
+	
 
     for (size_t i = 0; i < num_points; i++) {
     	double result = 0.0;
         if (abs(x_vec[i]) > cap_x){
-        	if (x_vec[i] > 0.0){
-        		result =  2.0 * (abs(x_vec[i]) - cap_x) * w_vec[i];
+        	if (x_vec[i] > cap_x){
+        		result =  -2.0 * (x_vec[i] - cap_x) * w_vec[i] * mass_com_rel;
         	}else{
-        		result = -2.0 * (abs(x_vec[i]) - cap_x) * w_vec[i];
+        		result =  -2.0 * (x_vec[i] + cap_x) * w_vec[i] * mass_com_rel;
         	}
             x_derivative[i] = result;
         }
@@ -434,10 +464,10 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
     for (size_t i = 0; i < num_points; i++) {
     	double result = 0.0;
         if (abs(y_vec[i]) > cap_y){
-        	if (y_vec[i] > 0.0){
-        		result =  2.0 * (abs(y_vec[i]) - cap_y) * w_vec[i];
+        	if (y_vec[i] > cap_y){
+        		result =  -2.0 * (y_vec[i] - cap_y) * w_vec[i] * mass_com_rel;
         	}else{
-        		result = -2.0 * (abs(y_vec[i]) - cap_y) * w_vec[i];
+        		result =  -2.0 * (y_vec[i] + cap_y) * w_vec[i] * mass_com_rel;
         	}
             y_derivative[i] = result;
         }
@@ -449,10 +479,10 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
     for (size_t i = 0; i < num_points; i++) {
     	double result = 0.0;
         if (abs(z_vec[i]) > cap_z){
-        	if (z_vec[i] > 0.0){
-        		result =  2.0 * (abs(z_vec[i]) - cap_z) * w_vec[i];
+        	if (z_vec[i] > cap_z){
+        		result =  -2.0 * (z_vec[i] - cap_z) * w_vec[i] * mass_com_rel;
         	}else{
-        		result = -2.0 * (abs(z_vec[i]) - cap_z) * w_vec[i];
+        		result =  -2.0 * (z_vec[i] + cap_z) * w_vec[i] * mass_com_rel;
         	}
             z_derivative[i] = result;
         }
@@ -547,7 +577,6 @@ void AOCAP::integrate_cap_der_total_numerical(std::vector<std:: map<char, Eigen:
 	cap_der_mat['x'] = Eigen::MatrixXd::Zero(bs.num_carts(), bs.num_carts());
 	cap_der_mat['y'] = Eigen::MatrixXd::Zero(bs.num_carts(), bs.num_carts());
 	cap_der_mat['z'] = Eigen::MatrixXd::Zero(bs.num_carts(), bs.num_carts());
-	//integrate_cap_der_numerical(cap_der_mat, bs); //It does not depend on atoms
 
 	
 	std::map<char, Eigen::MatrixXd> cap_mat_dwdR;
@@ -599,19 +628,21 @@ void AOCAP::integrate_cap_dwdR_numerical(std::map<char, Eigen::MatrixXd> &cap_ma
 	if(cap_type=="custom")
 		omp_set_num_threads(1);
 	
-	std::string msg = "Calculating CAP matrix (in AO basis) on grid with 1st order derivative of grid weight using "
+	/*
+	std::string msg = "Calculating CAP matrix (AO) with first-order grid weight derivatives"
                   + std::to_string(omp_get_max_threads()) + " threads (Atom: " + std::to_string(atom_idx + 1) + ").";
+	
 
 	if (python)
 		pybind11::print(msg);
 	else
 		std::cout << msg << std::endl;
-
+	*/
 	
 	//std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
     //          << " Angular points: " << angular_points << std::endl;
 	size_t num_atoms = atoms.size();
-    	double x_coords_bohr[num_atoms];
+    double x_coords_bohr[num_atoms];
 	double y_coords_bohr[num_atoms];
 	double z_coords_bohr[num_atoms];
 	int nuc_charges[num_atoms];
@@ -783,9 +814,12 @@ void AOCAP::integrate_capG_numerical_individual_atom(std::map<char, Eigen::Matri
 		omp_set_num_threads(1);
 
 	python = true; 
+	
+	std::string element_symbol = (atoms[Atom_idx-1].Z == 0) ? "X" : get_atom_symbol(atoms[Atom_idx - 1].Z);
 
-	std::string message = "Calculating CAPG matrix (Atom: " + std::to_string(Atom_idx) + 
-                      ") in AO basis using " + std::to_string(omp_get_max_threads()) + " threads.";
+	
+	std::string message = "Calculating CAP matrix (AO derivative) for " + element_symbol +
+							" with " + std::to_string(omp_get_max_threads()) + " threads.";
 
 	if (python) {
 		pybind11::print(message);

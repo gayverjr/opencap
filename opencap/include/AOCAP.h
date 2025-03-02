@@ -109,7 +109,7 @@ std::vector<double> &, std::vector<double> &)> &cap_func);
 	size_t Atom_idx, size_t centre_numgrid);
 	/** Computes %CAP derivative matrix contracted with all basis functions.
 	*/
-	void compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat,BasisSet bs,double* x, double* y, double* z, double *grid_w, int num_points);
+	void compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat,BasisSet bs, double mass_com_rel, double* x, double* y, double* z, double *grid_w, int num_points);
 	/** SBK added this
 	*/
 	void compute_cap_on_grid_dwdR(std::map<char, Eigen::MatrixXd> &cap_mat_dwdR_store, BasisSet bs,double* x, double* y, double* z, 

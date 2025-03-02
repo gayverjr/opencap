@@ -32,7 +32,7 @@ import os, sys
 import scipy.linalg as LA
 from functools import reduce
 import numpy as np
-from tabulate import tabulate
+import pandas as pd
 
 opencap_driver = False
 try:
@@ -76,9 +76,6 @@ def run_traj(H0, W, eta_opt):
     return eigv, Reigvc, Reigvc
 
 def parse_PCAP_HAMILTONIAN(RASSI_FILE, OUTPUT_FILE):
-    if opencap_driver:
-        os.environ['OMP_NUM_THREADS']=str(10)
-
     import pyopencap
     from pyopencap.analysis import CAPHamiltonian
 
@@ -155,13 +152,11 @@ for i, state1 in enumerate([track_root]):
                                     grad_store[_atom]['z'][state1].real] for _atom in range(natom)])
 
 
-float_format = lambda x: "{: 16.12f}".format(x)
-for state_index, state_gradients in enumerate(QMout['grad_diag_res'], start=1):
-    print(f"State: {state_index}")
-    headers = ['Atom no', 'X', 'Y', 'Z']
-    table_data = []
-    for atom_index, atom_gradients in enumerate(state_gradients, start=1):
-        formatted_gradients = [float_format(grad) for grad in atom_gradients]
-        table_data.append([atom_index] + formatted_gradients)
-    print(tabulate(table_data, headers=headers, tablefmt="pretty", stralign="right"))
+float_format = lambda x: f"{x: 16.12f}"
 
+for _, (state_gradients, state) in enumerate(zip(QMout['grad_diag_res'], [track_root])):
+    print(f"\nState: {state} (hartree/bohr)")
+    df = pd.DataFrame(state_gradients, columns=['X', 'Y', 'Z'])
+    df.insert(0, "Atom no", range(1, len(df) + 1))
+    df.iloc[:, 1:] = df.iloc[:, 1:].applymap(float_format)
+    print(df.to_string(index=False))
