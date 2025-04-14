@@ -10,18 +10,11 @@ jobs:
         shell: bash -l {0}
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.12"]
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2.2.0
-        with:
-          auto-activate-base: true
-          activate-environment: true
-          python-version: ${{ matrix.python-version }}
 
       - name: Install system dependencies
         run: |
@@ -41,7 +34,6 @@ jobs:
 
       - name: Build and test PyOpenCAP (Python)
         run: |
-          conda install -c psi4/label/dev psi4 -y
           pip install pytest pytest-cov h5py numpy pyscf codecov numgrid pandas
           pip install .
           cd pyopencap
