@@ -26,7 +26,7 @@ SET(H5PP_ENABLE_EIGEN3 ON)
 FetchContent_Declare(
     h5pp
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
-    GIT_TAG main
+    GIT_TAG v1.11.2
 )
 
 # googletest
@@ -47,7 +47,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     numgrid
     GIT_REPOSITORY https://github.com/dftlibs/numgrid.git
-    GIT_TAG main
+    GIT_TAG v2.1.1
 )
 
 # Disable unit tests for numgrid before making it available
