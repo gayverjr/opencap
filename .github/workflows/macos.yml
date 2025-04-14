@@ -25,6 +25,7 @@ jobs:
           auto-activate-base: false
           activate-environment: opencap-env
           environment-name: opencap-env
+          miniconda-version: "latest" 
 
       - name: Install system dependencies
         run: |
