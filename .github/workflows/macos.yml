@@ -18,10 +18,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+          activate-environment: opencap-env
+          environment-name: opencap-env
 
       - name: Install system dependencies
         run: |
@@ -45,6 +48,7 @@ jobs:
 
       - name: Build and test PyOpenCAP
         run: |
+          conda activate opencap-env
           export CC=$(which gcc-13 || which gcc-12 || which gcc-11 || which gcc)
           export CXX=$(which g++-13 || which g++-12 || which g++-11 || which g++)
           pip install . pytest pytest-cov codecov
