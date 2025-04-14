@@ -26,7 +26,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev lcov doxygen software-properties-common
+          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev lcov doxygen software-properties-common libstdc++-11-dev
           sudo add-apt-repository -y ppa:deadsnakes/ppa
           sudo apt-get install -y cmake
 
