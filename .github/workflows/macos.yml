@@ -30,7 +30,6 @@ jobs:
       - name: Install system dependencies
         run: |
           brew install gcc eigen hdf5
-          conda install -c conda-forge hdf5 eigen
           echo "System Info:"
           uname -a
           sysctl -n machdep.cpu.brand_string
@@ -43,9 +42,7 @@ jobs:
           export CXX=$(which g++-13 || which g++-12 || which g++-11 || which g++)
           cd opencap
           mkdir -p build && cd build
-          cmake -DCODE_COVERAGE=ON \
-                -DHDF5_ROOT=$CONDA_PREFIX \
-                -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+          cmake -DCODE_COVERAGE=ON ..
           make -j$(sysctl -n hw.logicalcpu)
           ctest --output-on-failure
           cd ../..
