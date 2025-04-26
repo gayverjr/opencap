@@ -48,8 +48,7 @@ jobs:
           CIBW_ARCHS_MACOS: "arm64 universal2"
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen gcc hdf5 &&
-            export MACOSX_DEPLOYMENT_TARGET=14.0
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
 
       - name: Upload built wheels
@@ -71,8 +70,7 @@ jobs:
           CIBW_ARCHS_MACOS: "x86_64"
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen gcc hdf5 &&
-            export MACOSX_DEPLOYMENT_TARGET=13.0
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
 
       - name: Upload built wheels
