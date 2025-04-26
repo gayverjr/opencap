@@ -17,15 +17,16 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.23.2
         env:
-          CIBW_SKIP: "*-musllinux_*"  
+          CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: x86_64
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
             yum install -y wget &&
             yum install -y hdf5 hdf5-devel &&
             yum install -y python3-devel
-            
-      - uses: actions/upload-artifact@v2
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
 
@@ -41,10 +42,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-       - name: Build wheels
-          uses: pypa/cibuildwheel@v2.23.2
-          env:
-            CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
-            CIBW_BEFORE_ALL_MACOS: >
-              brew install eigen gcc hdf5  
-            CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.2
+        env:
+          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
+          CIBW_BEFORE_ALL_MACOS: >
+            brew install eigen gcc hdf5
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
