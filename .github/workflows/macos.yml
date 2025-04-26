@@ -18,14 +18,18 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+          activate-environment: opencap-env
+          environment-name: opencap-env
+          miniconda-version: "latest" 
 
       - name: Install system dependencies
         run: |
-          brew install eigen hdf5
+          brew install eigen hdf5 gcc@14
 
       - name: Build and test OpenCAP
         run: |
@@ -41,6 +45,7 @@ jobs:
       - name: Build and test PyOpenCAP
         run: |
           set -e
+          conda activate opencap-env
           export CC=gcc-14
           export CXX=g++-14
           pip install . pytest pytest-cov codecov
