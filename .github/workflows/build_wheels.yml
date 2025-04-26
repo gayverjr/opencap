@@ -17,6 +17,7 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_BEFORE_ALL_LINUX: >
+            yum install -y eigen3-devel &&
             yum install -y wget &&
             wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
             tar zxvf hdf5-1.12.1.tar.gz &&
@@ -48,6 +49,7 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "aarch64"
           CIBW_BEFORE_ALL_LINUX: >
+            yum install -y eigen3-devel &&
             yum install -y wget &&
             wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
             tar zxvf hdf5-1.12.1.tar.gz &&
