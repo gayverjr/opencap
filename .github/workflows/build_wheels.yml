@@ -15,7 +15,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.23.2
         env:
           CIBW_SKIP: "*-musllinux_*"
-          CIBW_ARCHS_LINUX: auto
+          CIBW_ARCHS_LINUX: "auto aarch64"
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget &&
             (yum install -y eigen3-devel || (
