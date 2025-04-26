@@ -11,7 +11,7 @@ Install with pip (recommended)
     pip3 install pyopencap
 
 Precompiled Python wheels are available on Pypi for almost all Linux systems and 
-most MacOS systems, for Python versions 3.6 and later.
+most MacOS systems, for Python versions 3.9 and later.
 
 Build from source
 -----------------
@@ -22,7 +22,7 @@ Compiling PyOpenCAP from source requires first installing the following dependen
 
 * C++ compiler with full C++17 language support and standard libraries
 
-* Python3 interpreter and development libraries: version >= 3.6
+* Python3 interpreter and development libraries: version >= 3.9
 
 * CMake_: version >= 3.12
 

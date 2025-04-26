@@ -1,19 +1,20 @@
-name: Build
+name: build-wheels
 
 on: [push, pull_request]
 
 jobs:
-  build_linux_wheels:
-    name: Build wheels on linux
-    runs-on: ubuntu-20.04
+  build-wheels-linux:
+    name: Build wheels on Ubuntu
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v2
-        
+      - name: Check out repository
+        uses: actions/checkout@v4
+
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.3.1
+        uses: pypa/cibuildwheel@v2.23.2
         env:
-          CIBW_SKIP: "*-musllinux_*"  
+          CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: x86_64
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
@@ -24,57 +25,90 @@ jobs:
             ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
             make &&
             make install &&
-            yum install -y python3-devel &&
-            cd ..  
-            
-      - uses: actions/upload-artifact@v2
+            yum install -y python3-devel && 
+            cd ..
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v4
         with:
+          name: wheels-linux-x86_64
           path: ./wheelhouse/*.whl
 
-  build_intelmac_wheels:
-      name: Build wheels on intel mac
-      runs-on:  macos-11
+  build-wheels-macos-14:
+    name: Build wheels on macOS (arm mac)
+    runs-on: macos-14
 
-      steps:
-        - uses: actions/checkout@v2
-          
-        - name: Build wheels
-          uses: pypa/cibuildwheel@v2.3.1
-          env:
-            CIBW_ARCHS_MACOS: x86_64
-            CIBW_BEFORE_ALL_MACOS: >
-              brew install eigen gcc wget &&
-              wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
-              tar zxvf hdf5-1.12.1.tar.gz &&
-              cd hdf5-1.12.1 &&
-              ./configure --prefix=/usr/local/hdf5 --enable-cxx &&
-              sudo make &&
-              sudo make install &&
-              cd ..  
-            CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11 HDF5_ROOT=/usr/local/hdf5
-              
-        - uses: actions/upload-artifact@v2
-          with:
-            path: ./wheelhouse/*.whl
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.2
+        env:
+          CIBW_ARCHS_MACOS: "arm64"
+          CIBW_BEFORE_ALL_MACOS: >
+            brew install eigen gcc hdf5
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-macos-arm64
+          path: ./wheelhouse/*.whl
+
+  build-wheels-macos-13:
+    name: Build wheels on macOS-13 (intel mac)
+    runs-on: macos-13
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.2
+        env:
+          CIBW_ARCHS_MACOS: "x86_64"
+          CIBW_BEFORE_ALL_MACOS: >
+            brew install eigen gcc hdf5
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-macos-x86_64
+          path: ./wheelhouse/*.whl
 
   make_sdist:
     name: Make sdist
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # Optional, use if you use setuptools_scm
-        submodules: true  # Optional, use if you have submodules
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get -y install libhdf5-serial-dev
-        sudo apt-get -y install libeigen3-dev
-        sudo apt-get -y install cmake
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Build SDist
-      run: pipx run build --sdist
+      - name: Install build tools and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev cmake
+          python -m pip install --upgrade pip
+          pip install build
 
-    - uses: actions/upload-artifact@v2
-      with:
-        path: dist/*.tar.gz
+      - name: Build source distribution
+        run: python -m build --sdist
+
+      - name: Upload sdist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz

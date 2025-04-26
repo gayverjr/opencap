@@ -27,34 +27,25 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/DavidAce/h5pp.git
     GIT_TAG 0d1cb5ebb6805b3d00fb323a31e91fb5998c7853
 )
-FetchContent_GetProperties(h5pp)
-if(NOT h5pp_POPULATED)
-    FetchContent_Populate(h5pp)
-    add_subdirectory(${h5pp_SOURCE_DIR} ${h5pp_BINARY_DIR})
-endif()
+FetchContent_MakeAvailable(h5pp)
 
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release-1.10.0
+  GIT_TAG v1.14.0
 )
-if(NOT googletest_POPULATED)
-  FetchContent_Populate(googletest)
-  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
-endif()
+FetchContent_MakeAvailable(googletest)
 
 
 FetchContent_Declare(
     pybind11
     GIT_REPOSITORY https://github.com/pybind/pybind11
-    GIT_TAG v2.6.2
+    GIT_TAG v2.13.6
 )
-FetchContent_GetProperties(pybind11)
-if(NOT pybind11_POPULATED)
-    FetchContent_Populate(pybind11)
-    add_subdirectory(${pybind11_SOURCE_DIR} ${pybind11_BINARY_DIR})
-endif()
+FetchContent_MakeAvailable(pybind11)
 
+# Have to use old populate pattern for now until we fork numgrid 
+# or find another grid provider
 FetchContent_Declare(
   numgrid
   GIT_REPOSITORY https://github.com/dftlibs/numgrid.git

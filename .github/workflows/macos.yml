@@ -1,0 +1,55 @@
+name: macos
+
+on: [push]
+
+jobs:
+  build-macos:
+    name: Build and test with GCC on macOS ${{ matrix.macos }}
+    runs-on: ${{ matrix.macos }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        macos: [macos-14]
+        python-version: ["3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+          activate-environment: opencap-env
+          environment-name: opencap-env
+          miniconda-version: "latest" 
+
+      - name: Install system dependencies
+        run: |
+          brew install eigen hdf5 gcc@14
+
+      - name: Build and test OpenCAP
+        run: |
+          set -e
+          export CC=gcc-14
+          export CXX=g++-14
+          cd opencap
+          mkdir -p build && cd build
+          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) ..
+          make -j$(sysctl -n hw.logicalcpu)
+          ctest --output-on-failure
+          cd ../..
+
+      - name: Build and test PyOpenCAP
+        run: |
+          set -e
+          conda activate opencap-env
+          export CC=gcc-14
+          export CXX=g++-14
+          pip install . pytest pytest-cov codecov
+          pip install h5py numpy pyscf numgrid pandas
+          cd pyopencap
+          pytest --cov=pyopencap --cov-report=xml

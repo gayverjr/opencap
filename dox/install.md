@@ -8,7 +8,7 @@ Building OpenCAP requires the following:
 
 * C++ compiler with full C++17 language support and standard libraries
 
-* Python3 interpreter and development libraries: version >= 3.6
+* Python3 interpreter and development libraries: version >= 3.9
 
 * [CMake](https://cmake.org/):  version >= 3.12
 
@@ -32,7 +32,7 @@ The following packages are automatically built at the CMake step (no action requ
 Basic steps
 ============
 
-These steps have been tested on MacOS 12.3, and on Centos7.
+These steps have been tested on MacOS 15.1 with GCC 14 installed from Homebrew.
 
 First clone the git repo 
 
