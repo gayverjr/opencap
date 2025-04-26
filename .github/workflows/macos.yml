@@ -25,11 +25,14 @@ jobs:
           auto-activate-base: false
           activate-environment: opencap-env
           environment-name: opencap-env
-          miniconda-version: "latest" 
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
 
       - name: Install system dependencies
         run: |
           brew install eigen hdf5 gcc@14
+          mambda install -y cmake make pip
 
       - name: Build and test OpenCAP
         run: |
