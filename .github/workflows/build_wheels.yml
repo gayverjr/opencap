@@ -17,8 +17,17 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: auto
           CIBW_BEFORE_ALL_LINUX: >
-            yum install -y eigen3-devel &&
             yum install -y wget &&
+            (yum install -y eigen3-devel || (
+              echo "eigen3-devel not found, installing Eigen manually..." &&
+              wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz &&
+              tar xf eigen-3.4.0.tar.gz &&
+              cd eigen-3.4.0 &&
+              mkdir build && cd build &&
+              cmake .. -DCMAKE_INSTALL_PREFIX=/opt/rh/devtoolset-10/root/usr/ &&
+              make install &&
+              cd ../..
+            )) &&
             wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
             tar zxvf hdf5-1.12.1.tar.gz &&
             cd hdf5-1.12.1 &&
@@ -28,6 +37,7 @@ jobs:
             yum install -y python3-devel && 
             cd ..
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+
 
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
