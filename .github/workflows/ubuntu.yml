@@ -31,6 +31,7 @@ jobs:
 
       - name: Build and test OpenCAP (C++)
         run: |
+          set -e
           cd opencap
           mkdir -p build && cd build
           cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
@@ -40,10 +41,11 @@ jobs:
 
       - name: Build and test PyOpenCAP (Python)
         run: |
+          set -e
           pip install pytest pytest-cov h5py numpy pyscf codecov numgrid pandas
           pip install .
           cd pyopencap
-          pytest --cov=pyopencap --cov-report=xml || exit 1
+          pytest --cov=pyopencap --cov-report=xml
           cd ..
 
       - name: Upload coverage reports
