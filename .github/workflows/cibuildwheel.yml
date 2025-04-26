@@ -26,7 +26,7 @@ jobs:
             yum install -y python3-devel
 
       - name: Upload built wheels
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
 
@@ -51,6 +51,6 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14
 
       - name: Upload built wheels
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
