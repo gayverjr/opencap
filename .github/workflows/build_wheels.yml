@@ -3,19 +3,19 @@ name: build-wheels
 on: [push, pull_request]
 
 jobs:
-  build-wheels-linux:
-    name: Build wheels on Ubuntu
+  build-wheels-linux-x86_64:
+    name: Build wheels on Ubuntu (x86_64)
     runs-on: ubuntu-22.04
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Build wheels
+      - name: Build wheels (x86_64)
         uses: pypa/cibuildwheel@v2.23.2
         env:
           CIBW_SKIP: "*-musllinux_*"
-          CIBW_ARCHS_LINUX: x86_64
+          CIBW_ARCHS_LINUX: "x86_64"
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y eigen3-devel &&
             yum install -y wget &&
@@ -29,11 +29,51 @@ jobs:
             cd ..
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
 
-      - name: Upload built wheels
+      - name: Upload built wheels (x86_64)
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-x86_64
           path: ./wheelhouse/*.whl
+
+  build-wheels-linux-aarch64:
+    name: Build wheels on Ubuntu (aarch64)
+    runs-on: ubuntu-22.04-arm
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build wheels (aarch64)
+        uses: pypa/cibuildwheel@v2.23.2
+        env:
+          CIBW_SKIP: "*-musllinux_*"
+          CIBW_ARCHS_LINUX: "aarch64"
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y wget &&
+            wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz &&
+            tar zxvf eigen-3.4.0.tar.gz &&
+            cd eigen-3.4.0 &&
+            mkdir build &&
+            cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/opt/rh/devtoolset-10/root/usr/ &&
+            make install &&
+            cd ../.. &&
+            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
+            tar zxvf hdf5-1.12.1.tar.gz &&
+            cd hdf5-1.12.1 &&
+            ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
+            make &&
+            make install &&
+            yum install -y python3-devel && 
+            cd ..
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+
+      - name: Upload built wheels (aarch64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-linux-aarch64
+          path: ./wheelhouse/*.whl
+
 
   build-wheels-macos-14:
     name: Build wheels on macOS (arm mac)
