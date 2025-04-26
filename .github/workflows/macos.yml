@@ -30,16 +30,11 @@ jobs:
       - name: Install system dependencies
         run: |
           brew install gcc eigen hdf5
-          echo "System Info:"
-          uname -a
-          sysctl -n machdep.cpu.brand_string
-          gcc --version || true
-          which gcc-13 || which gcc-12 || which gcc-11 || which gcc
 
       - name: Build and test OpenCAP
         run: |
-          export CC=$(which gcc-13 || which gcc-12 || which gcc-11 || which gcc)
-          export CXX=$(which g++-13 || which g++-12 || which g++-11 || which g++)
+          export CC=gcc-14
+          export CXX=g++-14
           cd opencap
           mkdir -p build && cd build
           cmake -DCODE_COVERAGE=ON ..
