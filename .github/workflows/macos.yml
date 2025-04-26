@@ -37,7 +37,7 @@ jobs:
           export CXX=g++-14
           cd opencap
           mkdir -p build && cd build
-          cmake -DCODE_COVERAGE=ON ..
+          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) ..
           make -j$(sysctl -n hw.logicalcpu)
           ctest --output-on-failure
           cd ../..
