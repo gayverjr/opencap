@@ -179,7 +179,7 @@ def test_biorthogonalization():
     CAPH = CAPHamiltonian(output=os.path.join(dest_dir, "n2_opencap.out"))
     CAPH.run_trajectory([0.01],biorthogonalize=True)
     roots = CAPH._all_roots[0]
-    ovlp = np.zeros((len(roots), len(roots)), dtype='complex_')
+    ovlp = np.zeros((len(roots), len(roots)), dtype=np.complex_)
     for i in range(0, len(roots)):
         lr = roots[i].Leigvc
         for j in range(0, len(roots)):
