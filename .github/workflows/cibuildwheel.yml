@@ -14,22 +14,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev cmake gcc g++ patchelf
-
-      - name: Install cibuildwheel
-        run: python3 -m pip install cibuildwheel
-
       - name: Build wheels
-        run: |
-          python3 -m cibuildwheel --output-dir wheelhouse
+        uses: pypa/cibuildwheel@v2.23.2
         env:
-          CIBW_BUILD: "${{ matrix.python-version }}-*"
-          CIBW_SKIP: "cp313-*"
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_ARCHS_LINUX: "x86_64"
+          CIBW_SKIP: "*-musllinux_*"  
+          CIBW_ARCHS_LINUX: x86_64
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y eigen3-devel &&
+            yum install -y wget &&
+            yum install -y hdf5 hdf5-devel &&
+            yum install -y python3-devel
+            
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
 
   build-wheels-macos:
     name: Build wheels on macOS
@@ -43,19 +41,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install system dependencies
-        run: |
-          brew install eigen hdf5 gcc@14
-
-      - name: Install cibuildwheel
-        run: python3 -m pip install cibuildwheel
-
-      - name: Build wheels
-        run: |
-          python3 -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_BUILD: "${{ matrix.python-version }}-*"
-          CIBW_SKIP: "cp313-*"
-          CIBW_ARCHS_MACOS: "x86_64 universal2"
-          CC: gcc-14
-          CXX: g++-14
+       - name: Build wheels
+          uses: pypa/cibuildwheel@v2.23.2
+          env:
+            CIBW_ARCHS_MACOS: x86_64
+            CIBW_BEFORE_ALL_MACOS: >
+              brew install eigen gcc wget &&
+              wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
+              tar zxvf hdf5-1.12.1.tar.gz &&
+              cd hdf5-1.12.1 &&
+              ./configure --prefix=/usr/local/hdf5 --enable-cxx &&
+              sudo make &&
+              sudo make install &&
+              cd ..  
+            CIBW_ENVIRONMENT_MACOS: CC=gcc-11 CXX=g++-11 HDF5_ROOT=/usr/local/hdf5
