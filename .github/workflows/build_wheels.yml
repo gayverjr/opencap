@@ -26,7 +26,7 @@ jobs:
             make &&
             make install &&
             yum install -y python3-devel && 
-            cd ..  
+            cd ..
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
 
       - name: Upload built wheels
@@ -81,33 +81,34 @@ jobs:
           name: wheels-macos-x86_64
           path: ./wheelhouse/*.whl
 
-    make_sdist:
-      name: Make sdist
-      runs-on: ubuntu-22.04
-      steps:
-        - name: Check out source
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-            submodules: true
+  make_sdist:
+    name: Make sdist
+    runs-on: ubuntu-22.04
 
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.11'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
 
-        - name: Install build tools and dependencies
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y libhdf5-serial-dev libeigen3-dev cmake
-            python -m pip install --upgrade pip
-            pip install build
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-        - name: Build source distribution
-          run: python -m build --sdist
+      - name: Install build tools and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev cmake
+          python -m pip install --upgrade pip
+          pip install build
 
-        - name: Upload sdist artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: sdist
-            path: dist/*.tar.gz
+      - name: Build source distribution
+        run: python -m build --sdist
+
+      - name: Upload sdist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
