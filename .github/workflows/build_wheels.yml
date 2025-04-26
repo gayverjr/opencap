@@ -32,6 +32,7 @@ jobs:
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
         with:
+          name: wheels-linux-x86_64
           path: ./wheelhouse/*.whl
 
   build-wheels-macos-14:
@@ -54,6 +55,7 @@ jobs:
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
         with:
+          name: wheels-macos-arm64
           path: ./wheelhouse/*.whl
 
   build-wheels-macos-13:
@@ -76,4 +78,5 @@ jobs:
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
         with:
+          name: wheels-macos-x86_64
           path: ./wheelhouse/*.whl
