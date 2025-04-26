@@ -11,7 +11,7 @@ jobs:
         shell: bash -l {0}
     strategy:
       matrix:
-        macos: [macos-13, macos-14]
+        macos: [macos-14]
         python-version: ["3.12"]
 
     steps:
@@ -50,6 +50,6 @@ jobs:
           export CC=gcc-14
           export CXX=g++-14
           pip install . pytest pytest-cov codecov
-          pip install h5py numpy pyscf pandas
+          pip install h5py numpy pyscf numgrid pandas
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
