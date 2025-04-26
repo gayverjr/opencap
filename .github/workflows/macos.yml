@@ -53,6 +53,6 @@ jobs:
           export CC=gcc-14
           export CXX=g++-14
           pip install . pytest pytest-cov codecov
-          pip install h5py numpy pyscf numgrid pandas
+          pip install h5py numpy pyscf pandas
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
