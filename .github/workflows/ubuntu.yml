@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build-linux:
+    name: Build and test on Ubuntu
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -22,6 +23,11 @@ jobs:
           sudo apt-get install -y libhdf5-serial-dev libeigen3-dev lcov doxygen software-properties-common libstdc++-11-dev
           sudo add-apt-repository -y ppa:deadsnakes/ppa
           sudo apt-get install -y cmake
+
+      - name: Set CMake prefix path for Eigen3
+        run: |
+          # Set the CMAKE_PREFIX_PATH to the Eigen3 installation location
+          export CMAKE_PREFIX_PATH="/usr/include/eigen3:$CMAKE_PREFIX_PATH"
 
       - name: Build and test OpenCAP (C++)
         run: |
