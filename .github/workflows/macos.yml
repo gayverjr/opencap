@@ -33,6 +33,8 @@ jobs:
 
       - name: Build and test OpenCAP
         run: |
+          export CC=gcc-14
+          export CXX=g++-14
           cd opencap
           mkdir -p build && cd build
           cmake -DCODE_COVERAGE=ON ..
@@ -43,6 +45,8 @@ jobs:
       - name: Build and test PyOpenCAP
         run: |
           conda activate opencap-env
+          export CC=gcc-14
+          export CXX=g++-14
           pip install . pytest pytest-cov codecov
           pip install h5py numpy pyscf numgrid pandas
           cd pyopencap
