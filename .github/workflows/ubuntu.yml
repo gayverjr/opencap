@@ -43,7 +43,7 @@ jobs:
           pip install pytest pytest-cov h5py numpy pyscf codecov numgrid pandas
           pip install .
           cd pyopencap
-          pytest --cov=pyopencap --cov-report=xml
+          pytest --cov=pyopencap --cov-report=xml || exit 1
           cd ..
 
       - name: Upload coverage reports
