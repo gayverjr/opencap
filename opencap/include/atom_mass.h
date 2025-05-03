@@ -30,7 +30,6 @@ SOFTWARE.
 #include <unordered_map>
 #include <string>
 
-// Declare a global unordered_map to store atomic masses
 extern const std::unordered_map<std::string, double> MASSES;
 extern std::string get_atom_symbol(int atomic_number);
 #endif // ATOM_MASS_H

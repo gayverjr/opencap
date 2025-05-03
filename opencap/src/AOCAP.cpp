@@ -283,17 +283,11 @@ void AOCAP::compute_ao_cap_mat(Eigen::MatrixXd &cap_mat, BasisSet &bs)
 }
 
 
-//This part for the analogus numerical derivative as above but for box cap derivative function.
 void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der_mat, BasisSet bs, size_t atom_idx)
 {
 	// funny business happens with GIL if we try to parallelize over atoms when custom python function is used
 	if(cap_type=="custom")
 		omp_set_num_threads(1);
-    /*
-	std::cout << "Calculating CAP functional derivative matrix in AO basis using " << std::to_string(omp_get_max_threads()) << " threads." << std::endl;
-    std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
-              << " Angular points: " << angular_points << std::endl;
-	*/
 
 	std::ostringstream oss;
 	std::string element_symbol = (atoms[atom_idx].Z == 0) ? "X" : get_atom_symbol(atoms[atom_idx].Z);
@@ -325,10 +319,6 @@ void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der
 	}
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
-	//#pragma omp parallel for 
-	//for(size_t i=0;i<num_atoms;i++)
-	//{
-        // check parameters
         double alpha_max = bs.alpha_max(atoms[atom_idx]);
         std::vector<double> alpha_min = bs.alpha_min(atoms[atom_idx],thresh);
         double r_inner = get_r_inner(radial_precision,
@@ -386,7 +376,6 @@ void AOCAP::integrate_cap_der_numerical(std::map<char, Eigen::MatrixXd> &cap_der
                            grid_z_bohr,
                            grid_w);
         int num_radial_points = numgrid_get_num_radial_grid_points(context);
-		//std::cout << "Number of radial points: " << num_radial_points << std::endl;
 		
 		
 		double mass_com_rel = 0.0;
@@ -431,15 +420,8 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
     std::vector<double> y_vec(y,y+num_points);
     std::vector<double> z_vec(z,z+num_points);
     std::vector<double> w_vec(grid_w,grid_w+num_points);
-    //std::vector<double> cap_vec = cap_func(x_vec,y_vec,z_vec,w_vec);
 
 	std::map<char, std::vector<double>> derivative_map;
-
-	/*std::vector<double> x_derivative = cap_func_der_x();
-	std::vector<double> y_derivative = cap_func_der_y();
-	std::vector<double> z_derivative = cap_func_der_z();
-	std::vector<double> cap_values_der(num_points);*/
-	//std::cout << "\t" << cap_x << "\t" << cap_y <<"\t" << cap_z <<std::endl;
 
 	std::vector<double> x_derivative(num_points);
 	std::vector<double> y_derivative(num_points);
@@ -491,30 +473,6 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
         }
     }
 
-    /*
-	std::vector<double> y_derivative(num_points);
-    for (size_t i = 0; i < num_points; i++) {
-        if (abs(y_vec[i]) > cap_y){
-            double result = 2.0 * (y_vec[i] - cap_y) * w_vec[i];
-         	y_derivative[i] = result;
-        }
-        else{
-        	y_derivative[i] = 0.0;
-        }
-    }
-
-	std::vector<double> z_derivative(num_points);
-    for (size_t i = 0; i < num_points; i++) {
-        if (abs(z_vec[i]) > cap_z){
-            double result = 2.0 * (z_vec[i] - cap_z) * w_vec[i];
-         	z_derivative[i] = result;
-        }
-        else{
-        	z_derivative[i] = 0.0;
-        }
-    }
-	*/
-
 	derivative_map['x'] = x_derivative;
 	derivative_map['y'] = y_derivative;
 	derivative_map['z'] = z_derivative;
@@ -542,29 +500,13 @@ void AOCAP::compute_cap_der_on_grid(std::map<char, Eigen::MatrixXd> &cap_der_mat
 		cap_der_mat[dir]+=bf_prime.transpose()*bf_values;
 	}
 }
-/*void AOCAP::compute_ao_cap_der_mat(std::map<char, Eigen::MatrixXd> &cap_der_mat, BasisSet &bs)
-{
-	if(!do_numerical)
-	{
-		std::cout << "CAP integrals cannot be computed analytically. (NYI), use 'do_numerical: True' in cap_dict" << std::endl;
-		//eval_box_cap_analytical(cap_mat,bs);
-		return;
-	}
-	else
-		integrate_cap_der_numerical(cap_der_mat,bs);
-}*/
-
-//Concluded: This part for the analogus numerical derivative for box cap derivative function.
 
 
-
-//Following part: for the numerical derivative of the weight function. Used for gradient contribution.
 void AOCAP::compute_ao_cap_der_mat(std::vector<std::map<char, Eigen::MatrixXd>> &cap_der_mat_MD, BasisSet &bs)
 {
 	if(!do_numerical)
 	{
 		std::cout << "CAP integrals will be computed analytically. (Not available yet)" << std::endl;
-		//eval_box_cap_analytical(cap_mat,bs);
 		return;
 	}
 	else
@@ -622,25 +564,12 @@ void AOCAP::integrate_cap_der_total_numerical(std::vector<std:: map<char, Eigen:
 void AOCAP::integrate_cap_dwdR_numerical(std::map<char, Eigen::MatrixXd> &cap_mat_dwdR_store, BasisSet bs, size_t atom_idx)
 {
 	BeckeDW1 becke(atoms);
-	python = true; // Initialize the Python flag
+	python = true;
 
 	// funny business happens with GIL if we try to parallelize over atoms when custom python function is used
 	if(cap_type=="custom")
 		omp_set_num_threads(1);
 	
-	/*
-	std::string msg = "Calculating CAP matrix (AO) with first-order grid weight derivatives"
-                  + std::to_string(omp_get_max_threads()) + " threads (Atom: " + std::to_string(atom_idx + 1) + ").";
-	
-
-	if (python)
-		pybind11::print(msg);
-	else
-		std::cout << msg << std::endl;
-	*/
-	
-	//std::cout << std::setprecision(2) << std::scientific  << "Radial precision: " << radial_precision
-    //          << " Angular points: " << angular_points << std::endl;
 	size_t num_atoms = atoms.size();
     double x_coords_bohr[num_atoms];
 	double y_coords_bohr[num_atoms];
@@ -680,8 +609,6 @@ void AOCAP::integrate_cap_dwdR_numerical(std::map<char, Eigen::MatrixXd> &cap_ma
                 if(r_outer < r_inner)
                 {
                     opencap_throw("Error: r_outer < r_inner, grid cannot be allocated for this basis.");
-                    //std::cout << "Setting alpha min[l] to 0.01" << std::endl; 
-                    //alpha_min[l]=0.01;
                 }
                 else
                 {
@@ -721,26 +648,6 @@ void AOCAP::integrate_cap_dwdR_numerical(std::map<char, Eigen::MatrixXd> &cap_ma
 
 	std::map<char, std::map<int, double>> dB_Weight; 
     becke.calculate_gridW_derivative(context, atom_idx, dB_Weight, i);
-
-	/*
-	if (i==atom_idx){
-		int atomIndexToSave = atom_idx;  
-	    	std::string filename = "weight_matrix_atom_" + std::to_string(atomIndexToSave) + "_numgrid.out";
-	    	std::ofstream outputFile(filename);
-
-	    	if (outputFile.is_open()) {
-			for (int ix = 0; ix < num_points; ++ix) {
-	    	  //std::cout << "Inside loop: i = " << i << ", atom_idx = " << atom_idx << ", ix:  "<< ix <<std::endl;
-		        double tmp_data = grid_w[ix];
-		        outputFile << tmp_data << "\n";
-			}
-			outputFile.close();
-	    	} else {
-			std::cerr << "Unable to open file for writing: " << filename << std::endl;
-	    	}
-			}
-	
-	*/	
 	
 		compute_cap_on_grid_dwdR(cap_mat_dwdR_store,bs,grid_x_bohr,grid_y_bohr,grid_z_bohr, &dB_Weight, num_points);
 
@@ -827,10 +734,6 @@ void AOCAP::integrate_capG_numerical_individual_atom(std::map<char, Eigen::Matri
 		std::cout << message << std::endl;
 	}
 
-	/*		
-	std::cout << "Calculating CAPG matrix (Atom: " << Atom_idx <<") in AO basis using ";
-	std::cout << to_string(omp_get_max_threads()) << " threads." << std::endl;
-    */
 	size_t num_atoms = atoms.size();
     double x_coords_bohr[num_atoms];
 	double y_coords_bohr[num_atoms];
@@ -850,10 +753,8 @@ void AOCAP::integrate_capG_numerical_individual_atom(std::map<char, Eigen::Matri
     int min_num_angular_points = angular_points;
     int max_num_angular_points = angular_points;
 
-	//#pragma omp parallel for 
 	for(size_t i=0;i<num_atoms;i++)
 	{
-        // check parameters
         double alpha_max = bs.alpha_max(atoms[i]);
         std::vector<double> alpha_min = bs.alpha_min(atoms[i],thresh);
         double r_inner = get_r_inner(radial_precision,
@@ -968,7 +869,6 @@ double *grid_w, int num_points, size_t Atom_idx, size_t centre_numgrid)
 		bf_prime_y.col(i) = bfGrad_y_values.col(i).array()*cap_vals.array();		
 		bf_prime_z.col(i) = bfGrad_z_values.col(i).array()*cap_vals.array();		
 	}
-	//capG_mat+=bf_prime.transpose()*bf_values + bf_values.transpose()*bf_prime; //bra vector is the gradient
 	capG_mat['x'] += bf_prime_x.transpose() * bf_values + bf_values.transpose() * bf_prime_x;
 	capG_mat['y'] += bf_prime_y.transpose() * bf_values + bf_values.transpose() * bf_prime_y;
 	capG_mat['z'] += bf_prime_z.transpose() * bf_values + bf_values.transpose() * bf_prime_z;
@@ -980,7 +880,6 @@ void AOCAP::computeG_ao_cap_mat(std::vector<std::map<char, Eigen::MatrixXd>> &ca
 	if(!do_numerical)
 	{
 		std::cout << "CAP integrals will be computed analytically. (Not available yet)" << std::endl;
-		//eval_box_cap_analytical(cap_mat,bs);
 		return;
 	}
 	else

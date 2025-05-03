@@ -254,7 +254,7 @@ void CAP::compute_projected_capG()
                 }
             }
             if (rotation_matrix.cols() != 0) {
-                std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
+                //std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
                 CAPG_matrix[axis] = rotation_matrix.transpose() * CAPG_matrix[axis] * rotation_matrix;
             }
         }
@@ -286,7 +286,7 @@ void CAP::compute_projected_cap_der()
                 }
             }
             if (rotation_matrix.cols() != 0) {
-                std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
+                //std::cout << "Warning: rotating CAP matrix (U^dagger*W*U) using the following rotation matrix U:" << std::endl << rotation_matrix << std::endl;
                 CAP_der_matrix[axis] = rotation_matrix.transpose() * CAP_der_matrix[axis] * rotation_matrix;
             }
         }
@@ -332,7 +332,7 @@ void CAP::integrate_capG()
         capG_spherical['z'] = Eigen::MatrixXd::Zero(system.bs.Nbasis, system.bs.Nbasis);
 
         for (char axis : {'x', 'y', 'z'}) {
-            Eigen::MatrixXd matX_copy = matX.at(axis).eval();  // Make a copy of the matrix.
+            Eigen::MatrixXd matX_copy = matX.at(axis).eval();
             uniform_cart_norm(matX_copy, system.bs);
             cart2spherical(matX_copy, capG_spherical[axis], system.bs);
         }
@@ -591,11 +591,9 @@ std::vector<std::map<char, Eigen::MatrixXd>> CAP::get_ao_capG(std::string orderi
        	integrate_capG();
 	}
 	size_t matX_idx=0;
-	//std::map<char, Eigen::MatrixXd> reordered_cap;
 	if(ordering!="") {
 		for (std::map<char, Eigen::MatrixXd>& reordered_cap : AO_CAPG_MAT){
 			for (char axis : {'x', 'y', 'z'}){
-        		//reordered_cap[axis] = matX[axis];
         		std::vector<bf_id> ids;
         		if(compare_strings(ordering,"pyscf"))
         			ids = get_pyscf_ids(system.bs);

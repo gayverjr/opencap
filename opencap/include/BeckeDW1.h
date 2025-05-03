@@ -82,17 +82,6 @@ private:
      * Calculates scalar distance between X(i, j, k), Y(i, j, k) coordinates.
     */
     double distanceXY( Eigen::Vector3d& A,  Eigen::Vector3d& B);
-
-    /**
-     * Data dumping routines
-     * 
-    void dumpDataToHDF5(std::string& filename, 
-                 std::map<std::pair<int, int>, std::map<char, double>>& dB_PCenter, 
-                 std::map<char, std::map<int, double>>& dB_Weight);  
-    void dumpDataToCSV(std::string& filename, 
-                 std::map<std::pair<int, int>, std::map<char, double>>& dB_PCenter, 
-                 std::map<char, std::map<int, double>>& dB_Weight);
-   */
 };
 
 #endif // BECKEDW1_H

@@ -20,21 +20,13 @@ SOFTWARE.
 '''
 
 ''' 
-Evaluating cuboid CAP gradients with pre-computed energies and 1-TDMs!
+Evaluating cuboid CAP gradients with pre-computed energies and 1-TDMs.
 
-EOM-EA-CCSD (7 EA states) on N2- with cc-pvtz+2s5p2d basis set.
-Reference data from CAP-EOM-EA-CCSD file: "./ref_outputs/N2-CAP-EOM-EA-CCSD_ref.out"
+pCAP-EOM-EA-CCSD (5 EA states) on N2- with aug-cc-pvtz+X[3s3p3d] basis set.
 
  State         Re(E)            Im(E)
-   1      2.60477972      -0.27076740
+   1      2.629737516514  -0.193944247865
 
- CAP derivative contribution to the gradient:
-+---------+-----------------+-----------------+-----------------+
-| Atom no |               X |               Y |               Z |
-+---------+-----------------+-----------------+-----------------+
-|       1 | -0.000000000001 | -0.000000000000 |  0.056777000000 |
-|       2 |  0.000000000001 |  0.000000000000 | -0.056777000000 |
-+---------+-----------------+-----------------+-----------------+
 '''
 
 import numpy as np
@@ -78,14 +70,14 @@ def get_ref_energy(finame):
 
 
 
-nstates = 7 # Total 7 EA states
-eta_opt = 137.0E-5
-natom = 2
-track_root = [4]
+nstates = 5 # Total 5 EA states
+eta_opt = 0.0075
+natom = 3
+track_root = [1]
 
 # Files to parse information from
-FCHK_FILE = "./ref_outputs/N2-EOM-EA-CCSD.fchk"
-OUTPUT_FILE = "./ref_outputs/N2-EOM-EA-CCSD.out"
+FCHK_FILE = "../../analysis/N2/ref_outputs/qc_inp.fchk"
+OUTPUT_FILE = "../../analysis/N2/ref_outputs/qc_inp.out"
 
 
 # Get CCSD energy
@@ -123,14 +115,21 @@ H0 = pc.get_H()
 
 eigv, Leigvc, Reigvc = run_traj(H0, W, eta_opt)
 
-# print the eigen values: complex energies
+
 float_format = lambda x: f"{x: 16.12f}"
 print(f"\n\nState energies:(eV)")
-df = pd.DataFrame(np.asarray([(eigv.real-ref_energy)/EV_TO_AU, (eigv.imag)/EV_TO_AU]).T, columns=['Re(E)', 'Im(E)'])
-df.insert(0, "EA root", range(1, len(df) + 1))
+
+df = pd.DataFrame({
+    "EA root": range(1, len(eigv) + 1),
+    "Re(E)": [(ev.real - ref_energy) / EV_TO_AU for ev in eigv],
+    "Im(E)": [ev.imag / EV_TO_AU for ev in eigv]
+})
+
 df.iloc[:, 1:] = df.iloc[:, 1:].applymap(float_format)
+
 print(df.to_string(index=False))
 print('\n')
+
 
 # Call all derivative terms (cuboid CAP only)
 pc.compute_projected_capG()

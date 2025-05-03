@@ -51,7 +51,6 @@ const std::unordered_map<std::string, double> MASSES = {
     {"Ac", 227.027747}, {"Th", 232.038050}, {"Pa", 231.035879}, {"U", 238.050783}
 };
 
-// List of element symbols by atomic number (1-indexed)
 const std::vector<std::string> periodic_table = {
     "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne",
     "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
@@ -67,7 +66,6 @@ const std::vector<std::string> periodic_table = {
     "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"
 };
 
-// Map to get atomic number from symbol
 const std::unordered_map<std::string, int> atomic_number_map = [] {
     std::unordered_map<std::string, int> m;
     for (size_t i = 0; i < periodic_table.size(); ++i)
@@ -75,7 +73,6 @@ const std::unordered_map<std::string, int> atomic_number_map = [] {
     return m;
 }();
 
-// Function to get element symbol from atomic number
 std::string get_atom_symbol(int atomic_number) {
     if (atomic_number >= 1 && atomic_number <= static_cast<int>(periodic_table.size())) {
         return periodic_table[atomic_number - 1];
@@ -83,7 +80,6 @@ std::string get_atom_symbol(int atomic_number) {
     return "Invalid atomic number";
 }
 
-// Function to get atomic number from element symbol
 int get_atomic_number(const std::string& atom_symbol) {
     auto it = atomic_number_map.find(atom_symbol);
     return (it != atomic_number_map.end()) ? it->second : -1;
