@@ -27,7 +27,7 @@ jobs:
             make install &&
             yum install -y python3-devel && 
             cd ..
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 
       - name: Upload built wheels (x86_64)
         uses: actions/upload-artifact@v4
@@ -66,7 +66,7 @@ jobs:
             make install &&
             yum install -y python3-devel && 
             cd ..
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 
       - name: Upload built wheels (aarch64)
         uses: actions/upload-artifact@v4
@@ -113,7 +113,7 @@ jobs:
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen gcc hdf5
           CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
