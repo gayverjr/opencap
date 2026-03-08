@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build wheels (x86_64)
-        uses: pypa/cibuildwheel@v2.24.0
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "x86_64"
@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build wheels (aarch64)
-        uses: pypa/cibuildwheel@v2.24.0
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "aarch64"
@@ -84,7 +84,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.24.0
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_BEFORE_ALL_MACOS: >
@@ -96,6 +96,29 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wheels-macos-arm64
+          path: ./wheelhouse/*.whl
+
+  build-wheels-macos-13:
+    name: Build wheels on macOS-13 (intel mac)
+    runs-on: macos-13
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.4.0
+        env:
+          CIBW_ARCHS_MACOS: "x86_64"
+          CIBW_BEFORE_ALL_MACOS: >
+            brew install eigen@3 gcc hdf5
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-macos-x86_64
           path: ./wheelhouse/*.whl
 
   make_sdist:
