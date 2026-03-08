@@ -29,7 +29,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          brew install eigen hdf5 gcc@14
+          brew install eigen@3 hdf5 gcc@14
 
       - name: Build and test OpenCAP
         run: |
