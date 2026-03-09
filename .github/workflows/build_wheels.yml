@@ -27,11 +27,11 @@ jobs:
             cd hdf5-2.1.0 &&
             mkdir build &&
             cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIB
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIBS=ON &&
             make &&
             make install &&
             cd ../.. &&
-            yum install -y python3-devel &&
+            yum install -y python3-devel
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels (x86_64)
         uses: actions/upload-artifact@v4
@@ -69,7 +69,7 @@ jobs:
             make &&
             make install &&
             cd ../.. &&
-            yum install -y python3-devel &&
+            yum install -y python3-devel
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels (aarch64)
         uses: actions/upload-artifact@v4
