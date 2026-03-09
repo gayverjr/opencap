@@ -126,8 +126,7 @@ def test_numerical_integration():
     assert np.isclose(e1, e2)
 
 
-@pytest.mark.skipif('numgrid' not in sys.modules,
-                    reason="Broken, https://github.com/dftlibs/numgrid/issues/61")
+@pytest.mark.skipif(reason="Broken, https://github.com/dftlibs/numgrid/issues/61")
 def test_custom_grid():
     s = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(s, cap_dict, 5)
