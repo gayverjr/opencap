@@ -12,8 +12,12 @@ file(GLOB SOURCES "src/*.cpp")
 file(GLOB BIND_SOURCES "bindings/*.cpp")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-find_package(Eigen3 3.3 5 REQUIRED NO_MODULE)
+find_package(Eigen3 3.3...5 REQUIRED NO_MODULE)
 find_package(HDF5 REQUIRED)
+if(HDF5_VERSION VERSION_GREATER_EQUAL "2.0")
+    add_definitions(-DH5_USE_110_API)
+    message(STATUS "HDF5 2.x detected (Version ${HDF5_VERSION}). Setting DH5_USE_110_API.")
+endif()
 include_directories(${HDF5_INCLUDE_DIRS})
 include(FetchContent)
 add_subdirectory(asa)
@@ -46,6 +50,7 @@ FetchContent_MakeAvailable(pybind11)
 
 # Have to use old populate pattern for now until we fork numgrid 
 # or find another grid provider
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 FetchContent_Declare(
   numgrid
   GIT_REPOSITORY https://github.com/dftlibs/numgrid.git
@@ -57,6 +62,7 @@ if(NOT numgrid_POPULATED)
   set(ENABLE_UNIT_TESTS OFF CACHE INTERNAL "Enable unit tests")
   add_subdirectory(${numgrid_SOURCE_DIR} ${numgrid_BINARY_DIR})
 endif()
+unset(CMAKE_POLICY_VERSION_MINIMUM)
 
 # Code Coverage Configuration
 if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
