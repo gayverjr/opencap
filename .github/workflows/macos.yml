@@ -36,10 +36,9 @@ jobs:
           set -e
           export CC=gcc-14
           export CXX=g++-14
-          export Eigen3_DIR=$(brew --prefix eigen)/share/eigen3/cmake
           cd opencap
           mkdir -p build && cd build
-          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) ..
+          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) -DCMAKE_PREFIX_PATH=$(brew --prefix eigen) ..
           make -j$(sysctl -n hw.logicalcpu)
           ctest --output-on-failure
           cd ../..
