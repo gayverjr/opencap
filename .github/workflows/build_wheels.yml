@@ -89,7 +89,7 @@ jobs:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen@3 gcc@14 hdf5
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0 CPPFLAGS="-I/opt/homebrew/opt/eigen@3/include" PKG_CONFIG_PATH="/opt/homebrew/opt/eigen@3/share/pkgconfig"
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0 Eigen3_DIR=$(brew --prefix eigen)/share/eigen3/cmake
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 
       - name: Upload built wheels
@@ -112,7 +112,7 @@ jobs:
           CIBW_ARCHS_MACOS: "x86_64"
           CIBW_BEFORE_ALL_MACOS: >
             brew install eigen@3 gcc hdf5
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0 PKG_CONFIG_PATH="/opt/homebrew/opt/eigen@3/share/pkgconfig" CPPFLAGS="-I/opt/homebrew/opt/eigen@3/include"
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0 Eigen3_DIR=$(brew --prefix eigen)/share/eigen3/cmake
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 
       - name: Upload built wheels
