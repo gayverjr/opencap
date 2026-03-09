@@ -127,7 +127,7 @@ def test_numerical_integration():
 
 
 @pytest.mark.skipif('numgrid' not in sys.modules,
-                    reason="requires the Numgrid library")
+                    reason="Broken, https://github.com/dftlibs/numgrid/issues/61")
 def test_custom_grid():
     s = pyopencap.System(sys_dict)
     pc = pyopencap.CAP(s, cap_dict, 5)
