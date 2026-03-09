@@ -30,6 +30,9 @@ jobs:
       - name: Install system dependencies
         run: |
           brew install eigen@3 hdf5 gcc@14
+          # set some flags for eigen3 which is keg only now
+          export CPPFLAGS="-I/opt/homebrew/opt/eigen@3/include"
+          export PKG_CONFIG_PATH="/opt/homebrew/opt/eigen@3/share/pkgconfig"
 
       - name: Build and test OpenCAP
         run: |
