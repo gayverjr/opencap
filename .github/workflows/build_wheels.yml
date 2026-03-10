@@ -19,7 +19,7 @@ jobs:
             tar zxvf eigen-5.0.0.tar.gz &&
             cd eigen-5.0.0 &&
             mkdir build && cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc &&
             make install &&
             cd ../.. &&
             wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
@@ -56,7 +56,7 @@ jobs:
             tar zxvf eigen-5.0.0.tar.gz &&
             cd eigen-5.0.0 &&
             mkdir build && cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc &&
             make install &&
             cd ../.. &&
             wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
