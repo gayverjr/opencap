@@ -14,20 +14,19 @@ jobs:
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget cmake &&
+            mkdir -p /tmp/deps &&
             wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
             tar zxvf eigen-5.0.0.tar.gz &&
             cd eigen-5.0.0 &&
-            mkdir build &&
-            cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/opt/rh/devtoolset-10/root/usr/ &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
             make install &&
             cd ../.. &&
             wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
             tar zxvf hdf5-2.1.0.tar.gz &&
             cd hdf5-2.1.0 &&
-            mkdir build &&
-            cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIBS=ON &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DBUILD_SHARED_LIBS=ON &&
             make &&
             make install &&
             cd ../.. &&
@@ -52,23 +51,23 @@ jobs:
           CIBW_ARCHS_LINUX: "aarch64"
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget cmake &&
+            mkdir -p /tmp/deps &&
             wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
             tar zxvf eigen-5.0.0.tar.gz &&
             cd eigen-5.0.0 &&
-            mkdir build &&
-            cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/opt/rh/devtoolset-10/root/usr/ &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
             make install &&
             cd ../.. &&
             wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
             tar zxvf hdf5-2.1.0.tar.gz &&
             cd hdf5-2.1.0 &&
-            mkdir build &&
-            cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIBS=ON &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DBUILD_SHARED_LIBS=ON &&
             make &&
             make install &&
             cd ../.. &&
+            yum install -y python3-devel
             yum install -y python3-devel
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels (aarch64)
@@ -88,13 +87,12 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_BEFORE_ALL_MACOS: >
-            brew install gcc@14 &&
+            brew install gcc@14 wget cmake &&
             mkdir -p /tmp/deps &&
             wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
             tar zxvf eigen-5.0.0.tar.gz &&
             cd eigen-5.0.0 &&
-            mkdir build &&
-            cd build &&
+            mkdir build && cd build &&
             cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
             make install &&
             cd ../.. &&

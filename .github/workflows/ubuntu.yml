@@ -17,11 +17,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y lcov doxygen software-properties-common libstdc++-11-dev wget cmake gcc g++
-          mkdir -p /tmp/deps/include
+          mkdir -p /tmp/deps
           wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz
           tar zxvf eigen-5.0.0.tar.gz
-          cp -r eigen-5.0.0/Eigen /tmp/deps/include/
-          cp -r eigen-5.0.0/unsupported /tmp/deps/include/
+          cd eigen-5.0.0
+          mkdir build && cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14
+          make install
+          cd ../..
           wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz
           tar zxvf hdf5-2.1.0.tar.gz
           cd hdf5-2.1.0
@@ -39,8 +42,7 @@ jobs:
           cd opencap
           mkdir -p build && cd build
           cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                -DHDF5_ROOT=/tmp/deps \
-                -DEIGEN3_INCLUDE_DIR=/tmp/deps/include ..
+                -DHDF5_ROOT=/tmp/deps
           make -j$(nproc)
           ctest --output-on-failure
           cd ../../
