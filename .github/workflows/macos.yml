@@ -50,9 +50,10 @@ jobs:
           export PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
           export LD_LIBRARY_PATH=/tmp/deps/lib
           export CPATH=/tmp/deps/include:$CPATH
+          export HDF5_ROOT=/tmp/deps
           cd opencap
           mkdir -p build && cd build
-          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) ..
+          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) -DHDF5_ROOT=/tmp/deps ..
           make -j$(sysctl -n hw.logicalcpu)
           ctest --output-on-failure
           cd ../..
@@ -65,6 +66,7 @@ jobs:
           export PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
           export LD_LIBRARY_PATH=/tmp/deps/lib
           export CPATH=/tmp/deps/include:$CPATH
+          export HDF5_ROOT=/tmp/deps
           pip install . pytest pytest-cov codecov
           pip install h5py numpy pyscf numgrid pandas
           cd pyopencap
