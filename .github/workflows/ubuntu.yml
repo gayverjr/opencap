@@ -42,7 +42,7 @@ jobs:
           cd opencap
           mkdir -p build && cd build
           cmake -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                -DHDF5_ROOT=/tmp/deps
+                -DHDF5_ROOT=/tmp/deps ..
           make -j$(nproc)
           ctest --output-on-failure
           cd ../../
