@@ -152,7 +152,7 @@ Building OpenCAP/PyOpenCAP from source requires working installations of the fol
 
 * C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS is not fully supported**)
 
-* Python3 interpreter and development libraries: version >= 3.9
+* Python3 interpreter and development libraries: version >= 3.10
 
 * [CMake](https://cmake.org/):  version >= 3.12
 
