@@ -90,7 +90,7 @@ Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
 ### Basic steps
-These steps have been tested on MacOS 15.1 with GCC 14 installed from Homebrew.
+These steps have been tested on MacOS 15.1 with GCC 15 installed from Homebrew.
 
 First clone the git repo
 
@@ -152,7 +152,7 @@ Building OpenCAP/PyOpenCAP from source requires working installations of the fol
 
 * C++ compiler with full C++17 language support and standard libraries (**Warning: Default Apple Clang on MacOS is not fully supported**)
 
-* Python3 interpreter and development libraries: version >= 3.9
+* Python3 interpreter and development libraries: version >= 3.10
 
 * [CMake](https://cmake.org/):  version >= 3.12
 

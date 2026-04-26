@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
 project(opencap
         LANGUAGES CXX C 
         )
@@ -79,6 +79,7 @@ if(BUILD_PYOPENCAP)
 message("Building PyOpenCAP python module.")
 pybind11_add_module(pyopencap_cpp ${SOURCES} ${BIND_SOURCES})
 target_link_libraries(pyopencap_cpp PRIVATE ${HDF5_LIBRARIES} numgrid-objects OpenMP::OpenMP_CXX Eigen3::Eigen h5pp::h5pp asa239)
+install(TARGETS pyopencap_cpp DESTINATION pyopencap)
 endif()
 
 if (BUILD_OPENCAP)
