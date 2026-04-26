@@ -1,4 +1,4 @@
-'''Copyright (c) 2022 James Gayvert, Soubhik Mondal
+'''Copyright (c) 2022-2026 James Gayvert, Soubhik Mondal
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

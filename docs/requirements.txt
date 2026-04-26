@@ -1,4 +1,4 @@
-# "." uses requirements defined inside setup.py
+# "." uses requirements defined inside pyproject.toml
 pip
 docutils==0.16
 sphinx-rtd-theme

@@ -90,7 +90,7 @@ Compiling OpenCAP requires installing all of our [dependencies](#Dependencies). 
 are all installed in locations visible to CMake, installation can proceed as follows:
 
 ### Basic steps
-These steps have been tested on MacOS 15.1 with GCC 14 installed from Homebrew.
+These steps have been tested on MacOS 15.1 with GCC 15 installed from Homebrew.
 
 First clone the git repo
 
