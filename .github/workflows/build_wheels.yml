@@ -1,34 +1,41 @@
 name: build-wheels
-
 on: [push, pull_request]
-
 jobs:
   build-wheels-linux-x86_64:
     name: Build wheels on Ubuntu (x86_64)
     runs-on: ubuntu-22.04
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Build wheels (x86_64)
-        uses: pypa/cibuildwheel@v2.23.2
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_BEFORE_ALL_LINUX: >
-            yum install -y eigen3-devel &&
-            yum install -y wget &&
-            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
-            tar zxvf hdf5-1.12.1.tar.gz &&
-            cd hdf5-1.12.1 &&
-            ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
+            yum install -y wget cmake &&
+            mkdir -p /tmp/deps &&
+            wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
+            tar zxvf eigen-5.0.0.tar.gz &&
+            cd eigen-5.0.0 &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc &&
+            make install &&
+            cd ../.. &&
+            wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
+            tar zxvf hdf5-2.1.0.tar.gz &&
+            cd hdf5-2.1.0 &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DBUILD_SHARED_LIBS=ON &&
             make &&
             make install &&
-            yum install -y python3-devel && 
-            cd ..
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
-
+            cd ../.. &&
+            yum install -y python3-devel
+          CIBW_ENVIRONMENT: >
+            HDF5_ROOT=/tmp/deps
+            PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
+            LD_LIBRARY_PATH=/tmp/deps/lib
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels (x86_64)
         uses: actions/upload-artifact@v4
         with:
@@ -38,115 +45,100 @@ jobs:
   build-wheels-linux-aarch64:
     name: Build wheels on Ubuntu (aarch64)
     runs-on: ubuntu-22.04-arm
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Build wheels (aarch64)
-        uses: pypa/cibuildwheel@v2.23.2
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_LINUX: "aarch64"
           CIBW_BEFORE_ALL_LINUX: >
-            yum install -y wget &&
-            wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz &&
-            tar zxvf eigen-3.4.0.tar.gz &&
-            cd eigen-3.4.0 &&
-            mkdir build &&
-            cd build &&
-            cmake .. -DCMAKE_INSTALL_PREFIX=/opt/rh/devtoolset-10/root/usr/ &&
+            yum install -y wget cmake &&
+            mkdir -p /tmp/deps &&
+            wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
+            tar zxvf eigen-5.0.0.tar.gz &&
+            cd eigen-5.0.0 &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc &&
             make install &&
             cd ../.. &&
-            wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz &&
-            tar zxvf hdf5-1.12.1.tar.gz &&
-            cd hdf5-1.12.1 &&
-            ./configure --prefix=/opt/rh/devtoolset-10/root/usr/ --enable-cxx &&
+            wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
+            tar zxvf hdf5-2.1.0.tar.gz &&
+            cd hdf5-2.1.0 &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DBUILD_SHARED_LIBS=ON &&
             make &&
             make install &&
-            yum install -y python3-devel && 
-            cd ..
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
-
+            cd ../.. &&
+            yum install -y python3-devel
+          CIBW_ENVIRONMENT: >
+            HDF5_ROOT=/tmp/deps
+            PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
+            LD_LIBRARY_PATH=/tmp/deps/lib
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels (aarch64)
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-aarch64
           path: ./wheelhouse/*.whl
 
-
   build-wheels-macos-14:
     name: Build wheels on macOS (arm mac)
     runs-on: macos-14
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.2
+        uses: pypa/cibuildwheel@v3.4.0
         env:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_BEFORE_ALL_MACOS: >
-            brew install eigen gcc hdf5
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
-
+            brew install gcc@14 wget cmake &&
+            mkdir -p /tmp/deps &&
+            wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz &&
+            tar zxvf eigen-5.0.0.tar.gz &&
+            cd eigen-5.0.0 &&
+            mkdir build && cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 &&
+            make install &&
+            cd ../.. &&
+            wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz &&
+            tar zxvf hdf5-2.1.0.tar.gz &&
+            cd hdf5-2.1.0 &&
+            mkdir build &&
+            cd build &&
+            cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIBS=ON &&
+            make &&
+            make install &&
+            cd ../..
+          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=14.0 PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig LD_LIBRARY_PATH=/tmp/deps/lib HDF5_ROOT=/tmp/deps
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
       - name: Upload built wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-macos-arm64
           path: ./wheelhouse/*.whl
 
-  build-wheels-macos-13:
-    name: Build wheels on macOS-13 (intel mac)
-    runs-on: macos-13
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.2
-        env:
-          CIBW_ARCHS_MACOS: "x86_64"
-          CIBW_BEFORE_ALL_MACOS: >
-            brew install eigen gcc hdf5
-          CIBW_ENVIRONMENT_MACOS: CC=gcc-14 CXX=g++-14 MACOSX_DEPLOYMENT_TARGET=13.0
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
-
-      - name: Upload built wheels
-        uses: actions/upload-artifact@v4
-        with:
-          name: wheels-macos-x86_64
-          path: ./wheelhouse/*.whl
-
   make_sdist:
     name: Make sdist
     runs-on: ubuntu-22.04
-
     steps:
       - name: Check out source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install build tools and dependencies
+      - name: Install build tools
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libhdf5-serial-dev libeigen3-dev cmake
           python -m pip install --upgrade pip
           pip install build
-
       - name: Build source distribution
         run: python -m build --sdist
-
       - name: Upload sdist artifact
         uses: actions/upload-artifact@v4
         with:

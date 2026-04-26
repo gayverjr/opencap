@@ -1,7 +1,5 @@
 name: macos
-
 on: [push]
-
 jobs:
   build-macos:
     name: Build and test with GCC on macOS ${{ matrix.macos }}
@@ -13,11 +11,9 @@ jobs:
       matrix:
         macos: [macos-14]
         python-version: ["3.12"]
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -25,30 +21,52 @@ jobs:
           auto-activate-base: false
           activate-environment: opencap-env
           environment-name: opencap-env
-          miniconda-version: "latest" 
-
+          miniconda-version: "latest"
       - name: Install system dependencies
         run: |
-          brew install eigen hdf5 gcc@14
-
+          brew install gcc@14 wget cmake
+          mkdir -p /tmp/deps
+          wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz
+          tar zxvf eigen-5.0.0.tar.gz
+          cd eigen-5.0.0
+          mkdir build && cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14
+          make install
+          cd ../..
+          wget https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.0.tar.gz -O hdf5-2.1.0.tar.gz
+          tar zxvf hdf5-2.1.0.tar.gz
+          cd hdf5-2.1.0
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/deps -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14 -DBUILD_SHARED_LIBS=ON
+          make
+          make install
+          cd ../..
       - name: Build and test OpenCAP
         run: |
           set -e
           export CC=gcc-14
           export CXX=g++-14
+          export PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
+          export LD_LIBRARY_PATH=/tmp/deps/lib
+          export CPATH=/tmp/deps/include:$CPATH
+          export HDF5_ROOT=/tmp/deps
           cd opencap
           mkdir -p build && cd build
-          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) ..
+          cmake -DCODE_COVERAGE=ON -DPYTHON_EXECUTABLE=$(which python) -DHDF5_ROOT=/tmp/deps ..
           make -j$(sysctl -n hw.logicalcpu)
           ctest --output-on-failure
           cd ../..
-
       - name: Build and test PyOpenCAP
         run: |
           set -e
           conda activate opencap-env
           export CC=gcc-14
           export CXX=g++-14
+          export PKG_CONFIG_PATH=/tmp/deps/lib/pkgconfig
+          export LD_LIBRARY_PATH=/tmp/deps/lib
+          export CPATH=/tmp/deps/include:$CPATH
+          export HDF5_ROOT=/tmp/deps
           pip install . pytest pytest-cov codecov
           pip install h5py numpy pyscf numgrid pandas
           cd pyopencap
