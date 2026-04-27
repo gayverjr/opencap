@@ -5,7 +5,7 @@ OpenCAP is currently capable of processing quantum chemistry data in order to pe
 
 We currently support interfaces with the [OpenMolcas](https://molcas.gitlab.io/OpenMolcas/sphinx/) and [Q-Chem](https://www.q-chem.com/) quantum chemistry packages.
 
-If you have questions or need support, please open an issue on GitHub, or contact us directly at gayverjr@bu.edu.
+If you have questions or need support, please open an issue on GitHub, or contact us directly at jrg444@gmail.com.
 
 Helpful Links
 -------------
