@@ -3,7 +3,7 @@ on: [push]
 jobs:
   build-linux:
     name: Build and test on Ubuntu
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         shell: bash -l {0}
@@ -57,7 +57,7 @@ jobs:
           export LD_LIBRARY_PATH=/tmp/deps/lib
           export CPATH=/tmp/deps/include:$CPATH
           export HDF5_ROOT=/tmp/deps
-          pip install pytest pytest-cov h5py numpy pyscf codecov numgrid pandas
+          pip install pytest pytest-cov h5py numpy pyscf codecov "numgrid==2.2.0" pandas
           pip install .
           cd pyopencap
           pytest --cov=pyopencap --cov-report=xml
